@@ -20,7 +20,7 @@ const HouseBtn = () =>{
     const navigate = useNavigate();
     return(
         <>
-        <BackBtn onClick={()=>navigate("/")}><House/>House</BackBtn>
+        <BackBtn onClick={()=>navigate(-1)}><House/>House</BackBtn>
         </>
     )
 }

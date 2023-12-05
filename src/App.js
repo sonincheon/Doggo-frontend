@@ -13,6 +13,10 @@ import reset from "styled-reset";
 import * as React from "react";
 import { useState, useCallback } from "react";
 import Signup from "./pages/userPage/SignUp";
+import Quicksell from "./pages/quickPage/Quicksell";
+import Quicksucess from "./pages/quickPage/Quicksucess";
+import Quicksale from "./pages/quickPage/Quicksale";
+import { TossPage } from "./utill/Toss";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -42,6 +46,10 @@ function App() {
               <Route path="/map" element={<Mapmain/>}/>
               <Route path="/quick" element={<Quickmain/>}/>
               <Route path="/service" element={<ServiceMain/>}/>
+              <Route path="/quick/sell" element={<Quicksell/>}/>
+              <Route path="/quick/sucess" element={<Quicksucess/>}/>
+              <Route path="/quick/sales" element={<Quicksale/>}/>
+              <Route path="/quick/toss" element={<TossPage/>}/>
               </Route>
       </Routes>
     </Router>

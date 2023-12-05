@@ -3,22 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 
 const SellBox =styled.div`
-    width: 100%;
-    height: 500px;
-    background-color: #EBE3D5 ;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     .box1{
         display: flex;
-        height: 400px;
+        height: 450px;
         width: 300px;
         background-color: #F3EEEA;
         border-radius: 10px;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        box-shadow: 0 0 2px black;
     }
     .box2{
         display: flex;
@@ -37,7 +32,7 @@ const SellBox =styled.div`
         ol{
             font-size: 16px;
             list-style: circle;
-            line-height: 30px;
+            line-height: 40px;
             font-weight: bold;
             color: #776B5D;
         }
@@ -47,7 +42,7 @@ const SellBox =styled.div`
             align-items: center;
             border: none;
             width: 200px;
-            height: 50px;
+            height: 40px;
             border-radius: 10px;
             font-size: 15px;
             font-weight: bold;
@@ -86,25 +81,32 @@ const PatDogBtn =styled.button`
     border-radius: 10px;
     border: none;
     cursor: pointer;
-
+    &:hover{
+        background-color: #978e80;
+    }
 `;
 
 
 
 
-const QuickMenu = () =>{
+const QuickMenu = (props) =>{
+    const navigate = useNavigate();
+    const {title,list1,list2,list3,list4,optional,navigates,title2} =props;
+    // optional 데이타 
+    // navigate 이동경로 예비
+
 
     return(
         <>
         <SellBox>
         <div className="box1">
         <div className="box2">
-            <h1>ONE MONTH FREE</h1>
+            <h1>{title}</h1>
             <ol>
-                <li>멍냥 일기 작성 무제한</li>
-                <li>반려동물 등록 최대 2마리</li>
-                <li style={{color:"red"}}>체험판 간식 무료 배송</li>
-                <li>그밖의 다양한 기능</li>
+                <li>{list1}</li>
+                <li>{list2}</li>
+                <li style={{color:"red"}}>{list3}</li>
+                <li>{list4}</li>
             </ol>
             <span>
             <PatDogBtn>멍이</PatDogBtn>
@@ -118,8 +120,8 @@ const QuickMenu = () =>{
             <option value={4}>간식 4</option>
             </select>
         </div>
-        <div className="box3">
-            <h1>첫달 무료 체험</h1>
+        <div className="box3" onClick={()=>navigate("/quick/sell")}>
+            <h1>{title2}</h1>
             <p>구독하기</p>
         </div>
         </div>
