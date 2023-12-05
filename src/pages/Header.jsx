@@ -74,6 +74,10 @@ position: relative;
 left: 0;}
 `;
 
+const Main =styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`
 
 
 const Header = () => {
@@ -96,9 +100,9 @@ const Header = () => {
              </NavBox>
           </Headers>
           <Contain>
-        <main>
+        <Main>
           <Outlet />
-        </main>
+        </Main>
         <Footer>
           <h1>푸터입니다</h1>
         </Footer>
