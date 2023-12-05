@@ -10,6 +10,7 @@ const Headers =styled.div`
     color: black;
     background-color: #EBE3D5;
     margin-bottom: 2em;
+    width: 100vw;
 `;
 
 const NavBox = styled.div`
