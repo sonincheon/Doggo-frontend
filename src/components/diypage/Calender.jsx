@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // 기본 스타일
@@ -11,7 +10,7 @@ width: 100%;
  width:100%; /* 캘린더 너비 */
  max-width: 600px; /* 최대 너비 */
  height: 80%;
- background-color: #F3EEEA;/* 배경색 */
+ background-color: #EBE3D5;/* 배경색 */
  color : #222; /* 글자색 */
  border-radius: 8px; /* 테두리 반지름 */
  font-family: Arial, Helvetica, sans-serif; /* 글꼴 */

@@ -9,6 +9,7 @@ const Headers =styled.div`
     align-items: center;
     color: black;
     background-color: #EBE3D5;
+    margin-bottom: 2em;
 `;
 
 const NavBox = styled.div`
