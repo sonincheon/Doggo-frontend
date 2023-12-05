@@ -17,6 +17,7 @@ import Quicksell from "./pages/quickPage/Quicksell";
 import Quicksucess from "./pages/quickPage/Quicksucess";
 import Quicksale from "./pages/quickPage/Quicksale";
 import { TossPage } from "./utill/Toss";
+import MyPage from "./pages/userPage/MyPage";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -50,6 +51,7 @@ function App() {
               <Route path="/quick/sucess" element={<Quicksucess/>}/>
               <Route path="/quick/sales" element={<Quicksale/>}/>
               <Route path="/quick/toss" element={<TossPage/>}/>
+              <Route path="/mypage" element={<MyPage/>}/>
               </Route>
       </Routes>
     </Router>
