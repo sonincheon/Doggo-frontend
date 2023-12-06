@@ -54,7 +54,9 @@ const MapModal = ({
         ))}
       </S.List>
       {/* 검색 결과가 없을 경우 표시 */}
-      {search.length === 0 && <S.NoList>검색된 결과가 없습니다 😢</S.NoList>}
+      {search.length === 0 && (
+        <S.NoList>검색된 결과가 없다. 멍!🐶 냥!🐱</S.NoList>
+      )}
       {/* 검색 결과 있고, 페이지가 있는 경우 페이지 번호 표시 */}
       {pagination && search.length > 0 && (
         <S.Pages>

@@ -16,23 +16,24 @@ const KEYWORD_LIST = [
 ];
 
 const KakaoMap = () => {
+  // 카카오 맵에 접근해 지도 상태 조작하는 상태 변수
+  const [map, setMap] = useState(null);
   // 기본 위치 상태
   const [state, setState] = useState({
     center: {
       lat: 33.450701,
       lng: 126.570667,
     },
+    errMsg: null,
+    isLoading: true,
   });
 
-  // 카카오 맵에 접근해 지도 상태 조작하는 상태 변수
-  const [map, setMap] = useState(null);
   // 검색에 사용될 키워드를 관리하는 상태 변수
   const [keyword, setKeyword] = useState("애견카페");
   // 검색 결과를 담는 상태 변수
   const [search, setSearch] = useState([]);
   // 검색 결과의 페이지네이션 정보를 관리하는 상태 변수
   const [pagination, setPagination] = useState(null);
-  // 현재 페이지 번호를 관리하는 상태 변수
   // 페이지네이션 기능과 연동해 어떤 페이지를 보고 있는지 나타냄
   const [currentPage, setCurrentPage] = useState(1);
   // 현재 열려있는 마커의 ID를 관리하는 상태 변수
@@ -73,11 +74,23 @@ const KakaoMap = () => {
     } else {
       setState((prev) => ({
         ...prev,
-        errMsg: "geolocation을 사용할수 없어요..",
+        errMsg: "현재 위치 받아오기 실패",
         isLoading: false,
       }));
     }
   }, []);
+  // 검색된 장소 표시하기
+  const displayPlaces = (data) => {
+    const bounds = new kakao.maps.LatLngBounds();
+
+    // 검색된 장소 위치와 현재위치 기준으로 지도 범위 재설정
+    data.forEach((item) =>
+      bounds.extend(new kakao.maps.LatLng(item.y, item.x))
+    );
+    bounds.extend(new kakao.maps.LatLng(state.center.lat, state.center.lng));
+    map.setBounds(bounds);
+    setSearch(data);
+  };
 
   // 키워드로 주변 위치 검색
   const searchPlaces = (center, page) => {
@@ -120,36 +133,35 @@ const KakaoMap = () => {
       options
     );
   };
-
-  // 검색된 장소 표시하기
-  const displayPlaces = (data) => {
-    const bounds = new kakao.maps.LatLngBounds();
-
-    // 검색된 장소 위치와 현재위치 기준으로 지도 범위 재설정
-    data.forEach((item) =>
-      bounds.extend(new kakao.maps.LatLng(item.y, item.x))
-    );
-    bounds.extend(new kakao.maps.LatLng(state.center.lat, state.center.lng));
-    map.setBounds(bounds);
-    setSearch(data);
-  };
-
   // 마커의 위치로 지도의 중심 좌표 이동하기
   const moveLatLng = (data) => {
     const newLatLng = new kakao.maps.LatLng(data.y, data.x);
     map.panTo(newLatLng);
   };
+  // 마커의 중심좌표 이동, 검색수행
+  useEffect(() => {
+    if (!map) return;
+    setOpenMarkerId(null);
+    if (lastCenter) {
+      // 이미 이동한 지도의 중심 좌표가 있으면 해당 위치를 기반으로 검색
+      searchPlaces(lastCenter, currentPage);
+    } else {
+      // 처음 페이지 로딩 시 현재 위치를 기반으로 검색
+      searchPlaces(state.center, currentPage);
+    }
+  }, [map, keyword, currentPage, lastCenter]);
 
   // 마커 클릭 시 CustomOverlayMap를 열고 닫는 함수
   useEffect(() => {
     if (!map) return;
-    const clickListener = () => {
+    kakao.maps.event.addListener(map, "click", () => {
       setOpenMarkerId(null);
-    };
-    kakao.maps.event.addListener(map, "click", clickListener);
+    });
 
     return () => {
-      kakao.maps.event.removeListener(map, "click", clickListener);
+      kakao.maps.event.removeListener(map, "click", () => {
+        setOpenMarkerId(null);
+      });
     };
   }, [map]);
 
