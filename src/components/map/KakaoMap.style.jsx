@@ -82,6 +82,7 @@ export const ListContainer = styled.div`
     isClosed &&
     css`
       left: -400px;
+      display: none;
     `};
 `;
 
@@ -96,7 +97,6 @@ export const SideBarOpenBtn = styled.button`
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border-left: 0;
-  transition: 0.2s;
   border: none;
   background-color: #f3eeea;
 
