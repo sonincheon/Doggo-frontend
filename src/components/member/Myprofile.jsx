@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
+import Usermodal from "../../utill/Usermodal";
 
 
 
@@ -58,18 +59,21 @@ const InputBox = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     justify-content: space-between;
     padding-left: 5px;
 `;
 
-const Input = styled.input`
+const Input = styled.div`
     width: 240px;
     height: 40px;
-    background-color: white;
     border-radius: 10px;
     margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
 `;
 
 const Btn1 = styled.div`
@@ -95,60 +99,93 @@ const Btn2 = styled.button`
 
 
 const Myprofile = () => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [headerName, setHeaderName] = useState("닉네임 변경");
+    const [bodyName, setBodyName] = useState("닉네임");
+    const [bodyContent, setBodyContent] = useState("");
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+
+    // 
+    const openClick =(Name, content, bodyConetent)=>{
+        setHeaderName(Name);
+        setModalOpen(true);
+        setBodyName(content);
+        setBodyContent(bodyConetent);
+
+    };
+
+    const member = [
+        {
+            Img : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
+            Name : "손인천",
+            Nick : "신대방 송강",
+            Email : "in1000s@naver.com",
+            Address : "서울특별시 신림동 신사로 12길 32",
+            Tel : "010-9118-4893", 
+            Password : "in1000s1234"  
+        }
+    ]
+
   return (
         <div>
             <BoxTitle>MY PROFILE</BoxTitle>
             <BoxContent>
                 <BoxContent1>
-                    <Profile src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/man-2442565_1280.jpg?alt=media&token=59ce2c6d-1192-4bc0-bccd-013f35acb3bb"/>
-                    <Btn>
+                    <Profile src={member[0].Img}/>
+                    <Btn onClick={()=>openClick("프로필 변경", "프로필")}>
                         수정
                     </Btn>
                 </BoxContent1>
-                    <div style={{textAlign:'center', fontSize:'25px', fontWeight:'bold', marginBottom:'1rem'}}>손인천 님</div>
+                    <div style={{textAlign:'center', fontSize:'25px', fontWeight:'bold', marginBottom:'1rem'}}>{member[0].Name}님</div>
                 <BoxContent2>
                     <InputBox>
                         닉네임 :
-                        <div>
+                        <div style={{display:'flex'}}>
                             <Input>
+                                {member[0].Nick}
                             </Input> 
-                                <Btn>
+                                <Btn onClick={()=>openClick("닉네임 변경", "닉네임", member[0].Nick)}>
                                     수정
                                 </Btn>
                         </div>
                     </InputBox>
                     <InputBox style={{marginBottom : '1rem'}}>
                         이메일 :
-                        <div>
+                        <div style={{display:'flex'}}>
                             <Input>
+                                {member[0].Email}
                             </Input> 
-                                <Btn>
+                                <Btn onClick={()=>openClick("이메일 변경", "이메일", member[0].Email)}>
                                     수정
                                 </Btn>
                         </div>
                     </InputBox>
                     <InputBox>
                         주소 :
-                        <div>
+                        <div style={{display:'flex'}}>
                             <Input>
+                                {member[0].Address}
                             </Input> 
-                                <Btn>
+                                <Btn onClick={()=>openClick("주소 변경", "주소", member[0].Address)}>
                                     수정
                                 </Btn>
                         </div>
                     </InputBox>
                     <InputBox>
                         전화번호 :
-                        <div>
+                        <div style={{display:'flex'}}>
                             <Input>
+                                {member[0].Tel}
                             </Input> 
-                                <Btn>
+                                <Btn onClick={()=>openClick("전화번호 변경", "전화번호", member[0].Tel)}>
                                     수정
                                 </Btn>
                         </div>
                     </InputBox>
                     <Btn1>
-                        <Btn2>
+                        <Btn2 onClick={()=>openClick("비밀번호 변경", "비밀번호", member[0].Password)}>
                             비밀번호 변경
                         </Btn2>
                         <Btn2>
@@ -160,6 +197,11 @@ const Myprofile = () => {
                     </Btn1>
                 </BoxContent2>
             </BoxContent>
+            <Usermodal type={1} open={modalOpen} close={closeModal}  header={headerName} name={bodyName} detail={bodyContent} >
+      </Usermodal>
+
+
+
         </div>
 
   );

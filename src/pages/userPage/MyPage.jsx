@@ -4,17 +4,8 @@ import Myprofile from "../../components/member/Myprofile";
 import Petprofile from "../../components/member/Petprofile";
 
 const Container = styled.div`
-    border: 1px solid black;
     width: 1200px;
     display: flex;
-`;
-
-const Box1 = styled.div`
-    border: 1px solid black;
-`;
-
-const Box2 = styled.div`
-    border: 1px solid black;
 `;
 
 const MyPage = () =>{
@@ -22,13 +13,12 @@ const MyPage = () =>{
     return(
         <Center>
         <Container>
-            <Box1>
+            <div className="Box1">
                 <Myprofile />
-            </Box1>
-            <Box2>
+            </div>
+            <div className="Box2">
                 <Petprofile/>
-
-            </Box2>
+            </div>
         </Container>
         </Center>
     )

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import {ReactComponent as Footimg } from "../../img/Group 50.svg"
+import dogfoot from '../../img/dogfoot.png'
 
 const BoxContent = styled.div`
-    border: 1px solid black;
     width: 780px;
     height: 800px;
     background-color: #D9D9D9;
@@ -21,26 +21,25 @@ const BoxTitle = styled.div`
 const BoxContent1 = styled.div`
     width: 770px;
     height: 220px;
-    border: 1px solid black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 1rem;
+    margin-top: 1rem;
 `;
 
 const PetProfile = styled.img`
     width: 220px;
     height: 220px;
-    border: 1px solid black;
     border-radius: 100%;
     background-color: #FFEED9;
-    margin-left: 10px;
+    margin-left: 20px;
 `;
 
 const PetInfo1 = styled.div`
+    position: relative;
     width: 500px;
     height: 220px;
-    border: 1px solid black;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -48,20 +47,31 @@ const PetInfo1 = styled.div`
     justify-content: space-between;
     align-items: center; 
     margin-right: 10px;
-    .PetSign{
+    z-index: 1;
+
+    .PetSign {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 1rem;
         margin-left: 1rem; 
     }
+
+    .DogFootImage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 const PetInfo2 = styled.div`
-    border: 1px solid black;
+    z-index: 1;
+    .PetSign {
+        display: flex;
+    }
 `;
 
 const PetInfo3 = styled.div`
-    border: 1px solid black;
     height: 207px;
 
 `;
@@ -101,7 +111,15 @@ const Petprofile = () => {
             gender : "여",
             age : "11살",
             type : "진돗개",
-            sign : "예쁘고 귀여움"
+            sign : "겁이 많음, 예쁘고 귀여움"
+        },
+        {
+            image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231206_160745815.jpg?alt=media&token=c131d391-d1cb-48d4-93f8-7124247200a3",
+            name : "순돌이",
+            gender : "남",
+            age : "9살",
+            type : "진돗개",
+            sign : "순함, 꼬리가 귀여움, 목욕할때 안도망감"
         },
         {
             image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_195836703_03.jpg?alt=media&token=ca122b86-bd5d-44c8-85d4-d48351c61a20",
@@ -112,20 +130,12 @@ const Petprofile = () => {
             sign : "멋지고 귀여움"
         },
         {
-            image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_195836703_02.jpg?alt=media&token=23f3d9af-cfa4-420b-9a86-3987e098c899",
-            name : "멍돌이",
-            gender : "남",
-            age : "10살",
-            type : "믹스견",
-            sign : "잘생기고 귀여움"
-        },
-        {
-            image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_204831226.jpg?alt=media&token=14c3e490-bce0-46a4-b640-5be6e5e738e5",
-            name : "팡돌이",
-            gender : "남",
-            age : "8살",
-            type : "진돗개",
-            sign : "멋지고 귀여움"
+            image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231206_160911844_03.jpg?alt=media&token=b582917a-d118-478f-9080-a7ffd512d2d6",
+            name : "우동이",
+            gender : "여",
+            age : "3살",
+            type : "먼치킨",
+            sign : "점프를 잘함, 가끔 토끼가 됨"
         },
     ]
 
@@ -133,14 +143,14 @@ const Petprofile = () => {
 
 
   return (
-        <div style={{marginLeft:'1rem', border:'1px solid black'}}>
+        <div style={{marginLeft:'1rem'}}>
             <BoxTitle>PET PROFILE</BoxTitle>
             <BoxContent>
             {pet.map(pet => (
                 <BoxContent1>
                     <PetProfile src={pet.image}/>
                     <PetInfo1>
-                        <Footimg/>
+                        <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
                             <PetInfo2>
                                 <div className="PetSign">이름 : {pet.name}</div>
                                 <div className="PetSign">성별 : {pet.gender}</div>
@@ -155,8 +165,9 @@ const Petprofile = () => {
                 </BoxContent1>
                 ))}
                 <BoxContent1>
-                <Footimg style={{width:'220px', height:'220px', marginLeft:'10px'}}/>
+                <Footimg style={{width:'220px', height:'220px', marginLeft:'20px'}}/>
                     <PetInfo1>
+                        <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
                             <PetInfo2>
                                 <div className="PetSign">더 많은 친구들을 추가해보세요!</div>
                             </PetInfo2>
