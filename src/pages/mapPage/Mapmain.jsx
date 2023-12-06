@@ -1,13 +1,12 @@
+import KakaoMap from "../../components/map/KakaoMap";
 import { Center } from "../../components/PublicStyle";
 
-
-const Mapmain = () =>{
-
-    return(
-        <Center>
-        <h1> 멍냥이맵 페이지 </h1>
-        </Center>
-    )
-}
+const Mapmain = () => {
+  return (
+    <Center>
+      <KakaoMap />
+    </Center>
+  );
+};
 
 export default Mapmain;
