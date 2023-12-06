@@ -41,19 +41,14 @@ text-align:right;
     font-size: 14px;
 `;
 const Items = styled.div`
-
-
-   margin-bottom: 30px;
+  margin-bottom: 30px;
   &.item1 {
     width: 400px;
     height:100px;
- 
+
     img{
-       
         width: 100%;
-       
     }
- 
   }
   &.item2 {
     width: 60%;

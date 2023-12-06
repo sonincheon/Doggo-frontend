@@ -82,6 +82,7 @@ const Quicksucess1=()=>{
         <TitleBox>
             <h1>결제가 완료되었습니다.</h1>
             <h3> 구독 서비스 결제 감사합니다 . 최선을 다하는 멍냥멍냥이 되겠습니다.</h3>
+            <h3>{searchParams.get("paymentKey")}</h3>
         </TitleBox>
         <TitleBox1>
             <h1><h2>결제수단</h2><h3>카드 결제 / 카카오페이</h3></h1>
