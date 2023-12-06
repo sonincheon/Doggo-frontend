@@ -1,45 +1,108 @@
-import React, { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // 기본 스타일
-import styled from "styled-components";
-import dayjs from 'dayjs';
-const Container = styled.div`
-/* 캘린더 전체 스타일 */
-width: 100%;
-  .react-calendar { 
- width:100%; /* 캘린더 너비 */
- max-width: 600px; /* 최대 너비 */
- height: 80%;
- background-color: #EBE3D5;/* 배경색 */
- color : #222; /* 글자색 */
- border-radius: 8px; /* 테두리 반지름 */
- font-family: Arial, Helvetica, sans-serif; /* 글꼴 */
- line-height: 5em; /* 줄 높이 */
- display: flex;
- flex-direction: column;
- border: none;
- align-items: center;
- font-weight: bold;
-}`;
+import React, { Children, useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import styled from 'styled-components';
+
+const Container =styled.div`
+  width: 60%;
+`;
+
+const StyledCalendar = styled(Calendar)`
+  /* 전체 스타일 */
+  border-radius: 10px;
+  width: 100%;
+  height: 600px;
+  background-color: #f3eeea;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  box-shadow: none;
+    /* 글자 스타일 */
+    .react-calendar__month-view__days__day-names,
+  .react-calendar__month-view__days__day {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: #333333;
+    border: none;
+  }
+  
+  .react-calendar__tile--active:hover {
+    background-color: #cce5ff; /* 선택된 날짜 호버 시 배경색 변경 */
+    cursor: pointer;
+  }
+  .react-calendar__tile--active {
+    border-bottom:5px solid red;
+    background-color:#f3eeea; /* 선택된 날짜 배경색 */
+  }
+
+  .react-calendar__tile:hover {
+    background-color: #f3eeea; /* 호버 시 배경색 변경 */
+    cursor: pointer;
+  }
+  /* 요일 스타일 */
+  .react-calendar__month-view__weekdays__weekday abbr {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    text-decoration: none;
+    
+  }
+  /* 년월 스타일 */
+  .react-calendar__navigation {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #B0A695;
+    border: 1px solid black;
+    border-radius: 10px 10px 0 0;
+    border: none;
+  }
+  /* 년월 스타일 */
+  .react-calendar__navigation__label {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: #eeeeee;
+    margin: 0 10px;
+    font-weight: bold;
+  }
+
+  .react-calendar__navigation__arrow {
+    font-size: 24px;
+    color: #eeeeee;
+    cursor: pointer;
+  }
+
+  .react-calendar__month-view__days {
+    margin:5px 0; /* 위쪽 간격 조정 */ /* 아래쪽 간격 조정 */
+  }
+  .react-calendar__tile {
+    height: 75px;
+  }
+  .react-calendar__tile:hover {
+    background-color: none;
+  }
+`;
 
 const MyCalender = () =>{
-    const [startDate, setStartDate] = useState("");
-    const onChangeDateRange = (newDateRange) => {
-      const formattedStartDate = dayjs(newDateRange[0]).format('YYYY년 MM월 DD일');
-      setStartDate(formattedStartDate);
-    };
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (selectedDate) => {
+    setDate(selectedDate);
+  };
+
+  const tileContent = ({ date, view }) => {
     return (
-    <>
-    <Container>
-        <Calendar
-            onChange={onChangeDateRange}
-            selectRange={true}
-            formatDay={(locale, date) => dayjs(date).format('DD')}
-        />
-    </Container>
-        <p>선택된 시작일: {startDate}</p>
-    </>
+      <div style={{ fontSize: '20px' }}>
+        {date.getDate() === 1 ? '🎉' : '😁'} {/* 1일에는 파티 아이콘, 그 외엔 체크 아이콘 */}
+      </div>
     );
+  };
+
+  return (
+    <Container>
+      <h1>선택된 날짜: {date.toDateString()}</h1>
+        <StyledCalendar onChange={onChange} value={date} tileContent={tileContent}/> 
+    </Container>
+  );
   };
   
   export default MyCalender;

@@ -2,12 +2,14 @@ import HouseBtn from "../../components/HouseBtn";
 import { Center } from "../../components/PublicStyle";
 import MyCalender from "../../components/diypage/Calender";
 import styled from "styled-components";
+import Eventbox from "../../components/diypage/Eventbox";
 
 const Btween = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
 `;
 
 
@@ -19,7 +21,7 @@ const Diymain = () =>{
         <HouseBtn/>
         <Btween>
         <MyCalender/>
-        <div></div>
+        <Eventbox/>
         </Btween>
         </>
     )

@@ -98,6 +98,7 @@ const ScroolBox = styled.div`
   position: relative;
   overflow-y: scroll;
   border: 1px solid #776B5D;
+  overflow-x:hidden ;
   .innerStyle {
     width: 1000px;
     height: 650px;

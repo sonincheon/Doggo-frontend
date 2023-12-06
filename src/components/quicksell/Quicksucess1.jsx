@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import  {ReactComponent as QrcodeImg} from "../../img/qr코드.svg";
 import { useNavigate } from "react-router-dom";
-
+import { useSearchParams } from "react-router-dom";
 const TitleBox=styled.div`
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@ const SellButton = styled.button`
 
 const Quicksucess1=()=>{
     const navigate =useNavigate();
-
+    const [searchParams] = useSearchParams();
     // const today = new Date(),
     // priceDate = today.getFullYear() + '년' + (today.getMonth() + 1) + '월' + today.getDate() + '일';
     // const date11 =new Date(window.localStorage.getItem("date")),

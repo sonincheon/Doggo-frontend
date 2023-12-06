@@ -1,5 +1,5 @@
 import { Center } from "../../components/PublicStyle";
-import Quicksale1 from "../../components/quicksell/Goodscancle1";
+import Quicksale1 from "../../components/quicksell/Quicksales1";
 
 
 
