@@ -51,7 +51,7 @@ const Content = styled.div`
   margin-top: 3%;
 `;
 
-const UserStatus = (props) => {
+const UserStatus = () => {
   return (
     <>
       <ItemBox>
