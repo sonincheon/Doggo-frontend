@@ -145,8 +145,6 @@ const navigate = useNavigate();
     return Intl.NumberFormat('en-IN').format(price);
   }
 
-
-
   return (
     <>
       <Container>

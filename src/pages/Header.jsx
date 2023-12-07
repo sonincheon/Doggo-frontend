@@ -62,7 +62,7 @@ align-items: center;
 justify-content: center;
 width: 100vw;
 height: 250px;
-margin-top: 200px;
+margin-top: 50px;
 background-color: #EBE3D5;
 
 .footerBox{
@@ -84,7 +84,6 @@ const Main =styled.div`
 
 const Header = () => {
   const navigate = useNavigate();
-
   return (
     <>
         <Headers >

@@ -23,15 +23,16 @@ const Container = styled.div`
     &+&{
         margin: 0 10px;
     }
-
 `;
 
 
 const CircleProgressBar = ({ progress,dogimg }) => {
   return (
+
     <Container progress={progress} >
       <img src={dogimg} className='dogFootImage'/>
     </Container>
+
   );
 }
 

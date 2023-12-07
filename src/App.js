@@ -52,7 +52,8 @@ function App() {
               <Route path="/quick/sales" element={<Quicksale/>}/>
               <Route path="/quick/toss" element={<TossPage/>}/>
               <Route path="/mypage" element={<MyPage/>}/>
-              </Route>
+              
+            </Route>
       </Routes>
     </Router>
     </>

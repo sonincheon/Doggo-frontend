@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import CircleProgressBar from "./Circle";
-
-
-
-
-
-
-
-
-
-
+import Slider from "react-slick";
+import QuistModal from "../../utill/Quistmodal";
 
 
 const Block =styled.div`
@@ -87,7 +81,34 @@ const Block =styled.div`
     display: flex;
     padding: 10px;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
+
+  }
+  .slidebox{
+    width: 90%;
+    height: 70%;
+    display: block;
+    .slick-next:before {
+      color: #3C3939;
+      font-size: 20px;
+      display: flex;
+      justify-content: end;
+    }
+    .slick-prev:before {
+      color: #3C3939;
+      font-size: 20px;
+      display: flex;
+    }
+    .slick-prev,
+    .slick-next{
+      width: 100px;
+      height: 100px;
+      top: 45%;
+    }
+  }
+  .circlebox{
+    width: 250px;
+    height: 100px;
   }
 `;
 
@@ -119,14 +140,55 @@ const pet = [
     sign : "멋지고 귀여움",
     progress: "30"
 },
+{
+  image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_195836703_03.jpg?alt=media&token=ca122b86-bd5d-44c8-85d4-d48351c61a20",
+  name : "멍순이",
+  gender : "여",
+  age : "7살",
+  type : "믹스견",
+  sign : "멋지고 귀여움",
+  progress: "30"
+},
 ]
 
 
 const Eventbox =()=>{
   const [progress,setProgress] =useState(80);
+  const [gender,setGender]=useState("");
+  const [age,setAge]=useState("");
+  const [sign,setSign]=useState("");
+  const [name,setName]=useState("");
+  const [petimg,setPetimg]=useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const circleClick=(name,petimg,gender,age,sign)=>{
+    setGender(gender);
+    setAge(age);
+    setSign(sign);
+    setPetimg(petimg);
+    setName(name);
+    setModalOpen(true);
+  }
 
 
 
+  const settings = {
+    slide: "div",
+    autoplay: false, // 자동 스크롤 사용 여부
+    pauseOnHover: true,
+    autoplaySpeed: 2000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+    infinite: false, // 무한
+    dots: false, // 
+    speed: 20,
+    slidesToShow: 3,
+    slidesToScroll: 2,
+    arrows: true,
+    draggable: true,
+    };
+    
     return(
         <>
         <Block>
@@ -134,21 +196,36 @@ const Eventbox =()=>{
         <div className="box1">
         <h1>일일한정미션</h1>
         <div className="subbox">
-        {pet.map(pet => (
-          <CircleProgressBar  progress={pet.progress} dogimg={pet.image}/>
-        ))}
+          <div className="slidebox">
+            <Slider {...settings}>
+            {pet.map(pet => (
+              <div className="circlebox" onClick={()=>circleClick(pet.name,pet.image,pet.gender,pet.age,pet.sign)}>
+                <CircleProgressBar   progress={pet.progress} dogimg={pet.image}/>
+              </div>
+            ))}
+            </Slider>
+          </div>
         </div>
-                
         </div>
-
         <div className="box2">
         <h1>멍냥일기</h1>
             <div className="textbox">
                 <textarea placeholder="오늘 하루를 작성해주세요"></textarea>
             </div>
         </div>
-            
         </Block>
+        <QuistModal
+          type={1}
+          open={modalOpen}
+          close={closeModal}
+          petName={name}
+          petImg={petimg}
+          petGender={gender}
+          petAge={age}
+          petSign={sign}
+        />
+
+
         </>
     );
 };
