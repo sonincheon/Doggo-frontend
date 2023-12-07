@@ -215,7 +215,7 @@ const KakaoMap = () => {
 
   return (
     <>
-      <S.MapContainer>
+      <S.MapContainer style={{ scale: "70%" }}>
         {/* 지도 컴포넌트 */}
         <Map
           center={state.center}
@@ -321,18 +321,18 @@ const KakaoMap = () => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
-            {/* 사이드바 열고 다는 버튼 */}
-            <S.SideBarOpenBtn
-              isClosed={!isSidebarOpen}
-              onClick={() => setIsSidebarOpen((prev) => !prev)}
-            >
-              <img
-                src={isSidebarOpen ? leftAngle : rightAngle}
-                alt={isSidebarOpen ? "왼쪽 화살표" : "오른쪽 화살표"}
-              />
-            </S.SideBarOpenBtn>
           </S.ListContainer>
         )}
+        {/* 사이드바 열고 다는 버튼 */}
+        <S.SideBarOpenBtn
+          isClosed={!isSidebarOpen}
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+        >
+          <img
+            src={isSidebarOpen ? leftAngle : rightAngle}
+            alt={isSidebarOpen ? "왼쪽 화살표" : "오른쪽 화살표"}
+          />
+        </S.SideBarOpenBtn>
         {/* 모바일 화면일 경우 검색 결과 모달로 표시 */}
         {isMobile && (
           <S.MapModal>
