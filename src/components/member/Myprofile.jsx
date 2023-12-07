@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Usermodal from "../../utill/Usermodal";
+import Pwdmodal from "../../utill/Pwdmodal";
 
 
 
@@ -40,10 +41,10 @@ const Profile = styled.img`
 `;
 
 const Btn = styled.button`
-    width: 80px;
-    height: 40px;
+    width: 75px;
+    height: 30px;
     border-radius: 10px;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
     background-color: #776B5D;
@@ -103,18 +104,28 @@ const Myprofile = () => {
     const [headerName, setHeaderName] = useState("닉네임 변경");
     const [bodyName, setBodyName] = useState("닉네임");
     const [bodyContent, setBodyContent] = useState("");
+    const [modalOpen1, setModalOpen1] = useState(false);
+    const [password, setPassword] = useState("");
+
     const closeModal = () => {
       setModalOpen(false);
     };
 
-    // 
+    const closeModal1 = () => {
+        setModalOpen1(false);
+      };
+
     const openClick =(Name, content, bodyConetent)=>{
         setHeaderName(Name);
         setModalOpen(true);
         setBodyName(content);
         setBodyContent(bodyConetent);
-
     };
+
+    const openClick1 = (Password) => {
+        setModalOpen1(true);
+        setPassword(Password);
+    }
 
     const member = [
         {
@@ -124,7 +135,7 @@ const Myprofile = () => {
             Email : "in1000s@naver.com",
             Address : "서울특별시 신림동 신사로 12길 32",
             Tel : "010-9118-4893", 
-            Password : "in1000s1234"  
+            Password : "khb3187923"  
         }
     ]
 
@@ -185,7 +196,7 @@ const Myprofile = () => {
                         </div>
                     </InputBox>
                     <Btn1>
-                        <Btn2 onClick={()=>openClick("비밀번호 변경", "비밀번호", member[0].Password)}>
+                        <Btn2 onClick={() =>openClick1(member[0].Password)}>
                             비밀번호 변경
                         </Btn2>
                         <Btn2>
@@ -198,7 +209,9 @@ const Myprofile = () => {
                 </BoxContent2>
             </BoxContent>
             <Usermodal type={1} open={modalOpen} close={closeModal}  header={headerName} name={bodyName} detail={bodyContent} >
-      </Usermodal>
+            </Usermodal>
+            <Pwdmodal type={1} open={modalOpen1} close={closeModal1} detail={password}>
+            </Pwdmodal>
 
 
 

@@ -115,7 +115,6 @@ const Exist2 = styled.div`
 
 const Usermodal = (props) => {
     const {open, confirm, close, type, header, name, detail} = props;
-
     
     // &times; 는 X표 문자를 의미
     return (

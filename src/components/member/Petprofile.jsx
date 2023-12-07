@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import {ReactComponent as Footimg } from "../../img/Group 50.svg"
-import dogfoot from '../../img/dogfoot.png'
+import dogfoot from '../../img/dogfoot.png';
+import Petmodal from "../../utill/Petmodal";
 
 const BoxContent = styled.div`
     width: 780px;
@@ -11,6 +12,21 @@ const BoxContent = styled.div`
     border-radius: 10px;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 13px; // 스크롤바의 너비
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #776B5D; // 스크롤바 색상
+        border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #B0A695; // 스크롤바 색상
+        border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
+        // F3EEEA, EBE3D5, FFEED9, B0A695
+    }
 `;
 
 const BoxTitle = styled.div`
@@ -77,10 +93,10 @@ const PetInfo3 = styled.div`
 `;
 
 const Btn = styled.button`
-    width: 80px;
-    height: 40px;
+    width: 75px;
+    height: 30px;
     border-radius: 10px;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
     background-color: #776B5D;
@@ -103,6 +119,29 @@ const Btn2 = styled.button`
 `;
 
 const Petprofile = () => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [petName, setPetName] = useState("");
+    const [petGender, setPetGender] = useState("");
+    const [petAge, setPetAge] = useState("");
+    const [petType, setPetType] = useState("");
+    const [petSign, setPetSign] = useState("");
+    const [petImg, setPetImg] = useState("");
+
+
+        const closeModal = () => {
+            setModalOpen(false);
+        };
+
+        const openClick =(name, gender, age, type, sign, img)=>{
+          setModalOpen(true);
+          setPetName(name);
+          setPetAge(age);
+          setPetGender(gender);
+          setPetSign(sign);
+          setPetType(type);
+          setPetImg(img);
+        };
+  
 
     const pet = [
         {
@@ -140,8 +179,6 @@ const Petprofile = () => {
     ]
 
 
-
-
   return (
         <div style={{marginLeft:'1rem'}}>
             <BoxTitle>PET PROFILE</BoxTitle>
@@ -159,7 +196,7 @@ const Petprofile = () => {
                                 <div className="PetSign">특이사항 : {pet.sign}</div>
                             </PetInfo2>
                         <PetInfo3>
-                            <Btn>수정</Btn>
+                            <Btn onClick={()=>openClick(pet.name, pet.gender, pet.age, pet.type, pet.sign, pet.image)}>수정</Btn>
                         </PetInfo3>
                     </PetInfo1>
                 </BoxContent1>
@@ -172,11 +209,13 @@ const Petprofile = () => {
                                 <div className="PetSign">더 많은 친구들을 추가해보세요!</div>
                             </PetInfo2>
                         <PetInfo3>
-                            <Btn>추가</Btn>
+                            <Btn onClick={()=>openClick()}>추가</Btn>
                         </PetInfo3>
                     </PetInfo1>
                 </BoxContent1>
             </BoxContent>
+            <Petmodal type={1} open={modalOpen} close={closeModal} name={petName} gender={petGender} age={petAge} Type={petType} img={petImg} sign={petSign}>
+            </Petmodal>
         </div>
 
   );

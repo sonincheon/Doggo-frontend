@@ -334,7 +334,6 @@ const idFocus=()=>{
         )}
       </Items>
       <Items className="item2">
-
       </Items>
       <Items className="item2">
       {inputAdd&&   <Input
