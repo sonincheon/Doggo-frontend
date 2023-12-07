@@ -1,80 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled, { keyframes } from 'styled-components';
 
-import styled from "styled-components";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import piggyCat from "../../../img/piggyCat.jpeg"
 
-const ItemBox = styled.div.attrs({
-    className: "item-container",
-  })`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    /* border: 1px solid black; */
-  `;
+function importAll(r) {
+  return r.keys().map(r);
+}
 
-const Banner = styled.div`
-  height: 20%;
-  width: 99%;
-  border: 1px solid black;
-  border-radius: 10px 10px 0 0;
-  background-color: #B0A695;
-`;
+// 테스트를 위한 이미지를 위한 선언 , 테스트 끝나고 유기할 예정
+const images = importAll(require.context('../../../img/strays/', false, /\.(png|jpe?g|svg)$/));
+const extendedImages = [...images, ...images, ...images];
 
-const StyledSlider = styled(Slider)`
-  
-  height: 80%;
-  width: 99%;
-  border: 1px solid black;
-  border-radius: 0 0 10px 10px;
-
-  
-
-`;
-
-const SliderItem = styled.div`
-  img {
-    max-width: 20vw;
-    max-height: 20vw;
-    object-fit: contain; 
+const slide = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 `;
 
+
+const SliderContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  width: 99%;
+  border: 1px solid black;
+`;
+
+
+const SliderTrack = styled.div`
+  display: flex;
+  
+  width: calc(100% * ${extendedImages.length / 3});
+  animation: ${slide} 120s linear infinite;
+`;
+
+
+const Slide = styled.div`
+  width: 15vw; 
+  flex: 0 0 auto;
+  height: 15vw; 
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+`;
+
+
 const Strays = () => {
-    
-    const settings = {
-        
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1, 
-        
-        autoplay: true,
-        autoplaySpeed: 2000,
-        cssEase: "linear",
-        pauseOnFocus: true
-      };
-
   return (
-    <>
-      
-        <ItemBox>
-          <Banner>
-
-          </Banner>
-          <StyledSlider {...settings}>
-          <SliderItem>
-            <img src={piggyCat} alt="test" />
-          </SliderItem>
-          </StyledSlider>
-        </ItemBox>
-
-        
-      
-    </>
+    <SliderContainer>
+      <SliderTrack>
+        {extendedImages.map((image, index) => (
+          <Slide key={index}>
+            <img src={image} alt={`Stray ${index}`} />
+          </Slide>
+        ))}
+      </SliderTrack>
+    </SliderContainer>
   );
 };
 
