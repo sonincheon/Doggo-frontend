@@ -7,7 +7,7 @@ import Diymain from "./pages/diyPage/Diymain";
 import Mapmain from "./pages/mapPage/Mapmain";
 import Quickmain from "./pages/quickPage/Quickmain";
 import ServiceMain from "./pages/servicePage/Servicemain";
-import Main from "./pages/Main";
+
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import * as React from "react";
@@ -18,6 +18,7 @@ import Quicksucess from "./pages/quickPage/Quicksucess";
 import Quicksale from "./pages/quickPage/Quicksale";
 import { TossPage } from "./utill/Toss";
 import MyPage from "./pages/userPage/MyPage";
+import HomePage from "./pages/HomePage";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -41,7 +42,7 @@ function App() {
             <Route path="/signup" element={<Signup/>}/>
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header/>}>
-              <Route path="/" element={<Main/>}/>
+              <Route path="/" element={<HomePage/>}/>
               <Route path="/book" element={<Bookmain/>}/>
               <Route path="/diy" element={<Diymain/>}/>
               <Route path="/map" element={<Mapmain/>}/>
