@@ -1,13 +1,11 @@
+import Service from "../../components/service/Service";
 import { Center } from "../../components/PublicStyle";
-
-const ServiceMain = () =>{
-
-
-    return(
-        <Center>
-        <h1> 서비스페이지 </h1>
-        </Center>
-    )
-}
+const ServiceMain = () => {
+  return (
+    <Center>
+      <Service />
+    </Center>
+  );
+};
 
 export default ServiceMain;
