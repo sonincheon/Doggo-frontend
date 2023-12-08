@@ -67,7 +67,7 @@ const Menu = styled.p`
   transition: width 1s ease; /* 애니메이션 속성 설정 */
   transform: translateX(0); /* 시작 위치 조정 */
 }
-&:hover::after {
+&:hover::after { 
   width: 100%; /* 호버 시, 선이 가로 방향으로 확장되는 애니메이션 */
 }
 `;
@@ -118,7 +118,7 @@ const Header = () => {
           <NavBox>
             <LogoBox>
               <div>뭐넣지</div>
-              <Logo />
+              <Logo onClick={()=>navigate("/")}/>
               <div>뭐넣지</div>
             </LogoBox>
             </NavBox>
@@ -130,7 +130,6 @@ const Header = () => {
               <Menu onClick={() => navigate("/quick")}>정기배송</Menu>
               <Menu onClick={() => navigate("/service")}>고객센터</Menu>
             </Menus>
-             
           <Contain>
         <Main>
           <Outlet />
