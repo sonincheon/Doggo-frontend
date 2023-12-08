@@ -84,9 +84,11 @@ export const ListContainer = styled.div`
   width: 400px;
   bottom: 90px;
   overflow-y: auto;
-  transition: 0.2s;
-  background-color: rgba(255, 255, 255, 0.7);
-
+  border: 2px solid #b0a695;
+  transition: 0.3s;
+  background-color: #f3eeea;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
   ${({ isClosed }) =>
     isClosed &&
     css`
@@ -100,8 +102,8 @@ export const SideBarOpenBtn = styled.button`
   top: 50%;
   left: 400px;
   transform: translateY(-50%);
-  width: 30px;
-  height: 80px;
+  width: 40px;
+  height: 100px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border: none;
@@ -115,7 +117,7 @@ export const SideBarOpenBtn = styled.button`
 `;
 
 export const ModalContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: #f3eeea;
 
   @media (max-width: 768px) {
     height: ${({ isClosed }) => (isClosed ? "0px" : "300px")};
@@ -129,7 +131,6 @@ export const List = styled.ul``;
 export const Item = styled.li`
   position: relative;
   padding: 20px;
-  border-bottom: 1px solid #776b5d;
 `;
 
 export const Name = styled.p`
@@ -215,30 +216,24 @@ const slide = keyframes`
 
 export const MapModal = styled.div`
   position: absolute;
+  background: #776b5d;
   z-index: 10;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 10px 10px 0 0;
+  border-radius: 15px 15px 0 0;
   animation: ${slide} 0.3s ease-in-out;
 `;
 
 export const ModalBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  width: 80px;
-  height: 30px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  display: block;
+  margin: 15px auto 10px;
+  width: 50px;
+  height: 10px;
   border: none;
+  border-radius: 5px;
   background-color: #f3eeea;
 
-  img {
-    width: 20px;
-    height: 20px;
-  }
   ${({ isClosed }) =>
     isClosed &&
     css`
@@ -256,14 +251,14 @@ export const GoBackButton = styled.button`
   height: 80px;
   background: no-repeat #bda695 url(${frame}) center/contain;
   background-size: 70%;
-  border-radius: 20px;
+  border-radius: 10px;
   border: none;
 
   @media (max-width: 768px) {
-    width: 45px;
-    height: 45px;
-    right: 10px;
-    bottom: 40px;
+    width: 70px;
+    height: 70px;
+    right: 20px;
+    bottom: 50px;
   }
 
   // Modal이 열릴 때만 아래 추가 스타일을 적용

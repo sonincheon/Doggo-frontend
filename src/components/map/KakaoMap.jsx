@@ -336,15 +336,9 @@ const KakaoMap = () => {
         {/* 모바일 화면일 경우 검색 결과 모달로 표시 */}
         {isMobile && (
           <S.MapModal>
-            <S.ModalBtn onClick={() => setIsModalOpen((prev) => !prev)}>
-              <img
-                style={{
-                  transform: isSidebarOpen ? "rotate(90deg)" : "rotate(270deg)",
-                }}
-                src={isSidebarOpen ? leftAngle : rightAngle}
-                alt={isSidebarOpen ? "왼쪽 화살표" : "오른쪽 화살표"}
-              />
-            </S.ModalBtn>
+            <S.ModalBtn
+              onClick={() => setIsModalOpen((prev) => !prev)}
+            ></S.ModalBtn>
             <MapModal
               search={search}
               openMarkerId={openMarkerId}
