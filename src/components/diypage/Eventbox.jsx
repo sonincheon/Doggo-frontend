@@ -120,7 +120,7 @@ const pet = [
       age : "11살",
       type : "진돗개",
       sign : "겁이 많음, 예쁘고 귀여움",
-      progress: "50"
+      progress: "80"
   },
   {
       image : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231206_160745815.jpg?alt=media&token=c131d391-d1cb-48d4-93f8-7124247200a3",
@@ -172,7 +172,6 @@ const Eventbox =()=>{
     setName(name);
     setModalOpen(true);
   }
-
 
 
   const settings = {

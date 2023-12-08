@@ -137,7 +137,57 @@ const Card=styled.div`
     box-shadow: 0px 0px 2px black;
     border-radius: 10px;
     margin: 10px auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    h1{
+        height: 30%;
+        font-size: 0.8em;
+        font-weight: bold;
+        color:grey;
+    }
+    h2{
+        line-height: 60px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #3636f3;
+    }
+    img{
+        width: 20%;
+
+    }
 `;
+
+
+
+const DogCare=[
+    {
+        title1:"반려동물의 홈케어",
+        title2:"양치하기",
+        img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Ffree-icon-brushing-teeth-5938073.png?alt=media&token=899a7b7a-8f28-4c61-ad5d-c2d6aa890ecc"
+    },
+    {
+        title1:"스트레스 해소, 문제행동개선",
+        title2:"산책하기",
+        img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Fdog-walking.png?alt=media&token=08953e1f-3c29-41bc-85f7-e88c0ec813e9"
+    },
+    {
+        title1:"매일 반려동물과 15분교감",
+        title2:"교감하기",
+        img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Fanimal-care.png?alt=media&token=34adf8d5-4fab-4719-932c-205582fd453e"
+    },
+    {
+        title1:"아프지 않게 지켜줄게",
+        title2:"1분 건강체크",
+        img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Ffree-icon-health-check-4773288.png?alt=media&token=7f73a21b-5cbd-4dc5-99c2-63cb1acd8e2f"
+    },
+    {
+        title1:"털 난리에서 해방",
+        title2:"빗질하기",
+        img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Fhairstyle.png?alt=media&token=c473b745-ed7b-49b7-b683-472884df1e2f"
+    },
+
+]
 
 const QuistModal = (props) => {
     const {open, confirm, close,petGender,petSign,petAge,petName,petImg} = props;
@@ -164,32 +214,15 @@ const QuistModal = (props) => {
                             </div>
                         </div>
                         <div className="qList">
-                        
+                        {DogCare.map(dog => (
                         <Card>
-                            <div></div>
-                            <div></div>
+                            <div>
+                            <h1>{dog.title1}</h1>
+                            <h2>{dog.title2}</h2>
+                            </div>
+                            <img src={dog.img} alt="petcareimg" />
                         </Card>
-                        <Card>
-                            <div></div>
-                            <div></div>
-                        </Card>
-                        <Card>
-                            <div></div>
-                            <div></div>
-                        </Card>
-                        <Card>
-                            <div></div>
-                            <div></div>
-                        </Card>
-                        <Card>
-                            <div></div>
-                            <div></div>
-                        </Card>
-                        <Card>
-                            <div></div>
-                            <div></div>
-                        </Card>
-                        
+                        ))}                           
                         </div>
                             </main>
                         <footer>
