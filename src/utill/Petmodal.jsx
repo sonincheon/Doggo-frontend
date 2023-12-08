@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import dogfoot from '../img/dogfoot.png';
+import { storage } from "./FireBase"
 
 const ModalStyle = styled.div`
      /* 모달 기본 스타일 */
@@ -169,8 +170,10 @@ const PetSign = styled.input`
     height: 27px;
 `;
 
+
+
 const Petmodal = (props) => {
-    const {open, confirm, type, close, name, gender, Type, age, img, sign, } = props;
+    const {open, confirm, type, close, name, gender, Type, age, img, sign} = props;
     
     // &times; 는 X표 문자를 의미
     return (
@@ -205,6 +208,7 @@ const Petmodal = (props) => {
                                 </PetInfo1>                                                                                                                    
                             </main>
                         <footer>
+                            
                             {type && 
                             <button 
                             onClick={confirm}>수정</button>}
