@@ -7,3 +7,7 @@ export const Center = styled.div`
     flex-direction: column;
     margin-bottom: 5%;
 `;
+
+export const SideBar =styled.div`
+        margin-left: 15vw;
+`;

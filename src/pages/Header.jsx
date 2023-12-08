@@ -119,7 +119,7 @@ const Header = () => {
             <LogoBox>
               <div>뭐넣지</div>
               <Logo onClick={()=>navigate("/")}/>
-              <div>뭐넣지</div>
+              <div onClick={()=>navigate("/admin")}>관리자 페이지</div>
             </LogoBox>
             </NavBox>
             </Headers>
