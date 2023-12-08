@@ -2,6 +2,7 @@ import React, { Children, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 const Container =styled.div`
   width: 60%;
@@ -15,6 +16,7 @@ const StyledCalendar = styled(Calendar)`
   background-color: #f3eeea;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: none;
+  align-items: center;
   box-shadow: none;
     /* 글자 스타일 */
     .react-calendar__month-view__days__day-names,
@@ -23,16 +25,14 @@ const StyledCalendar = styled(Calendar)`
     font-size: 13px;
     color: #333333;
     border: none;
+ 
   }
   
   .react-calendar__tile--active:hover {
     background-color: #cce5ff; /* 선택된 날짜 호버 시 배경색 변경 */
     cursor: pointer;
   }
-  .react-calendar__tile--active {
-    border-bottom:5px solid red;
-    background-color:#f3eeea; /* 선택된 날짜 배경색 */
-  }
+
 
   .react-calendar__tile:hover {
     background-color: #f3eeea; /* 호버 시 배경색 변경 */
@@ -44,7 +44,13 @@ const StyledCalendar = styled(Calendar)`
     font-size: 14px;
     color: #555555;
     text-decoration: none;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .react-calendar__month-view__weekdays__weekday{
+    border: 2px solid #B0A695;
+    scale: 0.99;
   }
   /* 년월 스타일 */
   .react-calendar__navigation {
@@ -76,11 +82,59 @@ const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__tile {
     height: 75px;
+    font-size: 0.8em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    scale: 0.99;
+    border: 2px solid #B0A695;
   }
+  .react-calendar__tile--active {
+    border-bottom:5px solid #e55026;
+    background-color:#f3eeea; /* 선택된 날짜 배경색 */
+  }
+  
+.react-calendar__tile--active:active,
   .react-calendar__tile:hover {
-    background-color: none;
+    background-color: #B0A695;
+  }
+  .react-calendar__tile--now:active,
+.react-calendar__tile--now:hover {
+  /* 오늘 날짜에 대한 호버 및 액티브 스타일 */
+  background-color: #f3eeea;
+  
+}
+.react-calendar__tile--now {
+  background-color: #f3eeea;
+  border-bottom: 5px solid #2e49ce;
+  /* 오늘 날짜에 대한 스타일 */
+}
+`;
+
+const Story =styled.div`
+display: flex;
+flex-direction: column;
+width: 100%;
+  .story1{
+    white-space : nowrap ;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9em;
+    background-color: #ffb0b0;
+    border-radius: 3px;
+  }
+  .story2{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 0.9em;
+    background-color: #97f095;
+    border-radius: 3px;
+    color:blue;
   }
 `;
+
 
 const MyCalender = () =>{
   const [date, setDate] = useState(new Date());
@@ -89,18 +143,51 @@ const MyCalender = () =>{
     setDate(selectedDate);
   };
 
-  const tileContent = ({ date, view }) => {
+  const data =[
+    {
+      date:"9",
+      title:"오늘은 이런일이있었다",
+      percent:"100%"
+    },
+    {
+      date:"11",
+      title:"개같은일이있엇다 너무너무",
+      percent:"11%"
+    },
+    {
+      date:"20",
+      title:"홀리쉣이였다 너무너무너무너무",
+      percent:"12%"
+    },
+    {
+      date:"29",
+      title:"오마이갓 이엿다  너무너무너무너무",
+      percent:"27%"
+    },
+    {
+      date:"4",
+      title:"css하기싫네 너무너무너무너무",
+      percent:"18%"
+    }
+]
+
+  const tileContent = ({ date }) => {
+    const eventData = data.find(item => item.date === date.getDate().toString());
     return (
-      <div style={{ fontSize: '20px' }}>
-        {date.getDate() === 1 ? '🎉' : '😁'} {/* 1일에는 파티 아이콘, 그 외엔 체크 아이콘 */}
+      <Story>
+      <div className='story1'>
+        {eventData ? eventData.title : ''}
       </div>
-    );
-  };
+      <div className='story2'>
+      {eventData ? `미션 :${eventData.percent}` : ''}
+      </div>
+      </Story>
+    );};
 
   return (
     <Container>
       <h1>선택된 날짜: {date.toDateString()}</h1>
-        <StyledCalendar onChange={onChange} value={date} tileContent={tileContent}/> 
+        <StyledCalendar onChange={onChange} value={date} tileContent={tileContent} formatDay={(locale, date) => dayjs(date).format('DD')}/> 
     </Container>
   );
   };

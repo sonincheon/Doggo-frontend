@@ -59,8 +59,8 @@ const Block =styled.div`
   .textbox{
     width: 100%;
     height: 90%;
-
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -210,6 +210,7 @@ const Eventbox =()=>{
         <h1>멍냥일기</h1>
             <div className="textbox">
                 <textarea placeholder="오늘 하루를 작성해주세요"></textarea>
+                <button>저장</button>
             </div>
         </div>
         </Block>
@@ -223,8 +224,6 @@ const Eventbox =()=>{
           petAge={age}
           petSign={sign}
         />
-
-
         </>
     );
 };
