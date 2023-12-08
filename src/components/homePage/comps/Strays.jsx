@@ -15,8 +15,11 @@ const slide = keyframes`
   0% {
     transform: translateX(0);
   }
+  50% {
+    transform: translateX(-50%); // 50% 지점에서 첫 번째 배열의 끝에 도달
+  }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-100%); // 100% 지점에서 두 번째 배열의 끝에 도달, 전체 슬라이드의 끝
   }
 `;
 
@@ -35,7 +38,7 @@ const SliderTrack = styled.div`
   display: flex;
   height: 80%;
   width: calc(100% * ${extendedImages.length});
-  animation: ${slide} 360s linear infinite;
+  animation:  ${slide} 720s linear infinite
 `;
 
 const Banner = styled.div`
