@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Service = () => {
@@ -8,14 +9,24 @@ const Service = () => {
   const Base = styled.div`
     display: flex;
     justify-content: space-around;
+    column-gap: 50px;
   `;
   const Container = styled.div`
-    height: auto;
+    justify-content: center;
+    align-items: flex-start;
+    width: 600px;
+    height: 700px;
+    .title {
+      font-size: 2rem;
+    }
   `;
   const Box = styled.div`
     display: flex;
     align-items: center;
-    flex-grow: 1;
+    .mini {
+      width: 150px;
+      font-size: 1.5rem;
+    }
     .container-button {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -27,18 +38,17 @@ const Service = () => {
       button {
         color: #f3eeea;
         background-color: #b0a695;
-        padding: 10px;
         border-radius: 10px;
         border: none;
+        font-size: 1rem;
+        padding: 10px;
+
         @media (max-width: 768px) {
           padding: 8px;
+          font-size: 0.8rem;
+          border-radius: 8px;
         }
       }
-    }
-    button {
-      background-color: #ebe3d5;
-      border: none;
-      padding: 10px;
     }
   `;
 
@@ -47,19 +57,20 @@ const Service = () => {
     flex-direction: column;
     justify-content: center;
     padding: 10px;
-    flex-grow: 2;
+    width: 100%;
     button {
-      width: 55px;
-      height: 55px;
+      background-color: #ebe3d5;
+      border: none;
+      padding: 10px;
+    }
+    .item {
+      margin: 10px;
+      font-size: 1rem;
+      word-spacing: 1px;
+      line-height: 20px;
     }
   `;
-  const Box3 = styled.div`
-    display: flex;
-    flex-direction: column;
-    FaqItem {
-      border: 1px solid black;
-    }
-  `;
+  const Box3 = styled.div``;
 
   // 문의 유형 버튼
   const handleButtonClick = (event) => {
@@ -112,53 +123,75 @@ const Service = () => {
     );
   };
   return (
-    <Base>
-      <Container>
-        <h1>문의 작성</h1>
-        <hr />
-        <Box>
-          <h2>문의 유형</h2>
-          <div className="container-button" onClick={handleButtonClick}>
-            <button>배송</button>
-            <button>주문/결제</button>
-            <button>취소/교환/환불</button>
-            <button>회원정보</button>
-            <button>사료문의</button>
-            <button>이용문의</button>
+    <>
+      <Base>
+        <Container>
+          <div className="title">
+            <h1>문의 작성</h1>
+            <hr />
           </div>
-        </Box>
-        <Box>
-          <h2>문의 내용</h2>
+          <Box>
+            <div className="mini">
+              <h2>문의 유형</h2>
+            </div>
+            <Box2>
+              <div className="container-button" onClick={handleButtonClick}>
+                <button>배송</button>
+                <button>주문/결제</button>
+                <button>취소/교환/환불</button>
+                <button>회원정보</button>
+                <button>사료문의</button>
+                <button>이용문의</button>
+              </div>
+            </Box2>
+          </Box>
+          <Box>
+            <div className="mini">
+              <h2>문의 내용</h2>
+            </div>
+            <Box2>
+              <div className="mini">{text}</div>
+              <textarea
+                rows="10"
+                cols="40"
+                placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
+              ></textarea>
+            </Box2>
+          </Box>
+          <Box>
+            <div className="mini">
+              <h2>사진</h2>
+            </div>
+            <Box2>
+              <input type="file" style={{ display: "none" }} ref={imageInput} />
+              <button onClick={onCickImageUpload}>+</button>
+            </Box2>
+          </Box>
+        </Container>
+        <Container>
+          <div className="title">
+            <h1>FAQ</h1>
+            <hr />
+          </div>
           <Box2>
-            {text}
-            <textarea
-              rows="5"
-              placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
-            ></textarea>
+            {faqData.map((data, index) => (
+              <div className="item">
+                <FaqItem
+                  key={index}
+                  question={data.question}
+                  answer={data.answer}
+                />
+              </div>
+            ))}
           </Box2>
-        </Box>
-        <Box>
-          <h2>사진</h2>
-          <Box2>
-            <input type="file" style={{ display: "none" }} ref={imageInput} />
-            <button onClick={onCickImageUpload}>+</button>
-          </Box2>
-        </Box>
-      </Container>
-      <Container>
-        <h1>FAQ</h1>
-        <hr />
-        <Box3>
-          {faqData.map((data, index) => (
-            <FaqItem
-              key={index}
-              question={data.question}
-              answer={data.answer}
-            />
-          ))}
-        </Box3>
-      </Container>
-    </Base>
+        </Container>
+      </Base>
+      <Box3>
+        <Link to={"/serviceView"}>
+          <button>작성하기</button>
+        </Link>
+      </Box3>
+    </>
   );
 };
 export default Service;

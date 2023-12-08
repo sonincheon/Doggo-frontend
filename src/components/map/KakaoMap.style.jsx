@@ -84,7 +84,6 @@ export const ListContainer = styled.div`
   width: 400px;
   bottom: 90px;
   overflow-y: auto;
-  border: 2px solid #b0a695;
   transition: 0.3s;
   background-color: #f3eeea;
   border-top-right-radius: 30px;
