@@ -23,25 +23,37 @@ const slide = keyframes`
 
 const SliderContainer = styled.div`
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   width: 99.3%;
-  border: 1px solid black;
+  padding-bottom: 1%;
   border-radius: 10px;
 `;
 
 
 const SliderTrack = styled.div`
   display: flex;
-  
+  height: 80%;
   width: calc(100% * ${extendedImages.length});
-  animation: ${slide} 120s linear infinite;
+  animation: ${slide} 360s linear infinite;
+`;
+
+const Banner = styled.div`
+  height: 20%;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 10px 10px 0 0;
+  background-color: #B0A695;
 `;
 
 
+
 const Slide = styled.div`
+
+
   width: 20vw; 
-  height: 30vw; 
-  margin: 0; 
+  height: 100%; 
+  margin-right: 0.1%; 
   padding: 0; 
 
   img {
@@ -59,7 +71,11 @@ const InfoArea = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.2vw;
+  font-size: 1vw;
+  border: 1px solid black;
+  border-radius: 0 0 10px 10px;
+  background-color: #B0A695;
+  
 `;
 
 
@@ -96,15 +112,16 @@ const Strays = () => {
 
   return (
     <SliderContainer>
+      <Banner/>
       <SliderTrack>
-
+      
         {extendedImages.map((image, index) => (
           <Slide key={index} onClick={() => handleSlideClick(image.id)}>
             {/* api로 데이터 넘어오면 주석처리한 부분으로 대체할 예정 */}
             {/* <img src={stray.image} alt={`Stray ${stray.name}`} /> */}
             <img src={image} alt={`Stray ${index}`} />
             <InfoArea>
-              <p>위치: {strays[index]?.location || '천호'}</p>
+              <p>보호소 위치: {strays[index]?.location || '천호'}</p>
               <p>이름: {strays[index]?.name || '돼냥이'}</p>
               <p>나이: {strays[index]?.age || '3살'}</p>
               <p>품종: {strays[index]?.breed || '뒈지'}</p>

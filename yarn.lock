@@ -2246,6 +2246,11 @@
     magic-string "^0.25.0"
     string.prototype.matchall "^4.0.6"
 
+"@svg-maps/south-korea@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@svg-maps/south-korea/-/south-korea-1.0.1.tgz#41c086de234b8df285b0d1e660ce897e0b1e3ad7"
+  integrity sha512-8u6ficSu/q1bv9YS/fMf2N5pfRsLGNkZV+YNZON3iz/emjApL1b4Ryyh5l2qtVCrOqj+6jBv2ssf1I5yWZ6ABw==
+
 "@svgr/babel-plugin-add-jsx-attribute@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-5.4.0.tgz#81ef61947bb268eb9d50523446f9c638fb355906"
