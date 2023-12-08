@@ -7,7 +7,6 @@ import Diymain from "./pages/diyPage/Diymain";
 import Mapmain from "./pages/mapPage/Mapmain";
 import Quickmain from "./pages/quickPage/Quickmain";
 import ServiceMain from "./pages/servicePage/Servicemain";
-
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import * as React from "react";
@@ -19,6 +18,8 @@ import Quicksale from "./pages/quickPage/Quicksale";
 import { TossPage } from "./utill/Toss";
 import MyPage from "./pages/userPage/MyPage";
 import HomePage from "./pages/HomePage";
+import Admin from "./pages/Admin";
+import Adminmain from "./pages/adminPage/Adminmain";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -38,8 +39,8 @@ function App() {
     <GlobalStyle/>
     <Router>
       <Routes>
-      <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header/>}>
               <Route path="/" element={<HomePage/>}/>
@@ -53,8 +54,12 @@ function App() {
               <Route path="/quick/sales" element={<Quicksale/>}/>
               <Route path="/quick/toss" element={<TossPage/>}/>
               <Route path="/mypage" element={<MyPage/>}/>
-              
             </Route>
+            {/* 여긴 어드민 구간  */}
+            <Route element={<Admin/>}>
+              <Route path="/admin" element={<Adminmain/>}/>
+            </Route>
+
       </Routes>
     </Router>
     </>

@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import dogfoot from '../../img/footer.png'
+
 const Container = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   background: conic-gradient(
-    #95D17F ${props => props.progress * 3.6}deg,
+    ${props => props.progress < 49 ? '#dfbd00' : '#95D17F'} ${props => props.progress * 3.6}deg,
     transparent 0deg
   );
   cursor: pointer;
