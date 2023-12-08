@@ -163,9 +163,6 @@ const Pwdmodal = (props) => {
                     <section>
                         <header>
                             비밀번호 변경
-                            <button onClick={Close}>
-                                &times;  
-                            </button>
                         </header>
                             <main style={{display:'flex', justifyContent: 'center', flexDirection:'column'}}>
                                 <Change1>

@@ -1,62 +1,49 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import dogfoot from '../img/dogfoot.png';
-import { storage } from "./FireBase"
+import { storage } from "./FireBase";
+
 
 const ModalStyle = styled.div`
-     /* 모달 기본 스타일 */
-     .modal {
-        display: none;  // 초기에는 숨김
-        position: fixed; // 스크롤에 따라 움직이지 않음
-        top: 0;
+    .modal {
+        display: none;  // 숨겨진 상태로 시작
+        position: fixed; // 스크롤해도 동일한 위치
+        top: 0;  // 화면 전체를 덮도록 위치
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 99; // 다른 모달보다 위에 위치
-        background-color: rgba(0, 0, 0, 0.6); // 배경색 및 투명도 조절
- // 테두리 추가
+        z-index: 99; // 다른 모달 보다 위에 위치하도록 함
+        background-color: rgba(0, 0, 0, 0.6); // 배경색을 검정으로 하고 투명도 조절
     }
-
-    /* 모달이 열릴 때의 스타일 */
     .openModal {
         display: flex; // 모달이 보이도록 함
         align-items: center;
-        animation: modal-bg-show 0.8s; // 배경이 스르륵 열리는 효과
- // 테두리 추가
+        /* 팝업이 열릴때 스르륵 열리는 효과 */
+        animation: modal-bg-show 0.8s;
     }
-
-    /* 닫기 버튼 스타일 */
     button {
         outline: none;
         cursor: pointer;
         margin-right: 10px;
         border: 0;
- // 테두리 추가
     }
-
-    /* 모달 컨텐츠 스타일 */
     section {
         width: 90%;
-        max-width: 1000px;
+        max-width: 700px;
         margin: 0 auto;
         border-radius: 0.3rem;
-        background-color: white;
-        animation: modal-show 0.3s; // 모달이 스르륵 열리는 효과
+        background-color: #fff;
+        /* 팝업이 열릴때 스르륵 열리는 효과 */
+        animation: modal-show 0.3s;
         overflow: hidden;
- // 테두리 추가
     }
-
-    /* 모달 헤더 스타일 */
     section > header {
         position: relative;
         padding: 16px 64px 16px 16px;
         background-color: #776B5D;
         color: white;
         font-weight: 700;
- // 테두리 추가
     }
 
-    /* 모달 닫기 버튼 스타일 */
     section > header button {
         position: absolute;
         top: 10px;
@@ -67,110 +54,42 @@ const ModalStyle = styled.div`
         text-align: center;
         color: white;
         background-color: transparent;
- // 테두리 추가
     }
-
-    /* 모달 내용 스타일 */
     section > main {
         padding: 16px;
+        height: 400px;
         border-bottom: 1px solid #dee2e6;
         border-top: 1px solid #dee2e6;
-        height: 380px;
- // 테두리 추가
     }
-
-    /* 모달 푸터 스타일 */
     section > footer {
         padding: 12px 16px;
         text-align: right;
- // 테두리 추가
     }
-
-    /* 모달 버튼 스타일 */
     section > footer button {
         padding: 6px 12px;
         color: #fff;
         background-color: #45474B;
         border-radius: 5px;
         font-size: 13px;
- // 테두리 추가
     }
-
-    /* 모달 열릴 때의 애니메이션 효과 */
     @keyframes modal-show {
         from {
             opacity: 0;
             margin-top: -50px;
-     // 테두리 추가
         }
         to {
             opacity: 1;
             margin-top: 0;
-     // 테두리 추가
         }
     }
-
-    /* 모달 배경 열릴 때의 애니메이션 효과 */
     @keyframes modal-bg-show {
         from {
             opacity: 0;
-     // 테두리 추가
         }
         to {
             opacity: 1;
-     // 테두리 추가
         }
     }
-`;
-
-
-
-const PetInfo1 = styled.div`
-    position: relative;
-    width: 410px;
-    height: 200px;
-    background-color: white;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; 
-    margin-right: 10px;
-    z-index: 1;
-
-    .DogFootImage {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-`;
-
-const PetProfile = styled.img`
-    width: 200px;
-    height: 200px;
-    margin-right: 10px;
-    border-radius: 100%;
-    background-color: #FFEED9;
-    margin-left: 10px;
-    margin-bottom: 10px;
-`;
-
-const PetInfo2 = styled.div`
-    z-index: 1;
-`;
-
-const PetInfo3 = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 400px;
-    align-items: center; 
-    padding: 7px 0px 5px 7px;
-`;
-
-const PetSign = styled.input`
-    width: 300px;
-    height: 27px;
 `;
 
 const Change1 = styled.div`
@@ -189,8 +108,8 @@ const Exist1 = styled.div`
 `;
 
 const Exist2 = styled.img`
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     text-justify: center;
     border-radius: 100%;
     margin-bottom: 10px;
@@ -233,23 +152,22 @@ const UploadButton = styled.button`
 `;
 
 const ImgBox = styled.div`
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border-radius: 100%;
     background-color: #FFEED9;
     margin-bottom: 10px;
 `
 
-
-
-const Petmodal = (props) => {
-    const {open, confirm, type, close, name, gender, Type, age, img, sign} = props;
+const Imgmodal = (props) => {
+    const {open, confirm, close, type, image} = props;
     const [url, setUrl] = useState("");
     const [file, setFile] = useState(null);
 
     const handleFileInputChange = (e) => {
         setFile(e.target.files[0]);
       };
+
 
     const handleUploadClick = async () => {
         try {
@@ -285,13 +203,13 @@ const Petmodal = (props) => {
                 {open && 
                     <section>
                         <header>
-                           반려동물 정보 수정 
+                            프로필 이미지 변경
                         </header>
-                            <main style={{display:'flex', justifyContent: 'center'}}>
-                            <div style={{display:'flex', flexDirection:"column", height:'390px', marginRight:'20px'}}> 
+                            <main style={{display:'flex', justifyContent: 'center', flexDirection:'row'}}>
+                                <div style={{display:'flex', flexDirection:"column", height:'390px'}}> 
                                 <div style={{display:'flex', flexDirection:"row"}}>
                                 <Exist1>
-                                    <PetProfile src={img}></PetProfile>
+                                    <Exist2 src={image}></Exist2>
                                     <div style={{textAlign:'center', fontSize:'18px'}}>현재 프로필</div>
                                 </Exist1>
                                 <Change1>
@@ -305,33 +223,10 @@ const Petmodal = (props) => {
                                     <StyledInput type="file" onChange={handleFileInputChange} />
                                     <UploadButton onClick={handleUploadClick}>사진 업로드</UploadButton>
                                 </FileUploadContainer> 
-                                </div>
-                                <PetInfo1>
-                                    <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
-                                        <PetInfo2>
-                                            <PetInfo3>
-                                            이름 : <PetSign defaultValue={name}/>
-                                            </PetInfo3>
-                                            <PetInfo3>
-                                            성별 : <PetSign defaultValue={gender}/>
-                                            </PetInfo3>
-                                            <PetInfo3>
-                                            나이 : <PetSign defaultValue={age}/>
-                                            </PetInfo3>
-                                            <PetInfo3>
-                                            종 : <PetSign defaultValue={Type}/>
-                                            </PetInfo3>
-                                            <PetInfo3>
-                                            특이사항 : <PetSign defaultValue={sign}/>
-                                            </PetInfo3>
-                                        </PetInfo2>                              
-                                </PetInfo1>                                                                                                                    
+                                </div>                                                                                                                      
                             </main>
                         <footer>
-                            
-                            {type && 
-                            <button 
-                            onClick={confirm}>수정</button>}
+                            {type && <button onClick={confirm}>수정</button>}
                             <button onClick={Close}>취소</button>
                         </footer>
                     </section>
@@ -341,4 +236,4 @@ const Petmodal = (props) => {
     );
 };
 
-export default Petmodal;
+export default Imgmodal;
