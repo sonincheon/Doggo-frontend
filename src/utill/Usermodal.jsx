@@ -124,9 +124,6 @@ const Usermodal = (props) => {
                     <section>
                         <header>
                             {header}
-                            <button onClick={close}>
-                                &times;  
-                            </button>
                         </header>
                             <main style={{display:'flex', justifyContent: 'center', flexDirection:'column'}}>
                                 <Exist1>
