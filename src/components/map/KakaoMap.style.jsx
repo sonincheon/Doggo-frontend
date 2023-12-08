@@ -1,8 +1,17 @@
 import styled, { css, keyframes } from "styled-components";
 import frame from "../../icon/Frame.svg";
 
+export const MapStyles = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 export const MapContainer = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 100px;
 `;
 export const Overlay = styled.div`
   border: 1px solid #b0a695;
@@ -68,21 +77,20 @@ export const KeywordBtn = styled.button`
 `;
 
 export const ListContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.7);
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 200px;
   left: 0;
-  bottom: 0;
   z-index: 10;
   width: 400px;
+  bottom: 90px;
   overflow-y: auto;
   transition: 0.2s;
+  background-color: rgba(255, 255, 255, 0.7);
 
   ${({ isClosed }) =>
     isClosed &&
     css`
       left: -400px;
-      display: none;
     `};
 `;
 
@@ -96,7 +104,6 @@ export const SideBarOpenBtn = styled.button`
   height: 80px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-left: 0;
   border: none;
   background-color: #f3eeea;
 
@@ -108,6 +115,8 @@ export const SideBarOpenBtn = styled.button`
 `;
 
 export const ModalContainer = styled.div`
+  background-color: rgba(255, 255, 255, 0.7);
+
   @media (max-width: 768px) {
     height: ${({ isClosed }) => (isClosed ? "0px" : "300px")};
     overflow-y: auto;
@@ -188,6 +197,8 @@ export const Pages = styled.div`
 
 export const PageBtn = styled.button`
   margin: 0 10px;
+  background-color: #f3eeea;
+  border: none;
 `;
 
 const slide = keyframes`
@@ -204,21 +215,35 @@ const slide = keyframes`
 
 export const MapModal = styled.div`
   position: absolute;
-  z-index: 20;
+  z-index: 10;
   left: 0;
   right: 0;
   bottom: 0;
-  border-bottom: 0;
   border-radius: 10px 10px 0 0;
   animation: ${slide} 0.3s ease-in-out;
 `;
 
 export const ModalBtn = styled.button`
-  display: block;
-  margin: 15px auto 10px;
-  width: 50px;
-  height: 5px;
-  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 80px;
+  height: 30px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border: none;
+  background-color: #f3eeea;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+  ${({ isClosed }) =>
+    isClosed &&
+    css`
+      left: 0px;
+    `}
 `;
 
 // 현재 내 위치로 돌아가는 버튼
@@ -280,6 +305,7 @@ export const GoBackTxt = styled.span`
     css`
       @media (max-width: 768px) {
         bottom: 350px;
+        transition: 0.3s;
       }
     `}
 `;
@@ -289,7 +315,7 @@ export const ReSearch = styled.button`
   background-color: #ebe3d5;
   color: #776b5d;
   font-size: 14px;
-  top: 200px;
+  top: 150px;
   transform: translateX(-50%);
   left: 50%;
   z-index: 1;
