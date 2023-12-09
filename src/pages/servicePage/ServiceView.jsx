@@ -1,14 +1,46 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Center } from "../../components/PublicStyle";
+import { useNavigate } from "react-router-dom";
 
 const ServiceView = () => {
+  const navigate = useNavigate();
+
   const Container = styled.div`
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 700px;
     .title {
-      font-size: 1rem;
+      font-size: 2rem;
     }
   `;
-  const Box = styled.div``;
+  const Box = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    button {
+      background-color: #ebe3d5;
+      border: none;
+      padding: 10px;
+      width: 100px;
+      border-radius: 10px;
+      color: #776b5d;
+    }
+    .question {
+      margin: 10px;
+      font-size: 1.2rem;
+      word-spacing: 1px;
+      font-weight: bold;
+    }
+    .answer {
+      font-size: 1rem;
+      word-spacing: 1px;
+      line-height: 25px;
+    }
+  `;
   const faqData = [
     {
       question: "Q [로그인/정보] 아이디와 비밀번호가 기억나지 않아요.",
@@ -46,20 +78,20 @@ const ServiceView = () => {
 
     return (
       <div onClick={() => setShowAnswer(!showAnswer)}>
-        <div>{question}</div>
-        {showAnswer && <div>{answer}</div>}
+        <div className="question">{question}</div>
+        {showAnswer && <div className="answer">{answer}</div>}
       </div>
     );
   };
   return (
     <Center>
       <Container>
-        <div className="title">
-          <h1>문의 답변</h1>
-          <hr />
-        </div>
-      </Container>
-      <Container>
+        <Box>
+          <div className="title">
+            <h1>문의 답변</h1>
+            <hr />
+          </div>
+        </Box>
         <Box>
           {faqData.map((data, index) => (
             <div className="item">
@@ -70,6 +102,9 @@ const ServiceView = () => {
               />
             </div>
           ))}
+        </Box>
+        <Box>
+          <button onClick={() => navigate(-1)}>취소하기</button>
         </Box>
       </Container>
     </Center>
