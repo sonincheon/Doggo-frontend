@@ -47,7 +47,7 @@ const Content = styled.div`
   height: 30%;
   width: ${(props) => props.width || "100%"};
   border: 1px solid black;
-  border-radius: ${(props) => props.borderRadius || "10px"};
+  border-radius: ${(props) => props.radius || "10px"};
   margin-top: 3%;
 `;
 
@@ -62,7 +62,7 @@ const UserStatus = () => {
           </Profiles>
           <Contents>
             <Content width="80%" />
-            <Content borderRadius="0 0 10px 10px" />
+            <Content radius="0 0 10px 10px" />
           </Contents>
         </Items>
       </ItemBox>

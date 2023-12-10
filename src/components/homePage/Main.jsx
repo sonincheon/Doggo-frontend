@@ -39,21 +39,9 @@ const ItemContainer = styled.div.attrs({
   display: flex;
   justify-content: center;
   width: 80%;
-  height: 30%;
+  height: ${(props) => props.height || "30%"};
   /* border: 1px solid black; */
-
-  
 `;
-
-// const SlideContainer = styled.div.attrs({
-//   className: "item-container",
-// })`
-//   display: flex;
-//   width: 80%;
-//   height: 30%;
-  // border: 1px solid black;
-  
-// `;
 
 const Main = () => {
   return (
@@ -63,16 +51,16 @@ const Main = () => {
           <Introduction />
           <UserStatus />
         </ItemContainer>
-        <ItemContainer>
+        <ItemContainer height="40%">
           <CurrentLocationWeather />
           <RegionWeather />
         </ItemContainer>
-        <ItemContainer>
-          <Strays>
-            
-          </Strays>
-        </ItemContainer>
       </SectionContainer>
+      {/* <SectionContainer>
+        <ItemContainer>
+          <Strays></Strays>
+        </ItemContainer>
+      </SectionContainer> */}
     </>
   );
 };
