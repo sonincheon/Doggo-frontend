@@ -1,382 +1,391 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import styled from 'styled-components';
 import Modal from "../../utill/Modal";
-import styled, { css } from "styled-components";
+import SearchAddr from "../../components/member/SearchAddr";
 
-const Container = styled.div`
 
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 50px auto;
 
-  .success {
-    color: royalblue;
-  }
-  .error {
-    color: red;
-  }
+  const Container = styled.div`
+    width:30vw;
+    height: 75vh;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #F3EEEA;
+    border-radius: 10px;
+
+  & .login {
+    
+      margin: 0 auto;
+  
+      font: normal normal bold 24px/35px Poppins;
+      letter-spacing: 0px;
+      color:black;
+      opacity: 1;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  `;
+const Hint = styled.div`
+    width: 60%;
+    height: 2.5%;
+    text-align:right;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 `;
 
 const Items = styled.div`
-   width: 100%;
-   height: 100%;
-  display: flex;
-  align-items: center;
- &.logo{
- margin: 0 auto;
- margin-left: 55px;
-img{
-  width: 400px;
-}
- }
+  margin-bottom: 30px;
+
   &.item1 {
-    margin-top: 100px;
-    margin-bottom: 40px;
-    justify-content: center;
-  }
+    width: 400px;
+    height: 50px;
 
-  &.item2 {
-    margin: 10px;
-  }
-
-  &.item3 {
-    margin-top: 10px;
-    margin-left: 40px;
-    margin-right: 40px;
-    justify-content: space-between;
-    color: #999;
-    font-size: 14px;
-  }
-
-  &.hint {
-    margin-top: -5px;
-    margin-bottom: 10px;
-    margin-right: 40px;
-    justify-content: right;
-    font-size: 12px;
-    color: #999;
-  }
-  &.sign {
-
-  margin-left: 140px;
- 
-    font: normal normal bold 24px/35px Poppins;
-    letter-spacing: 0px;
-    color: #313131;
-    opacity: 1;
-    span{
-      margin-left: 80px;
+    img{
+        width: 100%;
     }
   }
+  &.item2 {
+    width: 60%;
+    margin: 8px auto;
+    
+    
+  
+  }
+  &.item3 {
+    width:50%;
+    margin-top: 20px;
+    justify-content: center;
+    color: red;
+    font-size: 14px;
+    display: flex;
+    
+  }
+  &.hint {
+  
+  }
+    
+
+  &.signup{
+    justify-content: right;
+    font-weight: 700px;
+    font-size: 14px;   
+    .link_style {
+      color: #000000;
+      text-decoration-line: none;
+    }
+  }
+  &.signin{
+    justify-content: right; 
+    font-weight: 700px;
+    margin-right: 30px;
+    font-size: 14px;
+
+    .link_style {
+      color: #000000;
+      text-decoration-line: none;
+    }
+}
 `;
 
-const Input = styled.input`
-  margin-left: 30px;
-  margin-right: 30px;
+ const Input = styled.input`
+  
   width: 100%; /* 원하는 너비 설정 */
   height: auto; /* 높이값 초기화 */
   line-height: normal; /* line-height 초기화 */
   padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   font-family: inherit; /* 폰트 상속 */
   border: 1px solid #999;
+  border-radius: 12px 0px 0px 12px;
   border-radius: 12px; /* iSO 둥근모서리 제거 */
   outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 `;
 
-const Button = styled.button`
+ const Input2 = styled.input`
+  
+  width: 80%; /* 원하는 너비 설정 */
+  height: auto; /* 높이값 초기화 */
+  line-height: normal; /* line-height 초기화 */
+  padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+  font-family: inherit; /* 폰트 상속 */
+  border: 1px solid #999;
+  border-radius: 12px 0px 0px 12px; /* iSO 둥근모서리 제거 */
+  outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
+`;
+
+const Button1 = styled.button`
   margin-top: 10px;
   margin-left: 30px;
   margin-right: 30px;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 26px;
   font-weight: bold;
-  width: 100%; /* 원하는 너비 설정 */
-  height: 50px;
+  width: 60%; /* 원하는 너비 설정 */
+  height: 55px;
   color: white;
-  background-color:  #f4ce14;
+  background-color: #776B5D;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
-  border: orange;
   font-weight: 700;
-  ${(props) =>
-    props.enabled &&
-    css`
-      background-color: red;//취소 색상
-    `};
+  border: none;
 
   &:active {
+    //확인 클릭하면 설정
     border: #999;
     font-weight: 700;
-    background-color: blue; //버튼 클릭시
+    background-color: #3C3939;
+  }
+
+  &:disabled {
+    opacity: 0.6; /* 비활성화 상태일 때 투명도를 조절하여 흐려지도록 함 */
+    cursor: not-allowed; /* 마우스 커서를 바꾸어 사용 불가 상태를 나타냄 */
   }
 `;
 
-const Signup = () => {
+const Button2 = styled.button`
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: #776B5D;
+    font-size: 10px;
+    width: 20%;
+    font-weight: 400;
+    border-radius: 0px 12px 12px 0px;
+    font-weight: 700;
+    border: none;
+`;
+
+const Box = styled.div`
+    width: 40vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EBE3D5;
+    flex-direction: column;
+`;
+
+const CenteredContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const Logo = styled.img`
+    width: 10vw;
+    height: 10vw;
+`;
+
+const RadioContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 8%;
+  background-color: white;
+  border-radius: 12px;
+`;
+
+const RadioContainer1 = styled.div`
+  display: flex;
+  width: 60%;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 8%;
+  background-color: white;
+  border-radius: 12px;
+`;
+
+const Radio = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Label = styled.label`
+  margin-left: 5px;
+`;
+
+
+const SignUp = () => {
+
   const navigate = useNavigate();
+
   // 키보드 입력
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
-  const [inputNick, setInputNcik] = useState("");
-  const [inputConPw, setInputConPw] = useState("");
-  const [inputName, setInputName] = useState("");
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputAdd, setInputAdd] = useState("");
-  const [inputAdd2, setInputAdd2] = useState("");
-  const [inputAdd3, setInputAdd3] = useState("");
-  const [inputPhone, setInputPhone] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
 
   // 오류 메시지
   const [idMessage, setIdMessage] = useState("");
-  const [idMessage2, setIdMessage2] = useState(null);
   const [pwMessage, setPwMessage] = useState("");
-  const [conPwMessage, setConPwMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [addMessage, setAddMessage] = useState("");
-  const [phoneMessage, setPhoneMessage] = useState("");
+  const [pwConfirmMessage, setPwConfirmMessage] = useState("");
+
   // 유효성 검사
-  const [isId, setIsId] = useState(false);
-  const [isId2, setIsId2] = useState(false);
-  const [isPw, setIsPw] = useState(false);
-  const [isConPw, setIsConPw] = useState(false);
-  const [isName, setIsName] = useState(false);
-  const [inNick, setIsNick] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isAdd, setisAdd] = useState("");
-  const [isPhone, setisPhone] = useState("");
-  // 팝업
+  const [isId, setIsId] = useState("");
+  const [isPw, setIsPw] = useState("");
+  const [isPwConfirm, setIsPwConfirm] = useState(false);
+
+  const [enroll_company, setEnroll_company] = useState({address:'',});
+  const [popup, setPopup] = useState(false);
+
+  //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalText, setModelText] = useState("중복된 아이디 입니다.");
-
-  // useEffect(()=>{
-
-  // },[inputAdd])
   const closeModal = () => {
+  
     setModalOpen(false);
   };
-const idFocus=()=>{
-}
-  const onChangId = (e) => {
+
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  const onChangeId = (e) => {
+    const regexId = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     setInputId(e.target.value);
-    if (e.target.value.length < 5 || e.target.value.length > 12) {
-      setIdMessage("5자리 이상 12자리 미만으로 입력해 주세요.");
+    if (!regexId.test(e.target.value)) {
+      setIdMessage("이메일 형식으로 입력해주세요 (example@email.com)");
       setIsId(false);
     } else {
       setIdMessage("올바른 형식 입니다.");
       setIsId(true);
     }
   };
+
   const onChangePw = (e) => {
-    //const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
     const passwordCurrent = e.target.value;
     setInputPw(passwordCurrent);
     if (!passwordRegex.test(passwordCurrent)) {
-      setPwMessage("숫자+영문자 조합으로 8자리 이상 입력해주세요!");
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
       setIsPw(false);
     } else {
-      setPwMessage("안전한 비밀번호에요 : )");
+      setPwMessage("");
       setIsPw(true);
     }
   };
-  const onChangeConPw = (e) => {
-    const passwordCurrent = e.target.value;
-    setInputConPw(passwordCurrent);
-    if (passwordCurrent !== inputPw) {
-      setConPwMessage("비밀 번호가 일치하지 않습니다.");
-      setIsConPw(false);
+
+  const onChangePwConfirm = (e) => {
+    const confirmPassword = e.target.value;
+    setPwConfirm(confirmPassword);
+
+    if (confirmPassword === inputPw) {
+      setPwConfirmMessage("패스워드가 일치합니다.");
+      setIsPwConfirm(true);
     } else {
-      setConPwMessage("비밀 번호가 일치 합니다. )");
-      setIsConPw(true);
+      setPwConfirmMessage("패스워드가 일치하지 않습니다.");
+      setIsPwConfirm(false);
     }
   };
-  const onChangeName = (e) => {
-    setInputName(e.target.value);
-    setIsName(true);
-  };
-  const onChangeNcik = (e) => {
-    setInputNcik(e.target.value);
-    setIsNick(true);
-  };
-  const onChangeAdd3 = (e) => {
-  setInputAdd3(e.target.value);        //inputAdd3으로 하면 한글자씩 밀려여
-  setisAdd(inputAdd + "/" + inputAdd2 + "/" + e.target.value);
-  // 혹은 `${inputAdd}/${inputAdd2}/${e.target.value}` 와 같이 템플릿 리터럴을 사용할 수도 있습니다.
-};
 
-  const onChangeMail = (e) => {   
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const emailCurrent = e.target.value;
-    setInputEmail(emailCurrent);
-    if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage("이메일 형식을 확인하세요.");
-      setIsEmail(false);
-    } else {
-      setEmailMessage("올바른 메일입니다.");
-      setIsEmail(true);
+  const handleInput = (e) => {
+    setEnroll_company({
+        // ... => enroll_company에 다 담겠다는 의미
+        ...enroll_company,
+        [e.target.name]:e.target.value,
+    })
+    console.log(e.target.name);
+}
 
-    }
-    
-  };
-
-  const onChangePhone = (e) => {
-    setInputPhone(e.target.value);
-    setisPhone(true);
-  };
+    // 버튼 클릭 시 팝업
+const handleComplete = (data) => {
+    setPopup(!popup);
+}
 
 
-
-
-  const goHome = ()=>{
-    navigate("/");
-   }
+  
   return (
-    <Container>
-          <Items className="logo">
+  <CenteredContainer>
+    <Box>
+    <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866"/>
+      <Container>
+        <Items className="login" style={{marginTop:'20px'}}>
+          <span>회원가입</span>
+        </Items>
+        <Items className="item2" style={{display:'flex'}}>
+          <Input2 placeholder="아이디(이메일)" value={inputId} onChange={onChangeId} />
+          <Button2>중복체크</Button2>
+        </Items>
+        <Hint>
+          {inputId.length > 0 && (
+            <span className={`${isId ? "success" : "error"}`}>{idMessage}</span>
+          )}
+        </Hint>
 
-      </Items>
-      <Items className="sign">
-    
-        <span>회원가입</span>
-      </Items>
+        <Items className="item2" style={{display:'flex', marginBottom:'15px'}}>
+          <Input2 placeholder="인증번호를 입력해주세요"/>
+          <Button2>인증</Button2>
+        </Items>
 
-      <Items className="item2" >
-        <Input placeholder="아이디" value={inputId} onChange={onChangId}    />
-      </Items>
-      <Items className="hint">
-        {inputId.length > 0 && (
-          <span className={`message ${isId ? "success" : "error"}`}>
-            {idMessage}
-          </span>
-        )}
-      </Items>
-      <Items className="hint">
-
-        {idMessage2 ==null ?        
-       <></>
-        :  isId2 !== true ?  <span className={"message error"}>
-        {idMessage2}
-      </span>:  <span className={"message success"}> 
-        {idMessage2}
-      </span>
-        }
-      </Items>
-      <Items className="item2">
-        <Input
-          type="password"
-          placeholder="패스워드"
-          value={inputPw}
-          onChange={onChangePw}
-        />
-      </Items>
-      <Items className="hint">
-        {inputPw.length > 0 && (
-          <span className={`message ${isPw ? "success" : "error"}`}>
-            {pwMessage}
-          </span>
-        )}
-      </Items>
-      <Items className="item2">
-        <Input
-          type="password"
-          placeholder="패스워드 확인"
-          value={inputConPw}
-          onChange={onChangeConPw}
-        />
-      </Items>
-      <Items className="hint">
-        {inputPw.length > 0 && (
-          <span className={`message ${isConPw ? "success" : "error"}`}>
-            {conPwMessage}
-          </span>
-        )}
-      </Items>
-      <Items className="item2">
-        <Input
-          type="text"
-          placeholder="이름"
-          value={inputName}
-          onChange={onChangeName}
-        />
-      </Items>
-      <Items className="item2">
-        <Input
-          type="text"
-          placeholder="닉네임"
-          value={inputNick}
-          onChange={onChangeNcik}
-        />
-      </Items>
-      <Items className="item2">
-        <Input
-          type="text"
-          placeholder="연락처"
-          value={inputPhone}
-          onChange={onChangePhone}
-        />
-      </Items>
-      <Items className="item2">
-        <Input
-          type="email"
-          placeholder="이메일"
-          value={inputEmail}
-          onChange={onChangeMail}
-        />
-        
-      </Items>
-      <Items className="hint">
-        {inputEmail.length > 0 && (
-          <span className={`message ${isEmail ? "success" : "error"}`}>
-            {emailMessage}
-          </span>
-        )}
-      </Items>
-      <Items className="item2">
-      </Items>
-      <Items className="item2">
-      {inputAdd&&   <Input
-          type="addr"
-          placeholder="상세주소"
-          value={inputAdd}
-        />
-      }     </Items>
-<Items className="item2">
-            {inputAdd2&&  <> <Input
-          type="addr"
-          placeholder="상세주소"
-          value={inputAdd2}
-        />
         <Items className="item2">
-        <Input
-            type="addr"
-            placeholder="상세주소"
-            value={inputAdd3}
-            onChange={onChangeAdd3}
-          />
-        </Items></>
-      }
-   
+          <Input type="password" placeholder="패스워드" value={inputPw} onChange={onChangePw} />
+        </Items>
+        <Hint>
+          {inputPw.length > 0 && (
+            <span className={`${isPw ? "success" : "error"}`}>{pwMessage}</span>
+          )}
+        </Hint>
 
-      </Items>
+        <Items className="item2">
+            <Input type="password" placeholder="패스워드 확인" value={pwConfirm} onChange={onChangePwConfirm} />
+          </Items>
+          <Hint>
+            {pwConfirm.length > 0 && (
+              <span className={`${isPwConfirm ? "success" : "error"}`}>{pwConfirmMessage}</span>
+            )}
+          </Hint>
+
+        <Items className="item2" style={{marginBottom:'15px'}}>
+          <Input type="input" placeholder="이름"/>
+        </Items>
+
+        <Items className="item2" style={{marginBottom:'20px'}}>
+          <Input type="input" placeholder="전화번호"/>
+        </Items>
+
+        <RadioContainer className="item2" style={{marginBottom:'20px'}}>
+            <div>성별 : </div>
+            <Radio>
+              <input type="radio"/>
+              <Label>남자</Label>
+            </Radio>
+            
+            <Radio>
+              <input type="radio"/>
+              <Label>여자</Label>
+            </Radio>
+        </RadioContainer>
+
+        <RadioContainer1 className="item2" style={{marginBottom:'10px'}}>
+            <Radio>
+              <input type="checkbox"/>
+              <Label></Label>
+            </Radio>
+            <div style={{display:'flex'}}><div style={{marginRight:'8px', color:'#776B5D'}}>(필수)</div> 이용약관 동의</div>
+        </RadioContainer1>
+
+        <Items className="address_search"> 
+        <Input2 className="user_enroll_text" type="text" required={true} name="address" onChange={handleInput} value={enroll_company.address}/>
+        <Button2 onClick={handleComplete}>주소찾기</Button2>
+        {popup && <SearchAddr company={enroll_company} setcompany={setEnroll_company}></SearchAddr>}
+        </Items>
 
 
-      <Items className="item2">
-        {isId && isPw && isConPw && isName && isEmail ? (      
-          <Button enabled >
-            확인
-          </Button>
-        ) : (
-          <Button disabled onClick={()=>{}}>확인</Button>
-        )}
-             <Button enbled onClick={() => {goHome()}} >취 소</Button>
-        <Modal open={modalOpen} close={closeModal} header="오류">
+          <Button1 style={{marginBottom:'20px'}}>회원가입</Button1>
+        </Container>
+    </Box>
+  </CenteredContainer>
 
-        </Modal>
-      </Items>
-    </Container>
   );
 };
-
-export default Signup;
+export default SignUp;
