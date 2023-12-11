@@ -12,6 +12,10 @@ const OLAT = 38.0; // 기준점 위도(degree)
 const XO = 43; // 기준점 X좌표(GRID)
 const YO = 136; // 기1준점 Y좌표(GRID)
 
+
+const ServiceKey =
+  "Olxg1mLV/06zroxq+lNMTBH/PN1lq6uMU4NXhdDoeRAOXvszXzU8lChRY2zuMSqh5BN0vXrilLTQ+/FXdwDRHg=="; // 디코딩된 정벼리 api 키
+
 const ItemBox = styled.div.attrs({
   className: "item-container",
 })`
@@ -43,23 +47,8 @@ const CurrentLocationWeather = () => {
   const [address, setAddress] = useState("");
   const [coords, setCoords] = useState("");
   const [weather, setWeather] = useState("");
-
-  const getGeocodeKakao = async (lat, lng) => {
-    try {
-      const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`,
-        {
-          headers: {
-            Authorization: `KakaoAK 2dda918f299fb6e8325412499bf9a08a`,
-          },
-        }
-      );
-      setAddress(response.data.documents[0].address.address_name);
-    } catch (error) {
-      console.error("Kakao Geocoding error:", error);
-    }
-  };
-
+  
+  // 현재위치 위도/경도 가져오기
   const onSuccess = (position) => {
     setLocation({
       lat: position.coords.latitude,
@@ -74,6 +63,25 @@ const CurrentLocationWeather = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, []);
+  
+  // 카카오에서 위도/경도 값 활용하여 주소값 삥뜯기
+  const getGeocodeKakao = async (lat, lng) => {
+    try {
+      console.log(lat+ " : " + lng);
+      const response = await axios.get(
+        `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`,
+        {
+          headers: {
+            Authorization: `KakaoAK 0ebf93ba226244249348d38c2b853898`,
+          },
+        }
+      );
+      setAddress(response.data.documents[0].address.address_name);
+    } catch (error) {
+      console.error("Kakao Geocoding error:", error);
+    }
+  };
+
 
   useEffect(() => {
     console.log(location.lat, location.long);
@@ -83,13 +91,20 @@ const CurrentLocationWeather = () => {
   useEffect(() => {
     dfs_xy_conv("toXY", location.lat, location.long);
   }, [address]);
-
+  
+  // 위도/경도 값으로 , 현재 온도 및 날씨정보 삥뜯기
   useEffect(() => {
+    
     const getWeather = async () => {
       console.log("weather Call", coords.x, coords.y);
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/weather2?x=${coords.x}&y=${coords.y}`
+          `http://127.0.0.1:5000/api/weather2?x=${coords.x}&y=${coords.y}`,
+          {
+            params: {
+              ServiceKey: ServiceKey,
+            },
+          }
         );
         console.log(response.data);
         setWeather(response.data);
@@ -176,4 +191,5 @@ const CurrentLocationWeather = () => {
     </>
   );
 };
+
 export default CurrentLocationWeather;

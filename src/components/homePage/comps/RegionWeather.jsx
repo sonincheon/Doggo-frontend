@@ -74,7 +74,7 @@ const RegionWeather = () => {
       try {
         const data = await WeatherAxiosApi.getWeathers();
         console.log("API response:", data); // API 응답 출력
-        setWeatherData(data); // 데이터 설정
+        setWeatherData(data); // 데이터 할당 set
       } catch (error) {
         console.error('Error loading weather data:', error); // API 호출 실패 시 오류 처리
       }
@@ -82,6 +82,15 @@ const RegionWeather = () => {
   
     loadWeatherData();
   }, []);
+
+  const handleImageClick = (e) => {
+    const imageBounds = e.target.getBoundingClientRect();
+    const x = e.clientX - imageBounds.left; // X 좌표 계산
+    const y = e.clientY - imageBounds.top;  // Y 좌표 계산
+
+    console.log(`X: ${x}, Y: ${y}`); // 콘솔에 좌표 출력
+  };
+
   
   return (
     <>
@@ -92,7 +101,10 @@ const RegionWeather = () => {
             <WeatherBar></WeatherBar>
           </Banner>
           <ImageContainer>
-            <img src={mapOfKorea} alt="Korea Map" />
+            <img src={mapOfKorea} alt="Korea Map" 
+            onClick={handleImageClick} // 이미지 클릭 이벤트 핸들러 추가
+            />
+            
           </ImageContainer>
         </Items>
       </ItemBox>
@@ -101,3 +113,6 @@ const RegionWeather = () => {
 };
 
 export default RegionWeather;
+
+
+// 울산 수원 전주 강릉 서울 부산 안동 대전 목포 여수 청주 제주 대구 인천 춘천 광주

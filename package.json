@@ -19,6 +19,7 @@
     "react-big-calendar": "^1.8.5",
     "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
+    "react-hook-geolocation": "^1.1.0",
     "react-intersection-observer": "^9.5.3",
     "react-kakao-maps-sdk": "^1.1.24",
     "react-responsive": "^9.0.2",
