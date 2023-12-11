@@ -20,6 +20,9 @@ import MyPage from "./pages/userPage/MyPage";
 import HomePage from "./pages/HomePage";
 import Admin from "./pages/Admin";
 import Adminmain from "./pages/adminPage/Adminmain";
+import Adminmember from "./pages/adminPage/Adminmember";
+import Adminsales from "./pages/adminPage/Adminsales";
+import Adminqna from "./pages/adminPage/Adminqna";
 import ServiceView from "./pages/servicePage/ServiceView";
 
 const GlobalStyle = createGlobalStyle`
@@ -60,6 +63,9 @@ function App() {
           {/* 여긴 어드민 구간  */}
           <Route element={<Admin />}>
             <Route path="/admin" element={<Adminmain />} />
+            <Route path="/admin/user" element={<Adminmember/>}/>
+            <Route path="/admin/sales" element={<Adminqna/>}/>
+            <Route path="/admin/qna" element={<Adminsales/>}/>
           </Route>
         </Routes>
       </Router>

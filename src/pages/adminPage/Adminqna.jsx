@@ -1,15 +1,15 @@
 import { SideBar } from "../../components/PublicStyle";
 
 
-const Adminmain = () =>{
+const Adminqna = () =>{
 
     return(
         <>
             <SideBar>
-                <h1> 여기는 대쉬보드</h1>
+                <h1> 1:1 문의 관리</h1>
             </SideBar>
         </>
     )
 }
 
-export default Adminmain;
+export default Adminqna;

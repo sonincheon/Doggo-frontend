@@ -1,15 +1,15 @@
 import { SideBar } from "../../components/PublicStyle";
 
 
-const Adminmain = () =>{
+const Adminsales = () =>{
 
     return(
         <>
             <SideBar>
-                <h1> 여기는 대쉬보드</h1>
+                <h1> 관리자 보드 페이지입니다.</h1>
             </SideBar>
         </>
     )
 }
 
-export default Adminmain;
+export default Adminsales;
