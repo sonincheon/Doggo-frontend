@@ -33,7 +33,6 @@ const SellBox =styled.div`
             font-size: 16px;
             list-style: circle;
             line-height: 40px;
-            font-weight: bold;
             color: #776B5D;
         }
         .selectBox{
@@ -45,7 +44,6 @@ const SellBox =styled.div`
             height: 40px;
             border-radius: 10px;
             font-size: 15px;
-            font-weight: bold;
             background-color: #776B5D;
             color: white;
         }
@@ -61,13 +59,13 @@ const SellBox =styled.div`
         cursor: pointer;
         h1{
             font-size: 25px;
-            font-weight: bold;
+ 
             color: white;
             padding: 10px;
         }
         p{
             font-size: 15px;
-            font-weight: bold;
+
             color: white;
         }
     }

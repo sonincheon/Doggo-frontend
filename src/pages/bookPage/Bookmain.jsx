@@ -1,10 +1,11 @@
 import { Center } from "../../components/PublicStyle";
+import LoginEnt from "../../components/member/LoginEnt";
 
 const Bookmain = () =>{
 
     return(
         <Center>
-        <h1> 멍냥도감 페이지 </h1>
+            <LoginEnt/>
         </Center>
     )
 }
