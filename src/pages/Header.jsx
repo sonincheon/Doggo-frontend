@@ -35,7 +35,6 @@ const Logo = styled.img`
 
 const Menus = styled.div`
   display: flex;
-  font-weight: 900;
   align-items: center;
   justify-content: center;
   width: 100vw;

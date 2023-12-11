@@ -22,14 +22,12 @@ const Block =styled.div`
         padding: 3%;
         height: 30px;
         font-size: 1.3em;
-        font-weight: bold;
         color:#776B5D;
     }
     h2{
         padding: 3%;
         height: 30px;
         font-size: 1.1em;
-        font-weight: bold;
         color:#776B5D;
     }
   .box1{
