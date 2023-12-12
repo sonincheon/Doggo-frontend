@@ -1,4 +1,4 @@
-import { SideBar } from "../../components/PublicStyle";
+import { SideBar } from "../PublicStyle";
 
 
 const Adminmain = () =>{

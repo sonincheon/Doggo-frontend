@@ -1,31 +1,71 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const SideBar = styled.div`
+
+
+export const SideBar = styled.div`
+    width: 15vw;
+    height: 100vh;
+    background-color: #2b2a2a;
+    color: #F3EEEA;
+    padding: 10px;
+
     position: absolute;
+    left:0;
+
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    left:0;
-    width: 15vw;
-    height: 100vh;
-    background-color: black;
-    color:white;
+   
+    /* p:nth-child(1) {
+        white-space: normal;
+    } */
+    
     .menus{
-        height: 10%;
+        color: #776B5D;
+        cursor: pointer;
+   
+    }
+    .menus:hover p{
+        color: #F3EEEA;
+        transition: all 0.3s;
+    }
+    hr {
+        border: 0.5px solid #776B5D;
+        width: 100%;
+        margin: 10%;
+    }
+    @media only screen and (max-width: 767px) {
+        width: 100vw;
+        height: 13vh;
+        margin-left: 0;
+        position: static;
+        flex-direction: row;
+        justify-content: space-around;
+        white-space: nowrap;
+        overflow: hidden;
+        hr {
+            display: none;
+        }
     }
 `;
 
 const Admin = () =>{
-    const navigate =useNavigate();
+    const navigate = useNavigate();
     return(
         <>
         <SideBar>
-              <div className="menus" onClick={() => navigate("/admin")}>대쉬보드</div>
-              <div className="menus" onClick={() => navigate("/admin/user")}>회원 관리</div>
-              <div className="menus" onClick={() => navigate("/admin/sales")}>판매 관리</div>
-              <div className="menus" onClick={() => navigate("/admin/qna")}>1:1 문의 관리</div>
+              <p>admin@mungnang.com </p>
+              <hr />
+              <div className="menus" onClick={() => navigate("/admin")}><p>대쉬보드</p></div>
+              <hr />
+              <div className="menus" onClick={() => navigate("/admin/user")}><p>회원 관리</p></div>
+              <hr />
+              <div className="menus" onClick={() => navigate("/admin/sales")}><p>판매 관리</p></div>
+              <hr />
+              <div className="menus" onClick={() => navigate("/admin/qna")}><p>1:1 문의 관리</p></div>
+              <hr />
         </SideBar>
         <Outlet/>
         </>

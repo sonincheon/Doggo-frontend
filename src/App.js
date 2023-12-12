@@ -23,6 +23,7 @@ import Adminmain from "./pages/adminPage/Adminmain";
 import Adminmember from "./pages/adminPage/Adminmember";
 import Adminsales from "./pages/adminPage/Adminsales";
 import Adminqna from "./pages/adminPage/Adminqna";
+import Qnadetail from "./components/admin/Qnadetail";
 import ServiceView from "./pages/servicePage/ServiceView";
 
 const GlobalStyle = createGlobalStyle`
@@ -66,6 +67,7 @@ function App() {
             <Route path="/admin/user" element={<Adminmember/>}/>
             <Route path="/admin/sales" element={<Adminqna/>}/>
             <Route path="/admin/qna" element={<Adminsales/>}/>
+            <Route path="/admin/qna/:id" element={<Qnadetail/>}/>
           </Route>
         </Routes>
       </Router>
