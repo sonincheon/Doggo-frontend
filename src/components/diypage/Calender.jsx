@@ -145,34 +145,38 @@ const MyCalender = () =>{
 
   const data =[
     {
-      date:"9",
+      date:"2023-07-11",
       title:"오늘은 이런일이있었다",
       percent:"100%"
     },
     {
-      date:"11",
+      date:"2023-07-19",
       title:"개같은일이있엇다 너무너무",
       percent:"11%"
     },
     {
-      date:"20",
+      date:"2023-07-12",
       title:"홀리쉣이였다 너무너무너무너무",
       percent:"12%"
     },
     {
-      date:"29",
+      date:"2023-07-16",
       title:"오마이갓 이엿다  너무너무너무너무",
       percent:"27%"
     },
     {
-      date:"4",
+      date:"2023-07-14",
       title:"css하기싫네 너무너무너무너무",
       percent:"18%"
     }
 ]
 
-  const tileContent = ({ date }) => {
-    const eventData = data.find(item => item.date === date.getDate().toString());
+  const tileContent = ({ date }) => {  
+    // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
+    const selectedDate = date.toISOString().split('T')[0].substring(0, 10);
+  
+    // data 배열에서 선택된 날짜와 일치하는 데이터 찾기
+    const eventData = data.find(item => item.date === selectedDate);
     return (
       <Story>
       <div className='story1'>
