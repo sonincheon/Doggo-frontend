@@ -70,7 +70,7 @@ const AxiosApi ={
     }
     return await axios.post(MUNG_HOST + '/diary/new',DiaryData);
   },
-
+  
 //수행 추가
   QuestReg: async(petId, petImg, petName,quest1,quest2,quest3,quest4,quest5,day)=>{
     const QuestData={
@@ -86,11 +86,6 @@ const AxiosApi ={
     }
     return await axios.post(MUNG_HOST + '/quest/new',QuestData); 
   },
-
-
-
-
-
 
 }
 

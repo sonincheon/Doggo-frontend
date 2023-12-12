@@ -171,7 +171,6 @@ const Eventbox =()=>{
     setModalOpen(true);
   }
 
-
   const settings = {
     slide: "div",
     autoplay: false, // 자동 스크롤 사용 여부

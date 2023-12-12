@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const ModalStyle = styled.div`
@@ -140,6 +140,11 @@ const Card=styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    background-color: ${(props) => (props.isClick ? "#bebebe" : "white")};
+    background-image: ${(props) => (props.isClick ? "url(https://blog.kakaocdn.net/dn/dYYkwf/btq8NvFwZTJ/uWyGq8YIShiQmO4PgjQehk/img.png)" : "")};
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: center;
     h1{
         height: 30%;
         font-size: 0.8em;
@@ -150,11 +155,10 @@ const Card=styled.div`
         line-height: 60px;
         font-size: 1.2em;
         font-weight: bold;
-        color: #3636f3;
+        color: ${(props) => (props.isClick ? "#5f5f5f" : "#3636f3")};
     }
     img{
         width: 20%;
-
     }
 `;
 
@@ -186,11 +190,30 @@ const DogCare=[
         title2:"빗질하기",
         img:"https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/careImg%2Fhairstyle.png?alt=media&token=c473b745-ed7b-49b7-b683-472884df1e2f"
     },
-
 ]
 
 const QuistModal = (props) => {
     const {open, confirm, close,petGender,petSign,petAge,petName,petImg} = props;
+    const [click1,setClick1]=useState(false);
+    const [click2,setClick2]=useState(false);
+    const [click3,setClick3]=useState(false);
+    const [click4,setClick4]=useState(false);
+    const [click5,setClick5]=useState(false);
+
+    const clickBtn =(index)=>{
+        if(index===1){setClick1((prev) => !prev);};
+        if(index===2){setClick2((prev) => !prev);};
+        if(index===3){setClick3((prev) => !prev);};
+        if(index===4){setClick4((prev) => !prev);};
+        if(index===5){setClick5((prev) => !prev);};
+    }
+    const click = (index)=>{
+        if(index===1){return click1;};
+        if(index===2){return click2;};
+        if(index===3){return click3;};
+        if(index===4){return click4;};
+        if(index===5){return click5;};
+    }
     // &times; 는 X표 문자를 의미
     return (
         <ModalStyle>
@@ -214,9 +237,9 @@ const QuistModal = (props) => {
                             </div>
                         </div>
                         <div className="qList">
-                        {DogCare.map(dog => (
-                        <Card>
-                            <div>
+                        {DogCare.map((dog,index) => (
+                        <Card isClick={click(index+1)} onClick={()=>clickBtn(index+1)} >
+                            <div  >
                             <h1>{dog.title1}</h1>
                             <h2>{dog.title2}</h2>
                             </div>
