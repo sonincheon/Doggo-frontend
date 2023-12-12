@@ -69,6 +69,7 @@ const InputBox = styled.div`
     font-weight: bold;
     justify-content: space-between;
     padding-left: 5px;
+    margin-bottom: 1rem;
 `;
 
 const Input = styled.div`
@@ -190,11 +191,10 @@ const Myprofile = () => {
         {
             img : "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
             Name : "손인천",
-            Nick : "신대방 송강",
             Email : "in1000s@naver.com",
             Address : "서울특별시 신림동 신사로 12길 32",
             Tel : "010-9118-4893", 
-            Password : "khb3187923"  
+            Password : "son12345"  
         }
     ]
 
@@ -211,17 +211,6 @@ const Myprofile = () => {
                     <div style={{textAlign:'center', fontSize:'25px', fontWeight:'bold', marginBottom:'1rem'}}>{member[0].Name}님</div>
                 <BoxContent2>
                     <InputBox>
-                        닉네임 :
-                        <div style={{display:'flex'}}>
-                            <Input>
-                                {member[0].Nick}
-                            </Input> 
-                                <Btn onClick={()=>openClick("닉네임 변경", "닉네임", member[0].Nick)}>
-                                    수정
-                                </Btn>
-                        </div>
-                    </InputBox>
-                    <InputBox style={{marginBottom : '1rem'}}>
                         이메일 :
                         <div style={{display:'flex'}}>
                             <Input>

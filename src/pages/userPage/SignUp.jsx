@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Modal from "../../utill/Modal";
-import SearchAddr from "../../components/member/SearchAddr";
+import AxiosApi from "../../api/Axios";
+import PopupDom from "../../components/member/PopupDom";
+import PopupPostCode from "../../components/member/PopupPostCode";
 
 
 
   const Container = styled.div`
     width:30vw;
-    height: 75vh;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
     background-color: #F3EEEA;
     border-radius: 10px;
+    justify-content: space-between;
 
   & .login {
     
@@ -35,9 +36,9 @@ import SearchAddr from "../../components/member/SearchAddr";
   `;
 const Hint = styled.div`
     width: 60%;
-    height: 2.5%;
+    height: 2%;
     text-align:right;
-    font-size: 11px;
+    font-size: 9px;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -187,16 +188,17 @@ const Logo = styled.img`
     height: 10vw;
 `;
 
+
 const RadioContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 60%;
-  align-items: center;
-  padding-left: 8px;
-  padding-right: 8px;
-  height: 8%;
+  width: 100%; /* 원하는 너비 설정 */
+  height: auto; /* 높이값 초기화 */
+  line-height: normal; /* line-height 초기화 */
+  padding: 0.7em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+  border-radius: 12px 0px 0px 12px;
   background-color: white;
-  border-radius: 12px;
+  border-radius: 12px; /* iSO 둥근모서리 제거 */
 `;
 
 const RadioContainer1 = styled.div`
@@ -228,26 +230,49 @@ const SignUp = () => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
+  const [inputTel, setInputTel] = useState("");
+  const [inputName, setInputName] = useState("");
+  const [inputBirth, setInputBirth] = useState("");
+  const [inputAddr, setInputAddr] = useState("");
+  const [inputGender, setInputGender] = useState("");
+  const [postNum, setPostNum] = useState("");
+  const [post, setPost] = useState("");
+  const [postDetail, setPostDetail] = useState("");
 
   // 오류 메시지
   const [idMessage, setIdMessage] = useState("");
   const [pwMessage, setPwMessage] = useState("");
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
+  const [mailMessage, setMailMessage] = useState("");
+  const [isMail, setIsMail] = useState(false);
 
   // 유효성 검사
   const [isId, setIsId] = useState("");
   const [isPw, setIsPw] = useState("");
   const [isPwConfirm, setIsPwConfirm] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
 
-  const [enroll_company, setEnroll_company] = useState({address:'',});
-  const [popup, setPopup] = useState(false);
+  const [sendEmail, setSendEmail] = useState("");
+  const [inputCert, setInputCert] = useState("");
+  const [able,setAble] =useState(true);
 
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModelText] = useState("중복된 아이디 입니다.");
+
+
   const closeModal = () => {
-  
     setModalOpen(false);
   };
+
+  const openPostCode = () => {
+    setIsPopupOpen(true)
+};
+
+// 팝업창 닫기
+const closePostCode = () => {
+    setIsPopupOpen(false)
+};
 
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeId = (e) => {
@@ -288,20 +313,136 @@ const SignUp = () => {
     }
   };
 
-  const handleInput = (e) => {
-    setEnroll_company({
-        // ... => enroll_company에 다 담겠다는 의미
-        ...enroll_company,
-        [e.target.name]:e.target.value,
-    })
-    console.log(e.target.name);
-}
+const SingupIdCheck = async (email) => {
+  try {
+    const resp = await AxiosApi.SingupIdCheck(email);
+    console.log("가입 가능 여부 확인 : ", resp.data);
+    if (resp.data === true) {
+      setModelText("사용 가능한 이메일 입니다.");
+      setModalOpen(true);
+      const response = await AxiosApi.EmailCert(email);
+      console.log(response.data);
+      setSendEmail(response.data);
 
-    // 버튼 클릭 시 팝업
-const handleComplete = (data) => {
-    setPopup(!popup);
-}
+    } else {
+      setModelText("중복된 이메일 입니다.");
+      setModalOpen(true);
+    }
+  } catch (error) {
+    console.log(error);
+    setModelText("오류가 발생했습니다.");
+    console.log(email);
+    setModalOpen(true);
+  }
 
+};
+
+
+const handleCertification = () => {
+  if (inputCert === sendEmail) {
+    // 인증번호가 일치할 때
+    setModelText("인증이 완료되었습니다.");
+    setAble(false);
+    setModalOpen(true);
+  } else {
+    // 인증번호가 일치하지 않을 때
+    setModelText("인증에 실패하였습니다.");
+    setModalOpen(true);
+  }
+};
+
+const onClickLogin = async () => {
+    const memberReg = await AxiosApi.Signup(inputId, inputPw, inputTel, inputName, inputAddr, inputBirth);
+    console.log(memberReg.data);
+    if (memberReg.data.email === inputId) {
+      navigate("/");
+    } else {
+      setModalOpen(true);
+      setModelText("회원 가입에 실패 했습니다.");
+    }
+  };
+
+  const onClickData = async () => {
+    if (!allCheck) {
+      setModalOpen(true);
+      setModelText("필수 약관을 동의해주세요.");
+      return;
+    }
+    console.log(inputId, inputPw, inputName, inputTel, inputBirth, post + postDetail + postNum, inputGender);
+    if (isId && isPw && isPwConfirm) {
+      try {
+        const isLogin= await AxiosApi.Signup(inputId, inputPw,inputTel, inputName, post + postDetail + postNum, inputBirth, inputGender);
+        setModalOpen(true);
+        console.log("회원가입 성공 ",isLogin);
+        navigate("/login");
+      } catch (e) {
+        console.log("회원가입 실패", e);
+      }
+    }
+  };
+
+  const onPostNum =(num)=>{
+    setPostNum(num);
+  };
+
+  const onPost =(post)=>{
+    setPost(post);
+  };
+
+  const handleGenderChange = (e) => {
+    setInputGender(e.target.value);
+  };
+
+  const [allCheck, setAllCheck] = useState(false);
+  const [ageCheck, setAgeCheck] = useState(false);
+  const [useCheck, setUseCheck] = useState(false);
+  const [marketingCheck, setMarketingCheck] = useState(false);
+
+  const allBtnEvent =()=>{
+    if(allCheck === false) {
+      setAllCheck(true);
+      setAgeCheck(true);
+      setUseCheck(true);
+      setMarketingCheck(true);
+    }else {
+      setAllCheck(false);
+      setAgeCheck(false);
+      setUseCheck(false);
+      setMarketingCheck(false);
+    } 
+  };
+  
+  const ageBtnEvent =()=>{
+    if(ageCheck === false) {
+      setAgeCheck(true)
+    }else {
+      setAgeCheck(false)
+    }
+  };
+  
+  const useBtnEvent =()=>{
+    if(useCheck === false) {
+      setUseCheck(true)
+    }else {
+      setUseCheck(false)
+    }
+  };
+  
+  const marketingBtnEvent =()=>{
+    if(marketingCheck === false) {
+      setMarketingCheck(true)
+    }else {
+      setMarketingCheck(false)
+    }
+  };
+
+  useEffect(()=>{
+    if(ageCheck===true && useCheck===true && marketingCheck===true){
+      setAllCheck(true)
+    } else {
+      setAllCheck(false)
+    }
+  }, [ageCheck,useCheck, marketingCheck])
 
   
   return (
@@ -314,7 +455,7 @@ const handleComplete = (data) => {
         </Items>
         <Items className="item2" style={{display:'flex'}}>
           <Input2 placeholder="아이디(이메일)" value={inputId} onChange={onChangeId} />
-          <Button2>중복체크</Button2>
+          <Button2 onClick={()=>SingupIdCheck(inputId)}>중복체크</Button2>
         </Items>
         <Hint>
           {inputId.length > 0 && (
@@ -322,68 +463,109 @@ const handleComplete = (data) => {
           )}
         </Hint>
 
-        <Items className="item2" style={{display:'flex', marginBottom:'15px'}}>
-          <Input2 placeholder="인증번호를 입력해주세요"/>
-          <Button2>인증</Button2>
+        <Items className="item2" style={{display:'flex'}}>
+          <Input2 placeholder="인증번호를 입력해주세요" value={inputCert} onChange={(e) => setInputCert(e.target.value)}/>
+          <Button2 onClick={handleCertification}>인증</Button2>
         </Items>
-
+        <div style={{height:'2%'}}></div>
         <Items className="item2">
-          <Input type="password" placeholder="패스워드" value={inputPw} onChange={onChangePw} />
+          <Input type="password" disabled={able} placeholder="패스워드" value={inputPw} onChange={onChangePw} />
         </Items>
         <Hint>
           {inputPw.length > 0 && (
             <span className={`${isPw ? "success" : "error"}`}>{pwMessage}</span>
           )}
         </Hint>
-
         <Items className="item2">
-            <Input type="password" placeholder="패스워드 확인" value={pwConfirm} onChange={onChangePwConfirm} />
-          </Items>
+            <Input type="password" disabled={able} placeholder="패스워드 확인" value={pwConfirm} onChange={onChangePwConfirm} />
+          </Items>  
           <Hint>
             {pwConfirm.length > 0 && (
               <span className={`${isPwConfirm ? "success" : "error"}`}>{pwConfirmMessage}</span>
             )}
           </Hint>
 
-        <Items className="item2" style={{marginBottom:'15px'}}>
-          <Input type="input" placeholder="이름"/>
+        <Items className="item2">
+          <Input type="input" disabled={able} placeholder="이름" value={inputName} onChange={(e) => setInputName(e.target.value)}/>
         </Items>
+        <div style={{height:'2%'}}></div>
 
-        <Items className="item2" style={{marginBottom:'20px'}}>
-          <Input type="input" placeholder="전화번호"/>
+        <Items className="item2">
+          <Input type="input" disabled={able} placeholder="전화번호" value={inputTel} onChange={(e) => setInputTel(e.target.value)}/>
         </Items>
+        <div style={{height:'2%'}}></div>
 
-        <RadioContainer className="item2" style={{marginBottom:'20px'}}>
-            <div>성별 : </div>
-            <Radio>
-              <input type="radio"/>
-              <Label>남자</Label>
-            </Radio>
-            
-            <Radio>
-              <input type="radio"/>
-              <Label>여자</Label>
-            </Radio>
-        </RadioContainer>
-
-        <RadioContainer1 className="item2" style={{marginBottom:'10px'}}>
-            <Radio>
-              <input type="checkbox"/>
-              <Label></Label>
-            </Radio>
-            <div style={{display:'flex'}}><div style={{marginRight:'8px', color:'#776B5D'}}>(필수)</div> 이용약관 동의</div>
-        </RadioContainer1>
-
-        <Items className="address_search"> 
-        <Input2 className="user_enroll_text" type="text" required={true} name="address" onChange={handleInput} value={enroll_company.address}/>
-        <Button2 onClick={handleComplete}>주소찾기</Button2>
-        {popup && <SearchAddr company={enroll_company} setcompany={setEnroll_company}></SearchAddr>}
+        <Items className="item2">
+            <Input type="input" disabled={able} placeholder="생년월일 (예 : 2000-02-02)" value={inputBirth} onChange={(e) => setInputBirth(e.target.value)} />
         </Items>
+        <div style={{height:'2%'}}></div>
+        
+          <Items className="item2" style={{display:'flex', flexDirection:'column'}}>
+            <div style={{display:'flex', marginBottom:'8px'}}>
+              <Input2 type="input" placeholder="주소" disabled={able} value={post}/>
+              <Button2 type='button' onClick={openPostCode}>주소검색</Button2>
+            </div>
+            <div id='popupDom'>{isPopupOpen && (<PopupDom><PopupPostCode onPostNum={onPostNum} onPost={onPost} onClose={closePostCode} /></PopupDom>)}
+            </div>
+            <div style={{display:'flex'}}>
+              <Input type="input" placeholder="우편번호" disabled={able} value={postNum}/>
+              <Input type="input" placeholder="상세주소 입력" disabled={able} value={postDetail} onChange={(e) => setPostDetail(e.target.value)}/>
+            </div>
+          </Items>
 
+          <div style={{height:'2%'}}></div>
 
-          <Button1 style={{marginBottom:'20px'}}>회원가입</Button1>
+          <Items className="item2" style={{display:'flex'}}>
+          <RadioContainer>
+              <div>성별 : </div>
+              <Radio>
+              <input type="radio" name="gender" value="남" checked={inputGender === "남"} onChange={handleGenderChange} disabled={able}/>
+                <Label>남자</Label>
+              </Radio>
+              <Radio>
+              <input type="radio" name="gender" value="여" checked={inputGender === "여"} onChange={handleGenderChange} disabled={able}/>
+                <Label>여자</Label>
+              </Radio>
+          </RadioContainer>
+          </Items>
+          <div style={{height:'2%'}}></div>
+          <Items className="item2" style={{display:'flex'}}>
+            <RadioContainer className="item2" style={{marginBottom:'10px'}}>
+                <Radio>
+                <form method="post" action="" >
+                  <div>
+                    <label>
+                      약관동의
+                    </label>
+                    <div >
+                      <div >
+                        <input type="checkbox" id="all-check" checked={allCheck} onChange={allBtnEvent}/>
+                        <label for="all-check">전체동의</label>
+                      </div>
+                      <div >
+                        <input type="checkbox" id="check1" checked={ageCheck} onChange={ageBtnEvent}/>
+                        <label for="check1">만 14세 이상입니다 <span>(필수)</span></label>
+                      </div>
+                      <div >
+                        <input type="checkbox" id="check2" checked={useCheck}  onChange={useBtnEvent}/>
+                        <label for="check2">이용약관 <span >(필수)</span></label>
+                      </div>
+                      <div >
+                        <input type="checkbox" id="check3" checked={marketingCheck}  onChange={marketingBtnEvent}/>
+                        <label for="check3">마케팅 동의 <span >(선택)</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                </Radio>
+            </RadioContainer>
+          </Items>
+          <Button1 onClick={onClickData} style={{marginBottom:'20px'}}>회원가입</Button1>
         </Container>
     </Box>
+    <Modal open={modalOpen} close={closeModal} header="오류">
+          {modalText}
+        </Modal>
   </CenteredContainer>
 
   );

@@ -4,33 +4,36 @@ const MUNG_HOST = "http://localhost:8111";
 
 const AxiosApi ={
     //로그인
-    Login: async (id, pw) => {
+    Login: async (email, pw) => {
         const login = {
-          id: id,
-          pwd: pw,
+          memberEmail: email,
+          memberPassword: pw
         };
         return await axios.post(MUNG_HOST + "/auth/login", login);
       },
       //회원가입 
         // 회원가입시 아이디 체크
-  SingupIdCheck: async (id) => {
-    return await axios.get(MUNG_HOST + `/auth/exists/?id=${id}`);
+  SingupIdCheck: async (email) => {
+    return await axios.get(MUNG_HOST + `/auth/exists/${email}`);
   },
 
-  // 회원가입 inselrt
-  Signup: async (id,nick,pwd,name,addr,phone,email) => {
+  // 회원가입 insert
+  Signup: async (email, pw, tel, name, addr, birth, gender) => {
     const userInfo = {
-      id: id,
-      nick:nick,
-      pwd: pwd,
-      name: name,
-      addr:addr,
-      phone:phone,
-      email: email,
+      memberEmail: email,
+      memberPassword:pw,
+      memberTel: tel,
+      memberName: name,
+      memberAddress: addr,
+      memberBirth: birth,
+      memberGender: gender
     };
     return await axios.post(MUNG_HOST + `/auth/signup`,userInfo);
   },
 
+  EmailCert: async (email) => {
+    return await axios.post(MUNG_HOST + `/auth/emailConfirm?email=${email}`);
+  }
 }
 
 export default AxiosApi;
