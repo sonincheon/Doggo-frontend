@@ -38,7 +38,7 @@ const Text = styled.p`
   color: #333;
   text-align: center;
   margin: 0; /* 기본 마진 제거 */
-  font-size: 3.5em;
+  font-size: 3.5vw;
 `;
 
 const Introduction = (props) => {

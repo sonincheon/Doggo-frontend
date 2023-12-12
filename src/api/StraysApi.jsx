@@ -11,7 +11,7 @@ export const fetchStrays = async () => {
     if (!response.ok) {
       throw new Error('Network fail');
     }
-    return await response.json();
+    return await response.data;
   } catch (error) {
     console.error('fetching strays data fail:', error);
     throw error;
