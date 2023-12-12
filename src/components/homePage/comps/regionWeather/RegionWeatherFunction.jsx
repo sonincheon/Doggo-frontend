@@ -50,9 +50,34 @@ export const citiesData = [
   { name: "제주", gridRow: 28, gridColumn: 7 },
 ];
 
+export const getCurrentDate = () => {
+  const today = new Date();
+  const year = String(today.getFullYear());
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return parseInt(`${year}${month}${day}`);
+};
+
+
+export const getWeekDays = () => {
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    const formattedDate = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+    dates.push(formattedDate);
+  }
+  return dates;
+};
+
 export const CityComponent = ({ city, weather, isMorning }) => {
   const gridRow = city.gridRow;
   const gridColumn = city.gridColumn;
+
+  if (!weather) {
+    return <div>Loading...</div>; // 또는 다른 오류 처리
+  }
+
 
   const temperature = isMorning ? 
   weather.morningTemperature : weather.afternoonTemperature; // 아침

@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/CurrentLocationWeather";
-import RegionWeather from "./comps/RegionWeather";
+import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 
 const fadeIn = `

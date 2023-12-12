@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import mapOfKorea from "../../../img/mapOfKorea.png";
-import { citiesData, CityComponent } from "./WeatherMapper";
-import { WeatherAxiosApi } from "../../../api/WeatherApi";
+import mapOfKorea from "../../../../img/mapOfKorea.png";
+import {
+  citiesData,
+  CityComponent,
+  getCurrentDate,
+  getWeekDays,
+} from "./RegionWeatherFunction";
+import { WeatherAxiosApi } from "../../../../api/WeatherApi";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",
@@ -45,7 +50,7 @@ const BannerTitle = styled.div`
   /* z-index: ; */
 `;
 
-const WeatherBar = styled.div`
+const DayOfWeekBar = styled.div`
   display: flex;
   align-items: center;
   height: 65%;
@@ -97,7 +102,6 @@ const Button = styled.button`
   display: inline-block;
   font-size: 1vw;
   cursor: pointer;
-  
 
   z-index: 10; // 다른 요소들 위에 오도록 z-index 설정
 
@@ -114,27 +118,25 @@ const AfternoonButton = styled(Button)`
   border-radius: 0 5px 5px 0; // 오후 버튼은 왼쪽 모서리만 둥글게
 `;
 
+const DayButton = styled.button`
+  // 스타일링 추가
+  flex-grow: 1;
+  width: 10%;
+  height: 10%;
+  border: 1px solid black;
+`;
+
 const RegionWeather = () => {
-   // 오늘 날짜를 구하는 함수
-   const getCurrentDate = () => {
-    const today = new Date();
-    const year = String(today.getFullYear());
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return parseInt(`${year}${month}${day}`);
-  };
- 
+  // 오늘 날짜를 구하는 함수
+
   const today = getCurrentDate();
- 
- 
+  const weekDates = getWeekDays();
+  const [selectedDate, setSelectedDate] = useState(today);
   // 날씨 정보 api 데이터를 받아오기 위한 useState
   const [weatherData, setWeatherData] = useState({});
   // 오전 오후 토글 기능을 위한 useState
   const [morningAfternoon, setMorningAfternoon] = useState(true);
-  // 날씨정보는 일단 .. 오늘을 디폴트로 보여주고  state값이 변경됨에 따라 다른 요일도 렌더링
-  // const [selectedDate, setSelectedDate] = useState(today);
 
- 
   // 날씨데이터를 setWeatherData에 전달하기 위한 useEffect 후욱후욱
   useEffect(() => {
     const loadWeatherData = async () => {
@@ -150,8 +152,6 @@ const RegionWeather = () => {
     loadWeatherData();
   }, []);
 
-  
-
   // api로 데이터를 불러오지않았는데 , 렌더링되어서 에러가 뜨는 것을 방지하는 함수
   const isDataLoaded = Object.keys(weatherData).length > 0;
 
@@ -164,18 +164,28 @@ const RegionWeather = () => {
   const showAfternoonData = () => {
     setMorningAfternoon(false);
   };
-
-  // // 요일 버튼
-  // const handleDateSelection = (date) => {
-  //   setSelectedDate(date);
-  // };
+  // 요일 버튼
+  const handleDayButtonClick = (date) => {
+    console.log(date)
+    setSelectedDate(date);
+  };
 
   return (
     <ItemBox>
       <Items>
         <Banner>
           <BannerTitle>전국산책지수</BannerTitle>
-          <WeatherBar></WeatherBar>
+          <DayOfWeekBar>
+            {weekDates.map((date) => (
+              <DayButton
+                key={date}
+                onClick={() => handleDayButtonClick(date)}
+                isActive={selectedDate === date}>
+                {date}
+                버튼
+              </DayButton>
+            ))}
+          </DayOfWeekBar>
         </Banner>
         <ImageContainer>
           <MorningButton
@@ -194,15 +204,16 @@ const RegionWeather = () => {
           {isDataLoaded &&
             citiesData.map((city) => {
               const cityWeatherData = weatherData[city.name];
-              const todayWeather = cityWeatherData.find(
-                (weather) => weather.weatherDate === today
+              // 현재 선택된 날짜에 해당하는 날씨 데이터를 찾습니다.
+              const selectedWeather = cityWeatherData.find(
+                (weather) => weather.weatherDate === parseInt(selectedDate)
               );
-              console.log(todayWeather)
+
               return (
                 <CityComponent
                   key={city.name}
                   city={city}
-                  weather={todayWeather}
+                  weather={selectedWeather} // 선택된 날짜의 날씨 데이터 전달
                   isMorning={morningAfternoon} // 오전/오후 상태 전달
                 />
               );
