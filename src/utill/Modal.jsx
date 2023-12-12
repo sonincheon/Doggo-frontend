@@ -89,7 +89,7 @@ const ModalStyle = styled.div`
 `;
 
 const Modal = (props) => {
-    const {open, confirm, close, type, header, children} = props;
+    const {open, confirm, close, type, header, children,type1} = props;
     // &times; 는 X표 문자를 의미
     return (
         <ModalStyle>
@@ -105,7 +105,7 @@ const Modal = (props) => {
                         <main>{children}</main>
                         <footer>
                             {type && <button onClick={confirm}>확인</button>}
-                            <button onClick={close}>취소</button>
+                            {type1!== "0" ? <button onClick={close}>취소</button> : <></>}
                         </footer>
                     </section>
                 }

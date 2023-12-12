@@ -233,7 +233,6 @@ const SignUp = () => {
   const [inputTel, setInputTel] = useState("");
   const [inputName, setInputName] = useState("");
   const [inputBirth, setInputBirth] = useState("");
-  const [inputAddr, setInputAddr] = useState("");
   const [inputGender, setInputGender] = useState("");
   const [postNum, setPostNum] = useState("");
   const [post, setPost] = useState("");
@@ -243,22 +242,35 @@ const SignUp = () => {
   const [idMessage, setIdMessage] = useState("");
   const [pwMessage, setPwMessage] = useState("");
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
-  const [mailMessage, setMailMessage] = useState("");
-  const [isMail, setIsMail] = useState(false);
 
   // 유효성 검사
   const [isId, setIsId] = useState("");
   const [isPw, setIsPw] = useState("");
+  const [isName, setIsName] = useState("");
+  const [isTel, setIsTel] = useState("");
+  const [isBirth, setIsBirth] = useState("");
+  const [isPostNum, setIsPostNum] = useState("");
+  const [isPost, setIsPost] = useState("");
+  const [isGender, setIsGender] = useState("");
   const [isPwConfirm, setIsPwConfirm] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
+  // 이메일 인증
   const [sendEmail, setSendEmail] = useState("");
   const [inputCert, setInputCert] = useState("");
+
+  // 인증 후 활성화
   const [able,setAble] =useState(true);
 
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModelText] = useState("중복된 아이디 입니다.");
+
+  // 약관 동의
+  const [allCheck, setAllCheck] = useState(false);
+  const [ageCheck, setAgeCheck] = useState(false);
+  const [useCheck, setUseCheck] = useState(false);
+  const [marketingCheck, setMarketingCheck] = useState(false);
 
 
   const closeModal = () => {
@@ -313,17 +325,33 @@ const closePostCode = () => {
     }
   };
 
+  const onChangeName = (e) => {
+    const Name = e.target.value;
+    setInputName(Name);
+    setIsName(Name !== '' && Name !== undefined);
+  };
+
+  const onChangeTel = (e) => {
+    const Tel = e.target.value;
+    setInputTel(Tel);
+    setIsTel(Tel !== '' && Tel !== undefined);
+  };
+
+  const onChangeBirth = (e) => {
+    const Birth = e.target.value;
+    setInputBirth(Birth);
+    setIsBirth(Birth !== '' && Birth !== undefined);
+  };
+
 const SingupIdCheck = async (email) => {
   try {
     const resp = await AxiosApi.SingupIdCheck(email);
     console.log("가입 가능 여부 확인 : ", resp.data);
     if (resp.data === true) {
-      setModelText("사용 가능한 이메일 입니다.");
+      setModelText("사용 가능한 이메일 입니다. 이메일을 확인해주세요");
       setModalOpen(true);
       const response = await AxiosApi.EmailCert(email);
-      console.log(response.data);
       setSendEmail(response.data);
-
     } else {
       setModelText("중복된 이메일 입니다.");
       setModalOpen(true);
@@ -339,7 +367,7 @@ const SingupIdCheck = async (email) => {
 
 
 const handleCertification = () => {
-  if (inputCert === sendEmail) {
+  if (inputCert === sendEmail && inputCert !== "" ) {
     // 인증번호가 일치할 때
     setModelText("인증이 완료되었습니다.");
     setAble(false);
@@ -351,25 +379,13 @@ const handleCertification = () => {
   }
 };
 
-const onClickLogin = async () => {
-    const memberReg = await AxiosApi.Signup(inputId, inputPw, inputTel, inputName, inputAddr, inputBirth);
-    console.log(memberReg.data);
-    if (memberReg.data.email === inputId) {
-      navigate("/");
-    } else {
-      setModalOpen(true);
-      setModelText("회원 가입에 실패 했습니다.");
-    }
-  };
-
-  const onClickData = async () => {
+  const onClickSignUp = async () => {
     if (!allCheck) {
       setModalOpen(true);
       setModelText("필수 약관을 동의해주세요.");
       return;
     }
-    console.log(inputId, inputPw, inputName, inputTel, inputBirth, post + postDetail + postNum, inputGender);
-    if (isId && isPw && isPwConfirm) {
+    if (isId && isPw && isPwConfirm && isName && isTel && isBirth && isPost && isPostNum && isGender) {
       try {
         const isLogin= await AxiosApi.Signup(inputId, inputPw,inputTel, inputName, post + postDetail + postNum, inputBirth, inputGender);
         setModalOpen(true);
@@ -378,25 +394,26 @@ const onClickLogin = async () => {
       } catch (e) {
         console.log("회원가입 실패", e);
       }
-    }
+    } else {      
+      setModalOpen(true);
+      setModelText("필수정보를 모두 입력해주세요");}
   };
 
   const onPostNum =(num)=>{
     setPostNum(num);
+    setIsPostNum(num !== '' && num !== undefined);
+
   };
 
   const onPost =(post)=>{
     setPost(post);
+    setIsPost(post !== '' && post !== undefined);
   };
 
   const handleGenderChange = (e) => {
     setInputGender(e.target.value);
+    setIsGender(e.target.value !== '' && e.target.value !== undefined);
   };
-
-  const [allCheck, setAllCheck] = useState(false);
-  const [ageCheck, setAgeCheck] = useState(false);
-  const [useCheck, setUseCheck] = useState(false);
-  const [marketingCheck, setMarketingCheck] = useState(false);
 
   const allBtnEvent =()=>{
     if(allCheck === false) {
@@ -486,24 +503,24 @@ const onClickLogin = async () => {
           </Hint>
 
         <Items className="item2">
-          <Input type="input" disabled={able} placeholder="이름" value={inputName} onChange={(e) => setInputName(e.target.value)}/>
+          <Input type="input" disabled={able} placeholder="이름" value={inputName} onChange={onChangeName}/>
         </Items>
         <div style={{height:'2%'}}></div>
 
         <Items className="item2">
-          <Input type="input" disabled={able} placeholder="전화번호" value={inputTel} onChange={(e) => setInputTel(e.target.value)}/>
+          <Input type="input" disabled={able} placeholder="전화번호" value={inputTel} onChange={onChangeTel}/>
         </Items>
         <div style={{height:'2%'}}></div>
 
         <Items className="item2">
-            <Input type="input" disabled={able} placeholder="생년월일 (예 : 2000-02-02)" value={inputBirth} onChange={(e) => setInputBirth(e.target.value)} />
+            <Input type="input" disabled={able} placeholder="생년월일 (예 : 2000-02-02)" value={inputBirth} onChange={onChangeBirth} />
         </Items>
         <div style={{height:'2%'}}></div>
         
           <Items className="item2" style={{display:'flex', flexDirection:'column'}}>
             <div style={{display:'flex', marginBottom:'8px'}}>
               <Input2 type="input" placeholder="주소" disabled={able} value={post}/>
-              <Button2 type='button' onClick={openPostCode}>주소검색</Button2>
+              <Button2 type='button' onClick={openPostCode} disabled={able}>주소검색</Button2>
             </div>
             <div id='popupDom'>{isPopupOpen && (<PopupDom><PopupPostCode onPostNum={onPostNum} onPost={onPost} onClose={closePostCode} /></PopupDom>)}
             </div>
@@ -560,12 +577,12 @@ const onClickLogin = async () => {
                 </Radio>
             </RadioContainer>
           </Items>
-          <Button1 onClick={onClickData} style={{marginBottom:'20px'}}>회원가입</Button1>
+          <Button1 onClick={onClickSignUp} style={{marginBottom:'20px'}}>회원가입</Button1>
         </Container>
     </Box>
-    <Modal open={modalOpen} close={closeModal} header="오류">
+      <Modal type1="0" type="1" open={modalOpen} confirm={closeModal} header="메시지">
           {modalText}
-        </Modal>
+      </Modal>
   </CenteredContainer>
 
   );
