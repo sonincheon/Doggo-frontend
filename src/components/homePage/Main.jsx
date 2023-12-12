@@ -53,7 +53,7 @@ const Main = () => {
         </ItemContainer>
         <ItemContainer height="40%">
           <CurrentLocationWeather />
-          {/* <RegionWeather /> */}
+          <RegionWeather />
         </ItemContainer>
       </SectionContainer>
       {/* <SectionContainer>
