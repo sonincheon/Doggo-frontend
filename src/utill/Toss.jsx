@@ -6,7 +6,7 @@ const selector = "#payment-widget";
 const clientKey = "test_ck_26DlbXAaV06nMWvP60zd8qY50Q9R";
 const customerKey = "test_sk_PBal2vxj81vQ6xeZRBye35RQgOAN";
 
-const TossPage=()=> {
+const TossPage = () => {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
   const [price, setPrice] = useState(5010);
@@ -61,10 +61,10 @@ const TossPage=()=> {
               customerName: "김토스",
               customerEmail: "customer123@gmail.com",
               successUrl: `${window.location.origin}/quick/sucess`,
-              failUrl: `${window.location.origin}/quick/sucess`
+              failUrl: `${window.location.origin}/quick/sucess`,
             });
           } catch (error) {
-           console.log(error);
+            console.log(error);
           }
         }}
       >
@@ -72,6 +72,6 @@ const TossPage=()=> {
       </button>
     </div>
   );
-}
+};
 // default 로 이미 사용이 한번되서 에러
-export {TossPage};
+export { TossPage };

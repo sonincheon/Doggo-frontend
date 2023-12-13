@@ -2,117 +2,116 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { storage } from "./FireBase";
 
-
 const ModalStyle = styled.div`
-    .modal {
-        display: none;  // 숨겨진 상태로 시작
-        position: fixed; // 스크롤해도 동일한 위치
-        top: 0;  // 화면 전체를 덮도록 위치
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 99; // 다른 모달 보다 위에 위치하도록 함
-        background-color: rgba(0, 0, 0, 0.6); // 배경색을 검정으로 하고 투명도 조절
-    }
-    .openModal {
-        display: flex; // 모달이 보이도록 함
-        align-items: center;
-        /* 팝업이 열릴때 스르륵 열리는 효과 */
-        animation: modal-bg-show 0.8s;
-    }
-    button {
-        outline: none;
-        cursor: pointer;
-        margin-right: 10px;
-        border: 0;
-    }
-    section {
-        width: 90%;
-        max-width: 700px;
-        margin: 0 auto;
-        border-radius: 0.3rem;
-        background-color: #fff;
-        /* 팝업이 열릴때 스르륵 열리는 효과 */
-        animation: modal-show 0.3s;
-        overflow: hidden;
-    }
-    section > header {
-        position: relative;
-        padding: 16px 64px 16px 16px;
-        background-color: #776B5D;
-        color: white;
-        font-weight: 700;
-    }
+  .modal {
+    display: none; // 숨겨진 상태로 시작
+    position: fixed; // 스크롤해도 동일한 위치
+    top: 0; // 화면 전체를 덮도록 위치
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99; // 다른 모달 보다 위에 위치하도록 함
+    background-color: rgba(0, 0, 0, 0.6); // 배경색을 검정으로 하고 투명도 조절
+  }
+  .openModal {
+    display: flex; // 모달이 보이도록 함
+    align-items: center;
+    /* 팝업이 열릴때 스르륵 열리는 효과 */
+    animation: modal-bg-show 0.8s;
+  }
+  button {
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 0;
+  }
+  section {
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    /* 팝업이 열릴때 스르륵 열리는 효과 */
+    animation: modal-show 0.3s;
+    overflow: hidden;
+  }
+  section > header {
+    position: relative;
+    padding: 16px 64px 16px 16px;
+    background-color: #776b5d;
+    color: white;
+    font-weight: 700;
+  }
 
-    section > header button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 30px;
-        font-size: 21px;
-        font-weight: 700;
-        text-align: center;
-        color: white;
-        background-color: transparent;
+  section > header button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    background-color: transparent;
+  }
+  section > main {
+    padding: 16px;
+    height: 400px;
+    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+  }
+  section > footer {
+    padding: 12px 16px;
+    text-align: right;
+  }
+  section > footer button {
+    padding: 6px 12px;
+    color: #fff;
+    background-color: #45474b;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
     }
-    section > main {
-        padding: 16px;
-        height: 400px;
-        border-bottom: 1px solid #dee2e6;
-        border-top: 1px solid #dee2e6;
+    to {
+      opacity: 1;
+      margin-top: 0;
     }
-    section > footer {
-        padding: 12px 16px;
-        text-align: right;
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
     }
-    section > footer button {
-        padding: 6px 12px;
-        color: #fff;
-        background-color: #45474B;
-        border-radius: 5px;
-        font-size: 13px;
+    to {
+      opacity: 1;
     }
-    @keyframes modal-show {
-        from {
-            opacity: 0;
-            margin-top: -50px;
-        }
-        to {
-            opacity: 1;
-            margin-top: 0;
-        }
-    }
-    @keyframes modal-bg-show {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+  }
 `;
 
 const Change1 = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 const Exist1 = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    margin-right: 4rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  margin-right: 4rem;
 `;
 
 const Exist2 = styled.img`
-    width: 220px;
-    height: 220px;
-    text-justify: center;
-    border-radius: 100%;
-    margin-bottom: 10px;
+  width: 220px;
+  height: 220px;
+  text-justify: center;
+  border-radius: 100%;
+  margin-bottom: 10px;
 `;
 
 const FileUploadContainer = styled.div`
@@ -134,17 +133,17 @@ const StyledInput = styled.input`
 `;
 
 const UploadButton = styled.button`
-    width: 90px;
-    height: 22px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
-    background-color: #776B5D;
-    box-sizing: border-box;
-    vertical-align: bottom;
-    margin-left: 5px;
-    margin-top: 10px;
+  width: 90px;
+  height: 22px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  background-color: #776b5d;
+  box-sizing: border-box;
+  vertical-align: bottom;
+  margin-left: 5px;
+  margin-top: 10px;
 
   &:hover {
     background-color: #b33f3f;
@@ -152,88 +151,101 @@ const UploadButton = styled.button`
 `;
 
 const ImgBox = styled.div`
-    width: 220px;
-    height: 220px;
-    border-radius: 100%;
-    background-color: #FFEED9;
-    margin-bottom: 10px;
-`
+  width: 220px;
+  height: 220px;
+  border-radius: 100%;
+  background-color: #ffeed9;
+  margin-bottom: 10px;
+`;
 
 const Imgmodal = (props) => {
-    const {open, confirm, close, type, image} = props;
-    const [url, setUrl] = useState("");
-    const [file, setFile] = useState(null);
+  const { open, confirm, close, type, image } = props;
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState(null);
 
-    const handleFileInputChange = (e) => {
-        setFile(e.target.files[0]);
-      };
+  const handleFileInputChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
+  const handleUploadClick = async () => {
+    try {
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(file.name);
 
-    const handleUploadClick = async () => {
-        try {
-          const storageRef = storage.ref();
-          const fileRef = storageRef.child(file.name);
-    
-          // 파일을 업로드하고 기다립니다.
-          await fileRef.put(file);
-          console.log("File uploaded successfully!");
-    
-          // 다운로드 URL을 가져오고 기다립니다.
-          const url = await fileRef.getDownloadURL();
-          console.log("저장경로 확인 : " + url);
-    
-          // 상태를 업데이트합니다.
-          setUrl(url);
-        } catch (error) {
-          // 에러를 처리합니다.
-          console.error("Upload failed", error);
-        }
-      };
+      // 파일을 업로드하고 기다립니다.
+      await fileRef.put(file);
+      console.log("File uploaded successfully!");
 
-      const Close = () => {
-        setUrl("");
-        setFile("");
-        close();
-      };
-    
-    // &times; 는 X표 문자를 의미
-    return (
-        <ModalStyle>
-            <div className={open ? "openModal modal" : "modal"}>
-                {open && 
-                    <section>
-                        <header>
-                            프로필 이미지 변경
-                        </header>
-                            <main style={{display:'flex', justifyContent: 'center', flexDirection:'row'}}>
-                                <div style={{display:'flex', flexDirection:"column", height:'390px'}}> 
-                                <div style={{display:'flex', flexDirection:"row"}}>
-                                <Exist1>
-                                    <Exist2 src={image}></Exist2>
-                                    <div style={{textAlign:'center', fontSize:'18px'}}>현재 프로필</div>
-                                </Exist1>
-                                <Change1>
-                                    <ImgBox>
-                                        {url && <Exist2 src={url} />}
-                                    </ImgBox>
-                                    <div style={{textAlign:'center', fontSize:'18px'}}>수정 프로필</div>
-                                </Change1>
-                                </div>
-                                <FileUploadContainer>
-                                    <StyledInput type="file" onChange={handleFileInputChange} />
-                                    <UploadButton onClick={handleUploadClick}>사진 업로드</UploadButton>
-                                </FileUploadContainer> 
-                                </div>                                                                                                                      
-                            </main>
-                        <footer>
-                            {type && <button onClick={confirm}>수정</button>}
-                            <button onClick={Close}>취소</button>
-                        </footer>
-                    </section>
-                }
-            </div>
-        </ModalStyle>
-    );
+      // 다운로드 URL을 가져오고 기다립니다.
+      const url = await fileRef.getDownloadURL();
+      console.log("저장경로 확인 : " + url);
+
+      // 상태를 업데이트합니다.
+      setUrl(url);
+    } catch (error) {
+      // 에러를 처리합니다.
+      console.error("Upload failed", error);
+    }
+  };
+
+  const Close = () => {
+    setUrl("");
+    setFile("");
+    close();
+  };
+
+  // &times; 는 X표 문자를 의미
+  return (
+    <ModalStyle>
+      <div className={open ? "openModal modal" : "modal"}>
+        {open && (
+          <section>
+            <header>프로필 이미지 변경</header>
+            <main
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "390px",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <Exist1>
+                    <Exist2 src={image}></Exist2>
+                    <div style={{ textAlign: "center", fontSize: "18px" }}>
+                      현재 프로필
+                    </div>
+                  </Exist1>
+                  <Change1>
+                    <ImgBox>{url && <Exist2 src={url} />}</ImgBox>
+                    <div style={{ textAlign: "center", fontSize: "18px" }}>
+                      수정 프로필
+                    </div>
+                  </Change1>
+                </div>
+                <FileUploadContainer>
+                  <StyledInput type="file" onChange={handleFileInputChange} />
+                  <UploadButton onClick={handleUploadClick}>
+                    사진 업로드
+                  </UploadButton>
+                </FileUploadContainer>
+              </div>
+            </main>
+            <footer>
+              {type && <button onClick={confirm}>수정</button>}
+              <button onClick={Close}>취소</button>
+            </footer>
+          </section>
+        )}
+      </div>
+    </ModalStyle>
+  );
 };
 
 export default Imgmodal;
