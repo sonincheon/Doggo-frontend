@@ -1,36 +1,4 @@
-// 대한민국 지도 간소화 버전에
-// const handleImageClick = (e) => {
-//     const imageBounds = e.target.getBoundingClientRect();
-//     const x = e.clientX - imageBounds.left; // X 좌표 계산
-//     const y = e.clientY - imageBounds.top;  // Y 좌표 계산
 
-//     console.log(`X: ${x}, Y: ${y}`); // 콘솔에 좌표 출력
-//   };
-// 를 사용해서 얻은 x y 좌표값, 건드리면 으르렁 , 절대 좌표라 폐기
-
-// function getXY(event, imageElement) {
-//   const imageBounds = imageElement.getBoundingClientRect();
-
-//   // 이미지 내에서의 상대적인 좌표
-//   const xRelative = event.clientX - imageBounds.left;
-//   const yRelative = event.clientY - imageBounds.top;
-
-//   return { x: xRelative, y: yRelative };
-// }
-
-// // 사용 예시
-// const handleImageClick = (event) => {
-//   const image = event.target;
-//   const { x, y } = getXY(event, image);
-
-//   console.log(`이미지 내의 상대적인 X 좌표: ${x}, Y 좌표: ${y}`);
-// };
-
-//// 위의 방식은 위험해서 폐기 <^오^>
-
-// 그리드 방식으로 가자 ..
-
-// 아래 선언단 건들면 으르렁
 
 export const citiesData = [
   { name: "서울", gridRow: 6, gridColumn: 8 },
@@ -55,7 +23,7 @@ export const getCurrentDate = () => {
   const year = String(today.getFullYear());
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
-  return parseInt(`${year}${month}${day}`);
+  return year + month + day;
 };
 
 
@@ -69,6 +37,27 @@ export const getWeekDays = () => {
   }
   return dates;
 };
+
+export const formatDateWithDay = (dateString) => {
+  const year = parseInt(dateString.substring(0, 4), 10);
+  const month = parseInt(dateString.substring(4, 6), 10);
+  const day = parseInt(dateString.substring(6, 8), 10);
+  
+  const date = new Date(year, month - 1, day);
+  const today = new Date();
+  
+  const dayOfWeekKorean = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayOfWeek = dayOfWeekKorean[date.getDay()];
+  
+  if (date.toDateString() === today.toDateString()) {
+    return (<><div>{dayOfWeek}</div> 
+              <div>오늘</div></>);
+  } else {
+    return (<><div>{dayOfWeek}</div> 
+              <div>{month}.{day}</div></>);
+  }
+};
+
 
 export const CityComponent = ({ city, weather, isMorning }) => {
   const gridRow = city.gridRow;

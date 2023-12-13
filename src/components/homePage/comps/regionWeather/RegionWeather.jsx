@@ -6,6 +6,7 @@ import {
   CityComponent,
   getCurrentDate,
   getWeekDays,
+  formatDateWithDay,
 } from "./RegionWeatherFunction";
 import { WeatherAxiosApi } from "../../../../api/WeatherApi";
 
@@ -45,7 +46,7 @@ const BannerTitle = styled.div`
   font-size: 2vw;
   color: #000;
   background-color: white;
-  border: 1px solid black;
+
   border-radius: 10px 10px 0 0;
   /* z-index: ; */
 `;
@@ -54,7 +55,7 @@ const DayOfWeekBar = styled.div`
   display: flex;
   align-items: center;
   height: 65%;
-  border: 1px solid black;
+  overflow: hidden;
 `;
 
 // 건들면 으르렁
@@ -80,8 +81,16 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
+const ButtonContainer = styled.div`
   position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 3%;
+  left: 3%;
+  z-index: 99; /* 예시로 낮은 값 */
+`;
+
+const Button = styled.button`
   top: 2%; // 상단으로부터 적절한 거리를 주어 위치시킵니다.
   background-color: ${(props) =>
     props.isActive
@@ -104,26 +113,49 @@ const Button = styled.button`
   cursor: pointer;
 
   z-index: 10; // 다른 요소들 위에 오도록 z-index 설정
-
-  &:hover {
-    opacity: 0.8; // 마우스 오버시 투명도 변경
-  }
 `;
 
 const MorningButton = styled(Button)`
   border-radius: 5px 0 0 5px; // 오전 버튼은 오른쪽 모서리만 둥글게
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
 `;
 
 const AfternoonButton = styled(Button)`
   border-radius: 0 5px 5px 0; // 오후 버튼은 왼쪽 모서리만 둥글게
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
 `;
 
 const DayButton = styled.button`
-  // 스타일링 추가
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   flex-grow: 1;
-  width: 10%;
-  height: 10%;
-  border: 1px solid black;
+
+  height: 100%; // 버튼의 높이를 조정합니다.
+  background-color: white;
+  font-size: 1vw; // 기본 글자 크기
+  border: none;
+  color: #808080; // 기본 글자색은 회색
+  white-space: nowrap;
+  cursor: pointer;
+
+  &.isActive {
+    color: #29a0fe; // 활성화 상태에서의 글자색
+  }
+
+  .dayOfWeek {
+    font-size: 1vw; // 요일 글자 크기
+  }
+
+  .date {
+    font-size: 0.8vw; // 날짜 글자 크기
+    color: #4a90e2; // 활성화 되었을 때의 날짜 글자색
+  }
 `;
 
 const RegionWeather = () => {
@@ -166,7 +198,7 @@ const RegionWeather = () => {
   };
   // 요일 버튼
   const handleDayButtonClick = (date) => {
-    console.log(date)
+    console.log(date);
     setSelectedDate(date);
   };
 
@@ -175,31 +207,31 @@ const RegionWeather = () => {
       <Items>
         <Banner>
           <BannerTitle>전국산책지수</BannerTitle>
+
           <DayOfWeekBar>
             {weekDates.map((date) => (
               <DayButton
                 key={date}
                 onClick={() => handleDayButtonClick(date)}
-                isActive={selectedDate === date}>
-                {date}
-                버튼
+                className={selectedDate === date ? "isActive" : ""}>
+                {formatDateWithDay(date)}
               </DayButton>
             ))}
           </DayOfWeekBar>
         </Banner>
         <ImageContainer>
-          <MorningButton
-            onClick={showMorningData}
-            isActive={morningAfternoon}
-            style={{ left: "2%" }}>
-            오전
-          </MorningButton>
-          <AfternoonButton
-            onClick={showAfternoonData}
-            isActive={!morningAfternoon}
-            style={{ left: "17%" }}>
-            오후
-          </AfternoonButton>
+          <ButtonContainer>
+            <MorningButton
+              onClick={showMorningData}
+              isActive={morningAfternoon}>
+              오전
+            </MorningButton>
+            <AfternoonButton
+              onClick={showAfternoonData}
+              isActive={!morningAfternoon}>
+              오후
+            </AfternoonButton>
+          </ButtonContainer>
           <img src={mapOfKorea} alt="Korea Map" />
           {isDataLoaded &&
             citiesData.map((city) => {
