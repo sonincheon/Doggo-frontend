@@ -19,6 +19,12 @@ import { TossPage } from "./utill/Toss";
 import MyPage from "./pages/userPage/MyPage";
 import HomePage from "./pages/HomePage";
 import Admin from "./pages/Admin";
+import Adminmainpage from "./pages/adminPage/Adminmainpage";
+import Adminmemberpage from "./pages/adminPage/Adminmemberpage";
+import Adminsalespage from "./pages/adminPage/Adminsalespage";
+import Adminqnapage from "./pages/adminPage/Adminqnapage";
+import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
+
 
 
 const GlobalStyle = createGlobalStyle`
@@ -58,7 +64,11 @@ function App() {
             </Route>
           {/* 여긴 어드민 구간  */}
           <Route element={<Admin />}>
-
+            <Route path="/admin" element={<Adminmainpage/>} />
+            <Route path="/admin/member" element={<Adminmemberpage/>} />
+            <Route path="/admin/qna" element={<Adminqnapage/>} />
+            <Route path="/admin/sales" element={<Adminsalespage/>} />
+            <Route path="/admin/qna/detail" element={<Qnadetailpage/>} />
           </Route>
         </Routes>
       </Router>

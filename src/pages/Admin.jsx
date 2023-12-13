@@ -59,7 +59,7 @@ const Admin = () => {
           <p>대쉬보드</p>
         </div>
         <hr />
-        <div className="menus" onClick={() => navigate("/admin/user")}>
+        <div className="menus" onClick={() => navigate("/admin/member")}>
           <p>회원 관리</p>
         </div>
         <hr />

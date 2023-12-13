@@ -9,5 +9,9 @@ export const Center = styled.div`
 `;
 
 export const SideBar =styled.div`
-        margin-left: 15vw;
+    margin-left: 15vw;
+    
+    @media only screen and (max-width: 767px) {
+    margin-left: 0;
+    }
 `;
