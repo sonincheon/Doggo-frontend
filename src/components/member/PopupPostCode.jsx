@@ -5,22 +5,23 @@ import styled from 'styled-components';
 
 const Post = styled.div`
     display: block;
-    position: absolute;
+    position: fixed;
     left: 35vw;
-    top: 22.5vh;
+    top: 20vh;
     width: 30%;
-    height: 60%;
-    padding: 1%;
+    border: 3px solid black;
+    border-radius: 0 0 15px 15px;
+    background-color: white;
 `;
 
 const Button1 = styled.button`
     width: 100%;
-    height: 8%;
     border-radius: 0px 0px 10px 10px;
     background-color: #776B5D;
     border: none;
     color: white;
     font-weight: bold;
+    border: 2px solid black;
 
 `;
 

@@ -64,16 +64,10 @@ const SellButton = styled.button`
 const Quicksucess1 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  // const today = new Date(),
-  // priceDate = today.getFullYear() + '년' + (today.getMonth() + 1) + '월' + today.getDate() + '일';
-  // const date11 =new Date(window.localStorage.getItem("date")),
-  // oderDate1 = date11.getFullYear() + '년' + (date11.getMonth() + 1) + '월' + date11.getDate() + '일';
-  // const date12 =new Date(date11.setDate(date11.getDate() + Number(window.localStorage.getItem("select")))),
-  // oderDate2 = date12.getFullYear() + '년' + (date12.getMonth() + 1) + '월' + date12.getDate() + '일';
 
-  // const person1 = window.localStorage.getItem("person");
-  // const title1 = window.localStorage.getItem("title");
-  // const price1 =window.localStorage.getItem("price").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const ChangePay = (price)=>{
+    return Intl.NumberFormat('en-US').format(price);
+  }
 
   return (
     <>
@@ -92,7 +86,7 @@ const Quicksucess1 = () => {
         </h1>
         <h1>
           <h2>결제하신 금액 </h2>
-          <h3>90,000원 </h3>
+          <h3>{ChangePay(searchParams.get("amount"))}원 </h3>
         </h1>
       </TitleBox1>
       <TitleBox1 style={{ borderBottom: "2px solid grey" }}>

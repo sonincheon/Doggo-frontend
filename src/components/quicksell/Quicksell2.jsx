@@ -4,7 +4,7 @@ const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 800px;
+  width: 100%;
   height: 100px;
   margin-top: 50px;
   border-bottom: 2px solid grey;
@@ -30,7 +30,7 @@ const SurveBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 800px;
+  width: 100%;
   height: 170px;
   padding: 20px 0;
   border-bottom: 1px solid grey;
@@ -157,7 +157,7 @@ const Quicksell2 = () => {
             onChange={allBtnEvent}
           />
           약관 전체 동의{" "}
-          <h3>약관 전문을 모두 확인 하셔야 예약이 완료됩니다.</h3>
+          <h3>약관 전문을 모두 확인 하셔야 구독이 완료됩니다.</h3>
         </h2>
       </TitleBox>
       <SurveBox>

@@ -1,13 +1,17 @@
 import styled, { css } from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Modal from "../../utill/Modal";
+import PopupDom from "../member/PopupDom";
+import PopupPostCode from "../member/PopupPostCode";
+import { TossPage } from "../../utill/Toss";
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 800px;
+
+  width: 100%;
   height: 50px;
   margin-top: 50px;
   border-bottom: 2px solid #776b5d;
@@ -28,7 +32,7 @@ const TitleBox = styled.div`
     padding-left: 20px;
   }
   .title1box1 {
-    width: 600px;
+    width: 100%;
     height: 90px;
     font-size: 10px;
     align-items: center;
@@ -42,7 +46,7 @@ const TitleBox = styled.div`
 `;
 
 const SellTable = styled.table`
-  width: 800px;
+  width: 100%;
   border: 1px solid #776b5d;
 
   tr {
@@ -71,44 +75,85 @@ const SellTable = styled.table`
     padding-left: 2%;
     height: 50px;
     border: 1px solid #776b5d;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
+  }
+  .selected {
+    height: 80%;
+    width: 40%;
   }
 `;
 
-const SellButton = styled.button`
-  margin: 20px;
-  width: 150px;
-  height: 40px;
-  background-color: #776b5d;
+const Button2 = styled.button`
   color: white;
-  border: none;
+  width: 30%;
+  height: 90%;
   border-radius: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+  background-color: #776b5d;
 `;
 
-const Quicksell3 = () => {
+const PostBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  .inputBox {
+    width: 50%;
+  }
+  .inputBox1 {
+    width: 100%;
+  }
+`;
+
+const Quicksell3 = (props) => {
   const navigate = useNavigate();
-  // const person1 = window.localStorage.getItem("person");
-  const title1 = window.localStorage.getItem("title");
-  // const price1 =window.localStorage.getItem("price");
-  // const price2 = price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  // const dateNum =window.localStorage.getItem("select");
-  // // 날짜 계산
-  // const date11 =new Date(window.localStorage.getItem("date")),
-  // oderDate1 = date11.getFullYear() + '년' + (date11.getMonth() + 1) + '월' + date11.getDate() + '일';
-  // const date12 =new Date(date11.setDate(date11.getDate() + Number(window.localStorage.getItem("select")))),
-  // oderDate2 = date12.getFullYear() + '년' + (date12.getMonth() + 1) + '월' + date12.getDate() + '일';
-  // //화폐 단위 변환
-  // const Moneys=(number)=>{
-  //     number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  // }
+  const { feedName, title } = props;
+  const [postDetail, setPostDetail] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [postNum, setPostNum] = useState("");
+  const [post, setPost] = useState("");
+  const [dayNum, setDayNum] = useState();
+  const [price, setPrice] =useState();
+
+  useEffect(()=>{
+    if(title==="ONE MONTH FREE"){setPrice("/")};
+    if(title==="STANDARD"){setPrice(99000); props.onPrice(99000);};
+    if(title==="PREMIUM"){setPrice(129000); props.onPrice(129000);};
+  },[])
+
+  const openPostCode = () => {
+    setIsPopupOpen(true);
+  };
+  const closePostCode = () => {
+    setIsPopupOpen(false);
+  };
+  const onPost = (post) => {
+    setPost(post);
+  };
+  const onPostNum = (num) => {
+    setPostNum(num);
+  };
+  const date11 = new Date(),
+    oderDate1 =
+      date11.getFullYear() +
+      "년" +
+      (date11.getMonth() + 1) +
+      "월" +
+      date11.getDate() +
+      "일";
+
+  const ChangePay = (price)=>{
+    return Intl.NumberFormat('en-US').format(price);
+  }
+
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
     setModalOpen(false);
   };
+  
+  const dateArray = Array.from({ length: 30 }, (_, index) => index + 1);
 
   return (
     <>
@@ -117,27 +162,96 @@ const Quicksell3 = () => {
       </TitleBox>
       <SellTable>
         <tr>
-          <th>정기 구독 이름 </th>
-          <td> PREMIUM 구독 / (사료명) 01개월</td>
+          <th>상품명 </th>
+          <td> {title} 구독 서비스</td>
+        </tr>
+
+        <tr>
+          <th>사료 이름</th>
+          <td> {feedName} </td>
+        </tr>
+
+        <tr>
+          <th>구독 시작일</th>
+          <td>{oderDate1}</td>
         </tr>
         <tr>
-          <th>구독 기간</th>
-          <td>2023년 7월 14일 ~ 2023년 7월 14일</td>
+          <th>이름 / 연락처</th>
+          <td> 이름 / 연락처</td>
+        </tr>
+
+        <tr>
+          <th>배송지 </th>
+          <td>
+            <PostBox>
+              <div>
+                <input
+                  className="inputBox1"
+                  type="input"
+                  placeholder="주소"
+                  value={post}
+                />
+                <div>
+                  <input
+                    className="inputBox"
+                    type="input"
+                    placeholder="우편번호"
+                    value={postNum}
+                  />
+                  <input
+                    className="inputBox"
+                    type="input"
+                    placeholder="상세주소 입력"
+                    value={postDetail}
+                    onChange={(e) => setPostDetail(e.target.value)}
+                  />
+                </div>
+              </div>
+              <Button2 type="button" onClick={openPostCode}>
+                주소검색
+              </Button2>
+            </PostBox>
+            <div id="popupDom">
+                {isPopupOpen && (
+                  <PopupDom>
+                    <PopupPostCode
+                      onPostNum={onPostNum}
+                      onPost={onPost}
+                      onClose={closePostCode}
+                    />
+                  </PopupDom>
+                )}
+              </div>
+          </td>
         </tr>
         <tr>
-          <th>수량</th>
-          <td>00 개 </td>
+          <th>정기 배송 일자</th>
+          <td>
+            <select
+              className="selected"
+              onChange={(e) => setDayNum(e.target.value)}
+              value={dayNum}
+              name="선택상자"
+            >
+              <option value="">정기 배송 일자 입력</option>
+              {dateArray.map((day) => (
+                <option key={day} value={day}>
+                  {day}일
+                </option>
+              ))}
+            </select>{" "}
+          </td>
         </tr>
         <tr>
-          <th>결제 요금</th>
-          <td> 0원 (기본상품가: 원,제세공과금 0원)</td>
+          <th>정기결제 금액</th>
+          <td> {ChangePay(price)}원 (기본상품가: 원,제세공과금 0원)</td>
         </tr>
         <tr>
-          <th>최종 결제 요금</th>
-          <td> 0원 (기본상품가: 원,제세공과금 0원)</td>
+          <th>최종결제 금액</th>
+          <td>  {ChangePay(price)}원 (기본상품가: 원,제세공과금 0원)</td>
         </tr>
       </SellTable>
-      <TitleBox style={{ height: "200px", marginTop: "0" }}>
+      <TitleBox style={{ height: "220px", marginTop:"0" }}>
         <h2>취소위약금 및 동의사항</h2>
         <ul className="title1box1">
           <li>
@@ -149,23 +263,15 @@ const Quicksell3 = () => {
             예약이 완료되면 담당자가 전화로 추가 안내 및 확인 절차를 거칩니다.
           </li>
           <li>
-            여행상품의 특성 상 경우에 따라 예약이 완료된 후에도 처리가 불가능할
-            수 있습니다.
+            상품의 특성 상 경우에 따라 예약이 완료된 후에도 처리가 불가능할 수
+            있습니다.
           </li>
           <li>
-            본 여행상품의 세부 약관 규정은 재경부 고시 소비자 피해보상 규정을
+            본 상품의 세부 약관 규정은 재경부 고시 소비자 피해보상 규정을
             바탕으로 합니다.
           </li>
         </ul>
       </TitleBox>
-      <span>
-        <SellButton Buttonstlye={false} onClick={() => navigate(-1)}>
-          취소하기
-        </SellButton>
-        <SellButton Buttonstlye={true} onClick={() => navigate("/quick/toss")}>
-          구독하기
-        </SellButton>
-      </span>
 
       <Modal open={modalOpen} close={closeModal} header="약관동의 확인">
         약관 동의후 결제 바랍니다.

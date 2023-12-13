@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import AxiosApi from "../../api/Axios";
+import { type } from "@testing-library/user-event/dist/type";
 
 const SellBox = styled.div`
   .box1 {
@@ -73,7 +76,7 @@ const PatDogBtn = styled.button`
   width: 80px;
   height: 30px;
   margin: 4px;
-  background-color: #b0a695;
+  background-color: ${props => props.clicks? '#b0a695' : '#978e80'};
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -84,10 +87,32 @@ const PatDogBtn = styled.button`
 
 const QuickMenu = (props) => {
   const navigate = useNavigate();
-  const { title, list1, list2, list3, list4, optional, navigates, title2 } =
-    props;
-  // optional 데이타
-  // navigate 이동경로 예비
+  const [selected,setSelected] =useState();
+  const [dogBtn,setDogBtn]=useState(false);
+  const [catBtn,setCatBtn]=useState(false);
+  const [feedId,setFeedId]=useState();
+  const { title, list1, list2, list3, list4, title2 ,dataList} =props;
+
+  const handleSelect = (e) => {
+    setSelected(e.target.value);
+    setFeedId(e.target.value);
+  };
+
+  const dogClick =()=>{
+    props.onSelected("DOG");
+    setDogBtn(true);
+    setCatBtn(false);
+  }
+
+  const catClick =()=>{
+    props.onSelected("CAT");
+    setDogBtn(false);
+    setCatBtn(true);
+  }
+
+  const payClick =()=>{
+    navigate(`/quick/sell/${feedId}/${title}`);
+  }
 
   return (
     <>
@@ -102,21 +127,24 @@ const QuickMenu = (props) => {
               <li>{list4}</li>
             </ol>
             <span>
-              <PatDogBtn>멍이</PatDogBtn>
-              <PatDogBtn>냥이</PatDogBtn>
+              <PatDogBtn onClick={dogClick} clicks={!dogBtn}>멍이</PatDogBtn>
+              <PatDogBtn onClick={catClick} clicks={!catBtn}>냥이</PatDogBtn>
             </span>
-            <select className="selectBox" name="선택상자">
-              <option className="selectBox" value="">
-                {" "}
-                옵션 선택{" "}
+            <select 
+            onChange={handleSelect}
+            value={selected} 
+            className="selectBox"
+            name="선택상자">
+              <option className="selected" value="">
+                옵션 선택
               </option>
-              <option value={1}>간식 1</option>
-              <option value={2}>간식 2</option>
-              <option value={3}>간식 3</option>
-              <option value={4}>간식 4</option>
+              {dataList &&
+              dataList.map((data, index) => (
+                <option key={index} value={data.feedId}>{data.feedName} {data.feedInfo} {data.feedPrice} </option>
+                ))} 
             </select>
           </div>
-          <div className="box3" onClick={() => navigate("/quick/sell")}>
+          <div className="box3" onClick={payClick}>
             <h1>{title2}</h1>
             <p>구독하기</p>
           </div>

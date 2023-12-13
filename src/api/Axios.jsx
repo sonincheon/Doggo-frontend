@@ -46,6 +46,17 @@ const AxiosApi ={
     }
     return await axios.post(MUNG_HOST + '/feed/new',feedData);
   },
+
+// 사료 타입별 출력
+  FeedList: async (type)=>{
+    return await axios.get(MUNG_HOST +`/feed/list/type?type=${type}`);
+  },
+
+  // 사료 타입별 출력
+  FeedInfo: async (id)=>{
+    return await axios.get(MUNG_HOST +`/feed/list/id?id=${id}`);
+  },
+
 //판매 추가
   SaleReg: async (feedName,memberId,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,salesRegDate,salesType)=>{
     const saleData={
@@ -86,6 +97,14 @@ const AxiosApi ={
     }
     return await axios.post(MUNG_HOST + '/quest/new',QuestData); 
   },
+
+
+
+
+
+
+
+
 
 }
 
