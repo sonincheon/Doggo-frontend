@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Usermodal from "../../utill/Usermodal";
 import Pwdmodal from "../../utill/Pwdmodal";
 import Imgmodal from "../../utill/Imgmodal";
+import AxiosApi from "../../api/Axios";
 
 const BoxContent = styled.div`
   width: 400px;
@@ -151,6 +152,8 @@ const Myprofile = () => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState("");
 
+  const [detail, setDetail] = useState("");
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -193,6 +196,24 @@ const Myprofile = () => {
     },
   ];
 
+  useEffect(() => {
+    const getMember = async () => {
+      try {
+        const response = await AxiosApi.memberGet(
+          window.localStorage.getItem("email")
+        );
+        console.log("detail.email:", response.data);
+        setDetail(response.data);
+        console.log("성공");
+      } catch (error) {
+        console.log(error);
+        alert("실패");
+        console.log(detail);
+      }
+    };
+    getMember();
+  }, []);
+
   return (
     <div>
       <BoxTitle>MY PROFILE</BoxTitle>
@@ -200,8 +221,8 @@ const Myprofile = () => {
         <BoxContent1>
           <Profile>
             <ProfileImage
-              src={member[0].img}
-              onClick={() => openClick2(member[0].img)}
+              src={detail.memberImage}
+              onClick={() => openClick2(detail.memberImage)}
             />
             <OverlayText>수정</OverlayText>
           </Profile>
@@ -214,22 +235,24 @@ const Myprofile = () => {
             marginBottom: "1rem",
           }}
         >
-          {member[0].Name}님
+          {detail.memberName}님
         </div>
         <BoxContent2>
           <InputBox>
             이메일 :
             <div style={{ display: "flex" }}>
-              <Input>{member[0].Email}</Input>
+              <Input>{detail.memberEmail}</Input>
             </div>
             <div style={{ width: "75px", height: "30px" }}></div>
           </InputBox>
           <InputBox>
             성별 :
             <div style={{ display: "flex" }}>
-              <Input>{member[0].Gender}</Input>
+              <Input>{detail.memberGender}</Input>
               <Btn
-                onClick={() => openClick("성별 변경", "성별", member[0].Gender)}
+                onClick={() =>
+                  openClick("성별 변경", "성별", detail.memberGender)
+                }
               >
                 수정
               </Btn>
@@ -238,10 +261,10 @@ const Myprofile = () => {
           <InputBox>
             생년월일 :
             <div style={{ display: "flex" }}>
-              <Input>{member[0].Birth}</Input>
+              <Input>{detail.memberBirth}</Input>
               <Btn
                 onClick={() =>
-                  openClick("생년월일 변경", "생년월일", member[0].Birth)
+                  openClick("생년월일 변경", "생년월일", detail.memberBirth)
                 }
               >
                 수정
@@ -251,10 +274,10 @@ const Myprofile = () => {
           <InputBox>
             주소 :
             <div style={{ display: "flex" }}>
-              <Input>{member[0].Address}</Input>
+              <Input>{detail.memberAddress}</Input>
               <Btn
                 onClick={() =>
-                  openClick("주소 변경", "주소", member[0].Address)
+                  openClick("주소 변경", "주소", detail.memberAddress)
                 }
               >
                 수정
@@ -264,10 +287,10 @@ const Myprofile = () => {
           <InputBox>
             전화번호 :
             <div style={{ display: "flex" }}>
-              <Input>{member[0].Tel}</Input>
+              <Input>{detail.memberTel}</Input>
               <Btn
                 onClick={() =>
-                  openClick("전화번호 변경", "전화번호", member[0].Tel)
+                  openClick("전화번호 변경", "전화번호", detail.memberTel)
                 }
               >
                 수정
@@ -275,9 +298,7 @@ const Myprofile = () => {
             </div>
           </InputBox>
           <Btn1>
-            <Btn2 onClick={() => openClick1(member[0].Password)}>
-              비밀번호 변경
-            </Btn2>
+            <Btn2 onClick={() => openClick1(detail.member)}>비밀번호 변경</Btn2>
             <Btn2>1대1 문의하기</Btn2>
             <Btn2>구매 내역 조회</Btn2>
           </Btn1>

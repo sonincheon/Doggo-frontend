@@ -25,8 +25,6 @@ import Adminsalespage from "./pages/adminPage/Adminsalespage";
 import Adminqnapage from "./pages/adminPage/Adminqnapage";
 import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
 
-
-
 const GlobalStyle = createGlobalStyle`
   ${reset}
     
@@ -43,32 +41,32 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Router>  
+      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-            {/* 여긴 헤더 풋터 구간  */}
-            <Route element={<Header />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/book" element={<Bookmain />} />
-              <Route path="/diy" element={<Diymain />} />
-              <Route path="/map" element={<Mapmain />} />
-              <Route path="/quick" element={<Quickmain />} />
-              <Route path="/service" element={<ServiceMain />} />
-              <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
-              <Route path="/quick/sucess" element={<Quicksucess />} />
-              <Route path="/quick/sales" element={<Quicksale />} />
-              <Route path="/quick/toss/:price" element={<TossPage />} />
-              <Route path="/mypage" element={<MyPage />} />
-            </Route>
+          {/* 여긴 헤더 풋터 구간  */}
+          <Route element={<Header />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/book" element={<Bookmain />} />
+            <Route path="/diy" element={<Diymain />} />
+            <Route path="/map" element={<Mapmain />} />
+            <Route path="/quick" element={<Quickmain />} />
+            <Route path="/service" element={<ServiceMain />} />
+            <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
+            <Route path="/quick/sucess" element={<Quicksucess />} />
+            <Route path="/quick/sales" element={<Quicksale />} />
+            <Route path="/quick/toss/:price" element={<TossPage />} />
+            <Route path="/mypage/" element={<MyPage />} />
+          </Route>
           {/* 여긴 어드민 구간  */}
-            <Route element={<Admin/>}>
-              <Route path="/admin" element={<Adminmainpage/>}/>
-              <Route path="/admin/user" element={<Adminmemberpage/>}/>
-              <Route path="/admin/sales" element={<Adminsalespage/>}/>
-              <Route path="/admin/qna" element={<Adminqnapage/>}/>
-              <Route path="/admin/qna/:id" element={<Qnadetailpage/>}/>
-            </Route>
+          <Route element={<Admin />}>
+            <Route path="/admin" element={<Adminmainpage />} />
+            <Route path="/admin/user" element={<Adminmemberpage />} />
+            <Route path="/admin/sales" element={<Adminsalespage />} />
+            <Route path="/admin/qna" element={<Adminqnapage />} />
+            <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
+          </Route>
         </Routes>
       </Router>
     </>
