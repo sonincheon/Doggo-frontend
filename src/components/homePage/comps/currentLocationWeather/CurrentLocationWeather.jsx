@@ -96,7 +96,7 @@ const CurrentLocationWeather = () => {
   // 파이썬에서 넘어온 실시간 기상정보 스테이트훅
   const [weather, setWeather] = useState("");
   // 좋음/나쁨 표현을 위한 스테이트훅
-  const [weatherCondition, setWeatherCondition] = useState(true);
+  const [weatherCondition, setWeatherCondition] = useState(null);
 
   // 리액트 라이브러리를 통해 위도/경도를 얻어오는 이펙트훅
   useEffect(() => {
@@ -138,6 +138,12 @@ const CurrentLocationWeather = () => {
           );
           console.log(response.data);
           setWeather(response.data);
+
+          if (weather.condition === 0) {
+            setWeatherCondition(true);
+          } else {
+            setWeatherCondition(false);
+          }
         } catch (error) {
           console.error("Weather error:", error);
         }
@@ -146,14 +152,8 @@ const CurrentLocationWeather = () => {
 
     if (coords) getWeather();
   }, [coords]);
-  // 좋은지 나쁜지 값을 할당하는 이펙트훅
-  useEffect(() => {
-    if (weather.condition === 0) {
-      setWeatherCondition(true);
-    } else {
-      setWeatherCondition(false);
-    }
-  }, [weather]);
+
+  // 타이밍 이슈 해결 TT
 
   return (
     <>
