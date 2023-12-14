@@ -42,6 +42,8 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <>
+    {/* 결제용 context  */}
+     <PayStore>
       <GlobalStyle />
       <Router>
         <Routes>
@@ -55,12 +57,9 @@ function App() {
             <Route path="/map" element={<Mapmain />} />
             <Route path="/quick" element={<Quickmain />} />
             <Route path="/service" element={<ServiceMain />} />
-            {/* 결제용 context  */}
-            <PayStore>
               <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
               <Route path="/quick/toss" element={<TossPage />} />
               <Route path="/quick/tosspay" element={<Quicktoss />} />
-            </PayStore>
             <Route path="/quick/sales" element={<Quicksale />} />
             <Route path="/quick/sucess" element={<Quicksucess />} />
             <Route path="/mypage/" element={<MyPage />} />
@@ -75,6 +74,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      </PayStore>
     </>
   );
 }

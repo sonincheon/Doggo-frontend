@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Modal from "../../utill/Modal";
 import PopupDom from "../member/PopupDom";
 import PopupPostCode from "../member/PopupPostCode";
-import { TossPage } from "../../utill/Toss";
+import { PayContext } from "../../context/Paystore";
+
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -116,6 +117,10 @@ const Quicksell3 = (props) => {
   const [post, setPost] = useState("");
   const [dayNum, setDayNum] = useState();
   const [price, setPrice] =useState();
+  const context = useContext(PayContext);
+  const {setFeedName}=context;
+
+
 
   useEffect(()=>{
     if(title==="ONE MONTH FREE"){setPrice("/")};
@@ -175,6 +180,7 @@ const Quicksell3 = (props) => {
           <th>구독 시작일</th>
           <td>{oderDate1}</td>
         </tr>
+
         <tr>
           <th>이름 / 연락처</th>
           <td> 이름 / 연락처</td>

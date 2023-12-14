@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AxiosApi from "../../api/Axios";
+import { PayContext } from "../../context/Paystore";
 
 const TitleBox = styled.div`
   display: flex;
@@ -65,7 +66,8 @@ const ItemImg = styled.img`
 const Quicksell1 = (props) => {
   const {feedId} = props;
   const[feedDetail,setFeedDetail]=useState([]);
-
+  const context = useContext(PayContext);
+  const {setFeedName}=context;
 
   useEffect(() => {
     const FeedInfo = async () => {
@@ -75,7 +77,8 @@ const Quicksell1 = (props) => {
         if (resp.status === 200){
             setFeedDetail(resp.data);
             console.log(resp.data);
-            props.onSelect(resp.data.feedName)
+            props.onSelect(resp.data.feedName);
+            setFeedName(resp.data.feedName);
         }}catch (e) {
         console.log(e);
       }
