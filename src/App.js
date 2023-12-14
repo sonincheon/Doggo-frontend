@@ -24,6 +24,8 @@ import Adminmemberpage from "./pages/adminPage/Adminmemberpage";
 import Adminsalespage from "./pages/adminPage/Adminsalespage";
 import Adminqnapage from "./pages/adminPage/Adminqnapage";
 import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
+import Quicktoss from "./pages/quickPage/Quicktoss";
+import PayStore from "./context/Paystore";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -53,10 +55,14 @@ function App() {
             <Route path="/map" element={<Mapmain />} />
             <Route path="/quick" element={<Quickmain />} />
             <Route path="/service" element={<ServiceMain />} />
-            <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
-            <Route path="/quick/sucess" element={<Quicksucess />} />
+            {/* 결제용 context  */}
+            <PayStore>
+              <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
+              <Route path="/quick/toss" element={<TossPage />} />
+              <Route path="/quick/tosspay" element={<Quicktoss />} />
+            </PayStore>
             <Route path="/quick/sales" element={<Quicksale />} />
-            <Route path="/quick/toss/:price" element={<TossPage />} />
+            <Route path="/quick/sucess" element={<Quicksucess />} />
             <Route path="/mypage/" element={<MyPage />} />
           </Route>
           {/* 여긴 어드민 구간  */}

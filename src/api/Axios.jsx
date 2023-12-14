@@ -71,8 +71,6 @@ const AxiosApi = {
     salesAutoDelivery,
     salesDelivery,
     salesPrice,
-    salesRegDate,
-    salesType
   ) => {
     const saleData = {
       feedName: feedName,
@@ -81,8 +79,7 @@ const AxiosApi = {
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
       salesPrice: salesPrice,
-      salesRegDate: salesRegDate,
-      salesType: salesType,
+      salesType: "AUTO",
     };
     return await axios.post(MUNG_HOST + "/sale/new", saleData);
   },

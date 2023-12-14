@@ -21,8 +21,11 @@ const customerKey = "test_sk_PBal2vxj81vQ6xeZRBye35RQgOAN";
 const TossPage = (props) => {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
-  const{payPrice}=props;
+  const{payPrice,userAddr,feedName,autoDay}=props;
   const [price, setPrice] = useState();
+
+  const date11 =new Date(),
+  oderDate1 = date11.getFullYear() + "-"+(date11.getMonth() ) + '-' + autoDay ;
 
   useEffect(() => {
     (async () => {
@@ -63,12 +66,13 @@ const TossPage = (props) => {
           try {
             await paymentWidget?.requestPayment({
               orderId: nanoid(),
-              orderName: "토스 티셔츠 외 2건",
-              customerName: "김토스",
-              customerEmail: "customer123@gmail.com",
-              successUrl: `${window.location.origin}/quick/sucess`,
+              orderName: "테스트 결제용입니다.",
+              customerName: "이름",
+              customerEmail:window.localStorage.getItem("email"),
+              successUrl: `${window.location.origin}/quick/tosspay`,
               failUrl: `${window.location.origin}/quick/sucess`,
             });
+            
           } catch (error) {
             console.log(error);
           }
