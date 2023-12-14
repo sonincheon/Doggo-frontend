@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ReactComponent as Footimg } from "../../img/Group 50.svg";
 import dogfoot from "../../img/dogfoot.png";
 import Petmodal from "../../utill/Petmodal";
+import AxiosApi from "../../api/Axios";
 
 const BoxContent = styled.div`
   width: 780px;
@@ -140,74 +141,55 @@ const Petprofile = () => {
     setPetImg(img);
   };
 
-  const pet = [
-    {
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_200540280.jpg?alt=media&token=dfcfa49a-1af5-4a43-b196-8a1086d62f20",
-      name: "팡이",
-      gender: "여",
-      age: "11살",
-      type: "진돗개",
-      sign: "겁이 많음, 예쁘고 귀여움",
-    },
-    {
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231206_160745815.jpg?alt=media&token=c131d391-d1cb-48d4-93f8-7124247200a3",
-      name: "순돌이",
-      gender: "남",
-      age: "9살",
-      type: "진돗개",
-      sign: "순함, 꼬리가 귀여움, 목욕할때 안도망감",
-    },
-    {
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231205_195836703_03.jpg?alt=media&token=ca122b86-bd5d-44c8-85d4-d48351c61a20",
-      name: "멍순이",
-      gender: "여",
-      age: "7살",
-      type: "믹스견",
-      sign: "멋지고 귀여움",
-    },
-    {
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KakaoTalk_20231206_160911844_03.jpg?alt=media&token=b582917a-d118-478f-9080-a7ffd512d2d6",
-      name: "우동이",
-      gender: "여",
-      age: "3살",
-      type: "먼치킨",
-      sign: "점프를 잘함, 가끔 토끼가 됨",
-    },
-  ];
+  // 게시글 목록과 관련된 상태값을 정의합니다.
+  const [list, setList] = useState([]);
+
+  // 서버에서 게시글 목록을 불러오는 함수를 정의합니다.
+  const petGet = async () => {
+    try {
+      const resp = await AxiosApi.petGet(window.localStorage.getItem("email"));
+      if (resp.status === 200) {
+        setList(resp.data);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("에러 발생");
+    }
+  };
+
+  useEffect(() => {
+    petGet();
+  }, []);
 
   return (
     <div style={{ marginLeft: "1rem" }}>
       <BoxTitle>PET PROFILE</BoxTitle>
       <BoxContent>
-        {pet.map((pet) => (
+        {list.map((list) => (
           <BoxContent1>
-            <PetProfile src={pet.image} />
+            <PetProfile src={list.imageLink} />
             <PetInfo1>
               <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
               <PetInfo2>
-                <div className="PetSign">이름 : {pet.name}</div>
-                <div className="PetSign">성별 : {pet.gender}</div>
-                <div className="PetSign">나이 : {pet.age}</div>
+                <div className="PetSign">이름 : {list.petName}</div>
+                <div className="PetSign">성별 : {list.gender}</div>
+                <div className="PetSign">나이 : {list.birthDate}</div>
                 <div className="PetSign">
-                  종 : {pet.type}
+                  종 : {list.breed}
                   <Btn2>도감 보기</Btn2>
                 </div>
-                <div className="PetSign">특이사항 : {pet.sign}</div>
+                <div className="PetSign">특이사항 : {list.detail}</div>
               </PetInfo2>
               <PetInfo3>
                 <Btn
                   onClick={() =>
                     openClick(
-                      pet.name,
-                      pet.gender,
-                      pet.age,
-                      pet.type,
-                      pet.sign,
-                      pet.image
+                      list.petName,
+                      list.gender,
+                      list.breed,
+                      list.birthDate,
+                      list.detail,
+                      list.imageLink
                     )
                   }
                 >
