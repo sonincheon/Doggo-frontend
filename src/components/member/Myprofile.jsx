@@ -151,6 +151,7 @@ const Myprofile = () => {
   const [modalOpen2, setModalOpen2] = useState(false);
   const [password, setPassword] = useState("");
   const [image, setImage] = useState("");
+  const [changeCase, setChangeCase] = useState("");
 
   const [detail, setDetail] = useState("");
 
@@ -166,11 +167,12 @@ const Myprofile = () => {
     setModalOpen2(false);
   };
 
-  const openClick = (Name, content, bodyConetent) => {
+  const openClick = (Name, content, bodyConetent, changeCase) => {
     setHeaderName(Name);
-    setModalOpen(true);
     setBodyName(content);
     setBodyContent(bodyConetent);
+    setChangeCase(changeCase);
+    setModalOpen(true);
   };
 
   const openClick1 = (Password) => {
@@ -212,7 +214,7 @@ const Myprofile = () => {
       }
     };
     getMember();
-  }, []);
+  }, [modalOpen, modalOpen1, modalOpen2]);
 
   return (
     <div>
@@ -249,14 +251,8 @@ const Myprofile = () => {
             성별 :
             <div style={{ display: "flex" }}>
               <Input>{detail.memberGender}</Input>
-              <Btn
-                onClick={() =>
-                  openClick("성별 변경", "성별", detail.memberGender)
-                }
-              >
-                수정
-              </Btn>
             </div>
+            <div style={{ width: "75px", height: "30px" }}></div>
           </InputBox>
           <InputBox>
             생년월일 :
@@ -264,7 +260,7 @@ const Myprofile = () => {
               <Input>{detail.memberBirth}</Input>
               <Btn
                 onClick={() =>
-                  openClick("생년월일 변경", "생년월일", detail.memberBirth)
+                  openClick("생년월일 변경", "생년월일", detail.memberBirth, 1)
                 }
               >
                 수정
@@ -277,7 +273,7 @@ const Myprofile = () => {
               <Input>{detail.memberAddress}</Input>
               <Btn
                 onClick={() =>
-                  openClick("주소 변경", "주소", detail.memberAddress)
+                  openClick("주소 변경", "주소", detail.memberAddress, 2)
                 }
               >
                 수정
@@ -290,7 +286,7 @@ const Myprofile = () => {
               <Input>{detail.memberTel}</Input>
               <Btn
                 onClick={() =>
-                  openClick("전화번호 변경", "전화번호", detail.memberTel)
+                  openClick("전화번호 변경", "전화번호", detail.memberTel, 3)
                 }
               >
                 수정
@@ -307,12 +303,12 @@ const Myprofile = () => {
         </BoxContent2>
       </BoxContent>
       <Usermodal
-        type={1}
         open={modalOpen}
         close={closeModal}
         header={headerName}
         name={bodyName}
         detail={bodyContent}
+        type={changeCase}
       ></Usermodal>
       <Pwdmodal
         type={1}

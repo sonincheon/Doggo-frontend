@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import AxiosApi from "../api/Axios";
 
 const ModalStyle = styled.div`
   .modal {
@@ -114,7 +115,31 @@ const Exist2 = styled.div`
 `;
 
 const Usermodal = (props) => {
-  const { open, confirm, close, type, header, name, detail } = props;
+  const { open, close, type, header, name, detail } = props;
+  const [info, setInfo] = useState("");
+
+  const onChangeInfo = (e) => {
+    setInfo(e.target.value);
+  };
+
+  const Close = () => {
+    setInfo("");
+    close();
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await AxiosApi.memberUpdate(info, type);
+      alert("회원 정보가 성공적으로 수정되었습니다.");
+      close();
+      setInfo("");
+    } catch (error) {
+      console.log(error);
+      alert("회원 정보 수정에 실패했습니다.");
+      close();
+      setInfo("");
+    }
+  };
 
   // &times; 는 X표 문자를 의미
   return (
@@ -136,12 +161,12 @@ const Usermodal = (props) => {
               </Exist1>
               <Change1>
                 <div>수정 {name} : </div>
-                <Change2></Change2>
+                <Change2 value={info} onChange={onChangeInfo}></Change2>
               </Change1>
             </main>
             <footer>
-              {type && <button onClick={confirm}>수정</button>}
-              <button onClick={close}>취소</button>
+              {type && <button onClick={handleUpdate}>수정</button>}
+              <button onClick={Close}>취소</button>
             </footer>
           </section>
         )}

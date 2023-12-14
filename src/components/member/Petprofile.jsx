@@ -118,6 +118,20 @@ const Btn2 = styled.button`
   margin-left: 5px;
 `;
 
+// 나이 계산 함수
+const calculateAge = (birthdate) => {
+  const birthDate = new Date(birthdate);
+  const currentDate = new Date();
+
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+
+  const ageInDays = (currentDate - birthDate) / oneDayInMilliseconds;
+
+  const age = Math.floor(ageInDays / 365);
+
+  return age;
+};
+
 const Petprofile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [petName, setPetName] = useState("");
@@ -173,7 +187,10 @@ const Petprofile = () => {
               <PetInfo2>
                 <div className="PetSign">이름 : {list.petName}</div>
                 <div className="PetSign">성별 : {list.gender}</div>
-                <div className="PetSign">나이 : {list.birthDate}</div>
+                <div className="PetSign">
+                  나이 : {calculateAge(list.birthDate)} 세 ({list.birthDate}{" "}
+                  출생)
+                </div>
                 <div className="PetSign">
                   종 : {list.breed}
                   <Btn2>도감 보기</Btn2>
