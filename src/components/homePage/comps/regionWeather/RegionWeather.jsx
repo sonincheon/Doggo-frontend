@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import mapOfKorea from "../../../../img/mapOfKorea.png";
+import mapOfKorea from "../../../../img/weather/mapOfKorea.png";
 import {
   citiesData,
   CityComponent,
@@ -8,7 +8,7 @@ import {
   getWeekDays,
   formatDateWithDay,
 } from "./RegionWeatherFunction";
-import { WeatherAxiosApi } from "../../../../api/WeatherApi";
+import { WeatherAxiosApi } from "../../../../api/RegionWeatherApi";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",
@@ -93,15 +93,15 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   top: 2%; // 상단으로부터 적절한 거리를 주어 위치시킵니다.
   background-color: ${(props) =>
-    props.isActive
+    props.$isActive
       ? "#4a90e2"
       : "#ffffff"}; // 활성화 상태에 따라 배경색을 설정합니다.
   color: ${(props) =>
-    props.isActive
+    props.$isActive
       ? "#ffffff"
       : "#000000"}; // 활성화 상태에 따라 텍스트 색상을 설정합니다.
   border: ${(props) =>
-    props.isActive
+    props.$isActive
       ? "none"
       : "1px solid #979797"}; // 비활성화 상태일 때 테두리를 설정합니다.
   width: 15%; // 버튼의 너비를 설정합니다.
@@ -136,11 +136,11 @@ const DayButton = styled.button`
   flex-direction: column;
   flex-grow: 1;
 
-  height: 100%; // 버튼의 높이를 조정합니다.
+  height: 100%;
   background-color: white;
-  font-size: 1vw; // 기본 글자 크기
+  font-size: 1vw;
   border: none;
-  color: #808080; // 기본 글자색은 회색
+  color: #808080;
   white-space: nowrap;
   cursor: pointer;
 
@@ -174,10 +174,11 @@ const RegionWeather = () => {
     const loadWeatherData = async () => {
       try {
         const response = await WeatherAxiosApi.getWeathers();
-        console.log("API response:", response);
+        // API 응답 확인용 콘솔
+        // console.log("API response:", response);
         setWeatherData(response);
       } catch (error) {
-        console.error("Error loading weather data:", error);
+        console.error("API 응답 실패 :", error);
       }
     };
 
@@ -198,7 +199,8 @@ const RegionWeather = () => {
   };
   // 요일 버튼
   const handleDayButtonClick = (date) => {
-    console.log(date);
+    // 요일 클릭시 date 값 전달 확인 콘솔
+    // console.log(date);
     setSelectedDate(date);
   };
 
@@ -223,12 +225,12 @@ const RegionWeather = () => {
           <ButtonContainer>
             <MorningButton
               onClick={showMorningData}
-              isActive={morningAfternoon}>
+              $isActive={morningAfternoon}>
               오전
             </MorningButton>
             <AfternoonButton
               onClick={showAfternoonData}
-              isActive={!morningAfternoon}>
+              $isActive={!morningAfternoon}>
               오후
             </AfternoonButton>
           </ButtonContainer>

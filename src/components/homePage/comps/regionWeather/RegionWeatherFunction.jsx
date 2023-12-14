@@ -1,5 +1,3 @@
-
-
 export const citiesData = [
   { name: "서울", gridRow: 6, gridColumn: 8 },
   { name: "춘천", gridRow: 5, gridColumn: 11 },
@@ -26,13 +24,14 @@ export const getCurrentDate = () => {
   return year + month + day;
 };
 
-
 export const getWeekDays = () => {
   const dates = [];
   for (let i = 0; i < 7; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
-    const formattedDate = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+    const formattedDate = `${date.getFullYear()}${String(
+      date.getMonth() + 1
+    ).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
     dates.push(formattedDate);
   }
   return dates;
@@ -42,36 +41,46 @@ export const formatDateWithDay = (dateString) => {
   const year = parseInt(dateString.substring(0, 4), 10);
   const month = parseInt(dateString.substring(4, 6), 10);
   const day = parseInt(dateString.substring(6, 8), 10);
-  
+
   const date = new Date(year, month - 1, day);
   const today = new Date();
-  
-  const dayOfWeekKorean = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const dayOfWeekKorean = ["일", "월", "화", "수", "목", "금", "토"];
   const dayOfWeek = dayOfWeekKorean[date.getDay()];
-  
+
   if (date.toDateString() === today.toDateString()) {
-    return (<><div>{dayOfWeek}</div> 
-              <div>오늘</div></>);
+    return (
+      <>
+        <div>{dayOfWeek}</div>
+        <div>오늘</div>
+      </>
+    );
   } else {
-    return (<><div>{dayOfWeek}</div> 
-              <div>{month}.{day}</div></>);
+    return (
+      <>
+        <div>{dayOfWeek}</div>
+        <div>
+          {month}.{day}
+        </div>
+      </>
+    );
   }
 };
-
 
 export const CityComponent = ({ city, weather, isMorning }) => {
   const gridRow = city.gridRow;
   const gridColumn = city.gridColumn;
 
   if (!weather) {
-    return <div>Loading...</div>; // 또는 다른 오류 처리
+    return <div>Loading...</div>; // 또는 다른 오류 처리 , 나중에 멋진걸로 대체하자
   }
 
-
-  const temperature = isMorning ? 
-  weather.morningTemperature : weather.afternoonTemperature; // 아침
-  const weatherCondition = isMorning ? 
-  weather.morningWeatherCondition : weather.afternoonWeatherCondition; // 오후
+  const temperature = isMorning
+    ? weather.morningTemperature
+    : weather.afternoonTemperature; // 아침 OR 오후
+  const weatherCondition = isMorning
+    ? weather.morningWeatherCondition
+    : weather.afternoonWeatherCondition; // 아침 OR 오후
 
   return (
     <div

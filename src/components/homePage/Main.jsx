@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useInView } from "react-intersection-observer";
+// import { useInView } from "react-intersection-observer";
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
-import CurrentLocationWeather from "./comps/CurrentLocationWeather";
+import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 
@@ -39,7 +39,7 @@ const ItemContainer = styled.div.attrs({
   display: flex;
   justify-content: center;
   width: 80%;
-  height: ${(props) => props.height || "30%"};
+  height: ${(props) => props.$height || "30%"};
   /* border: 1px solid black; */
 `;
 
@@ -51,7 +51,7 @@ const Main = () => {
           <Introduction />
           <UserStatus />
         </ItemContainer>
-        <ItemContainer height="40%">
+        <ItemContainer $height="40%">
           <CurrentLocationWeather />
           <RegionWeather />
         </ItemContainer>

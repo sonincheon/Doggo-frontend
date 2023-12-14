@@ -20,16 +20,4 @@ export const WeatherAxiosApi = {
   
 };
 
-// export const fetchRegionWeathers = async () => {
-//   try {
-//     const response = await fetch(`${BASE_URL}/get`);
-//     console(response);
-//     if (!response.ok) {
-//       throw new Error('Network fail');
-//     }
-//     return await response.json();
-//   } catch (error) {
-//     console.error('fetching weathers data fail:', error);
-//     throw error;
-//   }
-// };
+
