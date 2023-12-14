@@ -298,7 +298,9 @@ const Myprofile = () => {
             </div>
           </InputBox>
           <Btn1>
-            <Btn2 onClick={() => openClick1(detail.member)}>비밀번호 변경</Btn2>
+            <Btn2 onClick={() => openClick1(member[0].Password)}>
+              비밀번호 변경
+            </Btn2>
             <Btn2>1대1 문의하기</Btn2>
             <Btn2>구매 내역 조회</Btn2>
           </Btn1>

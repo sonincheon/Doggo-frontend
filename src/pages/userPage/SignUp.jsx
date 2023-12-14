@@ -1,47 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from 'styled-components';
+import styled from "styled-components";
 import Modal from "../../utill/Modal";
 import AxiosApi from "../../api/Axios";
 import PopupDom from "../../components/member/PopupDom";
 import PopupPostCode from "../../components/member/PopupPostCode";
 
-
-
-  const Container = styled.div`
-    width:30vw;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F3EEEA;
-    border-radius: 10px;
-    justify-content: space-between;
+const Container = styled.div`
+  width: 30vw;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f3eeea;
+  border-radius: 10px;
+  justify-content: space-between;
 
   & .login {
-    
-      margin: 0 auto;
-  
-      font: normal normal bold 24px/35px Poppins;
-      letter-spacing: 0px;
-      color:black;
-      opacity: 1;
-    }
-    .success {
-      color: green;
-    }
-    .error {
-      color: red;
-    }
-  `;
+    margin: 0 auto;
+
+    font: normal normal bold 24px/35px Poppins;
+    letter-spacing: 0px;
+    color: black;
+    opacity: 1;
+  }
+  .success {
+    color: green;
+  }
+  .error {
+    color: red;
+  }
+`;
 const Hint = styled.div`
-    width: 60%;
-    height: 2%;
-    text-align:right;
-    font-size: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
+  width: 60%;
+  height: 2%;
+  text-align: right;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
 `;
 
 const Items = styled.div`
@@ -51,42 +48,36 @@ const Items = styled.div`
     width: 400px;
     height: 50px;
 
-    img{
-        width: 100%;
+    img {
+      width: 100%;
     }
   }
   &.item2 {
     width: 60%;
     margin: 8px auto;
-    
-    
-  
   }
   &.item3 {
-    width:50%;
+    width: 50%;
     margin-top: 20px;
     justify-content: center;
     color: red;
     font-size: 14px;
     display: flex;
-    
   }
   &.hint {
-  
   }
-    
 
-  &.signup{
+  &.signup {
     justify-content: right;
     font-weight: 700px;
-    font-size: 14px;   
+    font-size: 14px;
     .link_style {
       color: #000000;
       text-decoration-line: none;
     }
   }
-  &.signin{
-    justify-content: right; 
+  &.signin {
+    justify-content: right;
     font-weight: 700px;
     margin-right: 30px;
     font-size: 14px;
@@ -95,11 +86,10 @@ const Items = styled.div`
       color: #000000;
       text-decoration-line: none;
     }
-}
+  }
 `;
 
- const Input = styled.input`
-  
+const Input = styled.input`
   width: 100%; /* 원하는 너비 설정 */
   height: auto; /* 높이값 초기화 */
   line-height: normal; /* line-height 초기화 */
@@ -111,8 +101,7 @@ const Items = styled.div`
   outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 `;
 
- const Input2 = styled.input`
-  
+const Input2 = styled.input`
   width: 80%; /* 원하는 너비 설정 */
   height: auto; /* 높이값 초기화 */
   line-height: normal; /* line-height 초기화 */
@@ -133,7 +122,7 @@ const Button1 = styled.button`
   width: 60%; /* 원하는 너비 설정 */
   height: 55px;
   color: white;
-  background-color: #776B5D;
+  background-color: #776b5d;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
@@ -144,7 +133,7 @@ const Button1 = styled.button`
     //확인 클릭하면 설정
     border: #999;
     font-weight: 700;
-    background-color: #3C3939;
+    background-color: #3c3939;
   }
 
   &:disabled {
@@ -154,26 +143,26 @@ const Button1 = styled.button`
 `;
 
 const Button2 = styled.button`
-    font-family: "Noto Sans KR", sans-serif;
-    font-weight: bold;
-    color: white;
-    background-color: #776B5D;
-    font-size: 10px;
-    width: 20%;
-    font-weight: 400;
-    border-radius: 0px 12px 12px 0px;
-    font-weight: 700;
-    border: none;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: #776b5d;
+  font-size: 10px;
+  width: 20%;
+  font-weight: 400;
+  border-radius: 0px 12px 12px 0px;
+  font-weight: 700;
+  border: none;
 `;
 
 const Box = styled.div`
-    width: 40vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #EBE3D5;
-    flex-direction: column;
+  width: 40vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebe3d5;
+  flex-direction: column;
 `;
 
 const CenteredContainer = styled.div`
@@ -184,10 +173,9 @@ const CenteredContainer = styled.div`
 `;
 
 const Logo = styled.img`
-    width: 10vw;
-    height: 10vw;
+  width: 10vw;
+  height: 10vw;
 `;
-
 
 const RadioContainer = styled.div`
   display: flex;
@@ -201,17 +189,6 @@ const RadioContainer = styled.div`
   border-radius: 12px; /* iSO 둥근모서리 제거 */
 `;
 
-const RadioContainer1 = styled.div`
-  display: flex;
-  width: 60%;
-  align-items: center;
-  padding-left: 8px;
-  padding-right: 8px;
-  height: 8%;
-  background-color: white;
-  border-radius: 12px;
-`;
-
 const Radio = styled.div`
   display: flex;
   align-items: center;
@@ -221,9 +198,7 @@ const Label = styled.label`
   margin-left: 5px;
 `;
 
-
 const SignUp = () => {
-
   const navigate = useNavigate();
 
   // 키보드 입력
@@ -253,14 +228,14 @@ const SignUp = () => {
   const [isPost, setIsPost] = useState("");
   const [isGender, setIsGender] = useState("");
   const [isPwConfirm, setIsPwConfirm] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // 이메일 인증
   const [sendEmail, setSendEmail] = useState("");
   const [inputCert, setInputCert] = useState("");
 
   // 인증 후 활성화
-  const [able,setAble] =useState(true);
+  const [able, setAble] = useState(true);
 
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
@@ -272,19 +247,18 @@ const SignUp = () => {
   const [useCheck, setUseCheck] = useState(false);
   const [marketingCheck, setMarketingCheck] = useState(false);
 
-
   const closeModal = () => {
     setModalOpen(false);
   };
 
   const openPostCode = () => {
-    setIsPopupOpen(true)
-};
+    setIsPopupOpen(true);
+  };
 
-// 팝업창 닫기
-const closePostCode = () => {
-    setIsPopupOpen(false)
-};
+  // 팝업창 닫기
+  const closePostCode = () => {
+    setIsPopupOpen(false);
+  };
 
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeId = (e) => {
@@ -328,56 +302,55 @@ const closePostCode = () => {
   const onChangeName = (e) => {
     const Name = e.target.value;
     setInputName(Name);
-    setIsName(Name !== '' && Name !== undefined);
+    setIsName(Name !== "" && Name !== undefined);
   };
 
   const onChangeTel = (e) => {
     const Tel = e.target.value;
     setInputTel(Tel);
-    setIsTel(Tel !== '' && Tel !== undefined);
+    setIsTel(Tel !== "" && Tel !== undefined);
   };
 
   const onChangeBirth = (e) => {
     const Birth = e.target.value;
     setInputBirth(Birth);
-    setIsBirth(Birth !== '' && Birth !== undefined);
+    setIsBirth(Birth !== "" && Birth !== undefined);
   };
 
-const SingupIdCheck = async (email) => {
-  try {
-    const resp = await AxiosApi.SingupIdCheck(email);
-    console.log("가입 가능 여부 확인 : ", resp.data);
-    if (resp.data === true) {
-      setModelText("사용 가능한 이메일 입니다. 이메일을 확인해주세요");
-      setModalOpen(true);
-      const response = await AxiosApi.EmailCert(email);
-      setSendEmail(response.data);
-    } else {
-      setModelText("중복된 이메일 입니다.");
+  const SingupIdCheck = async (email) => {
+    try {
+      const resp = await AxiosApi.SingupIdCheck(email);
+      console.log("가입 가능 여부 확인 : ", resp.data);
+      if (resp.data === true) {
+        setModelText("사용 가능한 이메일 입니다. 이메일을 확인해주세요");
+        setModalOpen(true);
+        const response = await AxiosApi.EmailCert(email);
+        setSendEmail(response.data);
+        console.log(sendEmail);
+      } else {
+        setModelText("중복된 이메일 입니다.");
+        setModalOpen(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setModelText("오류가 발생했습니다.");
+      console.log(email);
       setModalOpen(true);
     }
-  } catch (error) {
-    console.log(error);
-    setModelText("오류가 발생했습니다.");
-    console.log(email);
-    setModalOpen(true);
-  }
+  };
 
-};
-
-
-const handleCertification = () => {
-  if (inputCert === sendEmail && inputCert !== "" ) {
-    // 인증번호가 일치할 때
-    setModelText("인증이 완료되었습니다.");
-    setAble(false);
-    setModalOpen(true);
-  } else {
-    // 인증번호가 일치하지 않을 때
-    setModelText("인증에 실패하였습니다.");
-    setModalOpen(true);
-  }
-};
+  const handleCertification = () => {
+    if (inputCert === sendEmail && inputCert !== "") {
+      // 인증번호가 일치할 때
+      setModelText("인증이 완료되었습니다.");
+      setAble(false);
+      setModalOpen(true);
+    } else {
+      // 인증번호가 일치하지 않을 때
+      setModelText("인증에 실패하였습니다.");
+      setModalOpen(true);
+    }
+  };
 
   const onClickSignUp = async () => {
     if (!allCheck) {
@@ -385,206 +358,342 @@ const handleCertification = () => {
       setModelText("필수 약관을 동의해주세요.");
       return;
     }
-    if (isId && isPw && isPwConfirm && isName && isTel && isBirth && isPost && isPostNum && isGender) {
+    if (
+      isId &&
+      isPw &&
+      isPwConfirm &&
+      isName &&
+      isTel &&
+      isBirth &&
+      isPost &&
+      isPostNum &&
+      isGender
+    ) {
       try {
-        const isLogin= await AxiosApi.Signup(inputId, inputPw,inputTel, inputName, post + postDetail + postNum, inputBirth, inputGender);
+        const isLogin = await AxiosApi.Signup(
+          inputId,
+          inputPw,
+          inputTel,
+          inputName,
+          post + postDetail + postNum,
+          inputBirth,
+          inputGender
+        );
         setModalOpen(true);
-        console.log("회원가입 성공 ",isLogin);
+        console.log("회원가입 성공 ", isLogin);
         navigate("/login");
       } catch (e) {
         console.log("회원가입 실패", e);
       }
-    } else {      
+    } else {
       setModalOpen(true);
-      setModelText("필수정보를 모두 입력해주세요");}
+      setModelText("필수정보를 모두 입력해주세요");
+    }
   };
 
-  const onPostNum =(num)=>{
+  const onPostNum = (num) => {
     setPostNum(num);
-    setIsPostNum(num !== '' && num !== undefined);
-
+    setIsPostNum(num !== "" && num !== undefined);
   };
 
-  const onPost =(post)=>{
+  const onPost = (post) => {
     setPost(post);
-    setIsPost(post !== '' && post !== undefined);
+    setIsPost(post !== "" && post !== undefined);
   };
 
   const handleGenderChange = (e) => {
     setInputGender(e.target.value);
-    setIsGender(e.target.value !== '' && e.target.value !== undefined);
+    setIsGender(e.target.value !== "" && e.target.value !== undefined);
   };
 
-  const allBtnEvent =()=>{
-    if(allCheck === false) {
+  const allBtnEvent = () => {
+    if (allCheck === false) {
       setAllCheck(true);
       setAgeCheck(true);
       setUseCheck(true);
       setMarketingCheck(true);
-    }else {
+    } else {
       setAllCheck(false);
       setAgeCheck(false);
       setUseCheck(false);
       setMarketingCheck(false);
-    } 
-  };
-  
-  const ageBtnEvent =()=>{
-    if(ageCheck === false) {
-      setAgeCheck(true)
-    }else {
-      setAgeCheck(false)
-    }
-  };
-  
-  const useBtnEvent =()=>{
-    if(useCheck === false) {
-      setUseCheck(true)
-    }else {
-      setUseCheck(false)
-    }
-  };
-  
-  const marketingBtnEvent =()=>{
-    if(marketingCheck === false) {
-      setMarketingCheck(true)
-    }else {
-      setMarketingCheck(false)
     }
   };
 
-  useEffect(()=>{
-    if(ageCheck===true && useCheck===true && marketingCheck===true){
-      setAllCheck(true)
+  const ageBtnEvent = () => {
+    if (ageCheck === false) {
+      setAgeCheck(true);
     } else {
-      setAllCheck(false)
+      setAgeCheck(false);
     }
-  }, [ageCheck,useCheck, marketingCheck])
+  };
 
-  
+  const useBtnEvent = () => {
+    if (useCheck === false) {
+      setUseCheck(true);
+    } else {
+      setUseCheck(false);
+    }
+  };
+
+  const marketingBtnEvent = () => {
+    if (marketingCheck === false) {
+      setMarketingCheck(true);
+    } else {
+      setMarketingCheck(false);
+    }
+  };
+
+  useEffect(() => {
+    if (ageCheck === true && useCheck === true && marketingCheck === true) {
+      setAllCheck(true);
+    } else {
+      setAllCheck(false);
+    }
+  }, [ageCheck, useCheck, marketingCheck]);
+
   return (
-  <CenteredContainer>
-    <Box>
-    <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866"/>
-      <Container>
-        <Items className="login" style={{marginTop:'20px'}}>
-          <span>회원가입</span>
-        </Items>
-        <Items className="item2" style={{display:'flex'}}>
-          <Input2 placeholder="아이디(이메일)" value={inputId} onChange={onChangeId} />
-          <Button2 onClick={()=>SingupIdCheck(inputId)}>중복체크</Button2>
-        </Items>
-        <Hint>
-          {inputId.length > 0 && (
-            <span className={`${isId ? "success" : "error"}`}>{idMessage}</span>
-          )}
-        </Hint>
-
-        <Items className="item2" style={{display:'flex'}}>
-          <Input2 placeholder="인증번호를 입력해주세요" value={inputCert} onChange={(e) => setInputCert(e.target.value)}/>
-          <Button2 onClick={handleCertification}>인증</Button2>
-        </Items>
-        <div style={{height:'2%'}}></div>
-        <Items className="item2">
-          <Input type="password" disabled={able} placeholder="패스워드" value={inputPw} onChange={onChangePw} />
-        </Items>
-        <Hint>
-          {inputPw.length > 0 && (
-            <span className={`${isPw ? "success" : "error"}`}>{pwMessage}</span>
-          )}
-        </Hint>
-        <Items className="item2">
-            <Input type="password" disabled={able} placeholder="패스워드 확인" value={pwConfirm} onChange={onChangePwConfirm} />
-          </Items>  
+    <CenteredContainer>
+      <Box>
+        <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866" />
+        <Container>
+          <Items className="login" style={{ marginTop: "20px" }}>
+            <span>회원가입</span>
+          </Items>
+          <Items className="item2" style={{ display: "flex" }}>
+            <Input2
+              placeholder="아이디(이메일)"
+              value={inputId}
+              onChange={onChangeId}
+            />
+            <Button2 onClick={() => SingupIdCheck(inputId)}>중복체크</Button2>
+          </Items>
           <Hint>
-            {pwConfirm.length > 0 && (
-              <span className={`${isPwConfirm ? "success" : "error"}`}>{pwConfirmMessage}</span>
+            {inputId.length > 0 && (
+              <span className={`${isId ? "success" : "error"}`}>
+                {idMessage}
+              </span>
             )}
           </Hint>
 
-        <Items className="item2">
-          <Input type="input" disabled={able} placeholder="이름" value={inputName} onChange={onChangeName}/>
-        </Items>
-        <div style={{height:'2%'}}></div>
+          <Items className="item2" style={{ display: "flex" }}>
+            <Input2
+              placeholder="인증번호를 입력해주세요"
+              value={inputCert}
+              onChange={(e) => setInputCert(e.target.value)}
+            />
+            <Button2 onClick={handleCertification}>인증</Button2>
+          </Items>
+          <div style={{ height: "2%" }}></div>
+          <Items className="item2">
+            <Input
+              type="password"
+              disabled={able}
+              placeholder="패스워드"
+              value={inputPw}
+              onChange={onChangePw}
+            />
+          </Items>
+          <Hint>
+            {inputPw.length > 0 && (
+              <span className={`${isPw ? "success" : "error"}`}>
+                {pwMessage}
+              </span>
+            )}
+          </Hint>
+          <Items className="item2">
+            <Input
+              type="password"
+              disabled={able}
+              placeholder="패스워드 확인"
+              value={pwConfirm}
+              onChange={onChangePwConfirm}
+            />
+          </Items>
+          <Hint>
+            {pwConfirm.length > 0 && (
+              <span className={`${isPwConfirm ? "success" : "error"}`}>
+                {pwConfirmMessage}
+              </span>
+            )}
+          </Hint>
 
-        <Items className="item2">
-          <Input type="input" disabled={able} placeholder="전화번호" value={inputTel} onChange={onChangeTel}/>
-        </Items>
-        <div style={{height:'2%'}}></div>
+          <Items className="item2">
+            <Input
+              type="input"
+              disabled={able}
+              placeholder="이름"
+              value={inputName}
+              onChange={onChangeName}
+            />
+          </Items>
+          <div style={{ height: "2%" }}></div>
 
-        <Items className="item2">
-            <Input type="input" disabled={able} placeholder="생년월일 (예 : 2000-02-02)" value={inputBirth} onChange={onChangeBirth} />
-        </Items>
-        <div style={{height:'2%'}}></div>
-        
-          <Items className="item2" style={{display:'flex', flexDirection:'column'}}>
-            <div style={{display:'flex', marginBottom:'8px'}}>
-              <Input2 type="input" placeholder="주소" disabled={able} value={post}/>
-              <Button2 type='button' onClick={openPostCode} disabled={able}>주소검색</Button2>
+          <Items className="item2">
+            <Input
+              type="input"
+              disabled={able}
+              placeholder="전화번호"
+              value={inputTel}
+              onChange={onChangeTel}
+            />
+          </Items>
+          <div style={{ height: "2%" }}></div>
+
+          <Items className="item2">
+            <Input
+              type="input"
+              disabled={able}
+              placeholder="생년월일 (예 : 2000-02-02)"
+              value={inputBirth}
+              onChange={onChangeBirth}
+            />
+          </Items>
+          <div style={{ height: "2%" }}></div>
+
+          <Items
+            className="item2"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <div style={{ display: "flex", marginBottom: "8px" }}>
+              <Input2
+                type="input"
+                placeholder="주소"
+                disabled={able}
+                value={post}
+              />
+              <Button2 type="button" onClick={openPostCode} disabled={able}>
+                주소검색
+              </Button2>
             </div>
-            <div id='popupDom'>{isPopupOpen && (<PopupDom><PopupPostCode onPostNum={onPostNum} onPost={onPost} onClose={closePostCode} /></PopupDom>)}
+            <div id="popupDom">
+              {isPopupOpen && (
+                <PopupDom>
+                  <PopupPostCode
+                    onPostNum={onPostNum}
+                    onPost={onPost}
+                    onClose={closePostCode}
+                  />
+                </PopupDom>
+              )}
             </div>
-            <div style={{display:'flex'}}>
-              <Input type="input" placeholder="우편번호" disabled={able} value={postNum}/>
-              <Input type="input" placeholder="상세주소 입력" disabled={able} value={postDetail} onChange={(e) => setPostDetail(e.target.value)}/>
+            <div style={{ display: "flex" }}>
+              <Input
+                type="input"
+                placeholder="우편번호"
+                disabled={able}
+                value={postNum}
+              />
+              <Input
+                type="input"
+                placeholder="상세주소 입력"
+                disabled={able}
+                value={postDetail}
+                onChange={(e) => setPostDetail(e.target.value)}
+              />
             </div>
           </Items>
 
-          <div style={{height:'2%'}}></div>
+          <div style={{ height: "2%" }}></div>
 
-          <Items className="item2" style={{display:'flex'}}>
-          <RadioContainer>
+          <Items className="item2" style={{ display: "flex" }}>
+            <RadioContainer>
               <div>성별 : </div>
               <Radio>
-              <input type="radio" name="gender" value="남" checked={inputGender === "남"} onChange={handleGenderChange} disabled={able}/>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="남"
+                  checked={inputGender === "남"}
+                  onChange={handleGenderChange}
+                  disabled={able}
+                />
                 <Label>남자</Label>
               </Radio>
               <Radio>
-              <input type="radio" name="gender" value="여" checked={inputGender === "여"} onChange={handleGenderChange} disabled={able}/>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="여"
+                  checked={inputGender === "여"}
+                  onChange={handleGenderChange}
+                  disabled={able}
+                />
                 <Label>여자</Label>
               </Radio>
-          </RadioContainer>
+            </RadioContainer>
           </Items>
-          <div style={{height:'2%'}}></div>
-          <Items className="item2" style={{display:'flex'}}>
-            <RadioContainer className="item2" style={{marginBottom:'10px'}}>
-                <Radio>
-                <form method="post" action="" >
+          <div style={{ height: "2%" }}></div>
+          <Items className="item2" style={{ display: "flex" }}>
+            <RadioContainer className="item2" style={{ marginBottom: "10px" }}>
+              <Radio>
+                <form method="post" action="">
                   <div>
-                    <label>
-                      약관동의
-                    </label>
-                    <div >
-                      <div >
-                        <input type="checkbox" id="all-check" checked={allCheck} onChange={allBtnEvent}/>
+                    <label>약관동의</label>
+                    <div>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id="all-check"
+                          checked={allCheck}
+                          onChange={allBtnEvent}
+                        />
                         <label for="all-check">전체동의</label>
                       </div>
-                      <div >
-                        <input type="checkbox" id="check1" checked={ageCheck} onChange={ageBtnEvent}/>
-                        <label for="check1">만 14세 이상입니다 <span>(필수)</span></label>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id="check1"
+                          checked={ageCheck}
+                          onChange={ageBtnEvent}
+                        />
+                        <label for="check1">
+                          만 14세 이상입니다 <span>(필수)</span>
+                        </label>
                       </div>
-                      <div >
-                        <input type="checkbox" id="check2" checked={useCheck}  onChange={useBtnEvent}/>
-                        <label for="check2">이용약관 <span >(필수)</span></label>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id="check2"
+                          checked={useCheck}
+                          onChange={useBtnEvent}
+                        />
+                        <label for="check2">
+                          이용약관 <span>(필수)</span>
+                        </label>
                       </div>
-                      <div >
-                        <input type="checkbox" id="check3" checked={marketingCheck}  onChange={marketingBtnEvent}/>
-                        <label for="check3">마케팅 동의 <span >(선택)</span></label>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id="check3"
+                          checked={marketingCheck}
+                          onChange={marketingBtnEvent}
+                        />
+                        <label for="check3">
+                          마케팅 동의 <span>(선택)</span>
+                        </label>
                       </div>
                     </div>
                   </div>
                 </form>
-                </Radio>
+              </Radio>
             </RadioContainer>
           </Items>
-          <Button1 onClick={onClickSignUp} style={{marginBottom:'20px'}}>회원가입</Button1>
+          <Button1 onClick={onClickSignUp} style={{ marginBottom: "20px" }}>
+            회원가입
+          </Button1>
         </Container>
-    </Box>
-      <Modal type1="0" type="1" open={modalOpen} confirm={closeModal} header="메시지">
-          {modalText}
+      </Box>
+      <Modal
+        type1="0"
+        type="1"
+        open={modalOpen}
+        confirm={closeModal}
+        header="메시지"
+      >
+        {modalText}
       </Modal>
-  </CenteredContainer>
-
+    </CenteredContainer>
   );
 };
 export default SignUp;
