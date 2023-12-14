@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import {  useEffect } from "react";
 import { Center } from "../../components/PublicStyle";
 import AxiosApi from "../../api/Axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const Quicktoss = () =>{
   const navigate = useNavigate();
+  const {feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title}=useParams();
+
 
   useEffect(() => {
     const SaleReg = async () => {
       try {
-        const resp = await AxiosApi.SaleReg(); //결제
-        if (resp.data === true ){
-          navigate("/quick/sucess");
+        console.log(feedName,window.localStorage.getItem("email"),salesAddr,"salesAutoDelivery",salesAutoDelivery,"salesDelivery",salesDelivery,"salesPrice",salesPrice);
+        const resp = await AxiosApi.SaleReg(feedName,window.localStorage.getItem("email"),salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title); //결제
+        if (resp.status === 200 ){
+          navigate(`/quick/sucess/${resp.data}`);
         }else {
           console.log("결제가 실패했습니다.")
           navigate("/quick")

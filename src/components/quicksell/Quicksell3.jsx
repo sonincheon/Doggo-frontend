@@ -109,8 +109,7 @@ const PostBox = styled.div`
 `;
 
 const Quicksell3 = (props) => {
-  const navigate = useNavigate();
-  const { feedName, title } = props;
+  const {feedName, title } = props;
   const [postDetail, setPostDetail] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [postNum, setPostNum] = useState("");
@@ -118,15 +117,20 @@ const Quicksell3 = (props) => {
   const [dayNum, setDayNum] = useState();
   const [price, setPrice] =useState();
   const context = useContext(PayContext);
-  const {setFeedName}=context;
+  const {setFeedName,setSalesAddr,setSalesAutoDelivery,setSalesDelivery,setSalesPrice,setTitle}=context;
 
 
 
   useEffect(()=>{
     if(title==="ONE MONTH FREE"){setPrice("/")};
-    if(title==="STANDARD"){setPrice(99000); props.onPrice(99000);};
-    if(title==="PREMIUM"){setPrice(129000); props.onPrice(129000);};
-  },[])
+    if(title==="STANDARD"){setPrice(99000); props.onPrice(99000);setSalesPrice(99000)};
+    if(title==="PREMIUM"){setPrice(129000); props.onPrice(129000);setSalesPrice(129000)};
+    setFeedName(feedName); 
+    setTitle(title);
+    setSalesAddr(post+postDetail+postNum);
+    setSalesAutoDelivery(dayNum);
+    setSalesDelivery(deliveryDate1);
+  },[postNum,post,dayNum,postDetail])
 
   const openPostCode = () => {
     setIsPopupOpen(true);
@@ -148,6 +152,8 @@ const Quicksell3 = (props) => {
       "월" +
       date11.getDate() +
       "일";
+      const deliveryDate =new Date(),
+      deliveryDate1 = date11.getFullYear() + "-"+(date11.getMonth() ) + '-' + String(dayNum).padStart(2, '0'); ;
 
   const ChangePay = (price)=>{
     return Intl.NumberFormat('en-US').format(price);

@@ -57,11 +57,11 @@ function App() {
             <Route path="/map" element={<Mapmain />} />
             <Route path="/quick" element={<Quickmain />} />
             <Route path="/service" element={<ServiceMain />} />
-              <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
-              <Route path="/quick/toss" element={<TossPage />} />
-              <Route path="/quick/tosspay" element={<Quicktoss />} />
-            <Route path="/quick/sales" element={<Quicksale />} />
-            <Route path="/quick/sucess" element={<Quicksucess />} />
+            <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
+            <Route path="/quick/toss" element={<TossPage />} />
+            <Route path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title" element={<Quicktoss />} />
+            <Route path="/quick/sales" element={<Quicksale />} /> 
+            <Route path="/quick/sucess/:num" element={<Quicksucess />} />
             <Route path="/mypage/" element={<MyPage />} />
           </Route>
           {/* 여긴 어드민 구간  */}

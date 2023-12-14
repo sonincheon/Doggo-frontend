@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import styled from "styled-components";
+import { PayContext } from "../context/Paystore";
 const BtnStyle = styled.button`
   display: block;
   width: 35%;
@@ -21,11 +22,11 @@ const customerKey = "test_sk_PBal2vxj81vQ6xeZRBye35RQgOAN";
 const TossPage = (props) => {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
-  const{payPrice,userAddr,feedName,autoDay}=props;
+  const{payPrice}=props;
   const [price, setPrice] = useState();
+  const context = useContext(PayContext);
+  const {feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title}=context;
 
-  const date11 =new Date(),
-  oderDate1 = date11.getFullYear() + "-"+(date11.getMonth() ) + '-' + autoDay ;
 
   useEffect(() => {
     (async () => {
@@ -69,7 +70,7 @@ const TossPage = (props) => {
               orderName: "테스트 결제용입니다.",
               customerName: "이름",
               customerEmail:window.localStorage.getItem("email"),
-              successUrl: `${window.location.origin}/quick/tosspay`,
+              successUrl: `${window.location.origin}/quick/tosspay/${feedName}/${salesAddr}/${salesAutoDelivery}/${salesDelivery}/${salesPrice}/${title}`,
               failUrl: `${window.location.origin}/quick/sucess`,
             });
             

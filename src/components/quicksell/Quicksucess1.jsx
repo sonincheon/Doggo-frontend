@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { ReactComponent as QrcodeImg } from "../../img/qr코드.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import AxiosApi from "../../api/Axios";
+import { useEffect, useState } from "react";
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,8 +28,8 @@ const TitleBox1 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 800px;
-  height: 220px;
+  width: 80%;
+  height: 300px;
   border-top: 2px solid grey;
   h1 {
     display: flex;
@@ -64,6 +66,29 @@ const SellButton = styled.button`
 const Quicksucess1 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const{num}=useParams();
+  const[saleList,setSaleList]=useState([]);
+
+
+  useEffect(() => {
+    const SaleReg = async () => {
+      try {
+        const resp = await AxiosApi.SaleInfo(num); //결제내역조회
+        if (resp.status === 200 ){
+          console.log(resp.data);
+          setSaleList(resp.data);
+        }else {
+          console.log("정보가 존재하지 않습니다.")
+          navigate("/")
+      }
+      } catch (e) {
+            console.log(e);
+      }};
+      SaleReg();
+    }, []);
+
+    
+
 
   const ChangePay = (price)=>{
     return Intl.NumberFormat('en-US').format(price);
@@ -74,7 +99,6 @@ const Quicksucess1 = () => {
       <TitleBox>
         <h1>결제가 완료되었습니다.</h1>
         <h3>
-          {" "}
           구독 서비스 결제 감사합니다 . 최선을 다하는 멍냥멍냥이 되겠습니다.
         </h3>
         <h3>{searchParams.get("paymentKey")}</h3>
@@ -86,21 +110,29 @@ const Quicksucess1 = () => {
         </h1>
         <h1>
           <h2>결제하신 금액 </h2>
-          <h3>{ChangePay(searchParams.get("amount"))}원 </h3>
+          <h3>{saleList.salesPrice}원 </h3>
+        </h1>
+        <h1>
+          <h2>구독명 / 사료명</h2>
+          <h3>{saleList.salesName} 구독 / {saleList.feedName}</h3>
+        </h1>
+        <h1>
+          <h2>구매일자</h2>
+          <h3>{saleList.salesRegDate}</h3>
         </h1>
       </TitleBox1>
       <TitleBox1 style={{ borderBottom: "2px solid grey" }}>
         <h1>
-          <h2>구독명</h2>
-          <h3>PREMIUM 구독 / (사료명)</h3>
-        </h1>
-        <h1>
           <h2>배송지</h2>
-          <h3>관악구 신림동 신사로 12길 </h3>
+          <h3>{saleList.salesAddr}</h3>
         </h1>
         <h1>
           <h2>배송일자</h2>
-          <h3>2023년 7월 14일</h3>
+          <h3>{saleList.salesDelivery}</h3>
+        </h1>
+        <h1>
+        <h2>정기 배송일</h2>
+          <h3> 매월 {saleList.salesAutoDelivery} 일</h3>
         </h1>
       </TitleBox1>
       <QrcodeImg />

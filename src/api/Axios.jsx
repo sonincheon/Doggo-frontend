@@ -62,6 +62,7 @@ const AxiosApi = {
   FeedInfo: async (id) => {
     return await axios.get(MUNG_HOST + `/feed/list/id?id=${id}`);
   },
+  
 
   //판매 추가
   SaleReg: async (
@@ -71,6 +72,7 @@ const AxiosApi = {
     salesAutoDelivery,
     salesDelivery,
     salesPrice,
+    salesName,
   ) => {
     const saleData = {
       feedName: feedName,
@@ -80,9 +82,28 @@ const AxiosApi = {
       salesDelivery: salesDelivery,
       salesPrice: salesPrice,
       salesType: "AUTO",
+      salesName:salesName,
     };
     return await axios.post(MUNG_HOST + "/sale/new", saleData);
   },
+
+
+
+  //성공페이지 구매내역 디테일 출력 
+  SaleInfo: async (id) => {
+    return await axios.put(MUNG_HOST + `/sale/detail/${id}`);
+  },
+
+  //회원 구매 내역 조회 
+  SaleUserList: async(email) =>{
+    return await axios.get(MUNG_HOST + `/sale/list/email?email=${email}`);
+  },
+
+  // 구매내역 삭제
+  SaleDelete: async(id) =>{
+    return await axios.delete(MUNG_HOST + `/sale/delete/${id}`);
+  },
+
   //일기 추가
   DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate, memberId) => {
     const DiaryData = {
