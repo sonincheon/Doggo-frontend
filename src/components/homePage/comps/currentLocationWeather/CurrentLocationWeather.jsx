@@ -153,7 +153,7 @@ const CurrentLocationWeather = () => {
     if (coords) getWeather();
   }, [coords]);
 
-  // 타이밍 이슈 해결 TT
+  // 타이밍 이슈 해결해야됨 TT
 
   return (
     <>

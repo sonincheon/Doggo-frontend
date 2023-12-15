@@ -55,12 +55,13 @@ const Main = () => {
           <CurrentLocationWeather />
           <RegionWeather />
         </ItemContainer>
-      </SectionContainer>
-      {/* <SectionContainer>
         <ItemContainer>
           <Strays></Strays>
         </ItemContainer>
-      </SectionContainer> */}
+      </SectionContainer>
+      <SectionContainer>
+        
+      </SectionContainer>
     </>
   );
 };
