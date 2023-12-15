@@ -150,7 +150,8 @@ const pet = [
 ]
 
 
-const Eventbox =()=>{
+const Eventbox =(props)=>{
+  const {day}=props;
   const [progress,setProgress] =useState(80);
   const [gender,setGender]=useState("");
   const [age,setAge]=useState("");
@@ -162,6 +163,7 @@ const Eventbox =()=>{
     setModalOpen(false);
   };
 
+
   const circleClick=(name,petimg,gender,age,sign)=>{
     setGender(gender);
     setAge(age);
@@ -170,6 +172,8 @@ const Eventbox =()=>{
     setName(name);
     setModalOpen(true);
   }
+
+
 
   const settings = {
     slide: "div",
@@ -185,10 +189,12 @@ const Eventbox =()=>{
     draggable: true,
     };
     
+
+
     return(
         <>
         <Block>
-            <div className="daybox"><h2>2023년 7월 14일 일지</h2></div>
+            <div className="daybox"><h2>{day} 애완 일기</h2></div>
         <div className="box1">
         <h1>일일한정미션</h1>
         <div className="subbox">

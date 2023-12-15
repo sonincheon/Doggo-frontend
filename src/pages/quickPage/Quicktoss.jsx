@@ -8,11 +8,9 @@ const Quicktoss = () =>{
   const navigate = useNavigate();
   const {feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title}=useParams();
 
-
   useEffect(() => {
     const SaleReg = async () => {
       try {
-        console.log(feedName,window.localStorage.getItem("email"),salesAddr,"salesAutoDelivery",salesAutoDelivery,"salesDelivery",salesDelivery,"salesPrice",salesPrice);
         const resp = await AxiosApi.SaleReg(feedName,window.localStorage.getItem("email"),salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title); //결제
         if (resp.status === 200 ){
           navigate(`/quick/sucess/${resp.data}`);

@@ -152,8 +152,9 @@ const Quicksell3 = (props) => {
       "월" +
       date11.getDate() +
       "일";
+
       const deliveryDate =new Date(),
-      deliveryDate1 = date11.getFullYear() + "-"+(date11.getMonth() ) + '-' + String(dayNum).padStart(2, '0'); ;
+      deliveryDate1 = deliveryDate.getFullYear() + "-"+(deliveryDate.getMonth()+2) + '-' + String(dayNum).padStart(2, '0'); ;
 
   const ChangePay = (price)=>{
     return Intl.NumberFormat('en-US').format(price);

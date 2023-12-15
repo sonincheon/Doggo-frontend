@@ -135,6 +135,17 @@ const AxiosApi = {
     return await axios.delete(MUNG_HOST + `/sale/delete/${id}`);
   },
 
+  //배송 수정 
+  SaleModify:async (id,salesAddr,salesAutoDelivery,salesDelivery)=>{
+    const SaleModifyData = {
+      salesAddr: salesAddr,
+      salesAutoDelivery: salesAutoDelivery,
+      salesDelivery: salesDelivery,
+    };
+    return await axios.put(MUNG_HOST + `/sale/modify/${id}`,SaleModifyData);
+  },
+
+
   //일기 추가
   DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate, memberId) => {
     const DiaryData = {

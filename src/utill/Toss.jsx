@@ -31,7 +31,6 @@ const TossPage = (props) => {
   useEffect(() => {
     (async () => {
       const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
-
       const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
         selector,
         { value: price },

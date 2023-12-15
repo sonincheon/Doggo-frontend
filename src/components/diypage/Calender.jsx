@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
@@ -136,12 +136,21 @@ width: 100%;
 `;
 
 
-const MyCalender = () =>{
+const MyCalender = (props) =>{
   const [date, setDate] = useState(new Date());
 
-  const onChange = (selectedDate) => {
-    setDate(selectedDate);
+  const selectedDate =(date) =>{
+    const nextDay = new Date(date); // date를 변경하지 않고 새로운 객체를 생성합니다.
+    nextDay.setDate(nextDay.getDate() + 1); // 다음 날짜로 설정합니다.
+    return nextDay.toISOString().split('T')[0]; // ISO 형식의 날짜를 반환합니다.
+  }
+
+  const onChange = (seldate) => {
+    props.onSelected(seldate);
+    setDate(seldate);
   };
+    // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
+
 
   const data =[
     {
@@ -169,14 +178,12 @@ const MyCalender = () =>{
       title:"css하기싫네 너무너무너무너무",
       percent:"18%"
     }
-]
+] 
+
 
   const tileContent = ({ date }) => {  
-    // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
-    const selectedDate = date.toISOString().split('T')[0].substring(0, 10);
-  
     // data 배열에서 선택된 날짜와 일치하는 데이터 찾기
-    const eventData = data.find(item => item.date === selectedDate);
+    const eventData = data.find(item => item.date === selectedDate(date));
     return (
       <Story>
       <div className='story1'>
@@ -190,8 +197,7 @@ const MyCalender = () =>{
 
   return (
     <Container>
-      <h1>선택된 날짜: {date.toDateString()}</h1>
-        <StyledCalendar onChange={onChange} value={date} tileContent={tileContent} formatDay={(locale, date) => dayjs(date).format('DD')}/> 
+        <StyledCalendar  onChange={onChange} value={date} tileContent={tileContent} formatDay={(locale, date) => dayjs(date).format('DD')}/> 
     </Container>
   );
   };

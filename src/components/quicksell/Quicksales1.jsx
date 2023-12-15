@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Modal from "../../utill/Modal";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../../api/Axios";
+import Salesmodal from "../../utill/Salesmodal";
 
 const Container = styled.div`
   width: 1000px;
@@ -136,15 +137,23 @@ const CancleButton = styled.button`
 const Quicksale1 = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [sModalOpen, setSModalOpen] = useState(false);
   const [saleList,setSaleList] =useState([]);
   const [saleNum,setSaleNum] =useState();
+
   const closeModal = () => {
     setModalOpen(false);
+    setSModalOpen(false);
   };
 
   const CancleClick = (a)=>{
     setSaleNum(a)
     setModalOpen(true);
+  };
+
+  const openSaleModal = (a)=>{
+    setSaleNum(a)
+    setSModalOpen(true);
   };
 
 const SalesDelete= async()=>{
@@ -155,9 +164,17 @@ const SalesDelete= async()=>{
   } else {
     alert("취소실패")
   }
-
 }
 
+const SalesModify= async()=>{
+  const resp = await AxiosApi.SaleModify(saleNum);
+  if (resp.data === true) {
+    alert("변경확인")
+    setSModalOpen(false);
+  } else {
+    alert("변경실패")
+  }
+}
     useEffect(() => {
         const SalesList = async () => {
           try {
@@ -217,7 +234,7 @@ const SalesDelete= async()=>{
                         width: "21%",
                       }}
                     >
-                     {data.salesName} 버전 구독 /{data.feedName}
+                      {data.salesName} 버전 구독 /{data.feedName}
                     </th>
                     <th>{data.salesDelivery}</th>
                     <th
@@ -252,6 +269,7 @@ const SalesDelete= async()=>{
       <Modal type={1} open={modalOpen} close={closeModal} confirm={SalesDelete}  header="취소 확인">
                 정말 취소 요청 하시겠습니까? 
       </Modal>
+      <Salesmodal type={1} open={sModalOpen} close={closeModal} confirm={SalesModify}  header="변경 요청"/>
     </>
   );
 };
