@@ -26,6 +26,7 @@ import Adminqnapage from "./pages/adminPage/Adminqnapage";
 import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
 import Quicktoss from "./pages/quickPage/Quicktoss";
 import PayStore from "./context/Paystore";
+import ServiceView from "./pages/servicePage/ServiceView";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -42,38 +43,46 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <>
-    {/* 결제용 context  */}
-     <PayStore>
-      <GlobalStyle />
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          {/* 여긴 헤더 풋터 구간  */}
-          <Route element={<Header />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/book" element={<Bookmain />} />
-            <Route path="/diy" element={<Diymain />} />
-            <Route path="/map" element={<Mapmain />} />
-            <Route path="/quick" element={<Quickmain />} />
-            <Route path="/service" element={<ServiceMain />} />
-            <Route path="/quick/sell/:feedId/:title" element={<Quicksell />} />
-            <Route path="/quick/toss" element={<TossPage />} />
-            <Route path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title" element={<Quicktoss />} />
-            <Route path="/quick/sales" element={<Quicksale />} /> 
-            <Route path="/quick/sucess/:num" element={<Quicksucess />} />
-            <Route path="/mypage/" element={<MyPage />} />
-          </Route>
-          {/* 여긴 어드민 구간  */}
-          <Route element={<Admin />}>
-            <Route path="/admin" element={<Adminmainpage />} />
-            <Route path="/admin/user" element={<Adminmemberpage />} />
-            <Route path="/admin/sales" element={<Adminsalespage />} />
-            <Route path="/admin/qna" element={<Adminqnapage />} />
-            <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
-          </Route>
-        </Routes>
-      </Router>
+      {/* 결제용 context  */}
+      <PayStore>
+        <GlobalStyle />
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            {/* 여긴 헤더 풋터 구간  */}
+            <Route element={<Header />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/book" element={<Bookmain />} />
+              <Route path="/diy" element={<Diymain />} />
+              <Route path="/map" element={<Mapmain />} />
+              <Route path="/quick" element={<Quickmain />} />
+              <Route path="/service" element={<ServiceMain />} />
+
+              <Route
+                path="/quick/sell/:feedId/:title"
+                element={<Quicksell />}
+              />
+              <Route path="/quick/toss" element={<TossPage />} />
+              <Route
+                path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title"
+                element={<Quicktoss />}
+              />
+              <Route path="/quick/sales" element={<Quicksale />} />
+              <Route path="/quick/sucess/:num" element={<Quicksucess />} />
+              <Route path="/mypage/" element={<MyPage />} />
+              <Route path="/serviceVeiw" element={<ServiceView />} />
+            </Route>
+            {/* 여긴 어드민 구간  */}
+            <Route element={<Admin />}>
+              <Route path="/admin" element={<Adminmainpage />} />
+              <Route path="/admin/user" element={<Adminmemberpage />} />
+              <Route path="/admin/sales" element={<Adminsalespage />} />
+              <Route path="/admin/qna" element={<Adminqnapage />} />
+              <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
+            </Route>
+          </Routes>
+        </Router>
       </PayStore>
     </>
   );

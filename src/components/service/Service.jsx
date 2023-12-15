@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import ServiceApi from "../../api/ServiceApi";
 
 const Base = styled.div`
   display: flex;
@@ -125,21 +126,48 @@ const faqData = [
   },
 ];
 const Service = () => {
-  const [text, setText] = useState(""); // 문의 유형 선택값 저장
-  const [textareaContent, setTextareaContent] = useState(""); // textarea 내용 저장
-  const [uploadedImage, setUploadedImage] = useState(null); // 선택된 이미지 저장
+  const [boardType, setBoardType] = useState(""); // 문의 유형 선택값 저장
+  const [comment, setComment] = useState(""); // textarea 내용 저장
+  const [boardImg, setBoardImg] = useState(""); // 선택된 이미지 저장
   const imageInput = useRef();
+  const [buttonText, setButtonText] = useState("");
   const navigate = useNavigate();
 
   // 문의 유형 버튼
   const handleButtonClick = (event) => {
-    const text = event.target.innerText;
-    setText(text);
+    let boardTypeValue = "";
+    const buttonText = event.target.innerText;
+    switch (buttonText) {
+      case "배송":
+        boardTypeValue = "DELIVERY";
+        break;
+      case "주문/결제":
+        boardTypeValue = "ORDER";
+        break;
+      case "취소/교환/환불":
+        boardTypeValue = "CANCEL";
+        break;
+      case "회원정보":
+        boardTypeValue = "INFO";
+        break;
+      case "사료문의":
+        boardTypeValue = "CHECK";
+        break;
+      case "이용문의":
+        boardTypeValue = "SERVICE";
+        break;
+      default:
+        break;
+    }
+    setButtonText(buttonText);
+    setBoardType(boardTypeValue);
+    console.log(buttonText, boardTypeValue);
   };
   // textarea 내용 변경 시 처리
   const handleTextareaChange = (event) => {
     const textareaContent = event.target.value;
-    setTextareaContent(textareaContent); // textarea 내용 저장
+    setComment(textareaContent); // textarea 내용 저장
+    console.log(textareaContent);
   };
   const onClickImageUpload = () => {
     imageInput.current.click();
@@ -148,23 +176,26 @@ const Service = () => {
   const onChangeImage = (e) => {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
-    setUploadedImage(imageUrl);
+    setBoardImg(imageUrl);
+    console.log(imageUrl);
   };
 
-  const handleWriteClick = () => {
-    // 로그인 확인하는 함수 넣으면 좋음
-    if (!text || !textareaContent) {
+  const handleSubmit = async () => {
+    if (!boardType || !comment) {
       alert("문의 유형과 내용을 모두 작성 해주세요.");
-      return;
     }
-    // 충족시 다음 페이지 정보 전달
-    navigate("/serviceView", {
-      state: {
-        innerText: text,
-        value: textareaContent,
-        files: uploadedImage,
-      },
-    });
+    try {
+      const rsp = await ServiceApi.boardPlus(boardType, comment, boardImg);
+      if (rsp.data === true) {
+        console.log(rsp);
+        alert("문의 성공");
+        navigate("/serviceView");
+      } else {
+        alert("글쓰기 실패");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const FaqItem = ({ question, answer }) => {
@@ -183,7 +214,7 @@ const Service = () => {
         <h1>1:1 Q & A</h1>
         <p>• 질문이 필요한 유형을 선택하시면 1:1 상담이 가능합니다.</p>
         <p>
-          • 1:1 문의 처리 내역은 <Link to="/serviceView">1:1 처리 내역</Link>
+          • 1:1 문의 처리 내역은 <Link to="/serviceVeiw">1:1 처리 내역</Link>
           에서 확인 가능합니다.
         </p>
         <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
@@ -214,9 +245,9 @@ const Service = () => {
               <h2>문의 내용</h2>
             </div>
             <Box2>
-              <div className="mini">{text}</div>
+              <div className="mini">{buttonText}</div>
               <textarea
-                onClick={handleTextareaChange}
+                onChange={handleTextareaChange}
                 rows="10"
                 cols="40"
                 placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
@@ -236,7 +267,7 @@ const Service = () => {
                   onChange={onChangeImage}
                 />
                 <button onClick={onClickImageUpload}>+</button>
-                {uploadedImage && <img src={uploadedImage} alt="Uploaded" />}
+                {boardImg && <img src={boardImg} alt="Uploaded" />}
               </Box3>
             </Box2>
           </Box>
@@ -258,7 +289,7 @@ const Service = () => {
         </Container>
       </Base>
       <Box3>
-        <button onClick={handleWriteClick}>작성하기</button>
+        <button onClick={handleSubmit}>작성하기</button>
       </Box3>
     </>
   );
