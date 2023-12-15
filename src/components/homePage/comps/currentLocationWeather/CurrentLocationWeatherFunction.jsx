@@ -1,4 +1,5 @@
-// 현재위치 xy 좌표 구하는 로직 함수
+// 지구 좌표계 구하는 로직이 담긴 함수 ,, 나도 몰라 이거 ,,
+// https://blog.naver.com/heejin9867/221330301521 대충 이런 맥락으로 이런 식이 나온다는데
 export const dfs_xy_conv = (code, v1, v2) => {
   const RE = 6371.00877; // 지구 반경(km)
   const GRID = 5.0; // 격자 간격(km)

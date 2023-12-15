@@ -91,7 +91,7 @@ const CurrentLocationWeather = () => {
   const [error, setError] = useState(null);
   // 카카오 api에서 위도경도로 주소값 얻어오는 스테이트훅
   const [address, setAddress] = useState("");
-  // x 값 y 값을 구하는 스테이트훅
+  // 기상청에 전달할 지리정보를 구하는 스테이트 훅
   const [coords, setCoords] = useState("");
   // 파이썬에서 넘어온 실시간 기상정보 스테이트훅
   const [weather, setWeather] = useState("");
