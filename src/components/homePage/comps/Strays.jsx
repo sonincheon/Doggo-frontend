@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled, { keyframes } from 'styled-components';
-import { useNavigate } from "react-router-dom";
-import { fetchStrays } from "../../../api/StraysApi";
+// import { useNavigate } from "react-router-dom";
+import { StrayAxiosApi } from "../../../api/StraysApi";
+import CurrentAddressContext from "../CurrentAddressContext";
 
-function importAll(r) {
-  return r.keys().map(r);
-}
+const STRAY_DETAIL_URL = "https://www.animal.go.kr/front/awtis/public/publicDtl.do?desertionNo=";
+
+
 
 // 테스트를 위한 이미지를 위한 선언 , 크롤링 과 API 끝나고 유기할 예정
-const images = importAll(require.context('../../../img/strays/', false, /\.(png|jpe?g|svg)$/));
-const extendedImages = [...images, ...images, ...images];
+// const images = importAll(require.context('../../../img/strays/', false, /\.(png|jpe?g|svg)$/));
+// const extendedImages = [...images, ...images, ...images];
 
 const slide = keyframes`
   0% {
@@ -36,8 +37,8 @@ const SliderContainer = styled.div`
 
 const SliderTrack = styled.div`
   display: flex;
-  height: 80%;
-  width: calc(100% * ${extendedImages.length});
+  height: 50%;
+  width: calc(10vw * ${props => props.$straysLength});
   animation:  ${slide} 720s linear infinite;
 `;
 
@@ -56,6 +57,7 @@ const Slide = styled.div`
   height: 100%; 
   margin-right: 0.1%; 
   padding: 0; 
+  cursor: pointer;
 
   img {
     width: 100%; 
@@ -82,52 +84,53 @@ const InfoArea = styled.div`
 
 const Strays = () => {
   const [strays, setStrays] = useState([]);
+  const { currentAddress } = useContext(CurrentAddressContext);
 //   const navigate = useNavigate();
+  
+useEffect(() => {
+  const loadStrays = async () => {
+    try {
+      // currentAddress를 공백으로 나누어 배열 생성
+      const addressParts = currentAddress.split(" ");
+      // 배열의 첫 번째 요소 사용
+      const region = addressParts[0];
 
-  useEffect(() => {
-    // 스트레이 데이터 로드
-    const loadStrays = async () => {
-      try {
-        const data = await fetchStrays();
-        setStrays(data);
-      } catch (error) {
-        console.error('Error fetching strays:', error);
-        // 여기에 사용자에게 오류를 알리는 UI를 추가할 수 있습니다.
-      }
-    };
+      const data = await StrayAxiosApi.getStrays(region);
+      console.log(data);
+      setStrays(data);
+    } catch (error) {
+      console.error('Error fetching strays:', error);
+    }
+  };
 
+  if (currentAddress) {
     loadStrays();
-  }, []);
+  }
+}, [currentAddress]);
 
-  const handleSlideClick = () => {
-    // console.log(id);
-    // TODO: 실제 이동 경로 설정 필요
-    // navigate("/", { state: { strayId: id } });
+
+  const handleSlideClick = (url) => {
+    window.open(url, '_blank');
   };
 
 
   return (
     <>
     <SliderContainer>
-      <Banner/>
-      <SliderTrack>
-      
-        {extendedImages.map((index) => (
-          <Slide key={index} onClick={() => handleSlideClick()}>
-            {/* api로 데이터 넘어오면 주석처리한 부분으로 대체할 예정 */}
-            {/* <img src={stray.image} alt={`Stray ${stray.name}`} /> */}
-            <img src={index} alt={`Stray ${index}`} />
+      <Banner />
+      <SliderTrack $straysLength={strays.length}>
+        {strays.map((stray, index) => (
+          <Slide key={index} onClick={() => handleSlideClick(STRAY_DETAIL_URL+stray.animalNumber)}>
+            <img src={stray.imageLink} alt={`Stray ${stray.breed}`} />
             <InfoArea>
-              <p>보호소 위치: 천호</p>
-              <p>이름: 돼냥이</p>
-              <p>나이: 3살</p>
-              <p>품종: 돼지</p>
+              <p>보호소 위치: {stray.city}</p>
+              <p>품종: {stray.breed}</p>
             </InfoArea>
           </Slide>
         ))}
       </SliderTrack>
     </SliderContainer>
-    </>
+  </>
   );
 };
 

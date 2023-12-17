@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {
@@ -12,6 +12,8 @@ import {
   good_weather,
   bad_weather,
 } from "../../../../img/weather";
+
+import CurrentAddressContext from "../../CurrentAddressContext";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",
@@ -84,6 +86,8 @@ const WeatherItem = styled.div`
   width: 100%;
 `;
 
+
+
 const CurrentLocationWeather = () => {
   // 리액트 라이브러리로 위도경도를 구하는 훅
   const [location, setLocation] = useState({ lat: 0, long: 0 });
@@ -97,6 +101,8 @@ const CurrentLocationWeather = () => {
   const [weather, setWeather] = useState("");
   // 좋음/나쁨 표현을 위한 스테이트훅
   const [weatherCondition, setWeatherCondition] = useState(null);
+  // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
+  const { setCurrentAddress } = useContext(CurrentAddressContext);
 
   // 리액트 라이브러리를 통해 위도/경도를 얻어오는 이펙트훅
   useEffect(() => {
@@ -104,6 +110,7 @@ const CurrentLocationWeather = () => {
       (position) => onSuccess(position, setLocation),
       (error) => onError(error, setError)
     );
+    console.log(location);
   }, []);
 
   useEffect(() => {
@@ -117,6 +124,7 @@ const CurrentLocationWeather = () => {
       try {
         const addr = await getGeocodeKakao(location.lat, location.long);
         setAddress(addr);
+        setCurrentAddress(addr); // 메인페이지 한해서 전역적으로 쓰기 위해 할당
       } catch (error) {
         console.error("Kakao Geocoding error:", error);
       }
@@ -139,11 +147,6 @@ const CurrentLocationWeather = () => {
           console.log(response.data);
           setWeather(response.data);
 
-          if (weather.condition === 0) {
-            setWeatherCondition(true);
-          } else {
-            setWeatherCondition(false);
-          }
         } catch (error) {
           console.error("Weather error:", error);
         }
@@ -153,7 +156,18 @@ const CurrentLocationWeather = () => {
     if (coords) getWeather();
   }, [coords]);
 
+  // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
+  useEffect(() => {
+    if (parseInt(weather.condition) === 0) {
+      setWeatherCondition(true);
+    } else {
+      setWeatherCondition(false);
+    }
+  }, [weather]);
+
   // 타이밍 이슈 해결해야됨 TT
+
+  
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 // import { useInView } from "react-intersection-observer";
 import Introduction from "./comps/Introduction";
@@ -6,6 +6,7 @@ import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
+import CurrentAddressContext from "./CurrentAddressContext";
 
 const fadeIn = `
   opacity: 1;
@@ -43,25 +44,29 @@ const ItemContainer = styled.div.attrs({
   /* border: 1px solid black; */
 `;
 
+
+
 const Main = () => {
+  const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
+
   return (
     <>
-      <SectionContainer>
-        <ItemContainer>
-          <Introduction />
-          <UserStatus />
-        </ItemContainer>
-        <ItemContainer $height="40%">
-          <CurrentLocationWeather />
-          <RegionWeather />
-        </ItemContainer>
-        <ItemContainer>
-          <Strays></Strays>
-        </ItemContainer>
-      </SectionContainer>
-      <SectionContainer>
-        
-      </SectionContainer>
+      <CurrentAddressContext.Provider value={{ currentAddress, setCurrentAddress }}>
+        <SectionContainer>
+          <ItemContainer>
+            <Introduction />
+            <UserStatus />
+          </ItemContainer>
+          <ItemContainer $height="40%">
+            <CurrentLocationWeather />
+            <RegionWeather />
+          </ItemContainer>
+          <ItemContainer>
+            <Strays></Strays>
+          </ItemContainer>
+        </SectionContainer>
+        <SectionContainer></SectionContainer>
+      </CurrentAddressContext.Provider>
     </>
   );
 };
