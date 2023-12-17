@@ -245,14 +245,12 @@ const Petmodal = (props) => {
     props;
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);
-  const [button, setButton] = useState("");
   const [inputName, setInputName] = useState("");
   const [inputGender, setInputGender] = useState("");
   const [inputAge, setInputAge] = useState("");
   const [inputType, setInputType] = useState("");
   const [inputBreed, setInputBreed] = useState("");
   const [inputSign, setInputSign] = useState("");
-  const [editReg, setEditReg] = useState();
 
   const onChangeName = (e) => {
     setInputName(e.target.value);
@@ -263,8 +261,8 @@ const Petmodal = (props) => {
   const onChangeAge = (e) => {
     setInputAge(e.target.value);
   };
-  const onChangeType = (e) => {
-    setInputType(e);
+  const onChangeType = (value) => {
+    setInputType(value);
   };
   const onChangeSign = (e) => {
     setInputSign(e.target.value);
@@ -314,16 +312,7 @@ const Petmodal = (props) => {
   const navigate = useNavigate();
 
   const petUpload = async () => {
-    console.log(
-      "Inside petUpload:",
-      inputName,
-      inputGender,
-      inputType,
-      inputBreed,
-      inputAge,
-      url,
-      inputSign
-    );
+    console.log("Inside petUpload:", inputType);
     try {
       const rsp = await AxiosApi.petReg(
         inputName,
@@ -401,7 +390,10 @@ const Petmodal = (props) => {
       <div className={open ? "openModal modal" : "modal"}>
         {open && (
           <section>
-            <header>반려동물 정보 {button}</header>
+            <header style={{ display: "flex" }}>
+              반려동물 정보{" "}
+              {type && type === 1 ? <div> 추가</div> : <div> 수정</div>}
+            </header>
             <main style={{ display: "flex", justifyContent: "center" }}>
               <div
                 style={{
@@ -459,18 +451,18 @@ const Petmodal = (props) => {
                     <label>
                       <input
                         type="radio"
-                        value="DOG"
-                        checked={inputType === "DOG"}
-                        onChange={() => onChangeType("DOG")}
+                        value={1}
+                        checked={inputType === 1}
+                        onChange={() => onChangeType(1)}
                       />
                       개
                     </label>
                     <label>
                       <input
                         type="radio"
-                        value="CAT"
-                        checked={inputType === "CAT"}
-                        onChange={() => onChangeType("CAT")}
+                        value={2}
+                        checked={inputType === 2}
+                        onChange={() => onChangeType(2)}
                       />
                       고양이
                     </label>

@@ -84,9 +84,7 @@ const AxiosApi = {
       memberId: window.localStorage.getItem("email"),
       petName: name,
       gender: gender,
-      animalType: {
-        id: Type,
-      },
+      animalType: Type,
       breed: breed,
       birthDate: birth,
       imageLink: image,
@@ -95,14 +93,13 @@ const AxiosApi = {
     return await axios.post(MUNG_HOST + "/pet/new", pet);
   },
 
+  // 펫 수정
   petUpdate: async (id, name, gender, Type, breed, birth, image, detail) => {
     const pet = {
       memberId: window.localStorage.getItem("email"),
       petName: name,
       gender: gender,
-      animalType: {
-        animalType: Type,
-      },
+      animalType: Type,
       breed: breed,
       birthDate: birth,
       // image 값이 존재할 때만 imageLink 추가

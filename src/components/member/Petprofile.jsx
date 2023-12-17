@@ -181,11 +181,10 @@ const Petprofile = () => {
     petGet();
   }, [modalOpen]);
 
-  const Click = async () => {
-    console.log(list);
-    console.log("시발롬" + petType);
+  const Click = async (list) => {
     console.log(list.id);
     console.log(list.petName);
+    console.log("개냥이" + list.animalType.id);
   };
 
   const handleDelete = async (id, petName) => {
@@ -221,7 +220,7 @@ const Petprofile = () => {
                 </div>
                 <div className="PetSign">
                   종 : {list.breed}
-                  <Btn2 onClick={Click}>도감 보기</Btn2>
+                  <Btn2 onClick={() => Click(list)}>도감 보기</Btn2>
                 </div>
                 <div className="PetSign">특이사항 : {list.detail}</div>
                 <div className="PetSign">
@@ -243,7 +242,7 @@ const Petprofile = () => {
                       list.breed,
                       list.detail,
                       list.imageLink,
-                      list.animalType.animalType,
+                      list.animalType.id,
                       list.id
                     )
                   }
