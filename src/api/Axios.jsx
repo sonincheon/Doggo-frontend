@@ -36,7 +36,7 @@ const AxiosApi = {
     return await axios.get(MUNG_HOST + `/member/detail/${email}`);
   },
 
-  // 성별(gender)과 유형(type)에 따라 memberUpdate 호출 및 수정
+  // 유형(type)에 따라 memberUpdate 호출 및 수정
   memberUpdate: async (changeInfo, type) => {
     let member = {};
     switch (type) {
@@ -59,10 +59,40 @@ const AxiosApi = {
           memberTel: changeInfo,
         };
         break;
+      case 4:
+        member = {
+          memberEmail: window.localStorage.getItem("email"),
+          memberImage: changeInfo,
+        };
+        console.log(member);
+        break;
       default:
         break;
     }
     return await axios.put(MUNG_HOST + `/member/modify`, member);
+  },
+
+  // 회원 탈퇴
+  memberDelete: async (email) => {
+    console.log(email);
+    return await axios.delete(MUNG_HOST + `/member/delete/${email}`);
+  },
+
+  // 펫 등록
+  petReg: async (name, gender, Type, breed, birth, image, detail) => {
+    const pet = {
+      memberId: window.localStorage.getItem("email"),
+      petName: name,
+      gender: gender,
+      animalType: {
+        id: Type,
+      },
+      breed: breed,
+      birthDate: birth,
+      imageLink: image,
+      detail: detail,
+    };
+    return await axios.post(MUNG_HOST + "/pet/new", pet);
   },
 
   //펫 조회
@@ -135,16 +165,15 @@ const AxiosApi = {
     return await axios.delete(MUNG_HOST + `/sale/delete/${id}`);
   },
 
-  //배송 수정 
-  SaleModify:async (id,salesAddr,salesAutoDelivery,salesDelivery)=>{
+  //배송 수정
+  SaleModify: async (id, salesAddr, salesAutoDelivery, salesDelivery) => {
     const SaleModifyData = {
       salesAddr: salesAddr,
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
     };
-    return await axios.put(MUNG_HOST + `/sale/modify/${id}`,SaleModifyData);
+    return await axios.put(MUNG_HOST + `/sale/modify/${id}`, SaleModifyData);
   },
-
 
   //일기 추가
   DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate, memberId) => {

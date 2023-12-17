@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Usermodal from "../../utill/Usermodal";
 import Pwdmodal from "../../utill/Pwdmodal";
@@ -155,6 +155,8 @@ const Myprofile = () => {
 
   const [detail, setDetail] = useState("");
 
+  const navigate = useNavigate();
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -180,9 +182,23 @@ const Myprofile = () => {
     setPassword(Password);
   };
 
-  const openClick2 = (img) => {
+  const openClick2 = (img, changeCase) => {
     setModalOpen2(true);
     setImage(img);
+    setChangeCase(changeCase);
+  };
+
+  const memberDelete = async () => {
+    try {
+      if (window.confirm("탈퇴하시겠습니까?")) {
+        await AxiosApi.memberDelete(window.localStorage.getItem("email"));
+        alert("회원 탈퇴를 완료했습니다");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("회원 탈퇴에 실패했습니다.");
+    }
   };
 
   const member = [
@@ -224,7 +240,7 @@ const Myprofile = () => {
           <Profile>
             <ProfileImage
               src={detail.memberImage}
-              onClick={() => openClick2(detail.memberImage)}
+              onClick={() => openClick2(detail.memberImage, 4)}
             />
             <OverlayText>수정</OverlayText>
           </Profile>
@@ -299,6 +315,7 @@ const Myprofile = () => {
             </Btn2>
             <Btn2>1대1 문의하기</Btn2>
             <Btn2>구매 내역 조회</Btn2>
+            <Btn2 onClick={memberDelete}>회원 탈퇴</Btn2>
           </Btn1>
         </BoxContent2>
       </BoxContent>
@@ -317,12 +334,12 @@ const Myprofile = () => {
         detail={password}
       ></Pwdmodal>
       <Imgmodal
-        type={1}
         open={modalOpen2}
         close={closeModal2}
         header={headerName}
         name={bodyName}
         image={image}
+        type={changeCase}
       ></Imgmodal>
     </div>
   );

@@ -90,6 +90,8 @@ const PetInfo2 = styled.div`
 
 const PetInfo3 = styled.div`
   height: 207px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Btn = styled.button`
@@ -137,28 +139,28 @@ const Petprofile = () => {
   const [petName, setPetName] = useState("");
   const [petGender, setPetGender] = useState("");
   const [petAge, setPetAge] = useState("");
-  const [petType, setPetType] = useState("");
+  const [petBreed, setPetBreed] = useState("");
   const [petSign, setPetSign] = useState("");
   const [petImg, setPetImg] = useState("");
+  const [petType, setPetType] = useState("");
 
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  const openClick = (name, gender, age, type, sign, img) => {
+  const openClick = (name, gender, age, breed, sign, img, Type) => {
     setModalOpen(true);
     setPetName(name);
     setPetAge(age);
     setPetGender(gender);
     setPetSign(sign);
-    setPetType(type);
+    setPetBreed(breed);
     setPetImg(img);
+    setPetType(Type);
   };
 
-  // 게시글 목록과 관련된 상태값을 정의합니다.
   const [list, setList] = useState([]);
 
-  // 서버에서 게시글 목록을 불러오는 함수를 정의합니다.
   const petGet = async () => {
     try {
       const resp = await AxiosApi.petGet(window.localStorage.getItem("email"));
@@ -173,14 +175,19 @@ const Petprofile = () => {
 
   useEffect(() => {
     petGet();
-  }, []);
+  }, [modalOpen]);
+
+  const Click = async () => {
+    console.log(list);
+    console.log(petType);
+  };
 
   return (
     <div style={{ marginLeft: "1rem" }}>
       <BoxTitle>PET PROFILE</BoxTitle>
       <BoxContent>
-        {list.map((list) => (
-          <BoxContent1>
+        {list.map((list, index) => (
+          <BoxContent1 key={index}>
             <PetProfile src={list.imageLink} />
             <PetInfo1>
               <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
@@ -193,25 +200,34 @@ const Petprofile = () => {
                 </div>
                 <div className="PetSign">
                   종 : {list.breed}
-                  <Btn2>도감 보기</Btn2>
+                  <Btn2 onClick={Click}>도감 보기</Btn2>
                 </div>
                 <div className="PetSign">특이사항 : {list.detail}</div>
+                <div className="PetSign">
+                  {list.animalType &&
+                    (list.animalType.animalType === "DOG"
+                      ? "강아지"
+                      : "고양이")}
+                </div>
               </PetInfo2>
               <PetInfo3>
                 <Btn
+                  style={{ marginBottom: "10px" }}
                   onClick={() =>
                     openClick(
                       list.petName,
                       list.gender,
-                      list.breed,
                       list.birthDate,
+                      list.breed,
                       list.detail,
-                      list.imageLink
+                      list.imageLink,
+                      list.animalType.animalType
                     )
                   }
                 >
                   수정
                 </Btn>
+                <Btn onClick={() => openClick()}>삭제</Btn>
               </PetInfo3>
             </PetInfo1>
           </BoxContent1>
@@ -238,9 +254,10 @@ const Petprofile = () => {
         name={petName}
         gender={petGender}
         age={petAge}
-        Type={petType}
+        breed={petBreed}
         img={petImg}
         sign={petSign}
+        Type={petType}
       ></Petmodal>
     </div>
   );

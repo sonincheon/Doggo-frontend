@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { storage } from "./FireBase";
+import AxiosApi from "../api/Axios";
 
 const ModalStyle = styled.div`
   .modal {
@@ -159,7 +160,7 @@ const ImgBox = styled.div`
 `;
 
 const Imgmodal = (props) => {
-  const { open, confirm, close, type, image } = props;
+  const { open, close, type, image } = props;
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);
 
@@ -185,6 +186,21 @@ const Imgmodal = (props) => {
     } catch (error) {
       // 에러를 처리합니다.
       console.error("Upload failed", error);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await AxiosApi.memberUpdate(url, type);
+      alert("회원 정보가 성공적으로 수정되었습니다.");
+      close();
+      setUrl("");
+    } catch (error) {
+      console.log(error);
+      alert("회원 정보 수정에 실패했습니다.");
+      close();
+      setUrl("");
+      console.log(url);
     }
   };
 
@@ -238,7 +254,7 @@ const Imgmodal = (props) => {
               </div>
             </main>
             <footer>
-              {type && <button onClick={confirm}>수정</button>}
+              <button onClick={handleUpdate}>수정</button>
               <button onClick={Close}>취소</button>
             </footer>
           </section>
