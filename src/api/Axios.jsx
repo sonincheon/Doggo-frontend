@@ -95,9 +95,32 @@ const AxiosApi = {
     return await axios.post(MUNG_HOST + "/pet/new", pet);
   },
 
+  petUpdate: async (id, name, gender, Type, breed, birth, image, detail) => {
+    const pet = {
+      memberId: window.localStorage.getItem("email"),
+      petName: name,
+      gender: gender,
+      animalType: {
+        animalType: Type,
+      },
+      breed: breed,
+      birthDate: birth,
+      // image 값이 존재할 때만 imageLink 추가
+      ...(image && { imageLink: image }),
+      detail: detail,
+    };
+
+    return await axios.put(MUNG_HOST + `/pet/modify/${id}`, pet);
+  },
+
   //펫 조회
   petGet: async (email) => {
     return await axios.get(MUNG_HOST + `/pet/list/email?email=${email}`);
+  },
+
+  // 펫 삭제
+  petDel: async (id) => {
+    return await axios.delete(MUNG_HOST + `/pet/delete/${id}`);
   },
 
   //이메일 샌더

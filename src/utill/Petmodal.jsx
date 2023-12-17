@@ -241,7 +241,7 @@ const ImgBox = styled.div`
 `;
 
 const Petmodal = (props) => {
-  const { open, type, close, name, gender, age, breed, img, sign, Type } =
+  const { open, type, close, name, gender, age, breed, img, sign, Type, id } =
     props;
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);
@@ -252,6 +252,7 @@ const Petmodal = (props) => {
   const [inputType, setInputType] = useState("");
   const [inputBreed, setInputBreed] = useState("");
   const [inputSign, setInputSign] = useState("");
+  const [editReg, setEditReg] = useState();
 
   const onChangeName = (e) => {
     setInputName(e.target.value);
@@ -263,7 +264,7 @@ const Petmodal = (props) => {
     setInputAge(e.target.value);
   };
   const onChangeType = (e) => {
-    setInputType(e.target.value);
+    setInputType(e);
   };
   const onChangeSign = (e) => {
     setInputSign(e.target.value);
@@ -299,7 +300,6 @@ const Petmodal = (props) => {
   };
 
   const Close = () => {
-    setUrl("");
     setFile("");
     setInputAge("");
     setInputName("");
@@ -307,13 +307,15 @@ const Petmodal = (props) => {
     setInputGender("");
     setInputSign("");
     setInputType("");
+    setUrl("");
     close();
   };
 
   const navigate = useNavigate();
 
-  const petUpdate = async () => {
+  const petUpload = async () => {
     console.log(
+      "Inside petUpload:",
       inputName,
       inputGender,
       inputType,
@@ -335,9 +337,45 @@ const Petmodal = (props) => {
       if (rsp.data === true) {
         alert("등록 성공");
         navigate("/mypage");
-        Close();
+        setUrl("");
+        close();
       } else {
-        alert("등록 실패");
+        alert("등록 실패2222");
+        console.log(rsp);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const petUpdate = async () => {
+    console.log(
+      inputName,
+      inputGender,
+      inputType,
+      inputBreed,
+      inputAge,
+      url,
+      inputSign
+    );
+    try {
+      const rsp = await AxiosApi.petUpdate(
+        id,
+        inputName,
+        inputGender,
+        inputType,
+        inputBreed,
+        inputAge,
+        url,
+        inputSign
+      );
+      if (rsp.data === true) {
+        alert("등록 성공");
+        navigate("/mypage");
+        setUrl("");
+        close();
+      } else {
+        alert("등록 실패1111");
         console.log(rsp);
       }
     } catch (error) {
@@ -346,25 +384,16 @@ const Petmodal = (props) => {
   };
 
   useEffect(() => {
+    console.log(Type);
     if (open) {
-      setInputName(name);
-      setInputGender(gender);
-      setInputAge(age);
-      setInputBreed(breed);
-      setInputType(Type);
-      setInputSign(sign);
-
-      const btnChange = () => {
-        if (name === undefined) {
-          setButton("추가");
-        } else {
-          setButton("수정");
-          console.log(name);
-        }
-      };
-      btnChange();
+      setInputName(name || "");
+      setInputGender(gender || "");
+      setInputAge(age || "");
+      setInputBreed(breed || "");
+      setInputType(Type || "");
+      setInputSign(sign || "");
     }
-  }, [open, name, gender, age, breed, Type, sign]);
+  }, [open, name, gender, age, breed, Type, sign, img]);
 
   // &times; 는 X표 문자를 의미
   return (
@@ -407,30 +436,22 @@ const Petmodal = (props) => {
                 <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
                 <PetInfo2>
                   <PetInfo3>
-                    이름 :{" "}
-                    <PetSign defaultValue={inputName} onChange={onChangeName} />
+                    이름 : <PetSign value={inputName} onChange={onChangeName} />
                   </PetInfo3>
                   <PetInfo3>
                     성별 :{" "}
-                    <PetSign
-                      defaultValue={inputGender}
-                      onChange={onChangeGender}
-                    />
+                    <PetSign value={inputGender} onChange={onChangeGender} />
                   </PetInfo3>
                   <PetInfo3>
                     생년월일 :{" "}
-                    <PetSign defaultValue={inputAge} onChange={onChangeAge} />
+                    <PetSign value={inputAge} onChange={onChangeAge} />
                   </PetInfo3>
                   <PetInfo3>
-                    종 :{" "}
-                    <PetSign
-                      defaultValue={inputBreed}
-                      onChange={onChangeBreed}
-                    />
+                    종 : <PetSign value={inputBreed} onChange={onChangeBreed} />
                   </PetInfo3>
                   <PetInfo3>
                     특이사항 :{" "}
-                    <PetSign defaultValue={inputSign} onChange={onChangeSign} />
+                    <PetSign value={inputSign} onChange={onChangeSign} />
                   </PetInfo3>
                   <PetInfo3>
                     {" "}
@@ -438,18 +459,18 @@ const Petmodal = (props) => {
                     <label>
                       <input
                         type="radio"
-                        value="1"
-                        checked={inputType === "1"}
-                        onChange={onChangeType}
+                        value="DOG"
+                        checked={inputType === "DOG"}
+                        onChange={() => onChangeType("DOG")}
                       />
                       개
                     </label>
                     <label>
                       <input
                         type="radio"
-                        value="2"
-                        checked={inputType === "1"}
-                        onChange={onChangeType}
+                        value="CAT"
+                        checked={inputType === "CAT"}
+                        onChange={() => onChangeType("CAT")}
                       />
                       고양이
                     </label>
@@ -458,7 +479,11 @@ const Petmodal = (props) => {
               </PetInfo1>
             </main>
             <footer>
-              {type && <button onClick={petUpdate}>{button}</button>}
+              {type && type === 1 ? (
+                <button onClick={petUpload}>추가</button>
+              ) : (
+                <button onClick={petUpdate}>수정</button>
+              )}
               <button onClick={Close}>취소</button>
             </footer>
           </section>

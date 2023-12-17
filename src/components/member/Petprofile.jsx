@@ -143,12 +143,15 @@ const Petprofile = () => {
   const [petSign, setPetSign] = useState("");
   const [petImg, setPetImg] = useState("");
   const [petType, setPetType] = useState("");
+  const [type, setType] = useState();
+  const [id, setId] = useState("");
 
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  const openClick = (name, gender, age, breed, sign, img, Type) => {
+  const openClick = (a, name, gender, age, breed, sign, img, Type, id) => {
+    setType(a);
     setModalOpen(true);
     setPetName(name);
     setPetAge(age);
@@ -157,6 +160,7 @@ const Petprofile = () => {
     setPetBreed(breed);
     setPetImg(img);
     setPetType(Type);
+    setId(id);
   };
 
   const [list, setList] = useState([]);
@@ -179,7 +183,24 @@ const Petprofile = () => {
 
   const Click = async () => {
     console.log(list);
-    console.log(petType);
+    console.log("시발롬" + petType);
+    console.log(list.id);
+    console.log(list.petName);
+  };
+
+  const handleDelete = async (id, petName) => {
+    try {
+      if (window.confirm(`${petName}을 삭제하시겠습니까?`)) {
+        await AxiosApi.petDel(`${id}`);
+        alert("반려동물이 삭제되었습니다.");
+        petGet();
+      }
+    } catch (error) {
+      console.log(error);
+      alert("반려동물 삭제에 실패했습니다.");
+      console.log(id);
+      console.log(list);
+    }
   };
 
   return (
@@ -215,19 +236,23 @@ const Petprofile = () => {
                   style={{ marginBottom: "10px" }}
                   onClick={() =>
                     openClick(
+                      2,
                       list.petName,
                       list.gender,
                       list.birthDate,
                       list.breed,
                       list.detail,
                       list.imageLink,
-                      list.animalType.animalType
+                      list.animalType.animalType,
+                      list.id
                     )
                   }
                 >
                   수정
                 </Btn>
-                <Btn onClick={() => openClick()}>삭제</Btn>
+                <Btn onClick={() => handleDelete(list.id, list.petName)}>
+                  삭제
+                </Btn>
               </PetInfo3>
             </PetInfo1>
           </BoxContent1>
@@ -242,13 +267,13 @@ const Petprofile = () => {
               <div className="PetSign">더 많은 친구들을 추가해보세요!</div>
             </PetInfo2>
             <PetInfo3>
-              <Btn onClick={() => openClick()}>추가</Btn>
+              <Btn onClick={() => openClick(1)}>추가</Btn>
             </PetInfo3>
           </PetInfo1>
         </BoxContent1>
       </BoxContent>
       <Petmodal
-        type={1}
+        type={type}
         open={modalOpen}
         close={closeModal}
         name={petName}
@@ -258,6 +283,7 @@ const Petprofile = () => {
         img={petImg}
         sign={petSign}
         Type={petType}
+        id={id}
       ></Petmodal>
     </div>
   );
