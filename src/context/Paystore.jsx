@@ -9,9 +9,7 @@ const PayStore = (props) => {
   const [salesDelivery,setSalesDelivery] = useState();
   const [salesPrice,setSalesPrice] = useState();
   const [title,setTitle] = useState();
-
-
-
+  const [isTrue,setIsTrue]=useState();
 
   return (
     <PayContext.Provider
@@ -21,7 +19,8 @@ const PayStore = (props) => {
         salesAutoDelivery,setSalesAutoDelivery,
         salesDelivery,setSalesDelivery,
         salesPrice,setSalesPrice,
-        title,setTitle
+        title,setTitle,
+        isTrue,setIsTrue
       }}
     >
       {props.children}

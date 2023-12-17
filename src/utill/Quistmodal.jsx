@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import AxiosApi from "../api/Axios";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ModalStyle = styled.div`
   .modal {
@@ -194,13 +196,28 @@ const DogCare = [
 ];
 
 const QuistModal = (props) => {
-  const { open, confirm, close, petGender, petSign, petAge, petName, petImg } =
-    props;
+  const { open, confirm, close, petGender, petSign, petAge, petName, petImg, id, quest,day} =props;
   const [click1, setClick1] = useState(false);
   const [click2, setClick2] = useState(false);
   const [click3, setClick3] = useState(false);
   const [click4, setClick4] = useState(false);
   const [click5, setClick5] = useState(false);
+
+  useEffect(()=>{
+    setClick1(quest.quest1);
+    setClick2(quest.quest2);
+    setClick3(quest.quest3);
+    setClick4(quest.quest4);
+    setClick5(quest.quest5);
+  },[quest])
+  
+  useEffect(()=>{
+    setClick1(false)
+    setClick2(false)
+    setClick3(false)
+    setClick4(false)
+    setClick5(false)
+  },[day])
 
   const clickBtn = (index) => {
     if (index === 1) {
@@ -236,14 +253,25 @@ const QuistModal = (props) => {
       return click5;
     }
   };
-  // &times; 는 X표 문자를 의미
+
+  const RegClick= async()=>{
+    console.log(id,click1,click2,click3,click4,click5,day);
+    const res = await AxiosApi.QuestReg(id,click1,click2,click3,click4,click5,day);
+    if( res.data === true){
+      console.log(res.data);
+      alert("저장완료!");
+      close();
+    }else{alert("실패")}
+    }
+
+
   return (
     <ModalStyle>
       <div className={open ? "openModal modal" : "modal"}>
         {open && (
           <section>
             <header>
-              {petName} 의 (날짜) 일정
+              {petName} 의 {day} 일정
               <button onClick={close}>&times;</button>
             </header>
             <main>
@@ -272,7 +300,7 @@ const QuistModal = (props) => {
               </div>
             </main>
             <footer>
-              <button onClick={confirm}>SAVE</button>
+              <button onClick={()=>RegClick()}>SAVE</button>
               <button onClick={close}>CANCLE</button>
             </footer>
           </section>

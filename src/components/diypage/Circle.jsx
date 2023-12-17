@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
-
+import React, { useEffect, useState } from 'react';
+import styled,{keyframes} from 'styled-components';
 const Container = styled.div`
   position: relative;
   width: 100px;
@@ -26,10 +25,20 @@ const Container = styled.div`
 `;
 
 
-const CircleProgressBar = ({ progress,dogimg }) => {
-  return (
+const CircleProgressBar = ({progress, dogimg }) => {
+  const [progress1, setProgress1] = useState(0);
 
-    <Container progress={progress} >
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newProgress = progress1 >= progress ? progress : progress1 + 1;
+      setProgress1(newProgress);
+    }, 4); // Change the interval duration as needed
+
+    return () => clearTimeout(timer);
+  }, [progress1,progress]);
+
+  return (
+    <Container progress={progress1} >
       <img src={dogimg} className='dogFootImage'/>
     </Container>
 

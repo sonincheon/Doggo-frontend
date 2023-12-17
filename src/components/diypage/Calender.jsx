@@ -1,9 +1,10 @@
-import React, { Children, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-
+import AxiosApi from '../../api/Axios';
+import { PayContext } from '../../context/Paystore';
 const Container =styled.div`
   width: 60%;
 `;
@@ -137,7 +138,12 @@ width: 100%;
 
 
 const MyCalender = (props) =>{
+  const {modalOpen} =props;
   const [date, setDate] = useState(new Date());
+  const [diaryData,setDiaryData]  =useState();
+  const [questData,setQuestData] =useState();
+  const context = useContext(PayContext);
+  const {isTrue}=context;
 
   const selectedDate =(date) =>{
     const nextDay = new Date(date); // date를 변경하지 않고 새로운 객체를 생성합니다.
@@ -149,51 +155,52 @@ const MyCalender = (props) =>{
     props.onSelected(seldate);
     setDate(seldate);
   };
+
+
     // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
-
-
-  const data =[
-    {
-      date:"2023-07-11",
-      title:"오늘은 이런일이있었다",
-      percent:"100%"
-    },
-    {
-      date:"2023-07-19",
-      title:"개같은일이있엇다 너무너무",
-      percent:"11%"
-    },
-    {
-      date:"2023-07-12",
-      title:"홀리쉣이였다 너무너무너무너무",
-      percent:"12%"
-    },
-    {
-      date:"2023-07-16",
-      title:"오마이갓 이엿다  너무너무너무너무",
-      percent:"27%"
-    },
-    {
-      date:"2023-07-14",
-      title:"css하기싫네 너무너무너무너무",
-      percent:"18%"
-    }
-] 
+    useEffect(() => {
+      const CalenderData = async () => {
+        try{
+          const res = await AxiosApi.CalenderQuest();
+          if (res.status === 200){
+            console.log(res.data)
+            setDiaryData(res.data)
+            }else{
+              alert("왜안되니2222")
+            }}catch(e){
+              console.warn(e);
+            }
+        try{
+          const res1 = await AxiosApi.CalenderDiary();
+          if (res1.status === 200){
+              console.log(res1.data)
+              setQuestData(res1.data)
+              }else{
+                alert("왜안되니11111111")
+              }}catch(e){
+                console.warn(e);
+            }
+      }
+      CalenderData();
+    }, [date,isTrue]);
 
 
   const tileContent = ({ date }) => {  
-    // data 배열에서 선택된 날짜와 일치하는 데이터 찾기
-    const eventData = data.find(item => item.date === selectedDate(date));
+    const formattedDate =selectedDate(date); // 날짜를 원하는 형식으로 포맷팅하는 함수
+    const diaryDatas = diaryData ? (diaryData[formattedDate] || "") : "";
+    const questDatas = questData ? (questData[formattedDate] || "") : "";
+
     return (
       <Story>
       <div className='story1'>
-        {eventData ? eventData.title : ''}
+        {diaryDatas ? diaryDatas : ''}
       </div>
       <div className='story2'>
-      {eventData ? `미션 :${eventData.percent}` : ''}
+      {questDatas ? `미션 :${questDatas}%` : ''}
       </div>
       </Story>
-    );};
+    );
+  };
 
   return (
     <Container>
