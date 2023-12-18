@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { SideBar } from "../PublicStyle";
+import { useEffect, useState } from "react";
+import { SideBar} from "../PublicStyle";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { RightBox } from "./Adminmember";
+import { RightBox, PaginationContainer, PageButton  } from "./Adminmember";
+import AdminAxiosApi from "../../api/AdminAxios";
 
 const QnaBoard = styled.div`
     padding: 10px 20px;
@@ -26,71 +27,94 @@ const QnaBoard = styled.div`
     }
 `;
 
-export const qnaData = [
-    {Id:1,
-    Img: "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
-    QuestionTitle: "Q [로그인/정보] 다른 방법으로 아이디와 비밀번호를 찾을 수 있는 방법이 있나요?",
-    Nick: "신대방 송강",
-    QuestionDate: "2023-05-01",
-    Question: "제곧내 ㅠㅠ ",
-    Answer: "aaaaaaaaaaa",
-},
-    {Id:2,
-    Img: "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
-    QuestionTitle: "Q [사료문의] 어떤 사료를 주어야 할지 모르겠어요.",
-    Nick: "나비",
-    QuestionDate: "2023-06-25",
-    Question: "제곧내 ㅠㅠ ",
-    Answer: "bbbbbbbbbbbbbb",
-},
-    {Id:3,
-    Img: "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
-    QuestionTitle: "Q [사료문의] 사료 구매 시 배송일은 어떻게 되나요?",
-    Nick: "춘배",
-    QuestionDate: "2023-07-30",
-    Question: "제곧내 ㅠㅠ ",
-    Answer: "",
-},
-    {Id:4,
-    Img: "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
-    QuestionTitle: "Q [이용문의] 회원 등급별 혜택은 어떻게 되나요?",
-    Nick: "민수",
-    QuestionDate: "2023-11-18",
-    Question: "제곧내 ㅠㅠ ",
-    Answer: "",
-},
-    {Id:5,
-    Img: "https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/KDcViVN5lc9nXMk9kayDMM1E4MLfKV2ouBZdod6Drpsz8X6V71hi0io22P5eH8G_SoIbmtVgh_5pl3x2xzDaXQq_cCG0bNovXTCRUs9Hxico_Tx7chlHEVhTc0_GWP8hK-7-dQjGJJLX4qdjzLVxZw.jpg?alt=media&token=5ac08f40-1599-4a19-b65e-bd5e57b24cb2",
-    QuestionTitle: "Q [이용문의] 자주 묻는 질문이 있나요?",
-    Nick: "영철",
-    QuestionDate: "2023-12-26",
-    Question: "제곧내 ㅠㅠ ",
-    Answer: "",
-},
-]
+
 
 const Adminqna = () =>{
     const navigate = useNavigate();
     
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [qnaAllList, setQnaAllList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
+    const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
 
     const selectedData = () => {
         switch(selectedCategory) {
             case 'all':
-                return qnaData.sort((a, b) => new Date(a.QuestionDate) - new Date(b.QuestionDate));
+                return qnaAllList.sort((a, b) => new Date(a.regDate) - new Date(b.regDate));
             case 'recent':
-                return qnaData.sort((a, b) => new Date(b.QuestionDate) - new Date(a.QuestionDate));
+                return qnaAllList.sort((a, b) => new Date(b.regDate) - new Date(a.regDate));
             case 'unanswered':
-                return qnaData.filter(item => !item.Answer);
+                return qnaAllList.filter(item => !item.answer);
             case 'answered':
-                return qnaData.filter(item => item.Answer);
+                return qnaAllList.filter(item => item.answer);
             default:
-                return qnaData;
+                return qnaAllList;
         }
     };
 
     const handleQnaDetail = (id) => {
         navigate(`/admin/qna/${id}`);
+    };
+
+    // useEffect(() => {
+    //     const getQnaAllList = async () => {
+    //         try {
+    //             const res = await AdminAxiosApi.QnaAllList();
+    //             console.log(res);
+    //             console.log(res.data);
+    //             console.log("boardId : " + res.data[0].boardId);
+    //             setQnaAllList(res.data);
+    //         } catch(error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     getQnaAllList();
+    // }, []);
+
+    
+    useEffect(() => {
+        const totalPage = async() => {
+            try {
+                const res = await AdminAxiosApi.QnaPage(0, 10);
+                setTotalPage(res.data);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+        totalPage();
+    }, []);
+
+    useEffect(() => {
+        const qnaList = async () => {
+            try {
+                const res = await AdminAxiosApi.QnaPageList(currentPage, 10);
+                console.log(res.data);
+                setQnaAllList(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        qnaList();
+    }, [currentPage]);
+
+
+    // 페이지네이션 - 페이지 이동 기능
+    const handlePageChange = (number) => {
+        console.log(number);
+        setCurrentPage(number - 1);
+    };
+
+    // 페이지네이션 버튼
+    const renderPagination = () => {
+        return (
+            <PaginationContainer>
+                {Array.from({ length: totalPage }, (_, i) => i + 1).map((page) => (
+                    <PageButton key={page} onClick={() => handlePageChange(page)}>
+                        {page}
+                    </PageButton>
+                ))}
+            </PaginationContainer>
+        );
     };
 
     return(
@@ -138,16 +162,16 @@ const Adminqna = () =>{
                     </div>
                    
                     <QnaBoard>
-                        {selectedData().map(item => (
-                            <div key={item.Id} className="flexbox" >
-                                <span>{item.Id}</span>
-                                <img src={item.Img} alt="프로필 이미지" />
+                        {selectedData().map((item,index) => (
+                            <div key={index} className="flexbox" >
+                                <span>{item.boardId}</span>
+                                {/* <img src={item.Img} alt="프로필 이미지" /> */}
                                 <div className="textbox">
-                                    <p onClick={() => handleQnaDetail(item.Id)}>{item.QuestionTitle}</p>
+                                    <p onClick={() => handleQnaDetail(item.boardId)}>{item.boardType} <span className="bar"></span>{item.comment}</p>
                                     <div className="bottomTxt">
-                                        <span>{item.Nick}</span>
+                                        <span>{item.memberEmail}</span>
                                         <span className="bar"></span>
-                                        <span>{item.QuestionDate}</span>
+                                        <span>{item.regDate}</span>
                                     </div>
                                     
                                 </div>
@@ -155,9 +179,8 @@ const Adminqna = () =>{
                             </div>
                         ))}
                     </QnaBoard>
-
                 </RightBox>
-                
+                {renderPagination()}
             </SideBar>
         </>
     )

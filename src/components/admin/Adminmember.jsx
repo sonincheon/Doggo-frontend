@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { SideBar } from "../PublicStyle";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import AdminAxiosApi from "../../api/AdminAxios";
 
 export const RightBox = styled.div`
     padding  : 5vw;
@@ -145,32 +145,117 @@ export const RightBox = styled.div`
     }
     
 `;
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+`;
 
-const membersData = [
-    { Id: 1, Name: "인천", Nick: "신대방 송강", Email: "in1000s@naver.com", Address: "서울특별시 신림동 신사로 12길 32", Tel: "010-9118-4893", joinedDate: "2023-02-01", isPaid: true },
-    { Id: 2, Name: "벼리", Nick: "나비", Email: "nabi@naver.com", Address: "서울특별시 신림동 신사로 12길 33", Tel: "010-1234-4893", joinedDate: "2023-03-20", isPaid: false },
-    { Id: 3, Name: "현빈", Nick: "춘배", Email: "chunbae@naver.com", Address: "서울특별시 신림동 신사로 12길 34", Tel: "010-9123-4233", joinedDate: "2023-06-07", isPaid: true },
-    { Id: 4, Name: "하늘", Nick: "민수", Email: "minsu@naver.com", Address: "서울특별시 신림동 신사로 12길 35", Tel: "010-9117-4855", joinedDate: "2023-11-15", isPaid: false },
-    { Id: 5, Name: "지은", Nick: "영철", Email: "youngchul@naver.com", Address: "서울특별시 신림동 신사로 12길 36", Tel: "010-7118-2343", joinedDate: "2023-12-26", isPaid: true },
-];
+export const PageButton = styled.button`
+  border: 1px solid #ddd;
+  padding: 5px;
+  width: 28px;
+  margin: 0 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.3s;
+`;
+
 
 const Adminmember = () =>{
-    const [members, setMembers] = useState(membersData);
+
+    const [memberList,setMemberList]=useState([]);
+    const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
+    const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
+    const [isTrue,setIsTrue]=useState(false);
+
     const [selectedCategory, setSelectedCategory] = useState('all');
+  
+    const Click = () => {
+        setIsTrue((prev) => !prev);
+    }
 
     const HandleCategoryChange = (category) => {
         setSelectedCategory(category);
     };
+
+
     // 회원삭제
-    const HandleDeleteMember = (id) => {
-        const updatedMembers = members.filter((member) => member.Id !== id);
-        setMembers(updatedMembers);
+    const HandleDeleteMember = async(email) => {
+        const memberDel = async () => {
+            try {
+                const rsp = await AdminAxiosApi.memberDelete(email);
+                console.log(email);
+                if (rsp.status === 200) {
+                    alert("회원 삭제가 완료되었습니다.");
+                    Click();
+                } 
+            } catch (e) {
+                console.log("에러");
+            }
+        };
+        memberDel();
     };
-    // 전체, 유료, 무료회원 별로 조회
-    const filteredMembers = 
-        selectedCategory === 'all'
-        ? members
-        : members.filter((member) => (selectedCategory === 'paid' ? member.isPaid : !member.isPaid));
+
+    // useEffect(() => {
+    //     const getAllMember = async () => {
+    //         try {
+    //             const res = await AdminAxiosApi.memberAllList();
+    //             console.log(res);
+    //             console.log(res.data);
+    //             setMemberList(res.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     getAllMember();
+    // }, [isTrue]);
+
+    useEffect(() => {
+        const totalPage = async() => {
+            try {
+                const res = await AdminAxiosApi.MemberPage(0, 10);
+                setTotalPage(res.data);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+        totalPage();
+    }, [isTrue]);
+
+    useEffect(() => {
+        const memberList = async () => {
+            try {
+                const res = await AdminAxiosApi.MemberPageList(currentPage, 10);
+                console.log(res.data);
+                setMemberList(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        memberList();
+    }, [currentPage]);
+
+
+    // 페이지네이션 - 페이지 이동 기능
+    const handlePageChange = (number) => {
+        console.log(number);
+        setCurrentPage(number - 1);
+    };
+
+    // 페이지네이션 버튼
+    const renderPagination = () => {
+        return (
+            <PaginationContainer>
+                {Array.from({ length: totalPage }, (_, i) => i + 1).map((page) => (
+                    <PageButton key={page} onClick={() => handlePageChange(page)}>
+                        {page}
+                    </PageButton>
+                ))}
+            </PaginationContainer>
+        );
+    };
 
     return(
         <>
@@ -223,25 +308,26 @@ const Adminmember = () =>{
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredMembers.map((member) => (
-                                    <tr key={member.Id}>
-                                        <td>{member.Id}</td>
-                                        <td>{member.Name}</td>
+                                {memberList.map((member,index) => (
+                                    <tr key={index}>
+                                        <td>{member.id}</td>
+                                        <td>{member.memberName}</td>
                                         <td>{member.Nick}</td>
-                                        <td>{member.Email}</td>
-                                        <td>{member.Address}</td>
-                                        <td>{member.Tel}</td>
-                                        <td>{member.joinedDate}</td>
-                                        <td>{member.isPaid? '구독중' : '미구독'}</td>
+                                        <td>{member.memberEmail}</td>
+                                        
+                                        <td>{member.memberAddress}</td>
+                                        <td>{member.memberTel}</td>
+                                        <td>{member.regDate}</td>
+                                        <td>{member.memberGrade? '구독중' : '미구독'}</td>
                                         <td>
-                                            <button onClick={() => HandleDeleteMember(member.Id)}>삭제</button>
+                                            <button onClick={() => HandleDeleteMember(member.memberEmail)}>삭제</button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    
+                    {renderPagination()}
 
                 </RightBox>
             </SideBar>

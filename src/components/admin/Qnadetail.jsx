@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { SideBar } from "../PublicStyle";
 import styled from "styled-components";
 import { qnaData } from "./Adminqna";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RightBox } from "./Adminmember";
+import AdminAxiosApi from "../../api/AdminAxios";
 
 const QnaBoard = styled.div`
     border: 1px solid #776B5D;
@@ -75,16 +76,53 @@ const QnaBoard = styled.div`
 const Qnadetail = () => {
     // id로 해당 문의의 상세정보를 가져옴
     const { id } = useParams();
-    const selectedQna = qnaData.find((item) => item.Id === parseInt(id));
 
+    const [detailQna, setDetailQna] = useState([]);
     const [answer, setAnswer] = useState("");
-    const [uploadedAnswer, setUploadedAnswer] = useState(selectedQna.Answer || "");
+    const [isTrue, setIsTrue] = useState(false);
+    const [uploadedAnswer, setUploadedAnswer] = useState(answer);
+    
+    const Click = () => { 
+        setIsTrue((prev) => !prev);
+    }
 
-    const uploadAnswer = () => {
-        setUploadedAnswer(answer);
-        setAnswer("");  // 업로드시, textarea초기화
-        console.log("Answer uploaded : ", answer);
+    // QnaDetail data가져오기
+    useEffect(() => {
+        const getDetailQna = async () => {
+            try {
+                const res = await AdminAxiosApi.QnaDetail(id);
+                console.log (res);
+                console.log (res.data);
+                setDetailQna(res.data);
+                Click();
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getDetailQna();
+    }, [id, isTrue]);
+    
+    // 답변 업로드
+    const uploadAnswer = async() => {
+        try {
+            console.log("답변 : " + answer, "아이디 : " + id);
+            const res = await AdminAxiosApi.AnswerChange(id, answer);
+            
+            if (res.data === true) {
+            const res = await AdminAxiosApi.QnaDetail(id);
+            console.log(res);
+            console.log(res.data);
+            
+            // setDetailQna("");
+            setAnswer("");  // 업로드시, textarea초기화
+            }
+        } catch (e) {
+            console.error(e);
+            alert("에러 발생");
+        }
     };
+
+   
 
     return (
         <>
@@ -93,26 +131,27 @@ const Qnadetail = () => {
                 <h1>1:1 문의</h1>
             <QnaBoard>                    
                 <div className="flexbox">
-                    <span>{selectedQna.Id}</span>
-                    <img src={selectedQna.Img} alt="프로필 이미지" />
+                    <span>{detailQna.boardId}</span>
+                    {/* <img src={selectedQna.Img} alt="프로필 이미지" /> */}
                     <div className="textbox">
-                        <p>{selectedQna.QuestionTitle}</p>
+                        <p>{detailQna.boardType}  <span className="bar"></span>  {detailQna.comment}</p>
                         <div className="bottomTxt">
-                            <span>{selectedQna.Nick}</span>
+                            <span>{detailQna.memberEmail}</span>
                             <span className="bar"></span>
-                            <span>{selectedQna.QuestionDate}</span>
+                            <span>{detailQna.regDate}</span>
                         </div>
                         
                     </div>                
                 </div>
                 <div className="QuestionDetail">
-                    <p>{selectedQna.Question}</p>
+                    <p>{detailQna.comment}</p>
                 </div>
                 <div className="answerBox">
                     <div className="uploadedAnswer">
-                        <p>관리자의 답변 : 페이지 나가면 답변 사라짐, back연결하고 DB저장시켜야 할듯?</p>
-                        {/* {selectedQna.Answer} */}
-                        {uploadedAnswer || <p>{uploadedAnswer}</p>}
+                        <p>관리자의 답변 : </p>
+                        <p>{detailQna.answer}</p>
+                        
+                   
                     </div>
                     <textarea 
                     placeholder="답변을 입력하세요."

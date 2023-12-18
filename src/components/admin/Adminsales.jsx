@@ -1,39 +1,122 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SideBar } from "../PublicStyle";
-import { RightBox } from "../admin/Adminmember"
+import { RightBox, PaginationContainer, PageButton } from "../admin/Adminmember"
+import AdminAxiosApi from "../../api/AdminAxios";
 
-const ordersData = [
-    { Id: 1, OrderDate: "2023-02-05", Email: "in1000s@naver.com", Address: "서울특별시 신림동 신사로 12길 32", Tel: "010-9118-4893", OrderProduct: "로얄캐닌 미니 어덜트 15kg", ProStatus: "출고완료", InvoiceNum: "28389283" },
-    { Id: 2, OrderDate: "2023-03-25", Email: "nabi@naver.com", Address: "서울특별시 신림동 신사로 12길 33", Tel: "010-9118-4893", OrderProduct: "로얄캐닌 미니 어덜트 15kg", ProStatus: "출고완료", InvoiceNum: "38350939" },
-    { Id: 3, OrderDate: "2023-06-10", Email: "chunbae@naver.com", Address: "서울특별시 신림동 신사로 12길 34", Tel: "010-9118-4893", OrderProduct: "로얄캐닌 미니 어덜트 15kg", ProStatus: "준비중", InvoiceNum: "" },
-    { Id: 4, OrderDate: "2023-11-25", Email: "minsu@naver.com", Address: "서울특별시 신림동 신사로 12길 35", Tel: "010-9118-4893", OrderProduct: "로얄캐닌 미니 어덜트 15kg", ProStatus: "준비중", InvoiceNum: "" },
-    { Id: 5, OrderDate: "2023-12-26", Email: "youngchul@naver.com", Address: "서울특별시 신림동 신사로 12길 36", Tel: "010-9118-4893", OrderProduct: "로얄캐닌 미니 어덜트 15kg", ProStatus: "준비중", InvoiceNum: "" },
-]
+
 
 const Adminsales = () =>{
-    const [orders, setOrders] = useState(ordersData);
+    const [orders, setOrders] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
+    const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
     const [selectedCategory, setSelectedCategory] = useState('all');
-
- 
+    const [isTrue, setIsTrue] = useState(false);
     const [invoiceInput, setInvoiceInput] = useState('');
 
+    const Click = () => {
+        setIsTrue((prev) => !prev);
+    }
+    // 분류 버튼
     const HandleCategoryChange = (value) => {
         setSelectedCategory(value);
     };
 
-    // 송장번호 입력
-    const HandleInvoiceUpload = (orderId) => {
-        const updatedOrders = orders.map((order) =>
-        order.Id === orderId ? { ...order, InvoiceNum: invoiceInput, ProStatus: '출고완료' } : order
-        );
-        setOrders(updatedOrders);
-        setInvoiceInput('');
+    // 모든 구매목록 data 가져오기
+    // useEffect(() => {
+    //     const getAllSale = async () => {
+    //         try {
+    //             const res = await AdminAxiosApi.SaleAllList();
+    //             console.log(res);
+    //             console.log(res.data);
+    //             setOrders(res.data);
+    //             Click();
+       
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     getAllSale();
+    
+    // }, []);
+
+    // 총 페이지 수 계산
+    useEffect(() => {
+        const totalPage = async () => {
+            try {
+                const res = await AdminAxiosApi.SalePage(0, 10);
+                setTotalPage(res.data);
+                Click();
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        totalPage();
+    }, [])
+
+    useEffect(() => {
+        const saleList = async() => {
+            try {
+                const res = await AdminAxiosApi.SalePageList(currentPage, 10);
+                console.log(res.data);
+                setOrders(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        saleList();
+    }, [currentPage]);
+
+    // 페이지네이션 - 페이지 이동 기능
+    const handlePageChange = (number) => {
+        console.log(number);
+        setCurrentPage(number - 1);
     };
+
+    // 페이지네이션 버튼
+    const renderPagination = () => {
+        return (
+            <PaginationContainer>
+                {Array.from({ length: totalPage }, (_, i) => i + 1).map((page) => (
+                    <PageButton key={page} onClick={() => handlePageChange(page)}>
+                        {page}
+                    </PageButton>
+                ))}
+            </PaginationContainer>
+        );
+    };
+
+
+    const HandleInvoiceUpload = async(id, InvoiceInput) => {
+
+        try {
+            console.log(id,InvoiceInput)
+            // console.log("아이디 : " + id, "송장번호 : " + invoiceInput);
+            const res = await AdminAxiosApi.InvoiceInput(id, InvoiceInput);
+          
+            if (res.data === true) {
+                const res = await AdminAxiosApi.SaleAllList(id);
+
+                const updatedOrders = orders.map((order) =>
+                order.saleId === id ? { ...order, invoice: invoiceInput, orderStatus: '출고완료' } : order
+                );
+                setOrders(updatedOrders);
+
+                console.log(res);
+                console.log(res.data);
+                console.log("아이디 : " + id, "InvoiceInput?: " + InvoiceInput);
+            }
+        } catch (e) {
+            console.error(e);
+            alert("ERROR!!");
+        }
+    };
+
+
     // 필터별로 조회
     const filteredOrders = 
         selectedCategory === 'all'
         ? orders
-        : orders.filter((order) => (selectedCategory === 'pending' ? order.ProStatus === '준비중' : order.ProStatus === '출고완료' ));
+        : orders.filter((order) => (selectedCategory === 'pending' ? order.orderStatus === '준비중' : order.orderStatus === '출고완료' ));
 
     return(
         <>
@@ -86,18 +169,18 @@ const Adminsales = () =>{
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredOrders.map((order) => (
-                                    <tr key={order.Id}>
-                                        <td>{order.Id}</td>
-                                        <td>{order.OrderDate}</td>
-                                        <td>{order.Email}</td>
-                                        <td>{order.Address}</td>
+                                {filteredOrders.map((order, index) => (
+                                    <tr key={index}>
+                                        <td>{order.saleId}</td>
+                                        <td>{order.salesRegDate}</td>
+                                        <td>{order.memberId}</td>
+                                        <td>{order.salesAddr}</td>
                                         <td>{order.Tel}</td>
-                                        <td>{order.OrderProduct}</td>
-                                        <td>{order.ProStatus}</td>
+                                        <td>{order.feedName}</td>
+                                        <td>{order.orderStatus}</td>
                                         <td>
-                                            {order.InvoiceNum}
-                                            {order.ProStatus === '준비중' ? (
+                                            {order.invoice}
+                                            {order.orderStatus === '준비중' ? (
                                                 <input
                                                 type="text"
                                                 placeholder="송장 번호"
@@ -105,15 +188,16 @@ const Adminsales = () =>{
                                                 onChange={(e) => setInvoiceInput(e.target.value)}
                                                 />
                                             ) : null}
-                                             {order.ProStatus === '준비중' ? (
-                                                <button onClick={() => HandleInvoiceUpload(order.Id)}>입력 </button>
+                                             {order.orderStatus === '준비중' ? (
+                                                <button onClick={() => HandleInvoiceUpload(order.saleId,invoiceInput)}>입력</button>
                                             ) : null}                                         
                                         </td>
                                     </tr>
                                 ))}
-                            </tbody>
+                            </tbody>            
                         </table>
                     </div>          
+                    {renderPagination()}
                 </RightBox>
             </SideBar>
         </>
