@@ -4,7 +4,7 @@ import "moment/locale/ko"; // 한글 로컬라이제이션
 moment.locale("ko"); // 한글 설정 적용
 
 const Common = {
-  KH_DOMAIN: "http://localhost:8111",
+  MUNG_HOST: "http://localhost:8111",
 
 
   timeFromNow: (timestamp) => {
@@ -37,8 +37,8 @@ const Common = {
   // 401 에러 처리 함수 (토큰 리프래쉬토큰 재발급)
   handleUnauthorized: async () => {
     console.log("handleUnauthorized");
-    const refreshToken = Common.getAccessToken();
-    const accessToken = Common.getRefreshToken();
+    const accessToken = Common.getAccessToken();
+    const refreshToken = Common.getRefreshToken();
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -46,7 +46,7 @@ const Common = {
     };
     try {
       const res = await axios.post(
-        `${Common.KH_DOMAIN}/auth/refresh`,
+        `${Common.MUNG_HOST}/auth/refresh`,
         refreshToken,
         config
       );
@@ -58,9 +58,31 @@ const Common = {
       return false;
     }
   },
+  //토큰에서 이메일 뽑기 (String)
+TakenToken : async()=>{
+  const accessToken = Common.getAccessToken();
+  return await axios.put(Common.MUNG_HOST + `/auth/takenEmail`,{
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + accessToken,
+  },
+});},
+
+  //토큰으로 로그인여부 확인 (Buloan)
+  IsLogin : async()=>{
+    const accessToken = Common.getAccessToken();
+    return await axios.put(Common.MUNG_HOST + `/isLogin/${accessToken}`)
+  }
 };
 
 export default Common;
+
+
+
+
+
+
+
 
 
 // 유즈이펙트 Axios시 사용 : 변경해줄꺼 보이지?

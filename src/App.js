@@ -75,6 +75,7 @@ function App() {
               <Route path="/mypage/" element={<MyPage />} />
               <Route path="/serviceVeiw" element={<ServiceView />} />
             </Route>
+            
             {/* 여긴 어드민 구간  */}
             <Route element={<Admin />}>
               <Route path="/admin" element={<Adminmainpage />} />

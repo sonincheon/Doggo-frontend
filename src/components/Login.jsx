@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../utill/Modal";
 import AxiosApi from "../../src/api/Axios";
+import Common from "../utill/Common";
 
 const Container = styled.div`
   width: 30vw;
@@ -237,6 +238,8 @@ const Login = () => {
       console.log(res.data);
       if (res.data.grantType === "Bearer") {
         navigate("/");
+        Common.setAccessToken(res.data.accessToken);
+        Common.setRefreshToken(res.data.refreshToken);
         window.localStorage.setItem("email", inputEmail);
       } else {
         setModalOpen(true);
