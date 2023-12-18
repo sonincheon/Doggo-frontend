@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Header from "./pages/Header";
-import Bookmain from "./pages/bookPage/Bookmain";
+import BookPage from "./pages/BookPage";
 import Diymain from "./pages/diyPage/Diymain";
 import Mapmain from "./pages/mapPage/Mapmain";
 import Quickmain from "./pages/quickPage/Quickmain";
@@ -53,7 +53,7 @@ function App() {
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/book" element={<Bookmain />} />
+              <Route path="/book" element={<BookPage />} />
               <Route path="/diy" element={<Diymain />} />
               <Route path="/map" element={<Mapmain />} />
               <Route path="/quick" element={<Quickmain />} />

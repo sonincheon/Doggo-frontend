@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-// import { useInView } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
@@ -46,7 +46,7 @@ const ItemContainer = styled.div.attrs({
 
 
 
-const Main = () => {
+const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
 
   return (
@@ -71,4 +71,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default HomeMain;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { Center } from "../components/PublicStyle";
-import Main from "../components/homePage/Main";
+import HomeMain from "../components/homePage/HomeMain";
 
 
 
@@ -42,7 +42,7 @@ const HomePage = () =>{
     return(
         <Center>
         <SubscribeButton/>
-        <Main></Main>
+        <HomeMain></HomeMain>
         </Center>
     )
 }
