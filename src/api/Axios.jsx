@@ -78,6 +78,11 @@ const AxiosApi = {
     return await axios.delete(MUNG_HOST + `/member/delete/${email}`);
   },
 
+  // 아이디 찾기
+  findMemberId: async (name, tel) => {
+    return await axios.get(MUNG_HOST + `/auth/findId?name=${name}&tel=${tel}`);
+  },
+
   // 펫 등록
   petReg: async (name, gender, Type, breed, birth, image, detail) => {
     const pet = {
@@ -207,15 +212,7 @@ const AxiosApi = {
   },
 
   //수행 추가
-  QuestReg: async (
-    petId,
-    quest1,
-    quest2,
-    quest3,
-    quest4,
-    quest5,
-    day
-  ) => {
+  QuestReg: async (petId, quest1, quest2, quest3, quest4, quest5, day) => {
     const QuestData = {
       petId: petId,
       quest1: quest1,
@@ -223,53 +220,53 @@ const AxiosApi = {
       quest3: quest3,
       quest4: quest4,
       quest5: quest5,
-      questPerformance: day
+      questPerformance: day,
     };
     return await axios.post(MUNG_HOST + "/quest/new", QuestData);
   },
 
   //수행 출력
-  QuestDetail : async (petId,day)=>{
-    const QuestDay={
-      questPerformance:day,
-    }
-    return await axios.put(MUNG_HOST + `/quest/detail/${petId}`,QuestDay);
-},
+  QuestDetail: async (petId, day) => {
+    const QuestDay = {
+      questPerformance: day,
+    };
+    return await axios.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay);
+  },
 
-  QuestPetList : async (day)=>{
-    const email = window.localStorage.getItem("email")
-  const QuestDay={
-    questPerformance:day,
-  }
-  return await axios.put(MUNG_HOST + `/quest/percent/${email}`,QuestDay);
-},
-//일기 작성
-DiaryReg : async(day,write)=>{
-  const DiaryData ={
+  QuestPetList: async (day) => {
+    const email = window.localStorage.getItem("email");
+    const QuestDay = {
+      questPerformance: day,
+    };
+    return await axios.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay);
+  },
+  //일기 작성
+  DiaryReg: async (day, write) => {
+    const DiaryData = {
       diaryDetail: write,
       diaryTitle: "",
       diaryWriteDate: day,
-      memberId: window.localStorage.getItem("email")
-  }
-  return await axios.post(MUNG_HOST + "/diary/new", DiaryData); 
-},
-//일기 출력
-DiaryDetail : async (day)=>{
-  const email = window.localStorage.getItem("email");
-  return await axios.get(MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`);
-},
+      memberId: window.localStorage.getItem("email"),
+    };
+    return await axios.post(MUNG_HOST + "/diary/new", DiaryData);
+  },
+  //일기 출력
+  DiaryDetail: async (day) => {
+    const email = window.localStorage.getItem("email");
+    return await axios.get(
+      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`
+    );
+  },
 
-CalenderQuest : async ()=>{
-  const email = window.localStorage.getItem("email");
-  return await axios.get(MUNG_HOST + `/diary/Calender/${email}`);
-},
+  CalenderQuest: async () => {
+    const email = window.localStorage.getItem("email");
+    return await axios.get(MUNG_HOST + `/diary/Calender/${email}`);
+  },
 
-CalenderDiary : async ()=>{
-  const email = window.localStorage.getItem("email");
-  return await axios.put(MUNG_HOST + `/quest/member/percnet/${email}`);
-},
-
-
+  CalenderDiary: async () => {
+    const email = window.localStorage.getItem("email");
+    return await axios.put(MUNG_HOST + `/quest/member/percnet/${email}`);
+  },
 };
 
 export default AxiosApi;
