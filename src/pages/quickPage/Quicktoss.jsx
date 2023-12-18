@@ -10,8 +10,9 @@ const Quicktoss = () =>{
 
   useEffect(() => {
     const SaleReg = async () => {
+      console.log(feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title);
       try {
-        const resp = await AxiosApi.SaleReg(feedName,window.localStorage.getItem("email"),salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title); //결제
+        const resp = await AxiosApi.SaleReg(feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title); //결제
         if (resp.status === 200 ){
           navigate(`/quick/sucess/${resp.data}`);
         }else {

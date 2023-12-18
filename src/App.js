@@ -27,6 +27,7 @@ import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
 import Quicktoss from "./pages/quickPage/Quicktoss";
 import PayStore from "./context/Paystore";
 import ServiceView from "./pages/servicePage/ServiceView";
+import FindIdPwd from "./pages/userPage/FindIdPwd";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -50,6 +51,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/FindIdPwd" element={<FindIdPwd />} />
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>
               <Route path="/" element={<HomePage />} />
@@ -73,6 +75,7 @@ function App() {
               <Route path="/mypage/" element={<MyPage />} />
               <Route path="/serviceVeiw" element={<ServiceView />} />
             </Route>
+            
             {/* 여긴 어드민 구간  */}
             <Route element={<Admin />}>
               <Route path="/admin" element={<Adminmainpage />} />

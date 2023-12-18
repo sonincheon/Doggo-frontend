@@ -153,8 +153,14 @@ const Quicksell3 = (props) => {
       date11.getDate() +
       "일";
 
-      const deliveryDate =new Date(),
-      deliveryDate1 = deliveryDate.getFullYear() + "-"+(deliveryDate.getMonth()+2) + '-' + String(dayNum).padStart(2, '0'); ;
+      const deliveryDate =new Date();
+      let year = deliveryDate.getFullYear();
+      let month = deliveryDate.getMonth() + 2;
+      if (month > 12) {
+        year += Math.floor(month / 12); // 연도 계산
+        month = month % 12; // 12로 나눈 나머지가 새로운 월
+      }
+      const deliveryDate1 =  year + "-"+String(month).padStart(2, '0')+ '-' + String(dayNum).padStart(2, '0');
 
   const ChangePay = (price)=>{
     return Intl.NumberFormat('en-US').format(price);

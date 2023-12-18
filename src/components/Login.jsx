@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../utill/Modal";
 import AxiosApi from "../../src/api/Axios";
+import Common from "../utill/Common";
 
 const Container = styled.div`
   width: 30vw;
@@ -42,6 +43,7 @@ const Hint = styled.div`
 
 const Items = styled.div`
   margin-bottom: 30px;
+
   &.item1 {
     width: 400px;
     height: 50px;
@@ -62,8 +64,6 @@ const Items = styled.div`
     font-size: 14px;
     display: flex;
   }
-  &.hint {
-  }
 
   &.signup {
     justify-content: right;
@@ -83,6 +83,19 @@ const Items = styled.div`
     .link_style {
       color: #000000;
       text-decoration-line: none;
+    }
+  }
+  &.FindIdPwd,
+  &.signup {
+    span {
+      text-decoration: underline;
+    }
+
+    &:hover {
+      span {
+        color: blue;
+        text-decoration-line: underline;
+      }
     }
   }
 `;
@@ -224,6 +237,8 @@ const Login = () => {
       const res = await AxiosApi.Login(inputEmail, inputPw);
       console.log(res.data);
       if (res.data.grantType === "Bearer") {
+        Common.setAccessToken(res.data.accessToken);
+        Common.setRefreshToken(res.data.refreshToken);
         navigate("/");
         window.localStorage.setItem("email", inputEmail);
       } else {
@@ -284,15 +299,13 @@ const Login = () => {
           <Modal open={modalOpen} close={closeModal} header="오류">
             아이디 및 패스워드를 확인해 주세요.
           </Modal>
-          <Items className="item3">
-            <Items className="signin">
-              <Link to="/Signup" className="link_style">
-                <span>아이디 찾기</span>
-              </Link>
-            </Items>
-            <Items className="signin">
-              <Link to="/Signup" className="link_style">
-                <span>비밀번호 찾기</span>
+          <Items
+            className="item3"
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Items className="FindIdPwd">
+              <Link to="/FindIdPwd" className="link_style">
+                <span>아이디 / 비밀번호 찾기</span>
               </Link>
             </Items>
             <Items className="signup">

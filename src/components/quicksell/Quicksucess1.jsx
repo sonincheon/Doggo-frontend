@@ -31,7 +31,7 @@ const TitleBox1 = styled.div`
   width: 80%;
   height: 300px;
   border-top: 2px solid grey;
-  h1 {
+  .box {
     display: flex;
     align-items: center;
     padding: 3% 3%;
@@ -97,43 +97,43 @@ const Quicksucess1 = () => {
   return (
     <>
       <TitleBox>
-        <h1>결제가 완료되었습니다.</h1>
+          <div className="box">결제가 완료되었습니다.</div>
         <h3>
           구독 서비스 결제 감사합니다 . 최선을 다하는 멍냥멍냥이 되겠습니다.
         </h3>
         <h3>{searchParams.get("paymentKey")}</h3>
       </TitleBox>
       <TitleBox1>
-        <h1>
+          <div className="box">
           <h2>결제수단</h2>
           <h3>카드 결제 / 카카오페이</h3>
-        </h1>
-        <h1>
+        </div>
+          <div className="box">
           <h2>결제하신 금액 </h2>
           <h3>{saleList.salesPrice}원 </h3>
-        </h1>
-        <h1>
+        </div>
+          <div className="box">
           <h2>구독명 / 사료명</h2>
           <h3>{saleList.salesName} 구독 / {saleList.feedName}</h3>
-        </h1>
-        <h1>
+        </div>
+          <div className="box">
           <h2>구매일자</h2>
           <h3>{saleList.salesRegDate}</h3>
-        </h1>
+        </div>
       </TitleBox1>
       <TitleBox1 style={{ borderBottom: "2px solid grey" }}>
-        <h1>
+          <div className="box">
           <h2>배송지</h2>
           <h3>{saleList.salesAddr}</h3>
-        </h1>
-        <h1>
+        </div>
+          <div className="box">
           <h2>배송일자</h2>
           <h3>{saleList.salesDelivery}</h3>
-        </h1>
-        <h1>
-        <h2>정기 배송일</h2>
+        </div>
+          <div className="box">
+          <h2>정기 배송일</h2>
           <h3> 매월 {saleList.salesAutoDelivery} 일</h3>
-        </h1>
+        </div>
       </TitleBox1>
       <QrcodeImg />
       <div>
