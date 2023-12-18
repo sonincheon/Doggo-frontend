@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 400px;
   height: 500px;
   .chat {
-    background-color: lightgray;
+    background-color: #f3eeea;
     overflow: hidden;
     border-radius: 8px;
   }
