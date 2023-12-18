@@ -1,4 +1,5 @@
 import axios from "axios";
+import Common from "../utill/Common";
 
 const MUNG_HOST = "http://localhost:8111";
 
@@ -32,30 +33,41 @@ const AxiosApi = {
   },
 
   //회원 조회
-  memberGet: async (email) => {
-    return await axios.get(MUNG_HOST + `/member/detail/${email}`);
+  memberGet: async () => {
+    const res = await Common.TakenToken(); 
+    const email = res.data;
+    const accessToken =Common.getAccessToken();
+    return await axios.get(MUNG_HOST + `/member/detail/${email}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   // 유형(type)에 따라 memberUpdate 호출 및 수정
   memberUpdate: async (changeInfo, type) => {
+    const res = await Common.TakenToken(); 
+    const email = res.data;
+    const accessToken =Common.getAccessToken();
     let member = {};
     switch (type) {
       case 1:
         member = {
-          memberEmail: window.localStorage.getItem("email"),
+          memberEmail: email,
           memberBirth: changeInfo,
         };
         console.log(member);
         break;
       case 2:
         member = {
-          memberEmail: window.localStorage.getItem("email"),
+          memberEmail: email,
           memberAddress: changeInfo,
         };
         break;
       case 3:
         member = {
-          memberEmail: window.localStorage.getItem("email"),
+          memberEmail: email,
           memberTel: changeInfo,
         };
         break;
@@ -69,24 +81,34 @@ const AxiosApi = {
       default:
         break;
     }
-    return await axios.put(MUNG_HOST + `/member/modify`, member);
+    return await axios.put(MUNG_HOST + `/member/modify`, member,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   // 회원 탈퇴
-  memberDelete: async (email) => {
-    console.log(email);
-    return await axios.delete(MUNG_HOST + `/member/delete/${email}`);
-  },
-
-  // 아이디 찾기
-  findMemberId: async (name, tel) => {
-    return await axios.get(MUNG_HOST + `/auth/findId?name=${name}&tel=${tel}`);
+  memberDelete: async () => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
+    return await axios.delete(MUNG_HOST + `/member/delete/${email}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   // 펫 등록
   petReg: async (name, gender, Type, breed, birth, image, detail) => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
     const pet = {
-      memberId: window.localStorage.getItem("email"),
+      memberId: email,
       petName: name,
       gender: gender,
       animalType: Type,
@@ -95,13 +117,21 @@ const AxiosApi = {
       imageLink: image,
       detail: detail,
     };
-    return await axios.post(MUNG_HOST + "/pet/new", pet);
+    return await axios.post(MUNG_HOST + "/pet/new", pet,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   // 펫 수정
   petUpdate: async (id, name, gender, Type, breed, birth, image, detail) => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
     const pet = {
-      memberId: window.localStorage.getItem("email"),
+      memberId: email,
       petName: name,
       gender: gender,
       animalType: Type,
@@ -112,12 +142,25 @@ const AxiosApi = {
       detail: detail,
     };
 
-    return await axios.put(MUNG_HOST + `/pet/modify/${id}`, pet);
+    return await axios.put(MUNG_HOST + `/pet/modify/${id}`, pet,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   //펫 조회
-  petGet: async (email) => {
-    return await axios.get(MUNG_HOST + `/pet/list/email?email=${email}`);
+  petGet: async () => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
+    return await axios.get(MUNG_HOST + `/pet/list/email?email=${email}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   // 펫 삭제
@@ -126,8 +169,16 @@ const AxiosApi = {
   },
 
   //이메일 샌더
-  EmailCert: async (email) => {
-    return await axios.post(MUNG_HOST + `/auth/emailConfirm?email=${email}`);
+  EmailCert: async () => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
+    return await axios.post(MUNG_HOST + `/auth/emailConfirm?email=${email}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   //사료 추가
@@ -155,16 +206,18 @@ const AxiosApi = {
   //판매 추가
   SaleReg: async (
     feedName,
-    memberId,
     salesAddr,
     salesAutoDelivery,
     salesDelivery,
     salesPrice,
     salesName
   ) => {
+    const accessToken = Common.getAccessToken();
+    const res = await Common.TakenToken(); 
+    const email = res.data
     const saleData = {
       feedName: feedName,
-      memberId: memberId,
+      memberId: email, //이메일 데이타 입력
       salesAddr: salesAddr,
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
@@ -172,22 +225,48 @@ const AxiosApi = {
       salesType: "AUTO",
       salesName: salesName,
     };
-    return await axios.post(MUNG_HOST + "/sale/new", saleData);
+    return await axios.post(MUNG_HOST + "/sale/new", saleData,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+      },
+    });
   },
 
   //성공페이지 구매내역 디테일 출력
   SaleInfo: async (id) => {
-    return await axios.put(MUNG_HOST + `/sale/detail/${id}`);
+    const accessToken =Common.getAccessToken();
+    console.log(accessToken);
+    return await axios.put(MUNG_HOST + `/sale/detail/${id}`,{},{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+      },
+  });
   },
 
   //회원 구매 내역 조회
-  SaleUserList: async (email) => {
-    return await axios.get(MUNG_HOST + `/sale/list/email?email=${email}`);
+  SaleUserList: async () => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
+    return await axios.get(MUNG_HOST + `/sale/list/email?email=${email}`,{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken,
+      }
+    });
   },
 
   // 구매내역 삭제
   SaleDelete: async (id) => {
-    return await axios.delete(MUNG_HOST + `/sale/delete/${id}`);
+    const accessToken =Common.getAccessToken();
+    return await axios.delete(MUNG_HOST + `/sale/delete/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+    }
+    });
   },
 
   //배송 수정
@@ -201,18 +280,35 @@ const AxiosApi = {
   },
 
   //일기 추가
-  DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate, memberId) => {
+  DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate) => {
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
     const DiaryData = {
       diaryDetail: diaryDetail,
       diaryTitle: diaryTitle,
       diaryWriteDate: diaryWriteDate,
-      memberId: memberId,
+      memberId: email,
     };
-    return await axios.post(MUNG_HOST + "/diary/new", DiaryData);
+    return await axios.post(MUNG_HOST + "/diary/new", DiaryData,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   //수행 추가
-  QuestReg: async (petId, quest1, quest2, quest3, quest4, quest5, day) => {
+  QuestReg: async (
+    petId,
+    quest1,
+    quest2,
+    quest3,
+    quest4,
+    quest5,
+    day
+  ) => {
+    const accessToken =Common.getAccessToken();
     const QuestData = {
       petId: petId,
       quest1: quest1,
@@ -220,53 +316,98 @@ const AxiosApi = {
       quest3: quest3,
       quest4: quest4,
       quest5: quest5,
-      questPerformance: day,
+      questPerformance: day
     };
-    return await axios.post(MUNG_HOST + "/quest/new", QuestData);
+    return await axios.post(MUNG_HOST + "/quest/new", QuestData,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
   },
 
   //수행 출력
-  QuestDetail: async (petId, day) => {
-    const QuestDay = {
-      questPerformance: day,
-    };
-    return await axios.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay);
-  },
+  QuestDetail : async (petId,day)=>{
+    const accessToken =Common.getAccessToken();
+    const QuestDay={
+      questPerformance:day,
+    }
+    return await axios.put(MUNG_HOST + `/quest/detail/${petId}`,QuestDay,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + accessToken,
+        }
+    });
+},
 
-  QuestPetList: async (day) => {
-    const email = window.localStorage.getItem("email");
-    const QuestDay = {
-      questPerformance: day,
-    };
-    return await axios.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay);
-  },
-  //일기 작성
-  DiaryReg: async (day, write) => {
-    const DiaryData = {
+  QuestPetList : async (day)=>{
+    const res = await Common.TakenToken(); 
+    const email = res.data
+    const accessToken =Common.getAccessToken();
+  const QuestDay={
+    questPerformance:day,
+  }
+  return await axios.put(MUNG_HOST + `/quest/percent/${email}`,QuestDay,{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken,
+      }
+  });
+},
+//일기 작성
+DiaryReg : async(day,write)=>{
+  const res = await Common.TakenToken(); 
+  const email = res.data
+  const accessToken =Common.getAccessToken();
+  const DiaryData ={
       diaryDetail: write,
       diaryTitle: "",
       diaryWriteDate: day,
-      memberId: window.localStorage.getItem("email"),
-    };
-    return await axios.post(MUNG_HOST + "/diary/new", DiaryData);
-  },
-  //일기 출력
-  DiaryDetail: async (day) => {
-    const email = window.localStorage.getItem("email");
-    return await axios.get(
-      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`
-    );
-  },
+      memberId: email,
+  }
+  return await axios.post(MUNG_HOST + "/diary/new", DiaryData,{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken,
+      }
+  }); 
+},
+//일기 출력
+DiaryDetail : async (day)=>{
+  const res = await Common.TakenToken(); 
+  const email = res.data
+  const accessToken =Common.getAccessToken();
+  return await axios.get(MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`,{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken,
+      }
+  });
+},
 
-  CalenderQuest: async () => {
-    const email = window.localStorage.getItem("email");
-    return await axios.get(MUNG_HOST + `/diary/Calender/${email}`);
-  },
+CalenderQuest : async ()=>{
+  const res = await Common.TakenToken(); 
+  const email = res.data
+  const accessToken =Common.getAccessToken();
+  return await axios.get(MUNG_HOST + `/diary/Calender/${email}`,{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken, 
+      }
+  });
+},
 
-  CalenderDiary: async () => {
-    const email = window.localStorage.getItem("email");
-    return await axios.put(MUNG_HOST + `/quest/member/percnet/${email}`);
-  },
+CalenderDiary : async ()=>{
+  const res = await Common.TakenToken(); 
+  const email = res.data
+  const accessToken =Common.getAccessToken();
+  return await axios.put(MUNG_HOST + `/quest/member/percnet/${email}`,{},{
+    headers: {
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + accessToken, 
+      }
+  });
+},
 };
 
 export default AxiosApi;

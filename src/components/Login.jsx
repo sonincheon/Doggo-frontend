@@ -237,9 +237,9 @@ const Login = () => {
       const res = await AxiosApi.Login(inputEmail, inputPw);
       console.log(res.data);
       if (res.data.grantType === "Bearer") {
-        navigate("/");
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
+        navigate("/");
         window.localStorage.setItem("email", inputEmail);
       } else {
         setModalOpen(true);

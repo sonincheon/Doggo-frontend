@@ -61,7 +61,7 @@ const Common = {
   //토큰에서 이메일 뽑기 (String)
 TakenToken : async()=>{
   const accessToken = Common.getAccessToken();
-  return await axios.put(Common.MUNG_HOST + `/auth/takenEmail`,{
+  return await axios.get(Common.MUNG_HOST + `/auth/takenEmail`,{
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + accessToken,
