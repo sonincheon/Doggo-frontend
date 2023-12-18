@@ -19,7 +19,6 @@ const Container = styled.div`
   & .login {
     margin: 0 auto;
 
-    font: normal normal bold 24px/35px Poppins;
     letter-spacing: 0px;
     color: black;
     opacity: 1;
@@ -94,13 +93,15 @@ const Button2 = styled.button`
 `;
 
 const FindIdPwd = () => {
-  const [inputName, setInputName] = useState(""); // name 상태 추가
-  const [inputTel, setInputTel] = useState(""); // tel 상태 추가
-  const [foundId, setFoundId] = useState(""); // 추가: 찾은 아이디 상태
+  const [inputName, setInputName] = useState("");
+  const [inputTel, setInputTel] = useState("");
+  const [foundId, setFoundId] = useState("");
+  const [showFoundId, setShowFoundId] = useState(false);
 
   const onChangeName = (e) => {
     setInputName(e.target.value);
   };
+
   const onChangeTel = (e) => {
     setInputTel(e.target.value);
   };
@@ -110,24 +111,21 @@ const FindIdPwd = () => {
       const resp = await AxiosApi.findMemberId(inputName, inputTel);
       if (resp.status === 200) {
         setFoundId(resp.data);
+        setShowFoundId(true); // 입력완료 시 아이디 보이게 처리
       } else {
-        console.log(inputName);
-        console.log(inputTel);
         alert("가입된 정보가 없습니다.");
       }
     } catch (error) {
       console.log(error);
-      console.log(inputName);
-      console.log(inputTel);
       alert("오류가 발생했습니다.");
     }
   };
 
   const hideEmail = (email) => {
     const [username, domain] = email.split("@");
-    const maskedUsername =
-      username.substring(0, 3) + "*".repeat(username.length - 3);
-    return maskedUsername + "@" + domain;
+    const hiddenPart = "*".repeat(Math.max(0, username.length - 2));
+
+    return username.slice(0, 2) + hiddenPart + "@" + domain;
   };
 
   return (
@@ -153,13 +151,15 @@ const FindIdPwd = () => {
           <Item1 style={{ justifyContent: "center" }}>
             <Button1 onClick={findMemberId}>입력완료</Button1>
           </Item1>
-          <Item1>
-            {inputName}님의 아이디(이메일)는{" "}
-            <div style={{ color: "red", fontWeight: "bold" }}>
-              {hideEmail(foundId)}
-            </div>{" "}
-            입니다.
-          </Item1>
+          {showFoundId && ( // 아이디 보이게 처리
+            <Item1>
+              {inputName}님의 아이디(이메일)는{" "}
+              <div style={{ color: "red", fontWeight: "bold" }}>
+                {hideEmail(foundId)}
+              </div>{" "}
+              입니다.
+            </Item1>
+          )}
         </Container>
         <div>
           <div className="Title">비밀번호 찾기</div>
