@@ -7,15 +7,16 @@ import Imgmodal from "../../utill/Imgmodal";
 import AxiosApi from "../../api/Axios";
 
 const BoxContent = styled.div`
-  width: 400px;
-  height: 110vh;
-  background-color: #d9d9d9;
+  width: 100%;
+  background-color: #e4e4e4;
   border-radius: 10px;
+  border: 1px solid black;
 `;
 
 const BoxTitle = styled.div`
   font-size: 45px;
   margin-bottom: 1rem;
+  border: 1px solid red;
 `;
 
 const BoxContent1 = styled.div`
@@ -24,29 +25,17 @@ const BoxContent1 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 1px solid black;
 `;
 
 const BoxContent2 = styled.div`
-  height: 410px;
   margin-top: 10px;
+  border: 1px solid black;
 `;
-
-// const Profile = styled.img`
-//     height: 250px;
-//     width: 250px;
-//     border-radius: 100%;
-//     background-color: #FFEED9;
-//     align-items: center;
-//     transition: filter 0.3s ease; /* 부드러운 효과를 위한 트랜지션 속성 추가 */
-
-//     &:hover {
-//         filter: grayscale(100%) blur(4px); /* 마우스 호버 시 회색 필터 및 흐림 효과 적용 */
-//     }
-// `;
 
 const Btn = styled.button`
   width: 75px;
-  height: 30px;
+  height: 40px;
   border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
@@ -55,6 +44,7 @@ const Btn = styled.button`
   box-sizing: border-box;
   vertical-align: bottom;
   margin-right: 5px;
+  border: 1px solid black;
 `;
 
 const InputBox = styled.div`
@@ -69,6 +59,7 @@ const InputBox = styled.div`
   justify-content: space-between;
   padding-left: 5px;
   margin-bottom: 1rem;
+  border: 1px solid black;
 `;
 
 const Input = styled.div`
@@ -80,6 +71,7 @@ const Input = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 15px;
+  border: 1px solid red;
 `;
 
 const Btn1 = styled.div`
@@ -88,6 +80,7 @@ const Btn1 = styled.div`
   justify-content: center;
   align-items: center;
   height: 190px;
+  border: 1px solid black;
 `;
 
 const Btn2 = styled.button`
@@ -101,6 +94,7 @@ const Btn2 = styled.button`
   box-sizing: border-box;
   vertical-align: bottom;
   margin-top: 8px;
+  border: 1px solid black;
 `;
 
 const Profile = styled.div`
@@ -110,8 +104,9 @@ const Profile = styled.div`
   height: 250px;
   width: 250px;
   border-radius: 100%;
-  background-color: #ffe;
+  background-color: #f3eeea;
   margin-bottom: 1rem;
+  border: 1px solid black;
 `;
 
 const ProfileImage = styled.img`
@@ -119,6 +114,7 @@ const ProfileImage = styled.img`
   height: 100%;
   object-fit: cover;
   transition: filter 0.3s ease; /* 부드러운 효과를 위한 트랜지션 속성 추가 */
+  border: 1px solid black;
 
   ${Profile}:hover & {
     filter: grayscale(100%) blur(5px); /* 마우스 호버 시 이미지에 효과 적용 */
@@ -136,6 +132,7 @@ const OverlayText = styled.div`
   pointer-events: none; /* 텍스트 위에 마우스 이벤트를 허용하지 않음 */
   opacity: 0; /* 초기에는 보이지 않도록 설정 */
   transition: opacity 0.3s ease; /* 투명도에 대한 부드러운 효과를 위한 트랜지션 속성 추가 */
+  border: 1px solid black;
 
   ${Profile}:hover & {
     opacity: 1; /* 마우스 호버 시 텍스트가 나타남 */
@@ -234,7 +231,7 @@ const Myprofile = () => {
 
   return (
     <div>
-      <BoxTitle>MY PROFILE</BoxTitle>
+      <BoxTitle>내 프로필</BoxTitle>
       <BoxContent>
         <BoxContent1>
           <Profile>

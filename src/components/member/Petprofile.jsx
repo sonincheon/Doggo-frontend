@@ -8,7 +8,6 @@ import AxiosApi from "../../api/Axios";
 
 const BoxContent = styled.div`
   width: 780px;
-  height: 110vh;
   background-color: #d9d9d9;
   border-radius: 10px;
   overflow-y: scroll;
@@ -210,7 +209,6 @@ const Petprofile = () => {
           <BoxContent1 key={index}>
             <PetProfile src={list.imageLink} />
             <PetInfo1>
-              <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
               <PetInfo2>
                 <div className="PetSign">이름 : {list.petName}</div>
                 <div className="PetSign">성별 : {list.gender}</div>
@@ -261,7 +259,6 @@ const Petprofile = () => {
             style={{ width: "220px", height: "220px", marginLeft: "20px" }}
           />
           <PetInfo1>
-            <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
             <PetInfo2>
               <div className="PetSign">더 많은 친구들을 추가해보세요!</div>
             </PetInfo2>

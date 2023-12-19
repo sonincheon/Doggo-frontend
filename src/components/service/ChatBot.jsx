@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 // 전체 컨테이너에 대한 스타일드 컴포넌트
@@ -133,6 +134,7 @@ const WelcomeButtons = styled.div`
 const WelcomeButton = styled.button`
   margin: 0 8px;
   padding: 8px;
+  width: 100px;
   background-color: #f0f0f0;
   color: #87c4ff;
   border: 1px solid #87c4ff;
@@ -145,6 +147,8 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [showWelcome, setShowWelcome] = useState(true);
+
+  const navigate = useNavigate();
 
   const animal = [
     {
@@ -173,17 +177,24 @@ const Chatbot = () => {
     // 버튼에 따라 다른 동작 수행
     if (buttonNumber === 1) {
       // 1번 버튼 클릭 시 동작
-      addMessage("챗봇이 검색할 종의 이름을 입력하세요.", "bot");
+      addMessage("검색할 종의 이름을 입력하세요.", "bot");
     } else if (buttonNumber === 2) {
       // 2번 버튼 클릭 시 동작
       addMessage("조회하고 싶은 날짜를 선택하세요.", "bot");
     } else if (buttonNumber === 3) {
-      // 3번 버튼 클릭 시 동작
-      addMessage("조회하고 싶은 날짜를 선택하세요.", "bot");
+      // 3번 버튼 클릭 시 동작.
+      addMessage("멍냥일기 페이지로 이동합니다.", "bot");
+
+      setTimeout(() => {
+        navigate("/diy");
+      }, 1000);
     } else if (buttonNumber === 4) {
       // 4번 버튼 클릭 시 동작
-      addMessage("멍냥일기 페이지로 넘어가게 해줄게요.", "bot");
-      // 여기서 다른 페이지로 이동하는 로직을 추가하면 됩니다.
+      addMessage("고객센터 페이지로 이동합니다.", "bot");
+
+      setTimeout(() => {
+        navigate("/service");
+      }, 1000);
     }
 
     // 버튼이 클릭되면 환영 메시지와 버튼을 숨김
@@ -231,6 +242,10 @@ const Chatbot = () => {
     // 간단한 패턴 매칭을 통해 사용자 입력에 따른 응답 생성
     const lowercaseInput = userInput.toLowerCase();
 
+    const foundAnimal = animal.find((a) =>
+      lowercaseInput.includes(a.name.toLowerCase())
+    );
+
     const ButtonBox = styled.div`
       display: flex;
       flex-direction: row;
@@ -247,10 +262,6 @@ const Chatbot = () => {
       border-radius: 4px;
       cursor: pointer;
     `;
-
-    const foundAnimal = animal.find((a) =>
-      lowercaseInput.includes(a.name.toLowerCase())
-    );
 
     if (foundAnimal) {
       // '치와와'에 대한 정보와 버튼을 포함한 응답 생성
@@ -283,7 +294,6 @@ const Chatbot = () => {
         {showWelcome && (
           <WelcomeContainer>
             <p>환영합니다! 어떤 도움이 필요하신가요?</p>
-            ㅣ,ㅏ
             <WelcomeButtons>
               <WelcomeButton onClick={() => handleWelcomeButtonClick(1)}>
                 동물도감
@@ -292,10 +302,10 @@ const Chatbot = () => {
                 산책지수
               </WelcomeButton>
               <WelcomeButton onClick={() => handleWelcomeButtonClick(3)}>
-                날씨
+                멍냥일기
               </WelcomeButton>
               <WelcomeButton onClick={() => handleWelcomeButtonClick(4)}>
-                멍냥일기
+                고객센터
               </WelcomeButton>
             </WelcomeButtons>
           </WelcomeContainer>
