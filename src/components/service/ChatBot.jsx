@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 // 전체 컨테이너에 대한 스타일드 컴포넌트
@@ -115,10 +115,36 @@ const Image = styled.img`
   border-radius: 5px; /* 이미지에 원하는 모양을 주기 위한 스타일 설정 */
 `;
 
+const WelcomeContainer = styled.div`
+  background-color: #87c4ff;
+  color: white;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 4px;
+  text-align: center;
+`;
+
+const WelcomeButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+`;
+
+const WelcomeButton = styled.button`
+  margin: 0 8px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  color: #87c4ff;
+  border: 1px solid #87c4ff;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
 const Chatbot = () => {
   // 채팅창 메시지와 사용자 입력 상태를 관리하는 상태변수
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [showWelcome, setShowWelcome] = useState(true);
 
   const animal = [
     {
@@ -136,6 +162,33 @@ const Chatbot = () => {
       url: "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EC%8B%9C%EB%B0%94%EA%B2%AC",
     },
   ];
+
+  useEffect(() => {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }, [messages]);
+
+  // 환영 메시지 버튼 클릭을 처리하는 함수
+  const handleWelcomeButtonClick = (buttonNumber) => {
+    console.log(buttonNumber);
+    // 버튼에 따라 다른 동작 수행
+    if (buttonNumber === 1) {
+      // 1번 버튼 클릭 시 동작
+      addMessage("챗봇이 검색할 종의 이름을 입력하세요.", "bot");
+    } else if (buttonNumber === 2) {
+      // 2번 버튼 클릭 시 동작
+      addMessage("조회하고 싶은 날짜를 선택하세요.", "bot");
+    } else if (buttonNumber === 3) {
+      // 3번 버튼 클릭 시 동작
+      addMessage("조회하고 싶은 날짜를 선택하세요.", "bot");
+    } else if (buttonNumber === 4) {
+      // 4번 버튼 클릭 시 동작
+      addMessage("멍냥일기 페이지로 넘어가게 해줄게요.", "bot");
+      // 여기서 다른 페이지로 이동하는 로직을 추가하면 됩니다.
+    }
+
+    // 버튼이 클릭되면 환영 메시지와 버튼을 숨김
+    setShowWelcome(false);
+  };
 
   // 채팅창을 스크롤하기 위한 ref
   const chatContainerRef = useRef(null);
@@ -227,6 +280,27 @@ const Chatbot = () => {
   return (
     <Container>
       <div className="chat">
+        {showWelcome && (
+          <WelcomeContainer>
+            <p>환영합니다! 어떤 도움이 필요하신가요?</p>
+            ㅣ,ㅏ
+            <WelcomeButtons>
+              <WelcomeButton onClick={() => handleWelcomeButtonClick(1)}>
+                동물도감
+              </WelcomeButton>
+              <WelcomeButton onClick={() => handleWelcomeButtonClick(2)}>
+                산책지수
+              </WelcomeButton>
+              <WelcomeButton onClick={() => handleWelcomeButtonClick(3)}>
+                날씨
+              </WelcomeButton>
+              <WelcomeButton onClick={() => handleWelcomeButtonClick(4)}>
+                멍냥일기
+              </WelcomeButton>
+            </WelcomeButtons>
+          </WelcomeContainer>
+        )}
+
         <ChatboxContainer ref={chatContainerRef}>
           {messages.map((message, index) => (
             <div key={index} style={{ paddingBottom: "8px" }}>
