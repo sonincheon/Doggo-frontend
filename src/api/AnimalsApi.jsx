@@ -1,16 +1,12 @@
 
-
-
-
-
 const BASE_URL = 'http://localhost:8111/api';
 
 
 
 // 요거는 동물도감
-export const getAnimals = async (animalType, page) => {
+export const getAnimals = async (animalType, page, size) => {
   try {
-    const response = await fetch(`${BASE_URL}/${animalType}/view/list?page=${page}&size=8`);
+    const response = await fetch(`${BASE_URL}/${animalType}/view/list?page=${page}&size=${size}`);
     
     if (!response.ok) {
       throw new Error('Network fail');

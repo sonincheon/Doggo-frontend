@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useInView } from "react-intersection-observer";
-
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";

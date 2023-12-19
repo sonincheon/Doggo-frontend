@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaSearch } from "react-icons/fa";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -23,31 +22,71 @@ const ItemBox = styled.div`
 `;
 
 const InnerBox = styled.div.attrs({
-  className : "InnerBox"
-}
-  
-)`
+  className: "InnerBox",
+})`
   display: flex;
   flex-direction: ${(props) => props.$flexDirection || "row"};
- 
+
   align-items: ${(props) => props.$alignItems || "center"};
   width: ${(props) => props.$width || "50%"};
   height: 100%;
-  
 `;
 
+const ToggleButton = styled.button`
+  padding: 10px 20px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  font-size: 16px;
+  &:hover {
+    background-color: black;
+  }
+`;
 
+const Dropdown = styled.select`
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+  margin-left: 10px; // 필요에 따라 조정
 
-const TopItems = () => {
-  const [searchAnimal, setSearchAnimal] = useState();
-  //검색을 위한 onClick 함수
-  const searchByName = () => {};
+  &:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+`;
+
+const TopItems = ({
+  animalType,
+  setAnimalType,
+  setPage,
+  dropdownOptions,
+  setDropdownOption,
+}) => {
+  const toggleAnimal = () => {
+    setPage(0);
+    setAnimalType(animalType === "dogs" ? "cats" : "dogs");
+  };
+  const handleDropdownChange = (e) => {
+    setDropdownOption(e.target.value);
+  };
+
   return (
     <>
       <ItemContainer>
         <ItemBox>
-          <InnerBox $width="150px">
-            
+          <InnerBox
+            $width="100%"
+            $flexDirection="row-reverse"
+            $justifyContent="flex-start">
+            <ToggleButton onClick={toggleAnimal}>
+              {animalType === "dogs" ? "Show Cats" : "Show Dogs"}
+            </ToggleButton>
           </InnerBox>
         </ItemBox>
         <ItemBox>
@@ -55,6 +94,23 @@ const TopItems = () => {
             $width="100%"
             $flexDirection="row-reverse"
             $justifyContent="flex-start">
+            <Dropdown onChange={handleDropdownChange}>
+              {
+                animalType === "dogs"
+                  ? dogOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  : animalType === "cats"
+                  ? catOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  : null 
+              }
+            </Dropdown>
           </InnerBox>
         </ItemBox>
       </ItemContainer>

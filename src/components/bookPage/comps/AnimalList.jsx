@@ -27,7 +27,7 @@ const BreedItemsBox = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
-  width: 80%;
+  width: 100%;
   height: auto;
   min-height: 500px;
   border: 1px solid black;
@@ -38,42 +38,69 @@ const BreedItemsBox = styled.div`
 const BreedItem = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: calc(25% - 20px);
+  justify-content: space-between;
+  width: calc(20% - 20px);
+  height: 20vw;
   margin: 10px;
-  flex-grow: 1;
-  
   transition: opacity 0.5s ease-in;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd; 
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+
+  &:hover {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+    transform: scale(1.02);
+    transition: 0.3s linear;
+  }
+    
+  
   img {
     width: 100%;
-    height: 80%;
-    object-fit: contain;
+    height: 90%; // 이미지 높이
+    object-fit: cover;
     border-radius: 10px;
+  } 
+  p, h3 {
+    margin-left: .5vw;
+  }
+  h3 {
+    font-weight: bold;
   }
 `;
 
-const AnimalList = () => {
+
+
+const AnimalList = ({animalType}) => {
   const [animals, setAnimals] = useState([]);
-  const [animalType, setAnimalType] = useState("dogs");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const loader = useRef(null);
 
   useEffect(() => {
     const fetchAnimalsData = async () => {
-      const size = 4; // 한 페이지에 로드할 아이템 수
+      const size = 30;
       const newAnimals = await getAnimals(animalType, page, size);
+      console.log(page);
       console.log(newAnimals);
-      setAnimals((prevAnimals) => [...prevAnimals, ...newAnimals]);
+      // 초기 로딩시 0 이면 최초 1회 요청하고 시작
+      if (page === 0) {
+        setAnimals(newAnimals);
+        
+      } else {
+        setAnimals((prevAnimals) => [...prevAnimals, ...newAnimals]);
+      }
     };
 
     fetchAnimalsData();
   }, [animalType, page]);
 
-  const handleObserver = (entities) => {
-    const target = entities[0];
+  const handleObserver = (objects) => {
+    const target = objects[0];
     if (target.isIntersecting) {
       setPage((prevPage) => prevPage + 1);
+      // console.log(page);
     }
   };
 
@@ -81,7 +108,7 @@ const AnimalList = () => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "5%",
-      threshold: 0.1,
+      threshold: 1.0,
     });
     if (loader.current) {
       observer.observe(loader.current);
@@ -90,29 +117,20 @@ const AnimalList = () => {
     return () => observer.disconnect();
   }, []);
 
-  
+  useEffect(() => {
+    // 페이지가 로드될 때마다 스크롤을 최상단으로 이동
+    window.scrollTo(0, 0);
+  }, []);
 
-  const AnimalViewItem = ({ animal }) => {
-    const [ref, inView] = useInView({
-      triggerOnce: false,
-      threshold: 0.1,
-    });
-  
-    return (
-      <BreedItem 
-        ref={ref} 
-        style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease-in' }}
-      >
-        <img src={animal.image_link} alt={`${animal.name} 이미지`} />
-        <p>{animal.name}</p>
-      </BreedItem>
-    );
-  };
+  // 토글버튼 클릭시 값 초기화
+  useEffect(() => {
+    setPage(0);
+    setAnimals([]);
+  }, [animalType]);
 
   return (
     <>
       <ItemContainer>
-        <BreedListBox></BreedListBox>
         <BreedItemsBox>
           {animals.map((animal, index) => (
             <AnimalViewItem key={index} animal={animal} />
@@ -124,6 +142,21 @@ const AnimalList = () => {
   );
 };
 
+const AnimalViewItem = ({ animal }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
+  return (
+    <BreedItem 
+      ref={ref} 
+      style={{ opacity: inView ? 1 : 0 }}>
+      <img src={animal.image_link} alt={`${animal.korean_name} 이미지`} />
+      <h3>{animal.korean_name}</h3>
+      <p>{animal.name}</p>
+    </BreedItem>
+  );
+};	
 
 export default AnimalList;
