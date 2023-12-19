@@ -10,7 +10,6 @@ const Btween = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5%;
 `;
 
 const Diymain = () => {

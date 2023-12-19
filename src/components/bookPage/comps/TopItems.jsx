@@ -95,7 +95,7 @@ const TopItems = ({
             $flexDirection="row-reverse"
             $justifyContent="flex-start">
             <Dropdown onChange={handleDropdownChange}>
-              {
+              {/* {
                 animalType === "dogs"
                   ? dogOptions.map((option, index) => (
                       <option key={index} value={option.value}>
@@ -109,7 +109,7 @@ const TopItems = ({
                       </option>
                     ))
                   : null 
-              }
+              } */}
             </Dropdown>
           </InnerBox>
         </ItemBox>

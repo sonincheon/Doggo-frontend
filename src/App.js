@@ -29,6 +29,7 @@ import Quicktoss from "./pages/quickPage/Quicktoss";
 import PayStore from "./context/Paystore";
 import ServiceView from "./pages/servicePage/ServiceView";
 import FindIdPwd from "./pages/userPage/FindIdPwd";
+import PrivateLayout from "./pages/PrivateLayout";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -55,28 +56,32 @@ function App() {
             <Route path="/FindIdPwd" element={<FindIdPwd />} />
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>
+
+              {/* 로그인 제한 구간  */}
+              <Route element={<PrivateLayout />}>
+                <Route
+                  path="/quick/sell/:feedId/:title"
+                  element={<Quicksell />}
+                />
+                <Route
+                path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title"
+                element={<Quicktoss />}
+                />
+                <Route path="/quick/sales" element={<Quicksale />} />
+                <Route path="/quick/sucess/:num" element={<Quicksucess />} />
+                <Route path="/quick/toss" element={<TossPage />} />
+                <Route path="/mypage/" element={<MyPage />} />
+              </Route>
+              
               <Route path="/" element={<HomePage />} />
               <Route path="/book" element={<BookPage />} />
               <Route path="/diy" element={<Diymain />} />
               <Route path="/map" element={<Mapmain />} />
               <Route path="/quick" element={<Quickmain />} />
               <Route path="/service" element={<ServiceMain />} />
-
-              <Route
-                path="/quick/sell/:feedId/:title"
-                element={<Quicksell />}
-              />
-              <Route path="/quick/toss" element={<TossPage />} />
-              <Route
-                path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title"
-                element={<Quicktoss />}
-              />
-              <Route path="/quick/sales" element={<Quicksale />} />
-              <Route path="/quick/sucess/:num" element={<Quicksucess />} />
-              <Route path="/mypage/" element={<MyPage />} />
               <Route path="/serviceVeiw" element={<ServiceView />} />
             </Route>
-            
+
             {/* 여긴 어드민 구간  */}
             <Route element={<Admin />}>
               <Route path="/admin" element={<Adminmainpage />} />
@@ -86,6 +91,8 @@ function App() {
               <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
               <Route path="/admin/feed" element={<Adminfeedpage />} />
             </Route>
+
+            
           </Routes>
         </Router>
       </PayStore>

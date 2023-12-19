@@ -120,7 +120,6 @@ const Quicksell3 = (props) => {
   const {setFeedName,setSalesAddr,setSalesAutoDelivery,setSalesDelivery,setSalesPrice,setTitle}=context;
 
 
-
   useEffect(()=>{
     if(title==="ONE MONTH FREE"){setPrice("/")};
     if(title==="STANDARD"){setPrice(99000); props.onPrice(99000);setSalesPrice(99000)};
@@ -279,7 +278,7 @@ const Quicksell3 = (props) => {
           </li>
           <li>취소료 규정은 각 상품 상세 페이지에서 확인 가능합니다.</li>
           <li>
-            예약이 완료되면 담당자가 전화로 추가 안내 및 확인 절차를 거칩니다.
+            예약이 완료되면 담당자가 전화로 추가 안내k 및 확인 절차를 거칩니다.
           </li>
           <li>
             상품의 특성 상 경우에 따라 예약이 완료된 후에도 처리가 불가능할 수

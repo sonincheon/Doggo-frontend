@@ -4,6 +4,7 @@ import Modal from "../../utill/Modal";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../../api/Axios";
 import Salesmodal from "../../utill/Salesmodal";
+import Common from "../../utill/Common";
 
 const Container = styled.div`
   width: 1000px;
@@ -35,9 +36,9 @@ const Container = styled.div`
     li {
       padding: 5px 0;
       list-style: square;
-    };
-  };
-  
+    }
+  }
+
   .cancleInfoBox {
     display: flex;
     flex-direction: column;
@@ -45,7 +46,7 @@ const Container = styled.div`
     justify-content: center;
     width: 100%;
     height: 160px;
-    background-color: #EBE3D5;
+    background-color: #ebe3d5;
     border-radius: 10px;
   }
 `;
@@ -65,10 +66,10 @@ const SellTable = styled.table`
     align-items: center;
     justify-content: center;
     height: 30px;
-    border: 1px solid #B0A695;
+    border: 1px solid #b0a695;
     font-size: 13px;
     font-weight: bold;
-    background-color: #B0A695;
+    background-color: #b0a695;
   }
 `;
 
@@ -77,7 +78,7 @@ const SellTable1 = styled.table`
   tr {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #776B5D;
+    border-bottom: 1px solid #776b5d;
     border-radius: 10px;
   }
 
@@ -99,8 +100,8 @@ const ScroolBox = styled.div`
   overflow: auto;
   position: relative;
   overflow-y: scroll;
-  border: 1px solid #776B5D;
-  overflow-x:hidden ;
+  border: 1px solid #776b5d;
+  overflow-x: hidden;
   .innerStyle {
     width: 1000px;
     height: 650px;
@@ -111,7 +112,7 @@ const SellButton = styled.button`
   margin: 20px;
   width: 150px;
   height: 40px;
-  background-color: #776B5D;
+  background-color: #776b5d;
   color: white;
   border: none;
   font-size: 12px;
@@ -125,11 +126,11 @@ const CancleButton = styled.button`
   align-items: center;
   background-color: #000000;
   border-radius: 10px;
-  color:white;
+  color: white;
   height: 25px;
   border: none;
   cursor: pointer;
-  &+&{
+  & + & {
     margin: 10px;
   }
 `;
@@ -138,56 +139,66 @@ const Quicksale1 = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [sModalOpen, setSModalOpen] = useState(false);
-  const [saleList,setSaleList] =useState([]);
-  const [saleNum,setSaleNum] =useState();
+  const [saleList, setSaleList] = useState([]);
+  const [saleNum, setSaleNum] = useState();
 
   const closeModal = () => {
     setModalOpen(false);
     setSModalOpen(false);
   };
 
-  const CancleClick = (a)=>{
-    setSaleNum(a)
+  const CancleClick = (a) => {
+    setSaleNum(a);
     setModalOpen(true);
   };
 
-  const openSaleModal = (a)=>{
-    setSaleNum(a)
+  const openSaleModal = (a) => {
+    setSaleNum(a);
     setSModalOpen(true);
   };
 
-const SalesDelete= async()=>{
-  const resp = await AxiosApi.SaleDelete(saleNum);
-  if (resp.data === true) {
-    alert("취소확인")
-    setModalOpen(false);
-  } else {
-    alert("취소실패")
-  }
-}
+  const SalesDelete = async () => {
+    const resp = await AxiosApi.SaleDelete(saleNum);
+    if (resp.data === true) {
+      alert("취소확인");
+      setModalOpen(false);
+    } else {
+      alert("취소실패");
+    }
+  };
 
-const SalesModify= async()=>{
-  const resp = await AxiosApi.SaleModify(saleNum);
-  if (resp.data === true) {
-    alert("변경확인")
-    setSModalOpen(false);
-  } else {
-    alert("변경실패")
-  }
-}
-    useEffect(() => {
-        const SalesList = async () => {
-          try {
-            const resp = await AxiosApi.SaleUserList(window.localStorage.getItem("email")); //전체 조회
-            if (resp.status === 200){
-              setSaleList(resp.data);
-              console.log(resp.data);
-            }}catch (e) {
-            console.log(e);
+  const SalesModify = async () => {
+    const resp = await AxiosApi.SaleModify(saleNum);
+    if (resp.data === true) {
+      alert("변경확인");
+      setSModalOpen(false);
+    } else {
+      alert("변경실패");
+    }
+  };
+  useEffect(() => {
+    const SalesList = async () => {
+      const token = Common.getAccessToken();
+      try {
+        const resp = await AxiosApi.SaleUserList(); //전체 조회
+        if (resp.status === 200) {
+          setSaleList(resp.data);
+          console.log(resp.data);
+        }
+      } catch (e) {
+        if (e.response.status === 401) {
+          await Common.handleUnauthorized();
+          const newToken = Common.getAccessToken();
+          if (newToken !== token) {
+            const resp = await AxiosApi.SaleUserList();
+            setSaleList(resp.data);
           }
-        };
-        SalesList();
-      }, [modalOpen]);
+        }
+      }
+    };
+    SalesList();
+  }, [modalOpen]);
+
   return (
     <>
       <Container>
@@ -195,18 +206,10 @@ const SalesModify= async()=>{
         <div className="cancleInfoBox">
           <h2>※구독 취소시 주의사항※</h2>
           <ul className="canclelist">
-            <li>
-              ※ 내용
-            </li>
-            <li>
-              ※ 내용
-            </li>
-            <li>
-              ※ 내용
-            </li>
-            <li>
-            내용
-            </li>
+            <li>※ 내용</li>
+            <li>※ 내용</li>
+            <li>※ 내용</li>
+            <li>내용</li>
           </ul>
         </div>
       </Container>
@@ -244,12 +247,14 @@ const SalesModify= async()=>{
                     >
                       {data.salesAddr}
                     </th>
-                    <th>
-                    ????????
-                    </th>
+                    <th>????????</th>
                     <th style={{ width: "20%" }}>
-                      <CancleButton style={{backgroundColor:"#665847"}} >변경 사항</CancleButton>
-                      <CancleButton  onClick={()=>CancleClick(data.saleId)}  >취소</CancleButton>
+                      <CancleButton style={{ backgroundColor: "#665847" }}>
+                        변경 사항
+                      </CancleButton>
+                      <CancleButton onClick={() => CancleClick(data.saleId)}>
+                        취소
+                      </CancleButton>
                     </th>
                   </tr>
                 ))}
@@ -261,15 +266,30 @@ const SalesModify= async()=>{
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
-          }}>
-          <SellButton Buttonstlye={true} onClick={()=>navigate("/")}>홈으로</SellButton>
+          }}
+        >
+          <SellButton Buttonstlye={true} onClick={() => navigate("/")}>
+            홈으로
+          </SellButton>
         </div>
       </Container>
-      
-      <Modal type={1} open={modalOpen} close={closeModal} confirm={SalesDelete}  header="취소 확인">
-                정말 취소 요청 하시겠습니까? 
+
+      <Modal
+        type={1}
+        open={modalOpen}
+        close={closeModal}
+        confirm={SalesDelete}
+        header="취소 확인"
+      >
+        정말 취소 요청 하시겠습니까?
       </Modal>
-      <Salesmodal type={1} open={sModalOpen} close={closeModal} confirm={SalesModify}  header="변경 요청"/>
+      <Salesmodal
+        type={1}
+        open={sModalOpen}
+        close={closeModal}
+        confirm={SalesModify}
+        header="변경 요청"
+      />
     </>
   );
 };

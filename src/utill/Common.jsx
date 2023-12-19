@@ -36,7 +36,7 @@ const Common = {
 
   // 401 에러 처리 함수 (토큰 리프래쉬토큰 재발급)
   handleUnauthorized: async () => {
-    console.log("handleUnauthorized");
+    console.log("에세스토큰 재발급");
     const accessToken = Common.getAccessToken();
     const refreshToken = Common.getRefreshToken();
     const config = {
@@ -46,7 +46,7 @@ const Common = {
     };
     try {
       const res = await axios.post(
-        `${Common.MUNG_HOST}/auth/refresh`,
+        `${Common.KH_DOMAIN}/auth/refresh`,
         refreshToken,
         config
       );
@@ -58,6 +58,7 @@ const Common = {
       return false;
     }
   },
+
   //토큰에서 이메일 뽑기 (String)
 TakenToken : async()=>{
   const accessToken = Common.getAccessToken();
@@ -71,7 +72,7 @@ TakenToken : async()=>{
   //토큰으로 로그인여부 확인 (Buloan)
   IsLogin : async()=>{
     const accessToken = Common.getAccessToken();
-    return await axios.put(Common.MUNG_HOST + `/isLogin/${accessToken}`)
+    return await axios.get(Common.MUNG_HOST + `auth/isLogin/${accessToken}`)
   }
 };
 
