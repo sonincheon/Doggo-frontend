@@ -52,8 +52,8 @@ const ChatbotBox = styled.div`
 
 const ChatbotIcon = styled.img`
   position: fixed;
-  width: 75px;
-  height: 75px;
+  width: 5.5%;
+  height: 10%;
   right: 50px;
   cursor: pointer;
   z-index: 9999;
