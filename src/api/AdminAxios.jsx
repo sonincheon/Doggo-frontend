@@ -23,9 +23,12 @@ const AdminAxiosApi = {
       );
     },
     // 판매 페이지네이션 조회
-    MemberPageList: async (page, size) => {
+    MemberPageList: async (memberGrade,page, size) => {
+      const grade ={
+        memberGrade
+      }
       return await axios.get(
-        MUNG_HOST + `/admin/member/list/page?page=${page}&size=${size}`
+        MUNG_HOST + `/admin/member/list/page?page=${page}&size=${size}`,grade
       );
     },
 
@@ -34,13 +37,16 @@ const AdminAxiosApi = {
   SaleAllList: async () => {
     return await axios.get(MUNG_HOST + `/sale/list/all`);
   },
-  InvoiceInput: async (id, invoice) => {
+  InvoiceInput: async (id, orderStatus, invoice) => {
+    console.log("id : " + id, "판매상태 : " + orderStatus);
     const InvoiceData = {
       id: id,
+      orderStatus: orderStatus, 
       invoice: invoice,
     };
     return await axios.put(MUNG_HOST + `/admin/sales/order/${id}`, InvoiceData)
   },
+
   // 판매 페이지 수 조회
   SalePage: async (page, size) => {
     return await axios.get(
@@ -80,7 +86,27 @@ const AdminAxiosApi = {
     return await axios.put(MUNG_HOST +`/admin/qna/answer/${id}`,AnswerData);
   },
 
-
+  // ---- Admin Feed
+  // 전체조회
+  FeedAllList: async () => {
+    return await axios.get(MUNG_HOST + `/admin/feed/feeds`);
+  },
+  // 사료 삭제
+  FeedDelete: async (id) => {
+    return await axios.delete(MUNG_HOST + `/feed/delete/${id}`);
+  },
+  // 페이지 수 조회
+  FeedPage: async (page, size) => {
+    return await axios.get(
+      MUNG_HOST + `/admin/feed/list/count?page=${page}&size=${size}`
+    );
+  },
+  // 페이지네이션
+  FeedPageList: async (page, size) => {
+    return await axios.get(
+      MUNG_HOST + `/admin/feed/list/page?page=${page}&size=${size}`
+    );
+  },
 }
 
 

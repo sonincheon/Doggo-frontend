@@ -24,6 +24,7 @@ import Adminmemberpage from "./pages/adminPage/Adminmemberpage";
 import Adminsalespage from "./pages/adminPage/Adminsalespage";
 import Adminqnapage from "./pages/adminPage/Adminqnapage";
 import Qnadetailpage from "./pages/adminPage/Qnadetailpage";
+import Adminfeedpage from "./pages/adminPage/Adminfeedpage";
 import Quicktoss from "./pages/quickPage/Quicktoss";
 import PayStore from "./context/Paystore";
 import ServiceView from "./pages/servicePage/ServiceView";
@@ -83,6 +84,7 @@ function App() {
               <Route path="/admin/sales" element={<Adminsalespage />} />
               <Route path="/admin/qna" element={<Adminqnapage />} />
               <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
+              <Route path="/admin/feed" element={<Adminfeedpage />} />
             </Route>
           </Routes>
         </Router>
