@@ -37,6 +37,9 @@ export const Arrow = styled.div`
 export const PlaceName = styled.p`
   font-size: 16px;
   padding: 10px 5px 10px 10px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 export const DetailLink = styled.a`
   text-align: center;
@@ -70,8 +73,8 @@ export const KeywordBtn = styled.button`
   box-shadow: 2px 2px 2px #b0a695;
 
   @media (max-width: 768px) {
-    width: 120px;
-    font-size: 1rem;
+    width: 100px;
+    font-size: 0.8rem;
     padding: 8px;
   }
 `;
@@ -130,6 +133,7 @@ export const List = styled.ul``;
 export const Item = styled.li`
   position: relative;
   padding: 20px;
+  border-bottom: 1px solid #776b5d;
 `;
 
 export const Name = styled.p`
@@ -246,16 +250,16 @@ export const GoBackButton = styled.button`
   bottom: 20px;
   right: 20px;
   z-index: 10;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   background: no-repeat #bda695 url(${frame}) center/contain;
   background-size: 70%;
   border-radius: 10px;
   border: none;
 
   @media (max-width: 768px) {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     right: 20px;
     bottom: 50px;
   }

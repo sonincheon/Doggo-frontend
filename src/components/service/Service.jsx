@@ -6,19 +6,33 @@ import Servicemodal from "../../utill/Servicemodal";
 
 const Base = styled.div`
   display: flex;
-  justify-content: baseline;
   column-gap: 40px;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const Container = styled.div`
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  width: 600px;
-  height: 700px;
+  flex-grow: 1;
+  max-width: calc(50% - 20px);
+  min-height: 700px;
+  margin-bottom: 20px;
   .title {
     font-size: 2rem;
     hr {
-      border-bottom: solid 2px #776b5d;
+      border-bottom: solid 1px #776b5d;
     }
+  }
+  @media (max-width: 768px) {
+    width: 90%;
+    max-width: none;
+    min-height: unset;
+    margin-bottom: 0;
   }
 `;
 const Box = styled.div`
@@ -39,13 +53,7 @@ const Box = styled.div`
     line-height: 25px;
     padding: 10px;
   }
-  h1 {
-    font-size: 2rem;
-  }
-  p {
-    font-size: 1.5rem;
-    margin: 10px;
-  }
+
   .item {
     border-bottom: solid 2px #776b5d;
   }
@@ -56,6 +64,10 @@ const Box = styled.div`
     border-radius: 10px;
     color: #776b5d;
     border: none;
+  }
+  @media (max-width: 768px) {
+    order: 2; /* 화면 작아졌을 때 오른쪽으로 이동 */
+    width: 100%;
   }
 `;
 const Box2 = styled.div`
@@ -69,6 +81,21 @@ const Box2 = styled.div`
     border-radius: 10px;
     color: #776b5d;
     border: none;
+  }
+  @media (max-width: 768px) {
+    order: 1; /* 화면 작아졌을 때 왼쪽으로 이동 */
+    width: 100%;
+  }
+`;
+const Box3 = styled.div`
+  width: 100%;
+  padding: 10px;
+  .title {
+    font-size: 1.5rem;
+    p {
+      font-size: 1rem;
+      margin: 10px;
+    }
   }
 `;
 const faqData = [
@@ -211,13 +238,13 @@ const Service = () => {
   };
   return (
     <>
-      <Box>
-        <diiv className="title">
+      <Box3>
+        <div className="title">
           <h1>고객센터</h1>
           <p>• 작성하기 버튼 누르시면 1:1 상담이 가능합니다.</p>
           <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
-        </diiv>
-      </Box>
+        </div>
+      </Box3>
       <Base>
         <Container>
           <div className="title">
