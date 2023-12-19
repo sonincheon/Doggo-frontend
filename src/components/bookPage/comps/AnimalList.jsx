@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import {WindowScroller, CellMeasurer, CellMeasurerCache, AutoSizer, List, ListRowProps} from 'react-virtualized';
+import { useInView } from "react-intersection-observer";
 import { getAnimals } from "../../../api/AnimalsApi";
 import styled from "styled-components";
 
+
 const ItemContainer = styled.div`
   display: flex;
-
   justify-content: space-around;
-  align-items: center;
   width: 100%;
   min-height: 500px;
   height: 100%;
-  /* border: 1px solid black; */
 `;
 
 const BreedListBox = styled.div`
@@ -22,6 +21,7 @@ const BreedListBox = styled.div`
   border: 1px solid black;
   border-radius: 10px;
 `;
+
 const BreedItemsBox = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -36,73 +36,94 @@ const BreedItemsBox = styled.div`
 `;
 
 const BreedItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: calc(25% - 20px);
   margin: 10px;
   flex-grow: 1;
+  
+  transition: opacity 0.5s ease-in;
   img {
     width: 100%;
     height: 80%;
     object-fit: contain;
+    border-radius: 10px;
   }
 `;
 
 const AnimalList = () => {
-  // Api를 통해서 스프링에서 보낸 정보를 받을 스테이트훅
   const [animals, setAnimals] = useState([]);
-  // 디폴트로 견종도감 내용을 보여주고 할당함수를 통해서 견종/묘종 변경하는 스테이트 훅
   const [animalType, setAnimalType] = useState("dogs");
-  // 무한스크롤과 상호작용하는 스테이트 훅
   const [page, setPage] = useState(1);
   const loader = useRef(null);
 
   useEffect(() => {
     const fetchAnimalsData = async () => {
-      const newAnimals = await getAnimals(animalType);
+      const size = 4; // 한 페이지에 로드할 아이템 수
+      const newAnimals = await getAnimals(animalType, page, size);
       console.log(newAnimals);
-      setAnimals(newAnimals); 
+      setAnimals((prevAnimals) => [...prevAnimals, ...newAnimals]);
     };
 
     fetchAnimalsData();
-  }, [animalType]);
+  }, [animalType, page]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
     if (target.isIntersecting) {
-      setPage((prevPage) => prevPage + 1); 
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "20px",
-      threshold: 1.0,
+      rootMargin: "5%",
+      threshold: 0.1,
     });
     if (loader.current) {
       observer.observe(loader.current);
     }
-  
-    
+
     return () => observer.disconnect();
   }, []);
+
+  
+
+  const AnimalViewItem = ({ animal }) => {
+    const [ref, inView] = useInView({
+      triggerOnce: false,
+      threshold: 0.1,
+    });
+  
+    return (
+      <BreedItem 
+        ref={ref} 
+        style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease-in' }}
+      >
+        <img src={animal.image_link} alt={`${animal.name} 이미지`} />
+        <p>{animal.name}</p>
+      </BreedItem>
+    );
+  };
 
   return (
     <>
       <ItemContainer>
         <BreedListBox></BreedListBox>
-
         <BreedItemsBox>
           {animals.map((animal, index) => (
-            <BreedItem key={index}>
-              <img src={animal.image_link} alt={`${animal.name} 이미지`} />
-            </BreedItem>
+            <AnimalViewItem key={index} animal={animal} />
           ))}
-          {/* 무한 스크롤 로더 */}
           <div ref={loader} />
         </BreedItemsBox>
       </ItemContainer>
     </>
   );
 };
+
+
 
 export default AnimalList;
