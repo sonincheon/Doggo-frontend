@@ -58,12 +58,18 @@ const Box = styled.div`
     border-bottom: solid 2px #776b5d;
   }
   button {
-    background-color: #ebe3d5;
-    padding: 10px;
-    width: 100px;
+    color: #f3eeea;
+    background-color: #b0a695;
     border-radius: 10px;
-    color: #776b5d;
     border: none;
+    font-size: 1rem;
+    padding: 10px;
+
+    cursor: pointer;
+    &:hover {
+      background-color: #f3eeea;
+      color: #b0a695;
+    }
   }
   @media (max-width: 768px) {
     order: 2; /* 화면 작아졌을 때 오른쪽으로 이동 */
@@ -75,12 +81,17 @@ const Box2 = styled.div`
   justify-content: center;
 
   button {
-    background-color: #ebe3d5;
-    padding: 10px;
-    width: 100px;
+    color: #f3eeea;
+    background-color: #b0a695;
     border-radius: 10px;
-    color: #776b5d;
     border: none;
+    font-size: 1rem;
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f3eeea;
+      color: #b0a695;
+    }
   }
   @media (max-width: 768px) {
     order: 1; /* 화면 작아졌을 때 왼쪽으로 이동 */
@@ -96,6 +107,19 @@ const Box3 = styled.div`
       font-size: 1rem;
       margin: 10px;
     }
+  }
+`;
+const Button = styled.button`
+  color: #f3eeea;
+  background-color: #b0a695;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f3eeea;
+    color: #b0a695;
   }
 `;
 const faqData = [
@@ -208,7 +232,7 @@ const Service = () => {
         {image && showAnswer && answer ? (
           <div className="answer">{answer}</div>
         ) : (
-          <div>
+          <div style={{ display: "flex" }}>
             {!answer && <p>답변 대기 중 ...</p>}
             <button onClick={() => openClick(boardType, comment, boardImg, id)}>
               수정

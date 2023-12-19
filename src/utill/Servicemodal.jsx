@@ -200,8 +200,7 @@ const Box2 = styled.div`
     font-size: 1.2rem;
   }
 `;
-
-const Box4 = styled.div`
+const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
@@ -215,8 +214,20 @@ const Box4 = styled.div`
     width: 100px;
   }
 `;
+const Button = styled.button`
+  color: #f3eeea;
+  background-color: #b0a695;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f3eeea;
+    color: #b0a695;
+  }
+`;
 const FileUploadContainer = styled.div`
-  display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
@@ -235,14 +246,14 @@ const UploadButton = styled.button`
   color: #776b5d;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #776b5d;
+    color: #ebe3d5;
   }
 `;
 const UserImage = styled.img`
   width: 100px;
   height: 100px;
 `;
-
 const Servicemodal = (props) => {
   const { open, close, id } = props;
   const [buttonText, setButtonText] = useState("");
@@ -390,10 +401,10 @@ const Servicemodal = (props) => {
                 <p>사진 경로 : {url}</p>
               </Box2>
             </Box>
-            <footer>
-              <button onClick={boardUp}>저장</button>
-              <button onClick={Close}>취소</button>
-            </footer>
+            <Box3>
+              <Button onClick={boardUp}>저장</Button>
+              <Button onClick={Close}>취소</Button>
+            </Box3>
           </section>
         )}
       </div>

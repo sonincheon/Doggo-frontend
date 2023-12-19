@@ -4,16 +4,29 @@ import { Center } from "../../components/PublicStyle";
 import { useNavigate } from "react-router-dom";
 import ServiceApi from "../../api/ServiceApi";
 import { storage } from "../../utill/FireBase";
+const Base = styled.div`
+  display: flex;
+  column-gap: 40px;
+  flex-wrap: wrap;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 const Container = styled.div`
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  width: 600px;
-  height: 700px;
+  flex-grow: 1;
+  max-width: 600px; /* 초기 너비를 지정 */
+  min-height: 700px;
+  margin-bottom: 20px;
+
   .title {
     font-size: 2rem;
     hr {
-      border-bottom: solid 2px #776b5d;
+      border-bottom: solid 1px #776b5d;
     }
   }
 `;
@@ -30,10 +43,9 @@ const Box = styled.div`
   .container-button {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 5px;
-    column-gap: 5px;
-    padding: 10px;
+    row-gap: 10px;
+    column-gap: 10px;
+    justify-content: center;
 
     button {
       color: #f3eeea;
@@ -42,6 +54,7 @@ const Box = styled.div`
       border: none;
       font-size: 1rem;
       padding: 10px;
+      cursor: pointer;
 
       @media (max-width: 768px) {
         padding: 8px;
@@ -78,7 +91,7 @@ const Box2 = styled.div`
   }
 `;
 
-const Box4 = styled.div`
+const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
@@ -92,8 +105,20 @@ const Box4 = styled.div`
     width: 100px;
   }
 `;
+const Button = styled.button`
+  color: #f3eeea;
+  background-color: #b0a695;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  w &:hover {
+    background-color: #f3eeea;
+    color: #b0a695;
+  }
+`;
 const FileUploadContainer = styled.div`
-  display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
@@ -112,7 +137,8 @@ const UploadButton = styled.button`
   color: #776b5d;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #776b5d;
+    color: #ebe3d5;
   }
 `;
 const UserImage = styled.img`
@@ -209,62 +235,63 @@ const ServiceView = () => {
 
   return (
     <Center>
-      <Container>
-        <div className="title">
-          <h1>문의 작성</h1>
-          <hr />
-        </div>
-        <Box>
-          <div className="mini">
-            <h2>문의 유형</h2>
+      <Base>
+        <Container>
+          <div className="title">
+            <h1>문의 작성</h1>
+            <hr />
           </div>
-          <Box2>
-            <div
-              className="container-button"
-              value={boardType}
-              onClick={handleButtonClick}
-            >
-              <button>배송</button>
-              <button>주문/결제</button>
-              <button>취소/교환/환불</button>
-              <button>회원정보</button>
-              <button>사료문의</button>
-              <button>이용문의</button>
+          <Box>
+            <div className="mini">
+              <h2>문의 유형</h2>
             </div>
-          </Box2>
-        </Box>
-        <Box>
-          <div className="mini">
-            <h2>문의 내용</h2>
-          </div>
-          <Box2>
-            <div className="mini">{buttonText}</div>
-            <textarea
-              onChange={handleTextareaChange}
-              rows="10"
-              cols="40"
-              placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
-            ></textarea>
-          </Box2>
-        </Box>
-        <Box>
-          <div className="mini">
-            <h2>사진</h2>
-          </div>
-          <Box2>
-            <FileUploadContainer>
-              <StyledInput type="file" onChange={handleFileInputChange} />
-              <UploadButton onClick={handleUploadClick}>선택</UploadButton>
-            </FileUploadContainer>
-            {boardImg && <UserImage src={url} alt="uploaded" />}
-            <p>사진 경로 : {boardImg}</p>
-          </Box2>
-        </Box>
-        <Box4>
-          <button onClick={() => navigate(-1)}>취소하기</button>
-          <button onClick={handleSubmit}>저장</button>
-        </Box4>
-      </Container>
+            <Box2>
+              <div
+                className="container-button"
+                value={boardType}
+                onClick={handleButtonClick}
+              >
+                <Button>배송</Button>
+                <Button>주문/결제</Button>
+                <Button>취소/교환/환불</Button>
+                <Button>회원정보</Button>
+                <Button>사료문의</Button>
+                <Button>이용문의</Button>
+              </div>
+            </Box2>
+          </Box>
+          <Box>
+            <div className="mini">
+              <h2>문의 내용</h2>
+            </div>
+            <Box2>
+              <div className="mini">{buttonText}</div>
+              <textarea
+                onChange={handleTextareaChange}
+                rows="10"
+                cols="40"
+                placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
+              ></textarea>
+            </Box2>
+          </Box>
+          <Box>
+            <div className="mini">
+              <h2>사진</h2>
+            </div>
+            <Box2>
+              <FileUploadContainer>
+                <StyledInput type="file" onChange={handleFileInputChange} />
+                <UploadButton onClick={handleUploadClick}>선택</UploadButton>
+              </FileUploadContainer>
+              {boardImg && <UserImage src={url} alt="uploaded" />}
+            </Box2>
+          </Box>
+          <Box3>
+            <Button onClick={() => navigate(-1)}>취소하기</Button>
+            <Button onClick={handleSubmit}>저장</Button>
+          </Box3>
+        </Container>
+      </Base>
     </Center>
   );
 };
