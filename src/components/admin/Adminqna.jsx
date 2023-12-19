@@ -9,8 +9,15 @@ const QnaBoard = styled.div`
     padding: 10px 20px;
     
     .textbox {
+        
         p {
+            cursor: pointer;
             margin-bottom: 10px;
+            transition: 0.3s;
+            
+            &:hover {
+                color: #9c9c9c;
+            }
         }
         .bottomTxt {
             color: #776B5D;

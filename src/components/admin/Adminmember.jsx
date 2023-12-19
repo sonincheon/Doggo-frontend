@@ -121,6 +121,7 @@ export const RightBox = styled.div`
             display: inline-block;
             width: 100px;
             padding: 10px 15px;
+            margin-left: 10px;
             margin-right: 10px;
             border: 1px solid #776B5D;
             border-radius: 6px;
@@ -165,7 +166,8 @@ export const PageButton = styled.button`
 
 const Adminmember = () =>{
 
-    const [memberList,setMemberList]=useState([]);
+    const [memberList,setMemberList] = useState([]);
+    // const [memberGrade, setMemberGrade] = useState('free');
     const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
     const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
     const [isTrue,setIsTrue]=useState(false);
@@ -174,7 +176,7 @@ const Adminmember = () =>{
   
     const Click = () => {
         setIsTrue((prev) => !prev);
-    }
+    };
 
     const HandleCategoryChange = (category) => {
         setSelectedCategory(category);
@@ -182,6 +184,7 @@ const Adminmember = () =>{
 
 
     // 회원삭제
+
     const HandleDeleteMember = async(email) => {
         const memberDel = async () => {
             try {
@@ -198,20 +201,6 @@ const Adminmember = () =>{
         memberDel();
     };
 
-    // useEffect(() => {
-    //     const getAllMember = async () => {
-    //         try {
-    //             const res = await AdminAxiosApi.memberAllList();
-    //             console.log(res);
-    //             console.log(res.data);
-    //             setMemberList(res.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     getAllMember();
-    // }, [isTrue]);
-
     useEffect(() => {
         const totalPage = async() => {
             try {
@@ -227,7 +216,7 @@ const Adminmember = () =>{
     useEffect(() => {
         const memberList = async () => {
             try {
-                const res = await AdminAxiosApi.MemberPageList(currentPage, 10);
+                const res = await AdminAxiosApi.MemberPageList("",currentPage, 10);
                 console.log(res.data);
                 setMemberList(res.data);
             } catch (error) {
@@ -257,6 +246,26 @@ const Adminmember = () =>{
         );
     };
 
+    // 필터
+    const selectedData = () => {
+        switch(selectedCategory) {
+            case 'all':
+                return memberList;
+            case 'paid':
+                return memberList.filter(item => item.memberGrade === 'paid');
+            case 'free':
+                return memberList.filter(item => item.memberGrade === 'free');
+            default:
+                return memberList;
+        }
+    };
+
+    // const selectedData = 
+    // selectedCategory === 'all'
+    // ? memberList
+    // : memberList.filter((memberList) => (selectedCategory === 'paid' ? memberList.memberGrade === '구독중' : memberList.memberGrade === '미구독' ));
+
+
     return(
         <>
             <SideBar>         
@@ -279,7 +288,7 @@ const Adminmember = () =>{
                             checked={selectedCategory === 'paid'}
                             onChange={() => HandleCategoryChange('paid')} 
                             />
-                            구독중
+                            구독 회원
                         </label>
                         <label>
                             <input 
@@ -288,7 +297,7 @@ const Adminmember = () =>{
                             checked={selectedCategory === 'free'}
                             onChange={() => HandleCategoryChange('free')} 
                             />
-                            미구독
+                            미구독 회원
                         </label>
                     </div>
                     
@@ -298,7 +307,7 @@ const Adminmember = () =>{
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
-                                    <th>Nick</th>
+                                    {/* <th>Nick</th> */}
                                     <th>Email</th>
                                     <th>Addr</th>
                                     <th>Tel</th>
@@ -308,17 +317,17 @@ const Adminmember = () =>{
                                 </tr>
                             </thead>
                             <tbody>
-                                {memberList.map((member,index) => (
+                                {selectedData().map((member,index) => (
                                     <tr key={index}>
                                         <td>{member.id}</td>
                                         <td>{member.memberName}</td>
-                                        <td>{member.Nick}</td>
+                                        {/* <td>{member.Nick}</td> */}
                                         <td>{member.memberEmail}</td>
                                         
                                         <td>{member.memberAddress}</td>
                                         <td>{member.memberTel}</td>
                                         <td>{member.regDate}</td>
-                                        <td>{member.memberGrade? '구독중' : '미구독'}</td>
+                                        <td>{member.memberGrade === 'paid' ? '구독중' : '미구독'}</td>
                                         <td>
                                             <button onClick={() => HandleDeleteMember(member.memberEmail)}>삭제</button>
                                         </td>

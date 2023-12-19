@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useInView } from "react-intersection-observer";
-
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
@@ -9,7 +7,6 @@ import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
-import ChatBotImg from "../../img/ChatBot.png";
 
 const fadeIn = `
   opacity: 1;
@@ -42,25 +39,28 @@ const ItemContainer = styled.div.attrs({
   height: ${(props) => props.$height || "30%"};
 `;
 
-const ChatbotBox = styled.div`
-  position: fixed;
-  z-index: 1000;
-  height: auto;
-  top: 150px;
-  right: 150px;
-`;
+const ChatbotIcon = ({ onClick }) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+        cursor: "pointer",
+        zIndex: "1001",
+        top: "150px",
+        height: "50px",
+        width: "50px",
+        border: "1px solid black",
+      }}
+    >
+      {/* 아이콘 디자인은 여기에 추가 */}
+      <div onClick={onClick}>챗봇 아이콘</div>
+    </div>
+  );
+};
 
-const ChatbotIcon = styled.img`
-  position: fixed;
-  width: 75px;
-  height: 75px;
-  right: 50px;
-  cursor: pointer;
-  z-index: 9999;
-  top: 150px;
-`;
-
-const HomeMain = () => {
+const Main = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
   const [showChatbot, setShowChatbot] = useState(false);
 
@@ -90,19 +90,26 @@ const HomeMain = () => {
             <Strays></Strays>
           </ItemContainer>
         </SectionContainer>
+        <SectionContainer></SectionContainer>
       </CurrentAddressContext.Provider>
 
-      <ChatbotIcon
-        src={ChatBotImg}
-        onClick={showChatbot ? closeChatbot : toggleChatbot}
-      />
+      <ChatbotIcon onClick={showChatbot ? closeChatbot : toggleChatbot} />
+
       {showChatbot ? (
-        <ChatbotBox>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "70px",
+            right: "20px",
+            zIndex: "1000",
+            top: "150px",
+          }}
+        >
           <Chatbot />
-        </ChatbotBox>
+        </div>
       ) : null}
     </>
   );
 };
 
-export default HomeMain;
+export default Main;

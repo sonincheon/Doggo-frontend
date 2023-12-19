@@ -3,10 +3,22 @@ import styled from "styled-components";
 
 // 전체 컨테이너에 대한 스타일드 컴포넌트
 const Container = styled.div`
-  width: 400px;
-  height: 500px;
+  width: 450px;
+  border: 1px solid black;
+
+  ::before {
+    content: "";
+    position: absolute;
+    top: 5%; /* 중앙 정렬을 위해 추가 */
+    right: -4%; /* 말풍선 꼬리가 컨테이너 바깥으로 나가지 않도록 설정 */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 10px 18px; /* 말풍선 꼬리의 크기 조절 */
+    border-color: transparent transparent transparent #f3eeea; /* 말풍선 꼬리의 색상 설정 */
+  }
   .chat {
-    background-color: lightgray;
+    background-color: #f0f0f0;
     overflow: hidden;
     border-radius: 8px;
   }
@@ -15,13 +27,12 @@ const Container = styled.div`
 // 채팅 메시지와 스크롤바가 있는 컨테이너에 대한 스타일드 컴포넌트
 const ChatboxContainer = styled.div`
   width: 100%;
-  height: 300px;
+  height: 400px;
   overflow-y: auto;
-  border: 1px solid #ccc;
   padding: 8px;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: #4caf50 #f1f1f1;
+  scrollbar-color: #87c4ff #f1f1f1;
 
   /* 스크롤바에 대한 일반적인 스타일을 설정합니다. */
   &::-webkit-scrollbar {
@@ -29,7 +40,7 @@ const ChatboxContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #4caf50;
+    background-color: #87c4ff;
     border-radius: 5px;
   }
 
@@ -50,21 +61,22 @@ const InputContainer = styled.div`
 // 입력 필드에 대한 스타일드 컴포넌트
 const Input = styled.input`
   width: calc(100% - 60px);
-  height: 25px;
+  height: 40px;
   padding: 5px;
   border: none;
-  border-radius: 4px;
+  border-radius: 7px 0px 0px 7px;
   box-sizing: border-box;
 `;
 
 // 전송 버튼에 대한 스타일드 컴포넌트
 const SendButton = styled.button`
-  width: 45px;
-  height: 25px;
+  width: 60px;
+  height: 40px;
   border: none;
-  background-color: #4caf50;
+  background-color: #87c4ff;
   color: white;
-  border-radius: 4px;
+  font-weight: bold;
+  border-radius: 0px 7px 7px 0px;
   cursor: pointer;
 `;
 
@@ -83,7 +95,8 @@ const Boxleft = styled.div`
 `;
 
 const UserMessage = styled.div`
-  background-color: #4caf50;
+  background-color: #87c4ff;
+  color: white;
   border-radius: 8px;
   padding: 8px;
   margin: 4px;
@@ -175,7 +188,7 @@ const Chatbot = () => {
       display: flex;
       width: auto;
       padding: 5px 10px;
-      background-color: #4caf50; /* 녹색으로 변경 */
+      background-color: #87c4ff; /* 녹색으로 변경 */
       color: white;
       border: none;
       border-radius: 4px;

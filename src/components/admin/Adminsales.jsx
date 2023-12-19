@@ -7,6 +7,7 @@ import AdminAxiosApi from "../../api/AdminAxios";
 
 const Adminsales = () =>{
     const [orders, setOrders] = useState([]);
+    const [orderstatus, setOrderstatus] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
     const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -86,14 +87,15 @@ const Adminsales = () =>{
     };
 
 
-    const HandleInvoiceUpload = async(id, InvoiceInput) => {
+    const HandleInvoiceUpload = async(id, orderStatus, InvoiceInput) => {
 
         try {
-            console.log(id,InvoiceInput)
             // console.log("아이디 : " + id, "송장번호 : " + invoiceInput);
-            const res = await AdminAxiosApi.InvoiceInput(id, InvoiceInput);
+            const res = await AdminAxiosApi.InvoiceInput(id, "출고완료", InvoiceInput);
+            setInvoiceInput("");
           
             if (res.data === true) {
+                
                 const res = await AdminAxiosApi.SaleAllList(id);
 
                 const updatedOrders = orders.map((order) =>
@@ -103,12 +105,13 @@ const Adminsales = () =>{
 
                 console.log(res);
                 console.log(res.data);
-                console.log("아이디 : " + id, "InvoiceInput?: " + InvoiceInput);
+               
             }
         } catch (e) {
             console.error(e);
-            alert("ERROR!!");
+            alert("숫자만 입력해주세요.");
         }
+        
     };
 
 
@@ -161,7 +164,7 @@ const Adminsales = () =>{
                                     <th>Date</th>
                                     <th>ID</th>
                                     <th>Addr</th>
-                                    <th>Tel</th>
+                                    {/* <th>Tel</th> */}
                                     <th>Order</th>
                                     <th>Status</th>
                                     <th>Invoice</th>
@@ -175,22 +178,21 @@ const Adminsales = () =>{
                                         <td>{order.salesRegDate}</td>
                                         <td>{order.memberId}</td>
                                         <td>{order.salesAddr}</td>
-                                        <td>{order.Tel}</td>
+                                        {/* <td>{order.Tel}</td> */}
                                         <td>{order.feedName}</td>
-                                        <td>{order.orderStatus}</td>
+                                        <td onChange={(e) => setOrderstatus(e.target.value)}>{order.orderStatus}</td>
                                         <td>
                                             {order.invoice}
-                                            {order.orderStatus === '준비중' ? (
-                                                <input
-                                                type="text"
-                                                placeholder="송장 번호"
-                                                value={order.invoiceInput}
-                                                onChange={(e) => setInvoiceInput(e.target.value)}
-                                                />
-                                            ) : null}
-                                             {order.orderStatus === '준비중' ? (
-                                                <button onClick={() => HandleInvoiceUpload(order.saleId,invoiceInput)}>입력</button>
-                                            ) : null}                                         
+                                            
+                                            <input
+                                            type="text"
+                                            placeholder="송장 번호"
+                                            // value={order.invoiceInput}       // order. 빼면 전체 input에 적힘
+                                            onChange={(e) => setInvoiceInput(e.target.value)}
+                                            />
+                                        
+                                            <button onClick={() => HandleInvoiceUpload(order.saleId, order.orderStatus, invoiceInput)}>입력</button>
+                                                                          
                                         </td>
                                     </tr>
                                 ))}
