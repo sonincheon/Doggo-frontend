@@ -178,11 +178,11 @@ const Service = () => {
             style={{ width: "100px", height: "100px" }}
           />
         )}
-        {showAnswer && answer ? (
+        {image && showAnswer && answer ? (
           <div className="answer">{answer}</div>
         ) : (
           <div>
-            {!answer && <p>답변이 없습니다.</p>}
+            {!answer && <p>답변 대기 중 ...</p>}
             <button onClick={() => openClick(boardType, comment, boardImg, id)}>
               수정
             </button>
@@ -201,7 +201,14 @@ const Service = () => {
       </div>
     );
   };
-
+  const enumToKorean = {
+    DELIVERY: "배송",
+    ORDER: "주문/결제",
+    CANCEL: "취소/교환/환불",
+    INFO: "회원정보",
+    CHECK: "사료문의",
+    SERVICE: "이용문의",
+  };
   return (
     <>
       <Box>
@@ -224,7 +231,9 @@ const Service = () => {
                   <FaqItem
                     key={index}
                     id={list.boardId}
-                    question={`Q [${list.boardType}] ${list.comment} ${list.regData}`}
+                    question={`Q [${enumToKorean[list.boardType]}] ${
+                      list.comment
+                    } ${list.regData}`}
                     answer={list.answer}
                     image={list.boardImg}
                   />
