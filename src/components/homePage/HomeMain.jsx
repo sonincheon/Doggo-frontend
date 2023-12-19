@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { useInView } from "react-intersection-observer";
 
-
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
@@ -11,6 +10,7 @@ import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
+import ChatBotImg from "../../img/ChatBot.png";
 
 const fadeIn = `
   opacity: 1;
@@ -43,19 +43,35 @@ const ItemContainer = styled.div.attrs({
   height: ${(props) => props.$height || "30%"};
 `;
 
-// 새로운 스타일 추가
-const ChatbotContainer = styled.div`
+const ChatbotBox = styled.div`
   position: fixed;
-  top: 150px; /* 헤더 바로 아래에 고정하려면 헤더의 높이에 맞게 조절해주세요 */
-  right: 20px;
-  z-index: 1000; /* 다른 컴포넌트 위에 나타나도록 조절 */
+  z-index: 1000;
+  height: auto;
+  top: 150px;
+  right: 150px;
 `;
 
+const ChatbotIcon = styled.img`
+  position: fixed;
+  width: 75px;
+  height: 75px;
+  right: 50px;
+  cursor: pointer;
+  z-index: 9999;
+  top: 150px;
+`;
 
 const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
+  const [showChatbot, setShowChatbot] = useState(false);
 
+  const toggleChatbot = () => {
+    setShowChatbot((prev) => !prev);
+  };
 
+  const closeChatbot = () => {
+    setShowChatbot(false);
+  };
 
   return (
     <>
@@ -77,10 +93,15 @@ const HomeMain = () => {
         </SectionContainer>
       </CurrentAddressContext.Provider>
 
-      {/* Chatbot을 새로운 컨테이너에 추가 */}
-      <ChatbotContainer>
-        <Chatbot />
-      </ChatbotContainer>
+      <ChatbotIcon
+        src={ChatBotImg}
+        onClick={showChatbot ? closeChatbot : toggleChatbot}
+      />
+      {showChatbot ? (
+        <ChatbotBox>
+          <Chatbot />
+        </ChatbotBox>
+      ) : null}
     </>
   );
 };
