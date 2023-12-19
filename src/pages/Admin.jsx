@@ -71,6 +71,10 @@ const Admin = () => {
           <p>1:1 문의 관리</p>
         </div>
         <hr />
+        <div className="menus" onClick={() => navigate("/admin/feed")}>
+          <p>사료 관리</p>
+        </div>
+        <hr />
       </SideBar>
       <Outlet />
     </>

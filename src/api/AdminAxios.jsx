@@ -5,7 +5,7 @@ const MUNG_HOST = "http://localhost:8111";
 
 const AdminAxiosApi = {
 
-  // --- Admin Member
+  // ----------------------------- Admin Member
   memberAllList: async () => {
     return await axios.get(MUNG_HOST + `/admin/member/members`);
   },
@@ -33,7 +33,7 @@ const AdminAxiosApi = {
     },
 
 
-  // --- Admin Sale
+  // ----------------------------- Admin Sale
   SaleAllList: async () => {
     return await axios.get(MUNG_HOST + `/sale/list/all`);
   },
@@ -60,7 +60,7 @@ const AdminAxiosApi = {
     );
   },
   
-  // ---- Admin Board
+  // ------------------------------ Admin Board
   QnaAllList: async () => {
     return await axios.get(MUNG_HOST + `/post/list`);
   },
@@ -86,10 +86,28 @@ const AdminAxiosApi = {
     return await axios.put(MUNG_HOST +`/admin/qna/answer/${id}`,AnswerData);
   },
 
-  // ---- Admin Feed
+  // -------------------------------- Admin Feed
   // 전체조회
   FeedAllList: async () => {
     return await axios.get(MUNG_HOST + `/admin/feed/feeds`);
+  },
+  // 상세조회
+  FeedDetail: async (id) => {
+    return await axios.get(MUNG_HOST + `/admin/feed/detail/${id}`);
+  },
+  // 사료 추가 → 만들어둔거 쓰기 FeedReg
+  // 사료 수정
+  FeedModify: async (id, feedImg, feedType, feedName, feedPrice, feedInfo) => {
+    const FeedData = {
+      feedId: id,
+      // image값이 존재할 때만 imageLink 추가
+      ...(feedImg && { feedImg: feedImg }),
+      feedType: feedType,
+      feedName: feedName,
+      feedPrice: feedPrice,
+      feedInfo: feedInfo,
+    };
+    return await axios.put(MUNG_HOST + `/admin/feed/modify/${id}`, FeedData);
   },
   // 사료 삭제
   FeedDelete: async (id) => {

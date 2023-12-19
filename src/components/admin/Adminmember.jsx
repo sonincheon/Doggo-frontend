@@ -12,6 +12,19 @@ export const RightBox = styled.div`
         color: #776B5D;
         margin-bottom: 16px;
     }
+    .boxFlex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .labelBox {
+            white-space: nowrap;
+        }
+        .btnBox {
+            text-align: right;
+            margin-right: 10px;
+        }
+    }
     .selectBox {
         width: 100%;
         padding: 2% 1%;
@@ -43,6 +56,21 @@ export const RightBox = styled.div`
         border: 3px solid #776B5D; // 테두리와 원 사이의 색상
         //* box-shadow: 0 0 0 1.6px #fff; // 테두리 - 그림자로 테두리를 직접 만들어야 함 (퍼지는 정도를 0으로 주면 테두리처럼 보임)
         }
+
+        // 라디오 버튼 옆 버튼양식
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+            background-color: #fff;
+            color: #776B5D;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 2px solid #776B5D;
+            box-shadow: 3px 2px 4px 1px #d9d9d9;
+            cursor: pointer;
+        }  
     }
     // QnA에서 사용
     .flexbox {
