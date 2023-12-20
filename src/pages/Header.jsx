@@ -27,8 +27,8 @@ const Headers =styled.div`
     align-items: center;
     color: black;
     width: 100vw;
-    background-color: ${({ isHovered }) => (isHovered ? 'white' : 'transparent')};
-    backdrop-filter: ${({ isHovered }) => (isHovered ? 'none' : 'blur(5px)')};
+    background-color: ${({ $isHovered }) => ($isHovered ? 'white' : 'transparent')};
+    backdrop-filter: ${({ $isHovered }) => ($isHovered ? 'none' : 'blur(5px)')};
     transition: background-color 0.1s ease;
     @media (max-width: 768px) {
      height: 80px;
@@ -108,14 +108,14 @@ const NavBox = styled.div`
 
 const Menus = styled.div`
   display: flex;
-  visibility: ${({ isHovered }) => (isHovered ? 'visible' : 'hidden')};
+  visibility: ${({ $isHovered }) => ($isHovered ? 'visible' : 'hidden')};
   align-items: center;
   justify-content: center;
   width: 100%;
   margin-bottom: 1em;
-  box-shadow: ${({ isHovered }) => (isHovered ? '0px 0px 20px #dadada' : 'none')};
+  box-shadow: ${({ $isHovered }) => ($isHovered ? '0px 0px 20px #dadada' : 'none')};
   align-items: center;
-  background-color: ${({ isHovered }) => (isHovered ? 'white' : 'transparent')};
+  background-color: ${({ $isHovered }) => ($isHovered ? 'white' : 'transparent')};
   position: sticky;
   transition: all 0.1s ease;
   top:70px;
@@ -218,7 +218,7 @@ const List=styled.div`
     position: fixed;
     top:0;
     z-index: 220;
-    display: ${(props) => (props.isList ? "flex" : "none")};
+    display: ${(props) => (props.$isList ? "flex" : "none")};
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -324,7 +324,7 @@ const Header = () => {
 
   return (
     <Container>
-        <Headers onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} isHovered={isHeaderHovered} >
+        <Headers onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} $isHovered={isHeaderHovered} >
           <NavBox>
             <div className="none" onClick={()=>navigate("/admin")}>관리자</div>
               <Logo className="logo" onClick={()=>navigate("/")}/>
@@ -336,7 +336,7 @@ const Header = () => {
             </div>
           </NavBox>
         </Headers>
-        <List isList={openList} onClick={ListDown}>
+        <List $isList={openList} onClick={ListDown}>
           <div className="list" >
             <Logo width={130} onClick={()=>navigate("/")}/>
             <div className="out" onClick={ListDown}><CloseIcon sx={{ fontSize: 35 }}/></div>
@@ -352,7 +352,7 @@ const Header = () => {
           <div className="icon" onClick={() => navigate("/mypage")}><p>MYPAGE</p></div>
           </div>
         </List>
-            <Menus onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} isHovered={isHeaderHovered}>
+            <Menus onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} $isHovered={isHeaderHovered}>
               <Menu onClick={() => navigate("/diy")}>PET'S DIARY</Menu>
               <Menu onClick={() => navigate("/map")}>MAPS</Menu>
               <Menu className="icon" onClick={() => navigate("/book")}>PET'S BOOKS</Menu>

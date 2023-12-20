@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import {WindowScroller, CellMeasurer, CellMeasurerCache, AutoSizer, List, ListRowProps} from 'react-virtualized';
 import { useInView } from "react-intersection-observer";
-import { getAnimals } from "../../../api/AnimalsApi";
+import { getAnimals, getDetails } from "../../../api/AnimalsApi";
+import Modal from "../../../utill/Modal";
 import styled from "styled-components";
 
 
@@ -77,6 +77,8 @@ const AnimalList = ({animalType}) => {
   const [animals, setAnimals] = useState([]);
   const [page, setPage] = useState(0);
   const loader = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   useEffect(() => {
     const fetchAnimalsData = async () => {
@@ -128,20 +130,26 @@ const AnimalList = ({animalType}) => {
     setAnimals([]);
   }, [animalType]);
 
-  return (
-    <>
-      <ItemContainer>
-        <BreedItemsBox>
-          {animals.map((animal, index) => (
-            <AnimalViewItem key={index} animal={animal} />
-          ))}
-          <div ref={loader} />
-        </BreedItemsBox>
-      </ItemContainer>
-    </>
-  );
-};
+  // 모달 열기
+  const openModal = async (animalType, korean_name) => {
+    try {
+      const animalDetails = await getDetails(animalType, korean_name); // 수정된 부분
+      console.log(animalDetails);
+      setSelectedAnimal(animalDetails);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching animal details: ", error);
+    }
+  };
+  
 
+  // 모달 닫기
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedAnimal(null);
+  };
+
+// 품종별 이미지와 품종명을 담는 엘리먼트
 const AnimalViewItem = ({ animal }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -151,12 +159,40 @@ const AnimalViewItem = ({ animal }) => {
   return (
     <BreedItem 
       ref={ref} 
-      style={{ opacity: inView ? 1 : 0 }}>
+      style={{ opacity: inView ? 1 : 0 }}
+      onClick={() => openModal(animalType, animal.korean_name)}>
       <img src={animal.image_link} alt={`${animal.korean_name} 이미지`} />
       <h3>{animal.korean_name}</h3>
       <p>{animal.name}</p>
     </BreedItem>
   );
 };	
+
+
+
+// 메인 구현단
+return (
+  <>
+    <ItemContainer>
+      <BreedItemsBox>
+        {animals.map((animal, index) => (
+          <AnimalViewItem key={index} animal={animal} />
+        ))}
+        <div ref={loader} />
+      </BreedItemsBox>
+    </ItemContainer>
+
+    {/* 모달 컴포넌트 */}
+    {isModalOpen && (
+      <Modal open={isModalOpen} close={closeModal}>
+        {/* 여기에 모달 내용을 렌더링 */}
+        <h1>{selectedAnimal.korean_name}</h1>
+        <p>{selectedAnimal.description}</p>
+        {/* 추가적으로 필요한 상세 정보 렌더링 */}
+      </Modal>
+    )}
+  </>
+);
+};
 
 export default AnimalList;
