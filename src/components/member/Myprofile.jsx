@@ -5,73 +5,94 @@ import Usermodal from "../../utill/Usermodal";
 import Pwdmodal from "../../utill/Pwdmodal";
 import Imgmodal from "../../utill/Imgmodal";
 import AxiosApi from "../../api/Axios";
+import profile from "../../img/profile2.png";
 
 const BoxContent = styled.div`
-  width: 100%;
-  background-color: #e4e4e4;
   border-radius: 10px;
-  border: 1px solid black;
 `;
 
 const BoxTitle = styled.div`
-  font-size: 45px;
+  font-size: 32px;
   margin-bottom: 1rem;
-  border: 1px solid red;
+  font-weight: bold;
 `;
 
 const BoxContent1 = styled.div`
-  height: 350px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 `;
 
 const BoxContent2 = styled.div`
   margin-top: 10px;
-  border: 1px solid black;
 `;
 
 const Btn = styled.button`
-  width: 75px;
-  height: 40px;
+  padding: 10px;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #f95001;
   box-sizing: border-box;
   vertical-align: bottom;
-  margin-right: 5px;
-  border: 1px solid black;
+  border: none;
+  white-space: nowrap;
+
+  @media (max-width: 1280px) {
+    width: 40px;
+    font-size: 9px;
+  }
 `;
 
 const InputBox = styled.div`
-  width: 400px;
-  height: 50px;
+  width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+
   font-size: 14px;
   font-weight: bold;
-  justify-content: space-between;
   padding-left: 5px;
   margin-bottom: 1rem;
-  border: 1px solid black;
+
+  .item1 {
+    width: 30%;
+  }
+  .item2 {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 1280px) {
+    .item1 {
+      font-size: 14px;
+    }
+  }
 `;
 
 const Input = styled.div`
-  width: 240px;
-  height: 40px;
+  width: 72%;
+  height: 5vh;
   border-radius: 10px;
   margin-right: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
-  border: 1px solid red;
+  white-space: nowrap;
+
+  @media (max-width: 1280px) {
+    font-size: 12px;
+  }
 `;
 
 const Btn1 = styled.div`
@@ -80,44 +101,52 @@ const Btn1 = styled.div`
   justify-content: center;
   align-items: center;
   height: 190px;
-  border: 1px solid black;
 `;
 
 const Btn2 = styled.button`
-  width: 300px;
-  height: 40px;
+  width: 80%;
+  height: 5vh;
   border-radius: 10px;
   font-size: 17px;
   font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #f95001;
   box-sizing: border-box;
   vertical-align: bottom;
   margin-top: 8px;
-  border: 1px solid black;
+  border: none;
 `;
 
 const Profile = styled.div`
   position: relative;
   display: inline-block;
   overflow: hidden;
-  height: 250px;
-  width: 250px;
-  border-radius: 100%;
-  background-color: #f3eeea;
+  width: 200px; /* 최대 너비 지정 */
+  height: 200px; /* 최대 높이 지정 */
+  border-radius: 50%;
   margin-bottom: 1rem;
-  border: 1px solid black;
+  background-image: url(${profile});
+  background-position: center;
+
+  @media (max-width: 1280px) {
+    width: 180px;
+    height: 180px;
+  }
 `;
 
 const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 200px; /* 최대 너비 지정 */
+  height: 200px; /* 최대 높이 지정 */
   object-fit: cover;
   transition: filter 0.3s ease; /* 부드러운 효과를 위한 트랜지션 속성 추가 */
-  border: 1px solid black;
 
   ${Profile}:hover & {
     filter: grayscale(100%) blur(5px); /* 마우스 호버 시 이미지에 효과 적용 */
+  }
+
+  @media (max-width: 1280px) {
+    width: 180px;
+    height: 180px;
   }
 `;
 
@@ -126,7 +155,7 @@ const OverlayText = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white; /* 텍스트 색상 설정 */
+  color: #f95001; /* 텍스트 색상 설정 */
   font-size: 25px; /* 텍스트 크기 설정 */
   font-weight: bold; /* 텍스트 굵기 설정 */
   pointer-events: none; /* 텍스트 위에 마우스 이벤트를 허용하지 않음 */
@@ -245,7 +274,7 @@ const Myprofile = () => {
         <div
           style={{
             textAlign: "center",
-            fontSize: "25px",
+            fontSize: "1.4rem",
             fontWeight: "bold",
             marginBottom: "1rem",
           }}
@@ -254,22 +283,22 @@ const Myprofile = () => {
         </div>
         <BoxContent2>
           <InputBox>
-            이메일 :
-            <div style={{ display: "flex" }}>
+            <div className="item1">이메일</div>
+            <div className="item2">
               <Input>{detail.memberEmail}</Input>
+              <div></div>
             </div>
-            <div style={{ width: "75px", height: "30px" }}></div>
           </InputBox>
           <InputBox>
-            성별 :
-            <div style={{ display: "flex" }}>
+            <div className="item1">성별</div>
+            <div className="item2">
               <Input>{detail.memberGender}</Input>
+              <div></div>
             </div>
-            <div style={{ width: "75px", height: "30px" }}></div>
           </InputBox>
           <InputBox>
-            생년월일 :
-            <div style={{ display: "flex" }}>
+            <div className="item1">생년월일</div>
+            <div className="item2">
               <Input>{detail.memberBirth}</Input>
               <Btn
                 onClick={() =>
@@ -281,8 +310,8 @@ const Myprofile = () => {
             </div>
           </InputBox>
           <InputBox>
-            주소 :
-            <div style={{ display: "flex" }}>
+            <div className="item1">주소</div>
+            <div className="item2">
               <Input>{detail.memberAddress}</Input>
               <Btn
                 onClick={() =>
@@ -294,8 +323,8 @@ const Myprofile = () => {
             </div>
           </InputBox>
           <InputBox>
-            전화번호 :
-            <div style={{ display: "flex" }}>
+            <div className="item1">전화번호</div>
+            <div className="item2">
               <Input>{detail.memberTel}</Input>
               <Btn
                 onClick={() =>

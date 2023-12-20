@@ -1,75 +1,77 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { ReactComponent as Footimg } from "../../img/Group 50.svg";
-import dogfoot from "../../img/dogfoot.png";
 import Petmodal from "../../utill/Petmodal";
 import AxiosApi from "../../api/Axios";
+import petprofile from "../../img/petprofile2.png";
 
 const BoxContent = styled.div`
-  width: 780px;
-  background-color: #d9d9d9;
+  /* min-width: 400px; */
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
+  height: 1000px;
 
   &::-webkit-scrollbar {
     width: 13px; // 스크롤바의 너비
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #776b5d; // 스크롤바 색상
+    background-color: #f95001; // 스크롤바 색상
     border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #b0a695; // 스크롤바 색상
+    background-color: #ffaa82; // 스크롤바 색상
     border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
     // F3EEEA, EBE3D5, FFEED9, B0A695
   }
 `;
 
 const BoxTitle = styled.div`
-  font-size: 45px;
+  font-size: 32px;
+  font-weight: 900;
   margin-bottom: 1rem;
 `;
 
 const BoxContent1 = styled.div`
-  width: 770px;
-  height: 220px;
+  width: 100%;
+  background-color: #ebebeb;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
   margin-bottom: 1rem;
-  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 const PetProfile = styled.img`
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   border-radius: 100%;
-  background-color: #ffeed9;
-  margin-left: 20px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const PetInfo1 = styled.div`
+  min-width: 400px;
   position: relative;
-  width: 500px;
-  height: 220px;
-  background-color: white;
   border-radius: 10px;
+  padding: 10px 14px 10px 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: 10px;
   z-index: 1;
 
   .PetSign {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 1rem;
-    margin-left: 1rem;
+
+    & > span {
+      line-height: 30px;
+    }
   }
 
   .DogFootImage {
@@ -81,42 +83,41 @@ const PetInfo1 = styled.div`
 `;
 
 const PetInfo2 = styled.div`
-  z-index: 1;
   .PetSign {
-    display: flex;
   }
 `;
 
 const PetInfo3 = styled.div`
-  height: 207px;
   display: flex;
   flex-direction: column;
+  height: 25vh;
+  width: 20%;
 `;
 
 const Btn = styled.button`
-  width: 75px;
-  height: 30px;
+  padding: 10px;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #f95001;
   box-sizing: border-box;
-  vertical-align: bottom;
-  margin-right: 5px;
+  border: none;
+  white-space: nowrap;
 `;
 
 const Btn2 = styled.button`
-  width: 90px;
-  height: 22px;
+  padding: 4px 20px;
   border-radius: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  background-color: #776b5d;
+  font-size: 14px;
+
+  color: #f95001;
+  font-weight: 900;
+  background-color: #fff;
   box-sizing: border-box;
   vertical-align: bottom;
   margin-left: 5px;
+  border: none;
+  border: 1px solid #f95001;
 `;
 
 // 나이 계산 함수
@@ -202,8 +203,8 @@ const Petprofile = () => {
   };
 
   return (
-    <div style={{ marginLeft: "1rem" }}>
-      <BoxTitle>PET PROFILE</BoxTitle>
+    <div>
+      <BoxTitle>펫 프로필</BoxTitle>
       <BoxContent>
         {list.map((list, index) => (
           <BoxContent1 key={index}>
@@ -217,7 +218,7 @@ const Petprofile = () => {
                   출생)
                 </div>
                 <div className="PetSign">
-                  종 : {list.breed}
+                  <span>종 : {list.breed}</span>
                   <Btn2 onClick={() => Click(list)}>도감 보기</Btn2>
                 </div>
                 <div className="PetSign">특이사항 : {list.detail}</div>
@@ -230,7 +231,7 @@ const Petprofile = () => {
               </PetInfo2>
               <PetInfo3>
                 <Btn
-                  style={{ marginBottom: "10px" }}
+                  style={{ marginBottom: "1rem" }}
                   onClick={() =>
                     openClick(
                       2,
@@ -255,9 +256,7 @@ const Petprofile = () => {
           </BoxContent1>
         ))}
         <BoxContent1>
-          <Footimg
-            style={{ width: "220px", height: "220px", marginLeft: "20px" }}
-          />
+          <PetProfile src={petprofile} />
           <PetInfo1>
             <PetInfo2>
               <div className="PetSign">더 많은 친구들을 추가해보세요!</div>
