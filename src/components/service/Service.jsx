@@ -19,8 +19,8 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
-  max-width: calc(50% - 20px);
-  min-height: 700px;
+  max-width: calc(50% - 10px);
+  min-height: 500px;
   margin-bottom: 20px;
   .title {
     font-size: 2rem;
@@ -41,13 +41,19 @@ const Box = styled.div`
   justify-content: flex-start;
   width: 100%;
   padding: 10px;
+
   .question {
+    display: flex;
+    justify-content: space-between;
     margin: 10px;
     font-size: 1.2rem;
     word-spacing: 1px;
     font-weight: bold;
   }
+
   .answer {
+    display: flex;
+    justify-content: space-between;
     font-size: 1rem;
     word-spacing: 1px;
     line-height: 25px;
@@ -57,20 +63,7 @@ const Box = styled.div`
   .item {
     border-bottom: solid 2px #776b5d;
   }
-  button {
-    color: #f3eeea;
-    background-color: #b0a695;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    padding: 10px;
 
-    cursor: pointer;
-    &:hover {
-      background-color: #f3eeea;
-      color: #b0a695;
-    }
-  }
   @media (max-width: 768px) {
     order: 2; /* 화면 작아졌을 때 오른쪽으로 이동 */
     width: 100%;
@@ -80,19 +73,6 @@ const Box2 = styled.div`
   display: flex;
   justify-content: center;
 
-  button {
-    color: #f3eeea;
-    background-color: #b0a695;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    padding: 10px;
-    cursor: pointer;
-    &:hover {
-      background-color: #f3eeea;
-      color: #b0a695;
-    }
-  }
   @media (max-width: 768px) {
     order: 1; /* 화면 작아졌을 때 왼쪽으로 이동 */
     width: 100%;
@@ -109,6 +89,11 @@ const Box3 = styled.div`
     }
   }
 `;
+const Box4 = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 5px;
+`;
 const Button = styled.button`
   color: #f3eeea;
   background-color: #b0a695;
@@ -116,6 +101,8 @@ const Button = styled.button`
   border: none;
   font-size: 1rem;
   padding: 10px;
+  width: 100px;
+
   cursor: pointer;
   &:hover {
     background-color: #f3eeea;
@@ -213,7 +200,7 @@ const Service = () => {
   };
 
   // 여기는 id로 하는거 확실
-  const FaqItem = ({ id, question, answer, image }) => {
+  const FaqItem = ({ id, question, answer, image, regDate }) => {
     const [showAnswer, setShowAnswer] = useState(false);
 
     const toggleAnswer = () => {
@@ -221,23 +208,34 @@ const Service = () => {
     };
     return (
       <div onClick={toggleAnswer}>
-        <div className="question">{question}</div>
-        {image && (
-          <img
-            src={image}
-            alt="이미지"
-            style={{ width: "100px", height: "100px" }}
-          />
-        )}
-        {image && showAnswer && answer ? (
+        <div className="question">
+          {question}
+          {image && (
+            <img
+              src={image}
+              alt="이미지"
+              style={{
+                width: "100px",
+                height: "100px",
+              }}
+            />
+          )}
+        </div>
+        {showAnswer && answer ? (
           <div className="answer">{answer}</div>
         ) : (
-          <div style={{ display: "flex" }}>
+          <div className="answer">
             {!answer && <p>답변 대기 중 ...</p>}
-            <button onClick={() => openClick(boardType, comment, boardImg, id)}>
-              수정
-            </button>
-            <button onClick={() => onRemove(id)}>삭제</button>
+            <Box4>
+              <Button
+                onClick={() =>
+                  openClick(boardType, comment, boardImg, regDate, id)
+                }
+              >
+                수정
+              </Button>
+              <Button onClick={() => onRemove(id)}>삭제</Button>
+            </Box4>
           </div>
         )}
       </div>
@@ -246,7 +244,7 @@ const Service = () => {
   const FaqItem1 = ({ question, answer }) => {
     const [showAnswer, setShowAnswer] = useState(false);
     return (
-      <div onClick={() => setShowAnswer(!showAnswer)}>
+      <div className="" onClick={() => setShowAnswer(!showAnswer)}>
         <div className="question">{question}</div>
         {showAnswer && <div className="answer">{answer}</div>}
       </div>
@@ -261,7 +259,7 @@ const Service = () => {
     SERVICE: "이용문의",
   };
   return (
-    <>
+    <Base>
       <Box3>
         <div className="title">
           <h1>고객센터</h1>
@@ -269,50 +267,49 @@ const Service = () => {
           <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
         </div>
       </Box3>
-      <Base>
-        <Container>
-          <div className="title">
-            <h1>문의 답변</h1>
-            <hr />
-          </div>
-          <Box>
-            {list &&
-              list.map((list, index) => (
-                <div className="item" key={index}>
-                  <FaqItem
-                    key={index}
-                    id={list.boardId}
-                    question={`Q [${enumToKorean[list.boardType]}] ${
-                      list.comment
-                    } ${list.regData}`}
-                    answer={list.answer}
-                    image={list.boardImg}
-                  />
-                </div>
-              ))}
-          </Box>
-          <Box2>
-            <button onClick={() => navigate("/serviceVeiw")}>작성</button>
-          </Box2>
-        </Container>
-        <Container>
-          <div className="title">
-            <h1>FAQ</h1>
-            <hr />
-          </div>
-          <Box>
-            {faqData.map((data, index) => (
+      <Container>
+        <div className="title">
+          <h1>문의 답변</h1>
+          <hr />
+        </div>
+        <Box>
+          {list &&
+            list.map((list, index) => (
               <div className="item" key={index}>
-                <FaqItem1
+                <FaqItem
                   key={index}
-                  question={data.question1}
-                  answer={data.answer1}
+                  id={list.boardId}
+                  question={`Q [${enumToKorean[list.boardType]}] ${
+                    list.comment
+                  }`}
+                  answer={list.answer}
+                  image={list.boardImg}
+                  regDate={list.regData}
                 />
               </div>
             ))}
-          </Box>
-        </Container>
-      </Base>
+        </Box>
+        <Box2>
+          <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
+        </Box2>
+      </Container>
+      <Container>
+        <div className="title">
+          <h1>FAQ</h1>
+          <hr />
+        </div>
+        <Box>
+          {faqData.map((data, index) => (
+            <div className="item" key={index}>
+              <FaqItem1
+                key={index}
+                question={data.question1}
+                answer={data.answer1}
+              />
+            </div>
+          ))}
+        </Box>
+      </Container>
       <Servicemodal
         open={modalOpen}
         close={closeModal}
@@ -321,7 +318,7 @@ const Service = () => {
         boardImg={boardImg}
         id={id1}
       ></Servicemodal>
-    </>
+    </Base>
   );
 };
 export default Service;

@@ -27,25 +27,16 @@ const ModalStyle = styled.div`
     // 테두리 추가
   }
 
-  /* 닫기 버튼 스타일 */
-  button {
-    outline: none;
-    cursor: pointer;
-    margin-right: 10px;
-    border: 0;
-    // 테두리 추가
-  }
-
   /* 모달 컨텐츠 스타일 */
   section {
     width: 90%;
-    max-width: 1000px;
+    max-width: 900px;
+    min-height: 500px;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: white;
     animation: modal-show 0.3s; // 모달이 스르륵 열리는 효과
     overflow: hidden;
-    // 테두리 추가
   }
 
   /* 모달 헤더 스타일 */
@@ -89,7 +80,7 @@ const ModalStyle = styled.div`
 
       @media (max-width: 768px) {
         padding: 8px;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         border-radius: 8px;
       }
     }
@@ -143,34 +134,13 @@ const ModalStyle = styled.div`
 const Box = styled.div`
   display: flex;
   align-items: center;
+  padding: 10px;
   .mini {
     font-size: 20px;
+
     h2 {
       width: 150px;
       font-size: 1.5rem;
-    }
-  }
-  .container-button {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 5px;
-    column-gap: 5px;
-    padding: 10px;
-
-    button {
-      color: #f3eeea;
-      background-color: #b0a695;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      padding: 10px;
-
-      @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 0.8rem;
-        border-radius: 8px;
-      }
     }
   }
 `;
@@ -179,7 +149,6 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 10px;
   width: 100%;
 
   .question {
@@ -199,32 +168,58 @@ const Box2 = styled.div`
   p {
     font-size: 1.2rem;
   }
+  .container-button {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 5px;
+    column-gap: 5px;
+    .button {
+      color: #f3eeea;
+      background-color: #b0a695;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      padding: 10px;
+      width: 200px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f3eeea;
+        color: #b0a695;
+      }
+      @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 0.8rem;
+        border-radius: 8px;
+      }
+    }
+  }
 `;
 const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
-  button {
-    color: #f3eeea;
-    background-color: #b0a695;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    padding: 10px;
-    width: 100px;
-  }
+  padding: 10px;
 `;
+
 const Button = styled.button`
   color: #f3eeea;
-  background-color: #b0a695;
+  background-color: #776b5d;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   padding: 10px;
+  width: 100px;
   cursor: pointer;
   &:hover {
     background-color: #f3eeea;
-    color: #b0a695;
+    color: #776b5d;
+  }
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 0.9rem;
+    border-radius: 8px;
   }
 `;
 const FileUploadContainer = styled.div`
@@ -249,13 +244,18 @@ const UploadButton = styled.button`
     background-color: #776b5d;
     color: #ebe3d5;
   }
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
 `;
 const UserImage = styled.img`
   width: 100px;
   height: 100px;
 `;
 const Servicemodal = (props) => {
-  const { open, close, id } = props;
+  const { open, close, id, regDate } = props;
   const [buttonText, setButtonText] = useState("");
   const [BoardImg, setBoardImg] = useState("");
   const [url, setUrl] = useState("");
@@ -333,7 +333,7 @@ const Servicemodal = (props) => {
   // 수정버튼 boolean
   const boardUp = async () => {
     try {
-      console.log(id, boardType, comment, BoardImg);
+      console.log(id, boardType, comment, BoardImg, regDate);
       const rsp = await ServiceApi.boardUp(id, boardType, comment, BoardImg);
       if (rsp.data === true) {
         alert("수정성공");
@@ -385,6 +385,7 @@ const Servicemodal = (props) => {
                   rows="10"
                   cols="40"
                   placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
+                  style={{ width: "100%" }}
                 ></textarea>
               </Box2>
             </Box>
@@ -398,7 +399,6 @@ const Servicemodal = (props) => {
                   <UploadButton onClick={handleUploadClick}>선택</UploadButton>
                 </FileUploadContainer>
                 {url && <UserImage src={url} alt="uploaded" />}
-                <p>사진 경로 : {url}</p>
               </Box2>
             </Box>
             <Box3>

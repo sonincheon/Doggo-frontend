@@ -11,7 +11,6 @@ export const MapContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 100px;
 `;
 export const Overlay = styled.div`
   border: 1px solid #b0a695;
@@ -64,18 +63,20 @@ export const SearchBtns = styled.div`
 
 export const KeywordBtn = styled.button`
   color: #f3eeea;
-  background-color: #b0a695;
-  width: 140px;
-  padding: 10px;
+  background-color: #776b5d;
   border-radius: 10px;
-  font-size: 1.2rem;
   border: none;
-  box-shadow: 2px 2px 2px #b0a695;
-
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f3eeea;
+    color: #776b5d;
+  }
   @media (max-width: 768px) {
-    width: 100px;
-    font-size: 0.8rem;
     padding: 8px;
+    font-size: 0.9rem;
+    border-radius: 8px;
   }
 `;
 
@@ -252,7 +253,7 @@ export const GoBackButton = styled.button`
   z-index: 10;
   width: 70px;
   height: 70px;
-  background: no-repeat #bda695 url(${frame}) center/contain;
+  background: no-repeat #776b5d url(${frame}) center/contain;
   background-size: 70%;
   border-radius: 10px;
   border: none;
