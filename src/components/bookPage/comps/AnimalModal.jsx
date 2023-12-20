@@ -119,7 +119,9 @@ export const AnimalAttributeBar = ({ label, value }) => {
 };
 
 const AnimalModal = ({ $isOpen, $onClose, imageSrc, children }) => {
-  useEffect(() => {
+  
+  // esc 누르면 모달창 종료
+    useEffect(() => {
     const handleEsc = (event) => {
       if (event.keyCode === 27) {
         $onClose();
