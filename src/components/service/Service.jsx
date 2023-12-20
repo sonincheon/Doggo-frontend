@@ -8,10 +8,10 @@ const Base = styled.div`
   display: flex;
   column-gap: 40px;
   flex-wrap: nowrap;
-  height: ;
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    row-gap: 40px;
   }
 `;
 const Container = styled.div`
@@ -205,7 +205,7 @@ const Service = () => {
   };
 
   // 여기는 id로 하는거 확실
-  const FaqItem = ({ id, question, answer, image, regDate }) => {
+  const FaqItem = ({ id, question, answer, image }) => {
     const [showAnswer, setShowAnswer] = useState(false);
 
     const toggleAnswer = () => {
@@ -233,9 +233,7 @@ const Service = () => {
             {!answer && <p>답변 대기 중 ...</p>}
             <Box4>
               <Button
-                onClick={() =>
-                  openClick(boardType, comment, boardImg, regDate, id)
-                }
+                onClick={() => openClick(boardType, comment, boardImg, id)}
               >
                 수정
               </Button>
@@ -290,7 +288,6 @@ const Service = () => {
                     }`}
                     answer={list.answer}
                     image={list.boardImg}
-                    regDate={list.regData}
                   />
                 </div>
               ))}

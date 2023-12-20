@@ -7,22 +7,20 @@ import { storage } from "../../utill/FireBase";
 
 const Base = styled.div`
   display: flex;
-  column-gap: 40px;
-  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    scale: 90%;
   }
 `;
 const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-grow: 1;
-  max-width: 600px; /* 초기 너비를 지정 */
-  min-height: 700px;
-  margin-bottom: 20px;
-
+  min-height: 600px;
+  width: 100%;
   .title {
     font-size: 2rem;
     hr {
@@ -78,6 +76,9 @@ const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
+  button {
+    width: 100px;
+  }
 `;
 const Button = styled.button`
   color: white;
@@ -86,7 +87,6 @@ const Button = styled.button`
   border: none;
   font-size: 1rem;
   padding: 10px;
-  width: 200px;
   cursor: pointer;
   &:hover {
     background-color: white;
@@ -94,7 +94,7 @@ const Button = styled.button`
   }
   @media (max-width: 768px) {
     padding: 8px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     border-radius: 8px;
   }
 `;

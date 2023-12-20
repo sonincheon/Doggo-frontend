@@ -158,7 +158,7 @@ const UserImage = styled.img`
   height: 100px;
 `;
 const Servicemodal = (props) => {
-  const { open, close, id, regDate } = props;
+  const { open, close, id } = props;
   const [buttonText, setButtonText] = useState("");
   const [BoardImg, setBoardImg] = useState("");
   const [url, setUrl] = useState("");
@@ -199,7 +199,9 @@ const Servicemodal = (props) => {
     setFile(e.target.files[0]);
   };
   const handleTextareaChange = (e) => {
-    setComment(e.target.value); // textarea 내용 저장
+    const textareaContent = e.target.value;
+    setComment(textareaContent); // textarea 내용 저장
+    console.log(textareaContent);
   };
 
   const handleUploadClick = async () => {
@@ -236,7 +238,7 @@ const Servicemodal = (props) => {
   // 수정버튼 boolean
   const boardUp = async () => {
     try {
-      console.log(id, boardType, comment, BoardImg, regDate);
+      console.log(id, boardType, comment, BoardImg);
       const rsp = await ServiceApi.boardUp(id, boardType, comment, BoardImg);
       if (rsp.data === true) {
         alert("수정성공");
