@@ -7,10 +7,10 @@ const BackBtn = styled.button`
     height: 40px;
     border-radius: 10px;
     border: none;
-    background-color: #F3EEEA;
+    background-color: rgb(0, 0, 0);
     font-weight: bold;
     font-size: 18px;
-    color: #776B5D;
+    color: #F95001;
     cursor: pointer;
     margin-bottom: 20px;
 `;
@@ -20,7 +20,6 @@ const HouseBtn = () =>{
     const navigate = useNavigate();
     return(
         <>
-        <BackBtn onClick={()=>navigate(-1)}><House/>House</BackBtn>
         </>
     )
 }

@@ -17,21 +17,25 @@ const Block =styled.div`
     align-items: center;
     width: 37%;
     height: 600px;
-    border-radius: 20px;
-    background-color: #F3EEEA;
+    border-radius: 5px;
+    background-color: #333333;
     padding-bottom: 2%;
-
+    @media (max-width: 768px) {
+    width: 100%;
+  }
     h1{
         padding: 3%;
         height: 30px;
         font-size: 1.3em;
-        color:#776B5D;
+        color:#ff6f2c;
+        font-weight: bold;
     }
     h2{
         padding: 3%;
         height: 30px;
         font-size: 1.1em;
-        color:#776B5D;
+        color:#ffffff;
+        font-weight: bold;
     }
   .box1{
     display: flex;
@@ -39,7 +43,7 @@ const Block =styled.div`
     width: 90%;
     height: 35%;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 5px;
     
   }
   .daybox{
@@ -202,9 +206,9 @@ const Eventbox =(props)=>{
     return(
         <>
         <Block>
-            <div className="daybox"><h2>{day} 애완 일기</h2></div>
+            <div className="daybox"><h2>{day} DIARY</h2></div>
         <div className="box1">
-        <h1>일일한정미션</h1>
+        <h1>💡금일 미션💡</h1>
         <div className="subbox">
           <div className="slidebox">
             <Slider {...settings}>

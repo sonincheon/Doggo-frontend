@@ -10,6 +10,7 @@ import { ReactComponent as Logo } from "../icon/petmemori.svg";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import AgreementModal from "../utill/Agreement/AgreementModal";
 
 const Container=styled.div`
   width: 100vw;
@@ -120,7 +121,7 @@ const Menus = styled.div`
   top:70px;
   z-index: 100;
   @media (max-width: 1280px) {
-      font-size: 11px;
+      font-size: 0.7em;
     }
   @media (max-width: 768px) {
       display: none;
@@ -146,8 +147,11 @@ const Contain = styled.div`
 
 const Footer = styled.div`
   position: absolute;
-  height: 15%;
+  height: 20%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0 25px;
   line-height: 60px;
   color: #8a8c8f;
@@ -159,27 +163,45 @@ const Footer = styled.div`
     align-items: center;
     justify-content: start;
     }
-      h1{
-      display: flex;
-      font-size: 0.7em;
-      padding-left: 2%;
-      white-space: nowrap;
-      text-decoration:underline;
-      cursor: pointer;
-      &:hover{
-        font-weight: bold;
-        color:#F95001;
+    .linkBox:nth-child(2) {
+      @media (max-width: 768px) {
+      display: none;
       }
-    .infoBox{
-      width: 100%;
-      border: 1px solid white;
+    }
+    h1{
+    display: flex;
+    font-size: 0.7em;
+    padding: 0 2%;
+    white-space: nowrap;
+    text-decoration:underline;
+    cursor: pointer;
+    &:hover{
+      font-weight: bold;
+      color:#F95001;
+    }
+  }
+  .infoBox{
+  width: 80%;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  flex-direction: row;
+    h2{
+      font-size: 0.8em;
+      line-height:1.2;
+      @media (max-width: 768px) {
+        font-size: 0.5em;
+      }
     }
   }
 `;
 const Main =styled.div`
-  max-width:  80%;
+  max-width:  75%;
   padding-bottom: 2%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `;
 const slideFromLeft = keyframes`
   0% {
@@ -232,7 +254,10 @@ const List=styled.div`
       font-size: 1.2em;
       cursor: pointer;
       &:hover{
-        box-shadow: 1px 1px 3px #bbc787;
+        background-color: #f94f0161;
+      }
+      &:active{
+        background-color: #F95001;
       }
     }
     .list2{
@@ -246,6 +271,10 @@ const List=styled.div`
     }
     .icon{
       cursor: pointer;
+      text-decoration: underline;
+      &:hover{
+        font-weight: bold;
+      }
     }
 `;
 
@@ -253,7 +282,15 @@ const Header = () => {
   const navigate = useNavigate();
   const [openList,setOpenList] =useState(false);
   const [isHeaderHovered, setIsHeaderHovered] = useState(false);
-
+  const [modalOpen,setModalOpen]=useState(false);
+  const [modalInfo,setModalInfo]=useState("");
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const openModal = (a) => {
+    setModalInfo(a);
+    setModalOpen(true);
+  };
   const clickList =()=>{
     setOpenList(true);
   }
@@ -328,23 +365,34 @@ const Header = () => {
           <Outlet />
         </Main>
         <Footer>
-          <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+          <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", width:"80%"}}>
           <div className="linkBox">
-            <h1>개인정보처리방침</h1>
-            <h1>이용약관</h1>
-            <h1>책임의 법적고지</h1>
-            <h1>무단수집거부</h1>
+            <h1 onClick={()=>openModal("개인정보처리방침")}>개인정보처리방침</h1>
+            <h1 onClick={()=>openModal("이용약관")}>이용약관</h1>
+            <h1 onClick={()=>openModal("책임의 법적고지")}>책임의 법적고지</h1>
+            <h1 onClick={()=>openModal("무단수집거부")}>무단수집거부</h1>
           </div>
-          <div className="linkBox" style={{justifyContent:"end"}}>
+          <div className="linkBox one"  style={{justifyContent:"end"}}>
             <h1><InstagramIcon/></h1>
             <h1><FacebookIcon/></h1>
             <h1><TwitterIcon/></h1>
           </div>
           </div>
-          <div className="infoBox">
-            안녕하세요?
+          <div className="infoBox"> 
+          <div>
+            <h2>(주) PETEMOIR대표 : 손인천,정벼리,김지은,차하늘,김현빈</h2>
+            <h2> 회사 주소 : 서울특별시 강남구 테헤란로14길 6</h2>
+            <h2> EMAIL : sonincheon94@naver.com </h2>
+            <h2>사업자등록번호 : 999-99-00099</h2>
+          </div>
+          <div></div>
+          <h2>ⓒ Pet Memoir.</h2>
           </div>
         </Footer>
+        <AgreementModal        
+        open={modalOpen}
+        close={closeModal}
+        header={modalInfo}/>
       </Contain>
     </Container>
   );

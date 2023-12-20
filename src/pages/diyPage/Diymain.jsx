@@ -1,5 +1,3 @@
-import HouseBtn from "../../components/HouseBtn";
-import { Center } from "../../components/PublicStyle";
 import MyCalender from "../../components/diypage/Calender";
 import styled from "styled-components";
 import Eventbox from "../../components/diypage/Eventbox";
@@ -10,6 +8,9 @@ const Btween = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const Diymain = () => {
@@ -32,7 +33,6 @@ const Diymain = () => {
 
   return (
     <>
-      <HouseBtn />
       <Btween>
         <MyCalender onSelected={onSelect} />
         <Eventbox day={day} />

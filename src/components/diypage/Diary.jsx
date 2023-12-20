@@ -9,7 +9,7 @@ const Box =styled.div`
   width: 90%;
   height:  50%;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 5px;
 
   .textbox{
     width: 100%;
@@ -23,7 +23,7 @@ const Box =styled.div`
       width: 90%;
       height: 80%;
       border: 2px solid #776B5D;
-      border-radius: 10px;
+      border-radius: 5px;
       resize: none;
       outline-color: #b19f8b;
       padding: 2%;
