@@ -199,9 +199,18 @@ const Eventbox =(props)=>{
     slidesToScroll: 2,
     arrows: true,
     draggable: true,
-    };
-    
-
+    responsive: [ {
+      breakpoint: 1280, //화면 사이즈 960px일 때
+      settings: {
+        slidesToShow: 2,//위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+      },
+    },
+    {
+		  breakpoint: 768, //화면 사이즈 768px일 때
+		  settings: {
+		  slidesToShow: 3,//위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+		}},
+  ]};
 
     return(
         <>

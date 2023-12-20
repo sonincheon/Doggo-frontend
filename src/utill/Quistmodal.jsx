@@ -39,8 +39,9 @@ const ModalStyle = styled.div`
   section > header {
     position: relative;
     padding: 16px 64px 16px 16px;
-    background-color: #ebe3d5;
+    background-color: #333333;
     font-weight: 700;
+    color: white;
   }
 
   section > header button {
@@ -51,7 +52,7 @@ const ModalStyle = styled.div`
     font-size: 21px;
     font-weight: 700;
     text-align: center;
-    color: #45474b;
+    color: #ffffff;
     background-color: transparent;
   }
   section > main {

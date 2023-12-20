@@ -38,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing : border-box;
   }
   body{
-    font-family: Nanum;
+    font-family: omyu_pretty;
   }
   /* other styles */
 `;
