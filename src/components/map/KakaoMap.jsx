@@ -237,9 +237,7 @@ const KakaoMap = () => {
             }}
           />
           {/* 현재 내 위치로 돌아가는 버튼 */}
-          {isMouseOver && (
-            <S.GoBackTxt isModalOpen={isModalOpen}>접속위치</S.GoBackTxt>
-          )}
+          {isMouseOver && <S.GoBackTxt isModalOpen={isModalOpen}></S.GoBackTxt>}
           <S.GoBackButton
             onClick={goBack}
             onMouseEnter={handleMouseEnter}

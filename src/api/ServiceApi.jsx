@@ -3,7 +3,7 @@ const MUNG_HOST = "http://localhost:8111";
 
 const ServiceApi = {
   //문의 요청하는 부분 추가를 하기 위해 제출하는거랑 짝
-  boardPlus: async (boardType, comment, boardImg) => {
+  boardPlus: async (boardType, comment, boardImg, regData) => {
     const memberEmail = window.localStorage.getItem("email");
     console.log(memberEmail);
     const serviceData = {
@@ -11,6 +11,7 @@ const ServiceApi = {
       boardType: boardType,
       comment: comment,
       boardImg: boardImg,
+      regData: regData,
     };
     console.log(serviceData);
 
