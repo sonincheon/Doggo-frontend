@@ -7,8 +7,8 @@ import Servicemodal from "../../utill/Servicemodal";
 const Base = styled.div`
   display: flex;
   column-gap: 40px;
-  flex-wrap: wrap;
-
+  flex-wrap: nowrap;
+  height: ;
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
@@ -21,15 +21,14 @@ const Container = styled.div`
   flex-grow: 1;
   max-width: calc(50% - 10px);
   min-height: 500px;
-  margin-bottom: 20px;
+  width: 100%;
   .title {
     font-size: 2rem;
     hr {
-      border-bottom: solid 1px #776b5d;
+      border-bottom: solid 1px #333333;
     }
   }
   @media (max-width: 768px) {
-    width: 90%;
     max-width: none;
     min-height: unset;
     margin-bottom: 0;
@@ -58,10 +57,11 @@ const Box = styled.div`
     word-spacing: 1px;
     line-height: 25px;
     padding: 10px;
+    flex-wrap: wrap;
   }
 
   .item {
-    border-bottom: solid 2px #776b5d;
+    border-bottom: solid 2px #333333;
   }
 
   @media (max-width: 768px) {
@@ -95,18 +95,23 @@ const Box4 = styled.div`
   column-gap: 5px;
 `;
 const Button = styled.button`
-  color: #f3eeea;
-  background-color: #b0a695;
+  color: white;
+  background-color: #333333;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   padding: 10px;
-  width: 100px;
-
   cursor: pointer;
+  width: 100px;
   &:hover {
-    background-color: #f3eeea;
-    color: #b0a695;
+    background-color: white;
+    color: #f95001;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 0.8rem;
+    border-radius: 8px;
   }
 `;
 const faqData = [
@@ -259,7 +264,7 @@ const Service = () => {
     SERVICE: "이용문의",
   };
   return (
-    <Base>
+    <>
       <Box3>
         <div className="title">
           <h1>고객센터</h1>
@@ -267,49 +272,51 @@ const Service = () => {
           <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
         </div>
       </Box3>
-      <Container>
-        <div className="title">
-          <h1>문의 답변</h1>
-          <hr />
-        </div>
-        <Box>
-          {list &&
-            list.map((list, index) => (
+      <Base>
+        <Container>
+          <div className="title">
+            <h1>문의 답변</h1>
+            <hr />
+          </div>
+          <Box>
+            {list &&
+              list.map((list, index) => (
+                <div className="item" key={index}>
+                  <FaqItem
+                    key={index}
+                    id={list.boardId}
+                    question={`Q [${enumToKorean[list.boardType]}] ${
+                      list.comment
+                    }`}
+                    answer={list.answer}
+                    image={list.boardImg}
+                    regDate={list.regData}
+                  />
+                </div>
+              ))}
+          </Box>
+          <Box2>
+            <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
+          </Box2>
+        </Container>
+        <Container>
+          <div className="title">
+            <h1>FAQ</h1>
+            <hr />
+          </div>
+          <Box>
+            {faqData.map((data, index) => (
               <div className="item" key={index}>
-                <FaqItem
+                <FaqItem1
                   key={index}
-                  id={list.boardId}
-                  question={`Q [${enumToKorean[list.boardType]}] ${
-                    list.comment
-                  }`}
-                  answer={list.answer}
-                  image={list.boardImg}
-                  regDate={list.regData}
+                  question={data.question1}
+                  answer={data.answer1}
                 />
               </div>
             ))}
-        </Box>
-        <Box2>
-          <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
-        </Box2>
-      </Container>
-      <Container>
-        <div className="title">
-          <h1>FAQ</h1>
-          <hr />
-        </div>
-        <Box>
-          {faqData.map((data, index) => (
-            <div className="item" key={index}>
-              <FaqItem1
-                key={index}
-                question={data.question1}
-                answer={data.answer1}
-              />
-            </div>
-          ))}
-        </Box>
-      </Container>
+          </Box>
+        </Container>
+      </Base>
       <Servicemodal
         open={modalOpen}
         close={closeModal}
@@ -318,7 +325,7 @@ const Service = () => {
         boardImg={boardImg}
         id={id1}
       ></Servicemodal>
-    </Base>
+    </>
   );
 };
 export default Service;

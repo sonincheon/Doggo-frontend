@@ -21,6 +21,7 @@ const ModalStyle = styled.div`
   /* 모달이 열릴 때의 스타일 */
   .openModal {
     display: flex; // 모달이 보이도록 함
+    justify-content: center;
     align-items: center;
     animation: modal-bg-show 0.8s; // 배경이 스르륵 열리는 효과
     border: 1px solid black;
@@ -29,80 +30,24 @@ const ModalStyle = styled.div`
 
   /* 모달 컨텐츠 스타일 */
   section {
-    width: 90%;
-    max-width: 900px;
-    min-height: 500px;
-    margin: 0 auto;
-    border-radius: 0.3rem;
     background-color: white;
     animation: modal-show 0.3s; // 모달이 스르륵 열리는 효과
-    overflow: hidden;
+    justify-content: flex-start;
+    align-items: center;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   /* 모달 헤더 스타일 */
   section > header {
     position: relative;
     padding: 16px 64px 16px 16px;
-    background-color: #776b5d;
+    background-color: #333333;
     color: white;
     font-weight: 700;
     // 테두리 추가
-  }
-
-  /* 모달 닫기 버튼 스타일 */
-  section > header button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    font-size: 21px;
-    font-weight: 700;
-    text-align: center;
-    color: white;
-    background-color: transparent;
-    // 테두리 추가
-  }
-  .container-button {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 5px;
-    column-gap: 5px;
-    padding: 10px;
-
-    button {
-      color: #f3eeea;
-      background-color: #b0a695;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      padding: 10px;
-
-      @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 0.9rem;
-        border-radius: 8px;
-      }
-    }
-    // 테두리 추가
-  }
-
-  /* 모달 푸터 스타일 */
-  section > footer {
-    justify-content: flex-end;
-    column-gap: 5px;
-    // 테두리 추가
-  }
-
-  /* 모달 버튼 스타일 */
-  section > footer button {
-    color: #f3eeea;
-    background-color: #b0a695;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    padding: 10px;
-    width: 100px;
   }
 
   /* 모달 열릴 때의 애니메이션 효과 */
@@ -137,11 +82,17 @@ const Box = styled.div`
   padding: 10px;
   .mini {
     font-size: 20px;
-
     h2 {
       width: 150px;
       font-size: 1.5rem;
     }
+  }
+  .container-button {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 10px;
+    column-gap: 10px;
+    justify-content: center;
   }
 `;
 
@@ -149,72 +100,32 @@ const Box2 = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 100%;
-
-  .question {
-    margin: 10px;
-    font-size: 1.2rem;
-    word-spacing: 1px;
-    font-weight: bold;
-  }
-  .answer {
-    font-size: 1rem;
-    word-spacing: 1px;
-    line-height: 25px;
-  }
-  h1 {
-    font-size: 2rem;
-  }
-  p {
-    font-size: 1.2rem;
-  }
-  .container-button {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 5px;
-    column-gap: 5px;
-    .button {
-      color: #f3eeea;
-      background-color: #b0a695;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      padding: 10px;
-      width: 200px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f3eeea;
-        color: #b0a695;
-      }
-      @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 0.8rem;
-        border-radius: 8px;
-      }
-    }
-  }
 `;
 const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
   padding: 10px;
+  button {
+    color: white;
+    background-color: #333333;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    width: 100px;
+  }
 `;
-
 const Button = styled.button`
-  color: #f3eeea;
-  background-color: #776b5d;
+  color: white;
+  background-color: #333333;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   padding: 10px;
-  width: 100px;
   cursor: pointer;
   &:hover {
-    background-color: #f3eeea;
-    color: #776b5d;
+    background-color: white;
+    color: #f95001;
   }
   @media (max-width: 768px) {
     padding: 8px;
@@ -233,21 +144,13 @@ const StyledInput = styled.input`
 `;
 
 const UploadButton = styled.button`
-  background-color: #ebe3d5;
   border: none;
-  padding: 10px;
   width: 100px;
   border-radius: 10px;
-  color: #776b5d;
-
+  color: #333333;
+  background: white;
   &:hover {
-    background-color: #776b5d;
-    color: #ebe3d5;
-  }
-  @media (max-width: 768px) {
-    padding: 8px;
-    font-size: 0.9rem;
-    border-radius: 8px;
+    color: #f95001;
   }
 `;
 const UserImage = styled.img`
@@ -364,12 +267,12 @@ const Servicemodal = (props) => {
                   value={boardType}
                   onClick={handleButtonClick}
                 >
-                  <button>배송</button>
-                  <button>주문/결제</button>
-                  <button>취소/교환/환불</button>
-                  <button>회원정보</button>
-                  <button>사료문의</button>
-                  <button>이용문의</button>
+                  <Button>배송</Button>
+                  <Button>주문/결제</Button>
+                  <Button>취소/교환/환불</Button>
+                  <Button>회원정보</Button>
+                  <Button>사료문의</Button>
+                  <Button>이용문의</Button>
                 </div>
               </Box2>
             </Box>
@@ -381,11 +284,9 @@ const Servicemodal = (props) => {
                 <div className="mini">{buttonText}</div>
                 <textarea
                   onChange={handleTextareaChange}
-                  value={comment}
                   rows="10"
                   cols="40"
                   placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
-                  style={{ width: "100%" }}
                 ></textarea>
               </Box2>
             </Box>
@@ -398,7 +299,7 @@ const Servicemodal = (props) => {
                   <StyledInput type="file" onChange={handleFileInputChange} />
                   <UploadButton onClick={handleUploadClick}>선택</UploadButton>
                 </FileUploadContainer>
-                {url && <UserImage src={url} alt="uploaded" />}
+                {BoardImg && <UserImage src={url} alt="uploaded" />}
               </Box2>
             </Box>
             <Box3>

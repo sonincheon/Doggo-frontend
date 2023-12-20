@@ -4,11 +4,11 @@ import { Center } from "../../components/PublicStyle";
 import { useNavigate } from "react-router-dom";
 import ServiceApi from "../../api/ServiceApi";
 import { storage } from "../../utill/FireBase";
+
 const Base = styled.div`
   display: flex;
   column-gap: 40px;
-  flex-wrap: wrap;
-
+  flex-wrap: nowrap;
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
@@ -26,7 +26,7 @@ const Container = styled.div`
   .title {
     font-size: 2rem;
     hr {
-      border-bottom: solid 1px #776b5d;
+      border-bottom: solid 1px #333333;
     }
   }
 `;
@@ -46,22 +46,6 @@ const Box = styled.div`
     row-gap: 10px;
     column-gap: 10px;
     justify-content: center;
-
-    button {
-      color: #f3eeea;
-      background-color: #b0a695;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      padding: 10px;
-      cursor: pointer;
-
-      @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 0.8rem;
-        border-radius: 8px;
-      }
-    }
   }
 `;
 
@@ -71,7 +55,6 @@ const Box2 = styled.div`
   justify-content: flex-start;
   padding: 10px;
   width: 100%;
-
   .question {
     margin: 10px;
     font-size: 1.2rem;
@@ -95,27 +78,24 @@ const Box3 = styled.div`
   display: flex;
   justify-content: flex-end;
   column-gap: 5px;
-  button {
-    color: #f3eeea;
-    background-color: #b0a695;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    padding: 10px;
-    width: 100px;
-  }
 `;
 const Button = styled.button`
-  color: #f3eeea;
-  background-color: #b0a695;
+  color: white;
+  background-color: #333333;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   padding: 10px;
+  width: 200px;
   cursor: pointer;
-  w &:hover {
-    background-color: #f3eeea;
-    color: #b0a695;
+  &:hover {
+    background-color: white;
+    color: #f95001;
+  }
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 0.8rem;
+    border-radius: 8px;
   }
 `;
 const FileUploadContainer = styled.div`
@@ -129,16 +109,15 @@ const StyledInput = styled.input`
 `;
 
 const UploadButton = styled.button`
-  background-color: #ebe3d5;
   border: none;
   padding: 10px;
   width: 100px;
   border-radius: 10px;
-  color: #776b5d;
+  color: #333333;
+  background: white;
 
   &:hover {
-    background-color: #776b5d;
-    color: #ebe3d5;
+    color: #f95001;
   }
 `;
 const UserImage = styled.img`

@@ -229,7 +229,7 @@ const KakaoMap = () => {
           <MapMarker
             position={state.center}
             image={{
-              src: "https://cdn-icons-png.flaticon.com/128/7124/7124723.png",
+              src: "https://cdn-icons-png.flaticon.com/128/5695/5695709.png",
               size: {
                 width: 50,
                 height: 50,
@@ -255,7 +255,7 @@ const KakaoMap = () => {
                 key={data.id}
                 position={{ lat: data.y, lng: data.x }}
                 image={{
-                  src: "https://cdn-icons-png.flaticon.com/128/2098/2098567.png",
+                  src: "https://cdn-icons-png.flaticon.com/128/5860/5860579.png",
                   size: {
                     width: 35,
                     height: 35,

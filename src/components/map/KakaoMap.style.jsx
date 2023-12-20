@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
-import frame from "../../icon/Frame.svg";
+import frame from "../../icon/Frame.png";
 
 export const MapStyles = styled.div`
   width: 100%;
@@ -13,13 +13,13 @@ export const MapContainer = styled.div`
   align-items: center;
 `;
 export const Overlay = styled.div`
-  border: 1px solid #b0a695;
+  border: 1px solid #333333;
   border-radius: 8px;
   position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #f3eeea;
+  background-color: white;
 `;
 
 export const Arrow = styled.div`
@@ -30,7 +30,6 @@ export const Arrow = styled.div`
   bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  color: #776b5d;
 `;
 
 export const PlaceName = styled.p`
@@ -62,16 +61,16 @@ export const SearchBtns = styled.div`
 `;
 
 export const KeywordBtn = styled.button`
-  color: #f3eeea;
-  background-color: #776b5d;
+  color: white;
+  background-color: #333333;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   padding: 10px;
   cursor: pointer;
   &:hover {
-    background-color: #f3eeea;
-    color: #776b5d;
+    background-color: white;
+    color: #333333;
   }
   @media (max-width: 768px) {
     padding: 8px;
@@ -89,9 +88,7 @@ export const ListContainer = styled.div`
   bottom: 90px;
   overflow-y: auto;
   transition: 0.3s;
-  background-color: #f3eeea;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
+  background-color: #333333;
   ${({ isClosed }) =>
     isClosed &&
     css`
@@ -110,17 +107,18 @@ export const SideBarOpenBtn = styled.button`
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border: none;
-  background-color: #f3eeea;
-
+  background: #333333;
+  transition: 0.3s;
   ${({ isClosed }) =>
     isClosed &&
     css`
       left: 0px;
+      background-color: white;
     `}
 `;
 
 export const ModalContainer = styled.div`
-  background-color: #f3eeea;
+  background-color: #333333;
 
   @media (max-width: 768px) {
     height: ${({ isClosed }) => (isClosed ? "0px" : "300px")};
@@ -134,7 +132,7 @@ export const List = styled.ul``;
 export const Item = styled.li`
   position: relative;
   padding: 20px;
-  border-bottom: 1px solid #776b5d;
+  border-bottom: 1px solid white;
 `;
 
 export const Name = styled.p`
@@ -142,7 +140,7 @@ export const Name = styled.p`
   font-weight: 700;
   margin-bottom: 4px;
   max-width: 310px;
-  color: #776b5d;
+  color: white;
 
   @media (max-width: 768px) {
     max-width: 280px;
@@ -150,25 +148,25 @@ export const Name = styled.p`
 `;
 
 export const Category = styled.p`
-  color: #776b5d;
+  color: white;
 `;
 
 export const Address = styled.p`
   font-size: 14px;
   margin-bottom: 5px;
-  color: #776b5d;
+  color: white;
 `;
 
 export const Distance = styled.p`
   margin-right: 10px;
-  color: #776b5d;
+  color: white;
 `;
 
 export const RoadAddress = styled.div`
   font-size: 14px;
   display: flex;
   align-items: center;
-  color: #776b5d;
+  color: white;
 
   img {
     width: 35px;
@@ -183,13 +181,15 @@ export const InfoContainer = styled.div`
 
 export const Division = styled.p`
   margin-right: 10px;
+  color: white;
 `;
 
 export const PhoneNumber = styled.p`
-  color: #776b5d;
+  color: white;
 `;
 
 export const NoList = styled.p`
+  color: white;
   font-size: 18px;
   padding: 20px;
 `;
@@ -202,7 +202,7 @@ export const Pages = styled.div`
 
 export const PageBtn = styled.button`
   margin: 0 10px;
-  background-color: #f3eeea;
+  background-color: #333333;
   border: none;
 `;
 
@@ -220,7 +220,6 @@ const slide = keyframes`
 
 export const MapModal = styled.div`
   position: absolute;
-  background: #776b5d;
   z-index: 10;
   left: 0;
   right: 0;
@@ -236,7 +235,7 @@ export const ModalBtn = styled.button`
   height: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #f3eeea;
+  background-color: #333333;
 
   ${({ isClosed }) =>
     isClosed &&
@@ -253,7 +252,7 @@ export const GoBackButton = styled.button`
   z-index: 10;
   width: 70px;
   height: 70px;
-  background: no-repeat #776b5d url(${frame}) center/contain;
+  background: no-repeat #333333 url(${frame}) center/contain;
   background-size: 70%;
   border-radius: 10px;
   border: none;
@@ -286,7 +285,7 @@ export const GoBackTxt = styled.span`
   line-height: 30px;
   border-radius: 20px;
   text-align: center;
-  color: white;
+  color: #333333;
   margin-top: 10px;
 
   @media (max-width: 768px) {
@@ -311,8 +310,8 @@ export const GoBackTxt = styled.span`
 // 현 지도에서 검색 버튼
 export const ReSearch = styled.button`
   position: fixed;
-  background-color: #ebe3d5;
-  color: #776b5d;
+  background-color: #333333;
+  color: white;
   font-size: 14px;
   top: 150px;
   transform: translateX(-50%);
@@ -323,10 +322,9 @@ export const ReSearch = styled.button`
   line-height: 40px;
   border-radius: 30px;
   border: none;
-  box-shadow: 2px 2px 2px #b0a695;
   &:active {
-    color: #b0a695;
-    background-color: #f3eeea;
+    color: #333333;
+    background-color: white;
   }
 
   @media (max-width: 768px) {
