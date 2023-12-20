@@ -6,6 +6,10 @@ import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
+import { ReactComponent as Logo } from "../icon/petmemori.svg";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 const Container=styled.div`
   width: 100vw;
@@ -26,7 +30,7 @@ const Headers =styled.div`
     backdrop-filter: ${({ isHovered }) => (isHovered ? 'none' : 'blur(5px)')};
     transition: background-color 0.1s ease;
     @media (max-width: 768px) {
-     
+     height: 80px;
     }
 `;
 
@@ -62,6 +66,9 @@ const NavBox = styled.div`
     cursor: pointer;
     font-weight: bold;
     font-size: 11px;
+    &:hover{
+      color:#F95001 ;
+    }
     @media (max-width: 768px) {
       display: none;
     }
@@ -75,10 +82,11 @@ const NavBox = styled.div`
     font-size: 12px;
     @media (max-width: 768px) {
       display: flex;
-      
+      align-items: center;
     }
   }
   .none{
+    width: 150px;
     @media (max-width: 768px) {
       display: none;
     }
@@ -88,13 +96,14 @@ const NavBox = styled.div`
     padding: 10px;
     margin-bottom: 1em;
     }
+  .logo{
+      width: 120px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    }
 `;
-const Logo = styled.img`
-  width: 110px;
-  height: 70px;
-  object-fit: cover;
-  cursor: pointer;
-`;
+
 
 const Menus = styled.div`
   display: flex;
@@ -127,7 +136,7 @@ const Menu = styled.p`
   width: 8%;
   cursor: pointer;
   &:hover{
-    border-bottom:3px solid black ;
+    border-bottom:3px solid #F95001 ;
   }
 `;
 
@@ -137,12 +146,35 @@ const Contain = styled.div`
 
 const Footer = styled.div`
   position: absolute;
-  height: 20%;
+  height: 15%;
   width: 100%;
   padding: 0 25px;
   line-height: 60px;
   color: #8a8c8f;
-  background-color: #000000;
+  background-color: #333333;
+  .linkBox{
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    align-items: center;
+    justify-content: start;
+    }
+      h1{
+      display: flex;
+      font-size: 0.7em;
+      padding-left: 2%;
+      white-space: nowrap;
+      text-decoration:underline;
+      cursor: pointer;
+      &:hover{
+        font-weight: bold;
+        color:#F95001;
+      }
+    .infoBox{
+      width: 100%;
+      border: 1px solid white;
+    }
+  }
 `;
 const Main =styled.div`
   max-width:  80%;
@@ -258,7 +290,7 @@ const Header = () => {
         <Headers onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} isHovered={isHeaderHovered} >
           <NavBox>
             <div className="none" onClick={()=>navigate("/admin")}>관리자</div>
-              <Logo onClick={()=>navigate("/")}/>
+              <Logo className="logo" onClick={()=>navigate("/")}/>
             <div className="icons">
               <div className="icon" onClick={() => navigate("/login")}><LoginIcon/><p>LOGIN</p></div>
               <div className="icon" onClick={() => navigate("/signup")}><PersonAddAltOutlinedIcon/><p>SIGN UP</p></div>
@@ -269,7 +301,7 @@ const Header = () => {
         </Headers>
         <List isList={openList} onClick={ListDown}>
           <div className="list" >
-            <Logo onClick={()=>navigate("/")}/>
+            <Logo width={130} onClick={()=>navigate("/")}/>
             <div className="out" onClick={ListDown}><CloseIcon sx={{ fontSize: 35 }}/></div>
           </div>
           <div className="list1" onClick={() => navigate("/diy")}>PET'S DIARY</div>
@@ -296,7 +328,22 @@ const Header = () => {
           <Outlet />
         </Main>
         <Footer>
-          <h1>푸터입니다</h1>
+          <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+          <div className="linkBox">
+            <h1>개인정보처리방침</h1>
+            <h1>이용약관</h1>
+            <h1>책임의 법적고지</h1>
+            <h1>무단수집거부</h1>
+          </div>
+          <div className="linkBox" style={{justifyContent:"end"}}>
+            <h1><InstagramIcon/></h1>
+            <h1><FacebookIcon/></h1>
+            <h1><TwitterIcon/></h1>
+          </div>
+          </div>
+          <div className="infoBox">
+            안녕하세요?
+          </div>
         </Footer>
       </Contain>
     </Container>
