@@ -11,7 +11,6 @@ const TitleBox = styled.div`
   align-items: center;
   width: 100%;
   height: 200px;
-
   h1 {
     font-size: 30px;
     font-weight: bold;
@@ -48,13 +47,19 @@ const TitleBox1 = styled.div`
     font-weight: bold;
     padding-left: 20px;
   }
+    @media (max-width: 768px) {
+        height: 200px;
+        h2{
+          font-size: 12px;
+        }
+    }
 `;
 
 const SellButton = styled.button`
   margin: 20px;
   width: 150px;
   height: 40px;
-  background-color: #776b5d;
+  background-color: #333333;
   color: white;
   border: 0;
   font-size: 12px;
@@ -97,7 +102,7 @@ const Quicksucess1 = () => {
   return (
     <>
       <TitleBox>
-          <div className="box">결제가 완료되었습니다.</div>
+          <div className="box"><h1>결제가 완료되었습니다.</h1></div>
         <h3>
           구독 서비스 결제 감사합니다 . 최선을 다하는 멍냥멍냥이 되겠습니다.
         </h3>

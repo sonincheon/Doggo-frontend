@@ -10,13 +10,14 @@ const Container =styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
+  
 `;
 
 const StyledCalendar = styled(Calendar)`
   /* 전체 스타일 */
   border-radius: 5px;
   width: 100%;
-  height: 600px;
+  height: 700px;
   background-color: #ffffff;
   box-shadow: 1px 1px 2px #333333;
   align-items: center;

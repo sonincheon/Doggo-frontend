@@ -15,8 +15,8 @@ const Block =styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 37%;
-    height: 600px;
+    width: 35%;
+    height: 700px;
     border-radius: 5px;
     background-color: #333333;
     padding-bottom: 2%;

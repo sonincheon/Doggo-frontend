@@ -6,13 +6,18 @@ import { PayContext } from "../context/Paystore";
 const BtnStyle = styled.button`
   display: block;
   width: 35%;
+  max-width: 300px;
   height: 50px;
   border: none;
-  background-color: #776B5D;
+  background-color: #F95001;
   border-radius: 10px;
   color: white;
   font-size: 1.2em;
   margin: 0 auto;
+  cursor: pointer;
+  &:hover{
+    background-color: #ff661f;
+  }
 `;
 
 const selector = "#payment-widget";

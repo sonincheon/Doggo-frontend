@@ -7,12 +7,13 @@ import AxiosApi from "../../api/Axios";
 
 const SellBox =styled.div`
     width: 100%;
-    height: 500px;
-    background-color: #EBE3D5 ;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 3em;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      justify-content: start;
+    }
     `;
 
 

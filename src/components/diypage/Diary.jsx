@@ -18,7 +18,6 @@ const Box =styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     textarea{
       width: 90%;
       height: 80%;
@@ -28,9 +27,19 @@ const Box =styled.div`
       outline-color: #b19f8b;
       padding: 2%;
     }
-
   }
-
+`;
+const BtnSt =styled.button`
+  border: none;
+  width: 100px;
+  height: 40px;
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #F95001;
+  cursor: pointer;
+  &:hover{
+    background-color: #d74704;
+  }
 `;
 
 const Diary = (props) => {
@@ -83,7 +92,7 @@ const Diary = (props) => {
     <h1>멍냥일기</h1>
         <div className="textbox">
             <textarea placeholder="오늘 하루를 작성해주세요" value={text} onChange={textChange}/>
-            <button onClick={diaryReg}>저장</button>
+            <BtnSt onClick={diaryReg}>저장</BtnSt>
         </div>
     </Box>
 

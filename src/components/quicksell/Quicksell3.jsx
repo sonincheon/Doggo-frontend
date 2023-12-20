@@ -15,7 +15,7 @@ const TitleBox = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 50px;
-  border-bottom: 2px solid #776b5d;
+  border-bottom: 2px solid #4e4e4e;
   h1 {
     font-size: 20px;
     font-weight: bold;
@@ -48,7 +48,7 @@ const TitleBox = styled.div`
 
 const SellTable = styled.table`
   width: 100%;
-  border: 1px solid #776b5d;
+  border: 1px solid #4e4e4e;
 
   tr {
     display: flex;
@@ -63,7 +63,7 @@ const SellTable = styled.table`
     justify-content: start;
     padding-left: 2%;
     height: 50px;
-    border: 1px solid #776b5d;
+    border: 1px solid #4e4e4e;
     font-size: 14px;
     font-weight: bold;
   }
@@ -75,7 +75,7 @@ const SellTable = styled.table`
     justify-content: start;
     padding-left: 2%;
     height: 50px;
-    border: 1px solid #776b5d;
+    border: 1px solid #4e4e4e;
     font-size: 12px;
     font-weight: bold;
   }
@@ -83,14 +83,9 @@ const SellTable = styled.table`
     height: 80%;
     width: 40%;
   }
-`;
-
-const Button2 = styled.button`
-  color: white;
-  width: 30%;
-  height: 90%;
-  border-radius: 10px;
-  background-color: #776b5d;
+  @media (max-width: 768px) {
+    th {font-size: 12px;}
+    }
 `;
 
 const PostBox = styled.div`
@@ -208,6 +203,7 @@ const Quicksell3 = (props) => {
                   type="input"
                   placeholder="주소"
                   value={post}
+                  onClick={openPostCode}
                 />
                 <div>
                   <input
@@ -225,9 +221,6 @@ const Quicksell3 = (props) => {
                   />
                 </div>
               </div>
-              <Button2 type="button" onClick={openPostCode}>
-                주소검색
-              </Button2>
             </PostBox>
             <div id="popupDom">
                 {isPopupOpen && (

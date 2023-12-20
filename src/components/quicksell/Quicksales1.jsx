@@ -7,8 +7,8 @@ import Salesmodal from "../../utill/Salesmodal";
 import Common from "../../utill/Common";
 
 const Container = styled.div`
-  width: 1000px;
-  height: 280px;
+  width: 80%;
+
   h1 {
     display: flex;
     align-items: center;
@@ -30,12 +30,16 @@ const Container = styled.div`
   }
   .canclelist {
     width: 100%;
-    font-size: 12px;
+    font-size: 0.7em;
     align-items: center;
     padding: 1% 2%;
     li {
       padding: 5px 0;
       list-style: square;
+    }
+    @media (max-width: 768px) {
+      font-size: 0.5em;
+      padding: 1% 4%;
     }
   }
 
@@ -46,14 +50,17 @@ const Container = styled.div`
     justify-content: center;
     width: 100%;
     height: 160px;
-    background-color: #ebe3d5;
-    border-radius: 10px;
+    background-color: #e2e2e2;
+    border-radius: 5px;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+    }
 `;
 
 const SellTable = styled.table`
   width: 100%;
-  border: 1px solid #c1c1c1;
+  border: 1px solid #333333;
   tr {
     display: flex;
     flex-direction: row;
@@ -66,11 +73,16 @@ const SellTable = styled.table`
     align-items: center;
     justify-content: center;
     height: 30px;
-    border: 1px solid #b0a695;
+    border: 1px solid #333333;
     font-size: 13px;
-    font-weight: bold;
-    background-color: #b0a695;
+    background-color: #333333;
+    color: white;
   }
+  @media (max-width: 768px) {
+    th{
+      font-size: 8px;
+    }
+    }
 `;
 
 const SellTable1 = styled.table`
@@ -78,8 +90,8 @@ const SellTable1 = styled.table`
   tr {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #776b5d;
-    border-radius: 10px;
+    border-bottom: 1px solid #000000;
+    border-radius: 5px;
   }
 
   th {
@@ -92,15 +104,17 @@ const SellTable1 = styled.table`
     font-size: 10px;
     font-weight: bold;
   }
+  @media (max-width: 768px) {
+    }
 `;
 
 const ScroolBox = styled.div`
   height: 300px;
-  width: 1000px;
+  width: 100%;
   overflow: auto;
   position: relative;
   overflow-y: scroll;
-  border: 1px solid #776b5d;
+  border: 1px solid #000000;
   overflow-x: hidden;
   .innerStyle {
     width: 1000px;
@@ -112,20 +126,20 @@ const SellButton = styled.button`
   margin: 20px;
   width: 150px;
   height: 40px;
-  background-color: #776b5d;
+  background-color: #F95001;
   color: white;
   border: none;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 const CancleButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #000000;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   height: 25px;
   border: none;
@@ -186,15 +200,16 @@ const Quicksale1 = () => {
           console.log(resp.data);
         }
       } catch (e) {
-        if (e.response.status === 401) {
-          await Common.handleUnauthorized();
-          const newToken = Common.getAccessToken();
-          if (newToken !== token) {
-            const resp = await AxiosApi.SaleUserList();
-            setSaleList(resp.data);
+        // if (e.response.status === 401) {
+        //   await Common.handleUnauthorized();
+        //   const newToken = Common.getAccessToken();
+        //   if (newToken !== token) {
+        //     const resp = await AxiosApi.SaleUserList();
+        //     setSaleList(resp.data);
+        console.log(e)
           }
-        }
-      }
+        
+      
     };
     SalesList();
   }, [modalOpen]);
@@ -206,10 +221,10 @@ const Quicksale1 = () => {
         <div className="cancleInfoBox">
           <h2>※구독 취소시 주의사항※</h2>
           <ul className="canclelist">
-            <li>※ 내용</li>
-            <li>※ 내용</li>
-            <li>※ 내용</li>
-            <li>내용</li>
+            <li>※ 대상회원, 대상상품,대상 서비스의 내용 등은 회사의 사정에 따라 변경될 수 있으며, 그 변경으로 인하여 본 회원이 본 서비스를 중도에 이용하지 못하게 된 경우 환불한다. </li>
+            <li>※ 본 서비스는 무료체험 기간 동안 본 회원에게 무상으로 제공되며, 무료체험 기간 경과 후에는 이용료를 결제한 본 회원에 한하여 본 서비스를 제공한다.</li>
+            <li>※ 사는 본 서비스에 부수하는 개별 서비스에 대한 세부정책을 별도로 정하여 회원에게 통지할 수 있으며, 이 경우 개별 서비스에 대한 세부정책이 본 약관에 우선한다. </li>
+            <li>본 서비스는 대상회원이 본 서비스를 위한 약관에 동의함으로써 가입 신청할 수 있다. </li>
           </ul>
         </div>
       </Container>

@@ -31,7 +31,7 @@ const ItemBox = styled.div`
   align-items: center;
   width: 70%;
   height: 200px;
-  border: 2px solid #776B5D;
+  border: 2px solid #4e4e4e;
   border-radius: 10px;
   cursor: pointer;
   .itemInfo {
@@ -54,6 +54,9 @@ const ItemBox = styled.div`
     font-size: 24px;
     font-weight: bold;
   }
+  @media (max-width: 768px) {
+    width: 90%;
+    }
 `;
 
 const ItemImg = styled.img`
