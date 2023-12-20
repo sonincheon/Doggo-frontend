@@ -14,7 +14,8 @@ const Adminsales = () =>{
     const [isTrue, setIsTrue] = useState(false);
     const [invoiceInput, setInvoiceInput] = useState('');
 
-    const Click = () => {
+    // 리렌더링 용
+    const reRender = () => {
         setIsTrue((prev) => !prev);
     }
     // 분류 버튼
@@ -22,31 +23,12 @@ const Adminsales = () =>{
         setSelectedCategory(value);
     };
 
-    // 모든 구매목록 data 가져오기
-    // useEffect(() => {
-    //     const getAllSale = async () => {
-    //         try {
-    //             const res = await AdminAxiosApi.SaleAllList();
-    //             console.log(res);
-    //             console.log(res.data);
-    //             setOrders(res.data);
-    //             Click();
-       
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     getAllSale();
-    
-    // }, []);
-
     // 총 페이지 수 계산
     useEffect(() => {
         const totalPage = async () => {
             try {
                 const res = await AdminAxiosApi.SalePage(0, 10);
                 setTotalPage(res.data);
-                Click();
             } catch (error) {
                 console.log(error);
             }
@@ -86,7 +68,7 @@ const Adminsales = () =>{
         );
     };
 
-
+    // 송장번호 입력
     const HandleInvoiceUpload = async(id, orderStatus, InvoiceInput) => {
 
         try {
@@ -102,7 +84,7 @@ const Adminsales = () =>{
                 order.saleId === id ? { ...order, invoice: invoiceInput, orderStatus: '출고완료' } : order
                 );
                 setOrders(updatedOrders);
-
+                reRender();
                 console.log(res);
                 console.log(res.data);
                

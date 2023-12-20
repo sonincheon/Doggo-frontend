@@ -10,8 +10,8 @@ const Adminfeed = () =>{
     const [feedList,setFeedList]=useState([]);
     const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
     const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
-    const [isTrue,setIsTrue]=useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('CAT');    // 분류
+    const [isTrue,setIsTrue] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('all');    // 분류
     // 모달관련
     const [modalOpen, setModalOpen] = useState(false);
     const [type, setType] = useState();
@@ -36,12 +36,8 @@ const Adminfeed = () =>{
         setFeedInfo(feedInfo);
     }
     // 리렌더링 용
-    const Click = () => {
+    const reRender = () => {
         setIsTrue((prev) => !prev);
-    };
-
-    const setTrue =(sel)=>{
-        setIsTrue(sel);
     }
     const HandleCategoryChange = (category) => {
         setSelectedCategory(category);
@@ -106,7 +102,8 @@ const Adminfeed = () =>{
                 console.log(id);
                 if (rsp.status === 200) {
                     alert("사료 삭제가 완료되었습니다.");
-                    Click();
+                    // Click();
+                    reRender();
                 } 
             } catch (e) {
                 console.log("사료 삭제에 실패했습니다.");
@@ -227,7 +224,7 @@ const Adminfeed = () =>{
                         feedName={feedName}
                         feedPrice={feedPrice}
                         feedInfo={feedInfo}
-                        setIsTrue={setTrue}
+                        reRender={reRender}
                     ></Feedmodal>
                 </RightBox>
             </SideBar>

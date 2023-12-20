@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SideBar} from "../PublicStyle";
+import { SideBar } from "../PublicStyle";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RightBox, PaginationContainer, PageButton  } from "./Adminmember";

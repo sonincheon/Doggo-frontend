@@ -1,6 +1,10 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+export const AdminContainer = styled.div`
+  position: relative;
+`;
+
 export const SideBar = styled.div`
   width: 15vw;
   height: 100vh;
@@ -8,7 +12,9 @@ export const SideBar = styled.div`
   color: #f3eeea;
   padding: 10px;
 
-  position: absolute;
+ 
+  position: fixed;
+  top: 0;
   left: 0;
 
   display: flex;
@@ -52,30 +58,33 @@ const Admin = () => {
   const navigate = useNavigate();
   return (
     <>
-      <SideBar>
-        <p>admin@mungnang.com </p>
-        <hr />
-        <div className="menus" onClick={() => navigate("/admin")}>
-          <p>대쉬보드</p>
-        </div>
-        <hr />
-        <div className="menus" onClick={() => navigate("/admin/member")}>
-          <p>회원 관리</p>
-        </div>
-        <hr />
-        <div className="menus" onClick={() => navigate("/admin/sales")}>
-          <p>판매 관리</p>
-        </div>
-        <hr />
-        <div className="menus" onClick={() => navigate("/admin/qna")}>
-          <p>1:1 문의 관리</p>
-        </div>
-        <hr />
-        <div className="menus" onClick={() => navigate("/admin/feed")}>
-          <p>사료 관리</p>
-        </div>
-        <hr />
-      </SideBar>
+      <AdminContainer>
+        <SideBar>
+          <p>admin@mungnang.com </p>
+          <hr />
+          <div className="menus" onClick={() => navigate("/admin")}>
+            <p>대쉬보드</p>
+          </div>
+          <hr />
+          <div className="menus" onClick={() => navigate("/admin/member")}>
+            <p>회원 관리</p>
+          </div>
+          <hr />
+          <div className="menus" onClick={() => navigate("/admin/sales")}>
+            <p>판매 관리</p>
+          </div>
+          <hr />
+          <div className="menus" onClick={() => navigate("/admin/qna")}>
+            <p>1:1 문의 관리</p>
+          </div>
+          <hr />
+          <div className="menus" onClick={() => navigate("/admin/feed")}>
+            <p>사료 관리</p>
+          </div>
+          <hr />
+        </SideBar>
+      </AdminContainer>
+
       <Outlet />
     </>
   );

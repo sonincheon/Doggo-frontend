@@ -136,6 +136,26 @@ const ModalStyle = styled.div`
                 & > label {
                     margin-right: 10px;
                 }
+
+                // 라디오 버튼 css
+                input[type='radio'] {
+                -webkit-appearance: none; // 웹킷 브라우저에서 기본 스타일 제거
+                -moz-appearance: none; // 모질라 브라우저에서 기본 스타일 제거 
+                appearance: none; // 기본 브라우저에서 기본 스타일 제거
+                width: 16px;
+                height: 16px;
+                border: 2px solid #ccc; // 체크되지 않았을 때의 테두리 색상
+                border-radius: 50%;
+                outline: none; // focus 시에 나타나는 기본 스타일 제거
+                cursor: pointer;
+                }
+
+                // 체크될 시에, 변화되는 스타일 설정
+                input[type='radio']:checked {
+                background-color: #776B5D; // 체크 시 내부 원으로 표시될 색상
+                border: 3px solid #776B5D; // 테두리와 원 사이의 색상
+                //* box-shadow: 0 0 0 1.6px #fff; // 테두리 - 그림자로 테두리를 직접 만들어야 함 (퍼지는 정도를 0으로 주면 테두리처럼 보임)
+                }
             }
 
             & > input {
@@ -195,7 +215,7 @@ const ModalStyle = styled.div`
 `;
 
 const Feedmodal = (props) => {
-    const { type, open, close, id, feedImg, feedType, feedName, feedPrice, feedInfo ,setIsTrue} = props;
+    const { type, open, close, id, feedImg, feedType, feedName, feedPrice, feedInfo , reRender} = props;
     const [url, setUrl] = useState("");
     const [file, setFile] = useState(null);
     const [inputFeedType, setInputFeedType] = useState("");
@@ -254,7 +274,8 @@ const Feedmodal = (props) => {
     const navigate = useNavigate();
 
     const feedUpload = async () => {
-        console.log("feedUpload : ",                 url,
+        console.log("feedUpload : ",
+        url,
         inputFeedType,
         inputFeedName,
         inputFeedPrice,
@@ -271,7 +292,7 @@ const Feedmodal = (props) => {
                 alert("등록 성공");
                 navigate("/admin/feed");
                 setUrl("");
-                setIsTrue((prev)=>!prev);
+                reRender();
                 close();
             } else {
                 alert("등록에 실패했습니다.");

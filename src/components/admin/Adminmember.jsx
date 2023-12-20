@@ -201,32 +201,14 @@ const Adminmember = () =>{
     const [isTrue,setIsTrue]=useState(false);
 
     const [selectedCategory, setSelectedCategory] = useState('all');
-  
-    const Click = () => {
+    
+    // 리렌더링 용
+    const reRender = () => {
         setIsTrue((prev) => !prev);
     };
 
     const HandleCategoryChange = (category) => {
         setSelectedCategory(category);
-    };
-
-
-    // 회원삭제
-
-    const HandleDeleteMember = async(email) => {
-        const memberDel = async () => {
-            try {
-                const rsp = await AdminAxiosApi.memberDelete(email);
-                console.log(email);
-                if (rsp.status === 200) {
-                    alert("회원 삭제가 완료되었습니다.");
-                    Click();
-                } 
-            } catch (e) {
-                console.log("에러");
-            }
-        };
-        memberDel();
     };
 
     useEffect(() => {
@@ -286,6 +268,23 @@ const Adminmember = () =>{
             default:
                 return memberList;
         }
+    };
+
+    // 회원삭제
+    const HandleDeleteMember = async(email) => {
+        const memberDel = async () => {
+            try {
+                const rsp = await AdminAxiosApi.memberDelete(email);
+                console.log(email);
+                if (rsp.status === 200) {
+                    alert("회원 삭제가 완료되었습니다.");
+                    reRender();
+                } 
+            } catch (e) {
+                console.log("에러");
+            }
+        };
+        memberDel();
     };
 
     // const selectedData = 
