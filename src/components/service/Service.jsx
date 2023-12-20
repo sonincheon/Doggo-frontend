@@ -6,6 +6,8 @@ import Servicemodal from "../../utill/Servicemodal";
 
 const Base = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   column-gap: 40px;
   flex-wrap: nowrap;
   @media (max-width: 768px) {
@@ -79,6 +81,8 @@ const Box2 = styled.div`
   }
 `;
 const Box3 = styled.div`
+  display: flex;
+  position: relative;
   width: 100%;
   padding: 10px;
   .title {
@@ -94,6 +98,7 @@ const Box4 = styled.div`
   justify-content: flex-end;
   column-gap: 5px;
 `;
+const Box5 = styled.div``;
 const Button = styled.button`
   color: white;
   background-color: #333333;
@@ -263,57 +268,59 @@ const Service = () => {
   };
   return (
     <>
-      <Box3>
-        <div className="title">
-          <h1>고객센터</h1>
-          <p>• 작성하기 버튼 누르시면 1:1 상담이 가능합니다.</p>
-          <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
-        </div>
-      </Box3>
-      <Base>
-        <Container>
+      <Box5>
+        <Box3>
           <div className="title">
-            <h1>문의 답변</h1>
-            <hr />
+            <h1>고객센터</h1>
+            <p>• 작성하기 버튼 누르시면 1:1 상담이 가능합니다.</p>
+            <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
           </div>
-          <Box>
-            {list &&
-              list.map((list, index) => (
+        </Box3>
+        <Base>
+          <Container>
+            <div className="title">
+              <h1>문의 답변</h1>
+              <hr />
+            </div>
+            <Box>
+              {list &&
+                list.map((list, index) => (
+                  <div className="item" key={index}>
+                    <FaqItem
+                      key={index}
+                      id={list.boardId}
+                      question={`Q [${enumToKorean[list.boardType]}] ${
+                        list.comment
+                      }`}
+                      answer={list.answer}
+                      image={list.boardImg}
+                    />
+                  </div>
+                ))}
+            </Box>
+            <Box2>
+              <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
+            </Box2>
+          </Container>
+          <Container>
+            <div className="title">
+              <h1>FAQ</h1>
+              <hr />
+            </div>
+            <Box>
+              {faqData.map((data, index) => (
                 <div className="item" key={index}>
-                  <FaqItem
+                  <FaqItem1
                     key={index}
-                    id={list.boardId}
-                    question={`Q [${enumToKorean[list.boardType]}] ${
-                      list.comment
-                    }`}
-                    answer={list.answer}
-                    image={list.boardImg}
+                    question={data.question1}
+                    answer={data.answer1}
                   />
                 </div>
               ))}
-          </Box>
-          <Box2>
-            <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
-          </Box2>
-        </Container>
-        <Container>
-          <div className="title">
-            <h1>FAQ</h1>
-            <hr />
-          </div>
-          <Box>
-            {faqData.map((data, index) => (
-              <div className="item" key={index}>
-                <FaqItem1
-                  key={index}
-                  question={data.question1}
-                  answer={data.answer1}
-                />
-              </div>
-            ))}
-          </Box>
-        </Container>
-      </Base>
+            </Box>
+          </Container>
+        </Base>
+      </Box5>
       <Servicemodal
         open={modalOpen}
         close={closeModal}
