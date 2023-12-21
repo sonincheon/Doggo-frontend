@@ -89,6 +89,11 @@ const AxiosApi = {
     });
   },
 
+  // 아이디 찾기
+  findMemberId: async (name, tel) => {
+    return await axios.get(MUNG_HOST + `/auth/findId?name=${name}&tel=${tel}`);
+  },
+
   // 회원 탈퇴
   memberDelete: async () => {
     const res = await Common.TakenToken();
@@ -222,22 +227,23 @@ const AxiosApi = {
       salesType: "AUTO",
       salesName: salesName,
     };
-    return await AxiosInstance.post(Common.MUNG_HOST+"/sale/new", saleData);
+    return await AxiosInstance.post(Common.MUNG_HOST + "/sale/new", saleData);
   },
 
   //성공페이지 구매내역 디테일 출력
   SaleInfo: async (id) => {
     const accessToken = Common.getAccessToken();
     console.log(accessToken);
-    return await AxiosInstance.put(
-      MUNG_HOST + `/sale/detail/${id}`,{});
+    return await AxiosInstance.put(MUNG_HOST + `/sale/detail/${id}`, {});
   },
 
   //회원 구매 내역 조회
   SaleUserList: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    return await AxiosInstance.get(MUNG_HOST + `/sale/list/email?email=${email}`,);
+    return await AxiosInstance.get(
+      MUNG_HOST + `/sale/list/email?email=${email}`
+    );
   },
 
   // 구매내역 삭제
@@ -252,7 +258,10 @@ const AxiosApi = {
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
     };
-    return await AxiosInstance.put(MUNG_HOST + `/sale/modify/${id}`, SaleModifyData);
+    return await AxiosInstance.put(
+      MUNG_HOST + `/sale/modify/${id}`,
+      SaleModifyData
+    );
   },
 
   //일기 추가
@@ -287,7 +296,10 @@ const AxiosApi = {
     const QuestDay = {
       questPerformance: day,
     };
-    return await AxiosInstance.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay);
+    return await AxiosInstance.put(
+      MUNG_HOST + `/quest/detail/${petId}`,
+      QuestDay
+    );
   },
 
   QuestPetList: async (day) => {
@@ -296,7 +308,10 @@ const AxiosApi = {
     const QuestDay = {
       questPerformance: day,
     };
-    return await AxiosInstance.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay);
+    return await AxiosInstance.put(
+      MUNG_HOST + `/quest/percent/${email}`,
+      QuestDay
+    );
   },
   //일기 작성
   DiaryReg: async (day, write) => {
@@ -315,7 +330,8 @@ const AxiosApi = {
     const res = await Common.TakenToken();
     const email = res.data;
     return await AxiosInstance.get(
-      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`);
+      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`
+    );
   },
 
   CalenderQuest: async () => {
@@ -328,7 +344,9 @@ const AxiosApi = {
     const res = await Common.TakenToken();
     const email = res.data;
     return await AxiosInstance.put(
-      MUNG_HOST + `/quest/member/percnet/${email}`,{});
+      MUNG_HOST + `/quest/member/percnet/${email}`,
+      {}
+    );
   },
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AxiosApi from "../../api/Axios";
+import { ReactComponent as Logo } from "../../icon/petmemori.svg";
 
 const Container = styled.div`
   width: 30vw;
@@ -11,7 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #f3eeea;
+  background-color: #ebebeb;
   border-radius: 10px;
   margin-bottom: 3vh;
   padding: 8px;
@@ -29,6 +30,14 @@ const Container = styled.div`
   .error {
     color: red;
   }
+
+  .Title {
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+    width: 30vw;
+    text-align: start;
+    font-weight: bold;
+  }
 `;
 
 const Box = styled.div`
@@ -37,16 +46,10 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ebe3d5;
   flex-direction: column;
 
-  .Title {
-    font-size: 20px;
-    margin-bottom: 0.5rem;
-    width: 30vw;
-    text-align: start;
-
-    font-weight: bold;
+  .Logo {
+    width: 200px;
   }
 `;
 
@@ -55,11 +58,6 @@ const CenteredContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-`;
-
-const Logo = styled.img`
-  width: 10vw;
-  height: 10vw;
 `;
 
 const Item1 = styled.div`
@@ -131,9 +129,9 @@ const FindIdPwd = () => {
   return (
     <CenteredContainer>
       <Box>
-        <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866" />
-        <div className="Title">아이디 찾기</div>
         <Container>
+          <Logo className="Logo" />
+          <div className="Title">아이디 찾기</div>
           <Item1>
             이름 :{" "}
             <Item2
@@ -160,11 +158,9 @@ const FindIdPwd = () => {
               입니다.
             </Item1>
           )}
-        </Container>
-        <div>
-          <div className="Title">비밀번호 찾기</div>
-        </div>
-        <Container>
+          <div>
+            <div className="Title">비밀번호 찾기</div>
+          </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Item1>
               아이디(이메일) : <Item2></Item2>

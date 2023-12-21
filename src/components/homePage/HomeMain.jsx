@@ -45,14 +45,18 @@ const ChatbotBox = styled.div`
   position: fixed;
   z-index: 1000;
   height: auto;
-  top: 150px;
-  right: 150px;
+  top: 19%;
+  right: 11%;
+  width: 30%;
+  min-width: 280px;
+  max-width: 450px;
 `;
 
 const ChatbotIcon = styled.img`
   position: fixed;
   width: 5.5%;
-  right: 50px;
+  max-width: 100px;
+  right: 3%;
   cursor: pointer;
   z-index: 9999;
   top: 150px;

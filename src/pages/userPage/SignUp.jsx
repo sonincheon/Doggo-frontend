@@ -24,6 +24,7 @@ const Container = styled.div`
   .Logo {
     width: 200px;
     margin-top: 2rem;
+    cursor: pointer;
   }
 
   & .login {
@@ -45,7 +46,7 @@ const Hint = styled.div`
   width: 60%;
   height: 2%;
   text-align: right;
-  font-size: 9px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -139,12 +140,13 @@ const Button1 = styled.button`
   font-weight: 700;
   border: none;
   white-space: nowrap;
+  cursor: pointer;
 
   &:active {
     //확인 클릭하면 설정
     border: #999;
     font-weight: 700;
-    background-color: #3c3939;
+    background-color: #5c5b5b;
   }
 
   &:disabled {
@@ -164,6 +166,11 @@ const Button2 = styled.button`
   border-radius: 0px 12px 12px 0px;
   font-weight: 700;
   border: none;
+  cursor: pointer;
+
+  &:active {
+    background-color: #5c5b5b;
+  }
 `;
 
 const Box = styled.div`
@@ -458,7 +465,7 @@ const SignUp = () => {
     <CenteredContainer>
       <Box>
         <Container>
-          <Logo className="Logo" onClick={navigate("/")} />
+          <Logo className="Logo" onClick={() => navigate("/")} />
           <Items className="login" style={{ marginTop: "20px" }}>
             <span>회원가입</span>
           </Items>
@@ -609,6 +616,7 @@ const SignUp = () => {
                   checked={inputGender === "남"}
                   onChange={handleGenderChange}
                   disabled={able}
+                  style={{ cursor: "pointer" }}
                 />
                 <Label>남자</Label>
               </Radio>
@@ -620,6 +628,7 @@ const SignUp = () => {
                   checked={inputGender === "여"}
                   onChange={handleGenderChange}
                   disabled={able}
+                  style={{ cursor: "pointer" }}
                 />
                 <Label>여자</Label>
               </Radio>
@@ -639,6 +648,7 @@ const SignUp = () => {
                           id="all-check"
                           checked={allCheck}
                           onChange={allBtnEvent}
+                          style={{ cursor: "pointer" }}
                         />
                         <label for="all-check">전체동의</label>
                       </div>
@@ -648,6 +658,7 @@ const SignUp = () => {
                           id="check1"
                           checked={ageCheck}
                           onChange={ageBtnEvent}
+                          style={{ cursor: "pointer" }}
                         />
                         <label for="check1">
                           만 14세 이상입니다 <span>(필수)</span>
@@ -659,6 +670,7 @@ const SignUp = () => {
                           id="check2"
                           checked={useCheck}
                           onChange={useBtnEvent}
+                          style={{ cursor: "pointer" }}
                         />
                         <label for="check2">
                           이용약관 <span>(필수)</span>
@@ -670,6 +682,7 @@ const SignUp = () => {
                           id="check3"
                           checked={marketingCheck}
                           onChange={marketingBtnEvent}
+                          style={{ cursor: "pointer" }}
                         />
                         <label for="check3">
                           마케팅 동의 <span>(선택)</span>

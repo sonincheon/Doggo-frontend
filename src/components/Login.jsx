@@ -38,19 +38,25 @@ const Container = styled.div`
   .Logo {
     width: 200px;
     margin-top: 2rem;
+    cursor: pointer;
   }
 `;
 const Hint = styled.div`
   width: 60%;
-  height: 2.5%;
+  height: 10px;
   text-align: right;
-  font-size: 13px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: end;
+  white-space: nowrap;
+
+  padding: 2px;
 `;
 
 const Items = styled.div`
+  cursor: pointer;
+
   &.item1 {
     width: 400px;
     height: 50px;
@@ -111,7 +117,6 @@ const Items = styled.div`
 
 const Input = styled.input`
   width: 100%; /* 원하는 너비 설정 */
-  height: auto; /* 높이값 초기화 */
   line-height: normal; /* line-height 초기화 */
   padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   font-family: inherit; /* 폰트 상속 */
@@ -136,12 +141,13 @@ const Button1 = styled.button`
   border-radius: 12px;
   font-weight: 700;
   border: none;
+  cursor: pointer;
 
   &:active {
     //확인 클릭하면 설정
     border: #999;
     font-weight: 700;
-    background-color: #3c3939;
+    background-color: #5c5b5b;
   }
 `;
 
@@ -161,12 +167,13 @@ const Button2 = styled.button`
   border-radius: 12px;
   font-weight: 700;
   border: none;
+  cursor: pointer;
 
   &:active {
     //확인 클릭하면 설정
     border: #999;
     font-weight: 700;
-    background-color: #a0a300;
+    background-color: #b3b601;
   }
 `;
 
@@ -259,7 +266,7 @@ const Login = () => {
     <CenteredContainer>
       <Box>
         <Container>
-          <Logo className="Logo" onClick={navigate("/")} />
+          <Logo className="Logo" onClick={() => navigate("/")} />
           <Items className="login"></Items>
           <Items className="item2">
             <Input
@@ -304,14 +311,12 @@ const Login = () => {
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             <Items className="FindIdPwd">
-              <Link to="/FindIdPwd" className="link_style">
-                <span>아이디 / 비밀번호 찾기</span>
-              </Link>
+              <span onClick={() => navigate("/FindIdPwd")}>
+                아이디 / 비밀번호 찾기
+              </span>
             </Items>
             <Items className="signup">
-              <Link to="/signup" className="link_style">
-                <span>회원가입</span>
-              </Link>
+              <span onClick={() => navigate("/Signup")}>회원가입</span>
             </Items>
           </Items>
         </Container>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // 전체 컨테이너에 대한 스타일드 컴포넌트
 const Container = styled.div`
-  width: 450px;
+  width: 100%;
   border: 1px solid black;
 
   ::before {
@@ -123,6 +123,12 @@ const WelcomeContainer = styled.div`
   padding: 8px;
   margin: 4px;
   text-align: center;
+
+  @media (max-width: 1280px) {
+    .Welcome {
+      font-size: 13px;
+    }
+  }
 `;
 
 const WelcomeButtons = styled.div`
@@ -133,13 +139,34 @@ const WelcomeButtons = styled.div`
 
 const WelcomeButton = styled.button`
   margin: 0 8px;
-  padding: 8px;
+  padding: 5px;
   width: 100px;
   background-color: #f0f0f0;
   color: #87c4ff;
   border: 1px solid #87c4ff;
   border-radius: 4px;
   cursor: pointer;
+
+  @media (max-width: 1280px) {
+    font-size: 9px;
+  }
+`;
+
+const MoreButton = styled.button`
+  display: flex;
+  width: auto;
+  padding: 5px 10px;
+  background-color: #87c4ff; /* 녹색으로 변경 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 `;
 
 const Chatbot = () => {
@@ -147,6 +174,8 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [showWelcome, setShowWelcome] = useState(true);
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const [clickedButtonNumber, setClickedButtonNumber] = useState(null);
 
   const navigate = useNavigate();
 
@@ -198,6 +227,8 @@ const Chatbot = () => {
     }
 
     // 버튼이 클릭되면 환영 메시지와 버튼을 숨김
+    setButtonClicked(true);
+    setClickedButtonNumber(buttonNumber);
     setShowWelcome(false);
   };
 
@@ -239,52 +270,50 @@ const Chatbot = () => {
 
   // 챗봇 응답 생성 함수
   const generateBotResponse = (userInput) => {
+    // 버튼이 클릭되지 않았을 때는 빈 응답 반환
+    if (!buttonClicked) {
+      return "도움이 필요한 항목을 선택하여 다시 질문해주세요";
+    }
+
     // 간단한 패턴 매칭을 통해 사용자 입력에 따른 응답 생성
     const lowercaseInput = userInput.toLowerCase();
 
-    const foundAnimal = animal.find((a) =>
-      lowercaseInput.includes(a.name.toLowerCase())
-    );
-
-    const ButtonBox = styled.div`
-      display: flex;
-      flex-direction: row;
-      justify-content: end;
-    `;
-
-    const MoreButton = styled.button`
-      display: flex;
-      width: auto;
-      padding: 5px 10px;
-      background-color: #87c4ff; /* 녹색으로 변경 */
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    `;
-
-    if (foundAnimal) {
-      // '치와와'에 대한 정보와 버튼을 포함한 응답 생성
-      return (
-        <chat1>
-          {foundAnimal.name}에 관한 정보입니다.
-          <ul style={{ listStyleType: "none" }}>
-            <li>
-              <Image src={foundAnimal.img} alt={foundAnimal.name} />
-            </li>
-            <li>크기: {foundAnimal.size}</li>
-            <li>설명: {foundAnimal.explain}</li>
-          </ul>
-          <ButtonBox>
-            <MoreButton onClick={() => handleButtonClick(foundAnimal.url)}>
-              {foundAnimal.name} 정보 보기
-            </MoreButton>
-          </ButtonBox>
-        </chat1>
+    if (clickedButtonNumber === 1) {
+      const foundAnimal = animal.find((a) =>
+        lowercaseInput.includes(a.name.toLowerCase())
       );
-    } else {
-      return "죄송해요, 이해하지 못했어요. 다시 한번 설명해주시겠어요?";
+
+      if (foundAnimal) {
+        // '치와와'에 대한 정보와 버튼을 포함한 응답 생성
+        return (
+          <chat1>
+            {foundAnimal.name}에 관한 정보입니다.
+            <ul style={{ listStyleType: "none" }}>
+              <li>
+                <Image src={foundAnimal.img} alt={foundAnimal.name} />
+              </li>
+              <li>크기: {foundAnimal.size}</li>
+              <li>설명: {foundAnimal.explain}</li>
+            </ul>{" "}
+            <ButtonBox>
+              <MoreButton onClick={() => handleButtonClick(foundAnimal.url)}>
+                {foundAnimal.name} 정보 보기
+              </MoreButton>
+            </ButtonBox>
+          </chat1>
+        );
+      } else {
+        return "죄송해요, 이해하지 못했어요. 다시 한번 설명해주시겠어요?";
+      }
+    } else if (clickedButtonNumber === 2) {
+      // 2번 버튼에 대한 응답 처리
+    } else if (clickedButtonNumber === 3) {
+      // 3번 버튼에 대한 응답 처리
+    } else if (clickedButtonNumber === 4) {
+      // 4번 버튼에 대한 응답 처리
     }
+
+    // 추가적인 처리가 필요한 경우에 따라 확장할 수 있습니다.
   };
 
   // 렌더링
@@ -293,7 +322,9 @@ const Chatbot = () => {
       <div className="chat">
         {showWelcome && (
           <WelcomeContainer>
-            <p>환영합니다! 어떤 도움이 필요하신가요?</p>
+            <p className="Welcome">
+              PETMEMOIR의 챗봇입니다. 어떤 도움이 필요하신가요?
+            </p>
             <WelcomeButtons>
               <WelcomeButton onClick={() => handleWelcomeButtonClick(1)}>
                 동물도감
