@@ -7,6 +7,7 @@ import AxiosApi from '../../api/Axios';
 import { PayContext } from '../../context/Paystore';
 const Container =styled.div`
   width: 60%;
+  box-shadow: 0 0 4px black;
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -139,6 +140,12 @@ width: 100%;
     background-color: #97f095;
     border-radius: 3px;
     color:blue;
+  }
+      @media (max-width: 1280px) {
+    font-size: 0.6em;
+  }
+    @media (max-width: 768px) {
+    font-size: 0.7em;
   }
 `;
 

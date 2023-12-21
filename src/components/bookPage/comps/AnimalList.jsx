@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect} from "react";
 import { useInView } from "react-intersection-observer";
 import _ from "lodash";
 import { getAnimals, getDetails, getSearchedAnimals } from "../../../api/AnimalsApi";
@@ -88,9 +88,11 @@ const AnimalList = ({ animalType, searchQuery }) => {
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   // animalType이 변경될 때 첫 페이지 데이터 로딩
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchAnimalsData = async () => {
-      const newAnimals = await getAnimals(animalType, 0, 20);
+      const page = 0;
+      const size = 20;
+      const newAnimals = await getAnimals(animalType, page, size);
       setAnimals(newAnimals);
     };
 
@@ -101,10 +103,11 @@ const AnimalList = ({ animalType, searchQuery }) => {
   }, [animalType, searchQuery]);
 
   // page가 변경될 때 추가 데이터 로딩 (무한 스크롤)
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (page !== 0 && searchQuery.trim() === "") {
       const fetchMoreAnimals = async () => {
-        const moreAnimals = await getAnimals(animalType, page, 20);
+        const size = 20;
+        const moreAnimals = await getAnimals(animalType, page, size);
         setAnimals((prevAnimals) => [...prevAnimals, ...moreAnimals]);
       };
 
@@ -132,7 +135,7 @@ const AnimalList = ({ animalType, searchQuery }) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "5%",
@@ -150,13 +153,13 @@ const AnimalList = ({ animalType, searchQuery }) => {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 페이지가 로드될 때마다 스크롤을 최상단으로 이동
     window.scrollTo(0, 0);
   }, []);
 
   // 토글버튼 클릭시 값 초기화
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPage(0);
     
   }, [animalType]);
@@ -164,7 +167,7 @@ const AnimalList = ({ animalType, searchQuery }) => {
 
 
   // 검색 결과에 반응하는 이펙트훅
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (searchQuery.trim() === "") {
       // 여기에 초기 데이터 로드 로직 구현
     }

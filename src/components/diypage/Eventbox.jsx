@@ -9,7 +9,6 @@ import AxiosApi from "../../api/Axios";
 import Diary from "./Diary";
 import { PayContext } from "../../context/Paystore";
 
-
 const Block =styled.div`
     display: flex;
     flex-direction: column;
@@ -20,6 +19,7 @@ const Block =styled.div`
     border-radius: 5px;
     background-color: #333333;
     padding-bottom: 2%;
+    box-shadow: 0 0 4px black;
     @media (max-width: 768px) {
     width: 100%;
   }

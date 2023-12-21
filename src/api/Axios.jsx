@@ -36,20 +36,14 @@ const AxiosApi = {
   memberGet: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.get(MUNG_HOST + `/member/detail/${email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+
+    return await AxiosInstance.get(MUNG_HOST + `/member/detail/${email}`);
   },
 
   // 유형(type)에 따라 memberUpdate 호출 및 수정
   memberUpdate: async (changeInfo, type) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     let member = {};
     switch (type) {
       case 1:
@@ -81,37 +75,23 @@ const AxiosApi = {
       default:
         break;
     }
-    return await axios.put(MUNG_HOST + `/member/modify`, member, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.put(MUNG_HOST + `/member/modify`, member);
   },
-
   // 아이디 찾기
   findMemberId: async (name, tel) => {
     return await axios.get(MUNG_HOST + `/auth/findId?name=${name}&tel=${tel}`);
   },
-
   // 회원 탈퇴
   memberDelete: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.delete(MUNG_HOST + `/member/delete/${email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.delete(MUNG_HOST + `/member/delete/${email}`);
   },
 
   // 펫 등록
   petReg: async (name, gender, Type, breed, birth, image, detail) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     const pet = {
       memberId: email,
       petName: name,
@@ -122,19 +102,13 @@ const AxiosApi = {
       imageLink: image,
       detail: detail,
     };
-    return await axios.post(MUNG_HOST + "/pet/new", pet, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.post(MUNG_HOST + "/pet/new", pet);
   },
 
   // 펫 수정
   petUpdate: async (id, name, gender, Type, breed, birth, image, detail) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     const pet = {
       memberId: email,
       petName: name,
@@ -147,36 +121,19 @@ const AxiosApi = {
       detail: detail,
     };
 
-    return await axios.put(MUNG_HOST + `/pet/modify/${id}`, pet, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.put(MUNG_HOST + `/pet/modify/${id}`, pet);
   },
 
   //펫 조회
   petGet: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.get(MUNG_HOST + `/pet/list/email?email=${email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.get(MUNG_HOST + `/pet/list/email?email=${email}`);
   },
 
   // 펫 삭제
   petDel: async (id) => {
-    const accessToken = Common.getAccessToken();
-    return await axios.delete(MUNG_HOST + `/pet/delete/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.delete(MUNG_HOST + `/pet/delete/${id}`);
   },
 
   //이메일 샌더
@@ -227,23 +184,22 @@ const AxiosApi = {
       salesType: "AUTO",
       salesName: salesName,
     };
-    return await AxiosInstance.post(Common.MUNG_HOST + "/sale/new", saleData);
+    return await AxiosInstance.post(Common.MUNG_HOST+"/sale/new", saleData);
   },
 
   //성공페이지 구매내역 디테일 출력
   SaleInfo: async (id) => {
     const accessToken = Common.getAccessToken();
     console.log(accessToken);
-    return await AxiosInstance.put(MUNG_HOST + `/sale/detail/${id}`, {});
+    return await AxiosInstance.put(
+      MUNG_HOST + `/sale/detail/${id}`,{});
   },
 
   //회원 구매 내역 조회
   SaleUserList: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    return await AxiosInstance.get(
-      MUNG_HOST + `/sale/list/email?email=${email}`
-    );
+    return await AxiosInstance.get(MUNG_HOST + `/sale/list/email?email=${email}`,);
   },
 
   // 구매내역 삭제
@@ -258,10 +214,7 @@ const AxiosApi = {
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
     };
-    return await AxiosInstance.put(
-      MUNG_HOST + `/sale/modify/${id}`,
-      SaleModifyData
-    );
+    return await AxiosInstance.put(MUNG_HOST + `/sale/modify/${id}`, SaleModifyData);
   },
 
   //일기 추가
@@ -296,10 +249,7 @@ const AxiosApi = {
     const QuestDay = {
       questPerformance: day,
     };
-    return await AxiosInstance.put(
-      MUNG_HOST + `/quest/detail/${petId}`,
-      QuestDay
-    );
+    return await AxiosInstance.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay);
   },
 
   QuestPetList: async (day) => {
@@ -308,10 +258,7 @@ const AxiosApi = {
     const QuestDay = {
       questPerformance: day,
     };
-    return await AxiosInstance.put(
-      MUNG_HOST + `/quest/percent/${email}`,
-      QuestDay
-    );
+    return await AxiosInstance.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay);
   },
   //일기 작성
   DiaryReg: async (day, write) => {
@@ -330,8 +277,7 @@ const AxiosApi = {
     const res = await Common.TakenToken();
     const email = res.data;
     return await AxiosInstance.get(
-      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`
-    );
+      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`);
   },
 
   CalenderQuest: async () => {
@@ -344,9 +290,7 @@ const AxiosApi = {
     const res = await Common.TakenToken();
     const email = res.data;
     return await AxiosInstance.put(
-      MUNG_HOST + `/quest/member/percnet/${email}`,
-      {}
-    );
+      MUNG_HOST + `/quest/member/percnet/${email}`,{});
   },
 };
 

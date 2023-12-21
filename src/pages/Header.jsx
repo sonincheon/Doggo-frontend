@@ -198,6 +198,9 @@ const Main =styled.div`
   max-width:  75%;
   padding-bottom: 2%;
   margin: 0 auto;
+  @media (max-width: 1280px) {
+    max-width: 85%;
+  }
   @media (max-width: 768px) {
     max-width: 90%;
   }

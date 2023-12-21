@@ -18,7 +18,7 @@ const SellBox = styled.div`
     justify-content: center;
     background-color: #333333;
     flex-direction: column;
-    box-shadow: 0 0 2px black;
+    box-shadow: 0 0 8px black;
     @media (max-width: 1280px) {
       height: 350px;
       width: 280px;
