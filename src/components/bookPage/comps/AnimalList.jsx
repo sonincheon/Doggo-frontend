@@ -76,6 +76,7 @@ const BreedItem = styled.div`
   }
   p {
     padding-bottom: 0.5vw;
+    color: #a3a1a1;
   }
 `;
 
@@ -165,7 +166,7 @@ const AnimalList = ({ animalType }) => {
         ref={ref}
         style={{ opacity: inView ? 1 : 0 }}
         onClick={() => openModal(animalType, animal.korean_name)}>
-        <img src={animal.image_link} alt={`${animal.korean_name} 이미지`} />
+        <img src={animal.image_link} alt={`${animal.korean_name} 이미지`} loading="lazy"/>
         <h3>{animal.korean_name}</h3>
         <p>{animal.name}</p>
       </BreedItem>

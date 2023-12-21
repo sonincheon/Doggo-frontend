@@ -5,16 +5,26 @@ import Modal from "../../utill/Modal";
 import AxiosApi from "../../api/Axios";
 import PopupDom from "../../components/member/PopupDom";
 import PopupPostCode from "../../components/member/PopupPostCode";
+import { ReactComponent as Logo } from "../../icon/petmemori.svg";
 
 const Container = styled.div`
-  width: 30vw;
+  width: 500px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   align-items: center;
-  background-color: #f3eeea;
+  background-color: #ebebeb;
   border-radius: 10px;
   justify-content: space-between;
+
+  @media (max-width: 1280px) {
+    width: 450px;
+  }
+
+  .Logo {
+    width: 200px;
+    margin-top: 2rem;
+  }
 
   & .login {
     margin: 0 auto;
@@ -122,12 +132,13 @@ const Button1 = styled.button`
   width: 60%; /* 원하는 너비 설정 */
   height: 55px;
   color: white;
-  background-color: #776b5d;
+  background-color: #333333;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
   font-weight: 700;
   border: none;
+  white-space: nowrap;
 
   &:active {
     //확인 클릭하면 설정
@@ -146,7 +157,7 @@ const Button2 = styled.button`
   font-family: "Noto Sans KR", sans-serif;
   font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #333333;
   font-size: 10px;
   width: 20%;
   font-weight: 400;
@@ -157,11 +168,9 @@ const Button2 = styled.button`
 
 const Box = styled.div`
   width: 40vw;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ebe3d5;
   flex-direction: column;
 `;
 
@@ -169,19 +178,12 @@ const CenteredContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-`;
-
-const Logo = styled.img`
-  width: 10vw;
-  height: 10vw;
 `;
 
 const RadioContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%; /* 원하는 너비 설정 */
-  height: auto; /* 높이값 초기화 */
   line-height: normal; /* line-height 초기화 */
   padding: 0.7em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   border-radius: 12px 0px 0px 12px;
@@ -455,8 +457,8 @@ const SignUp = () => {
   return (
     <CenteredContainer>
       <Box>
-        <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866" />
         <Container>
+          <Logo className="Logo" onClick={navigate("/")} />
           <Items className="login" style={{ marginTop: "20px" }}>
             <span>회원가입</span>
           </Items>

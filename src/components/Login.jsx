@@ -4,17 +4,22 @@ import styled from "styled-components";
 import Modal from "../utill/Modal";
 import AxiosApi from "../../src/api/Axios";
 import Common from "../utill/Common";
+import { ReactComponent as Logo } from "../icon/petmemori.svg";
 
 const Container = styled.div`
-  width: 30vw;
+  width: 400px;
   height: auto;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #f3eeea;
+  background-color: #ebebeb;
   border-radius: 10px;
+
+  @media (max-width: 1280px) {
+    width: 350px;
+  }
 
   & .login {
     margin: 0 auto;
@@ -30,6 +35,10 @@ const Container = styled.div`
   .error {
     color: red;
   }
+  .Logo {
+    width: 200px;
+    margin-top: 2rem;
+  }
 `;
 const Hint = styled.div`
   width: 60%;
@@ -42,8 +51,6 @@ const Hint = styled.div`
 `;
 
 const Items = styled.div`
-  margin-bottom: 30px;
-
   &.item1 {
     width: 400px;
     height: 50px;
@@ -63,12 +70,14 @@ const Items = styled.div`
     color: red;
     font-size: 14px;
     display: flex;
+    margin-bottom: 2rem;
   }
 
   &.signup {
     justify-content: right;
     font-weight: 700px;
     font-size: 14px;
+
     .link_style {
       color: #000000;
       text-decoration-line: none;
@@ -121,7 +130,7 @@ const Button1 = styled.button`
   width: 60%; /* 원하는 너비 설정 */
   height: 55px;
   color: white;
-  background-color: #776b5d;
+  background-color: #333333;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
@@ -146,7 +155,7 @@ const Button2 = styled.button`
   width: 60%; /* 원하는 너비 설정 */
   height: 55px;
   color: black;
-  background-color: #faff00;
+  background-color: #f1f500;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
@@ -167,7 +176,6 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ebe3d5;
   flex-direction: column;
 `;
 
@@ -176,11 +184,6 @@ const CenteredContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-`;
-
-const Logo = styled.img`
-  width: 10vw;
-  height: 10vw;
 `;
 
 const Login = () => {
@@ -255,12 +258,9 @@ const Login = () => {
   return (
     <CenteredContainer>
       <Box>
-        <Logo src="https://firebasestorage.googleapis.com/v0/b/dogcat-42fca.appspot.com/o/test%2FKakaoTalk_20231129_122552306.png?alt=media&token=9646257a-86b4-4bfc-b170-b2163d3ad866" />
         <Container>
-          <Items className="item1"></Items>
-          <Items className="login">
-            <span>로그인</span>
-          </Items>
+          <Logo className="Logo" onClick={navigate("/")} />
+          <Items className="login"></Items>
           <Items className="item2">
             <Input
               placeholder="아이디"

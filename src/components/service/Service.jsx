@@ -6,10 +6,8 @@ import Servicemodal from "../../utill/Servicemodal";
 
 const Base = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   column-gap: 40px;
-  flex-wrap: nowrap;
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
@@ -20,10 +18,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-grow: 1;
-  max-width: calc(50% - 10px);
+  width: 500px;
   min-height: 500px;
-  width: 100%;
   .title {
     font-size: 2rem;
     hr {
@@ -31,9 +27,9 @@ const Container = styled.div`
     }
   }
   @media (max-width: 768px) {
-    max-width: none;
     min-height: unset;
     margin-bottom: 0;
+    transition: 0.3s;
   }
 `;
 const Box = styled.div`
@@ -59,7 +55,6 @@ const Box = styled.div`
     word-spacing: 1px;
     line-height: 25px;
     padding: 10px;
-    flex-wrap: wrap;
   }
 
   .item {
@@ -108,6 +103,7 @@ const Button = styled.button`
   padding: 10px;
   cursor: pointer;
   width: 100px;
+
   &:hover {
     background-color: white;
     color: #f95001;
@@ -235,15 +231,16 @@ const Service = () => {
           <div className="answer">{answer}</div>
         ) : (
           <div className="answer">
-            {!answer && <p>답변 대기 중 ...</p>}
-            <Box4>
-              <Button
-                onClick={() => openClick(boardType, comment, boardImg, id)}
-              >
-                수정
-              </Button>
-              <Button onClick={() => onRemove(id)}>삭제</Button>
-            </Box4>
+            {!answer && (
+              <Box4>
+                <Button
+                  onClick={() => openClick(boardType, comment, boardImg, id)}
+                >
+                  수정
+                </Button>
+                <Button onClick={() => onRemove(id)}>삭제</Button>
+              </Box4>
+            )}
           </div>
         )}
       </div>
