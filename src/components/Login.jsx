@@ -7,7 +7,7 @@ import Common from "../utill/Common";
 import { ReactComponent as Logo } from "../icon/petmemori.svg";
 
 const Container = styled.div`
-  width: 30vw;
+  width: 400px;
   height: auto;
   display: flex;
   flex-wrap: nowrap;
@@ -16,6 +16,10 @@ const Container = styled.div`
   justify-content: space-evenly;
   background-color: #ebebeb;
   border-radius: 10px;
+
+  @media (max-width: 1280px) {
+    width: 350px;
+  }
 
   & .login {
     margin: 0 auto;
@@ -32,7 +36,7 @@ const Container = styled.div`
     color: red;
   }
   .Logo {
-    width: 250px;
+    width: 200px;
     margin-top: 2rem;
   }
 `;
@@ -66,12 +70,14 @@ const Items = styled.div`
     color: red;
     font-size: 14px;
     display: flex;
+    margin-bottom: 2rem;
   }
 
   &.signup {
     justify-content: right;
     font-weight: 700px;
     font-size: 14px;
+
     .link_style {
       color: #000000;
       text-decoration-line: none;
@@ -124,7 +130,7 @@ const Button1 = styled.button`
   width: 60%; /* 원하는 너비 설정 */
   height: 55px;
   color: white;
-  background-color: #f95001;
+  background-color: #333333;
   font-size: 15px;
   font-weight: 400;
   border-radius: 12px;
@@ -254,10 +260,7 @@ const Login = () => {
       <Box>
         <Container>
           <Logo className="Logo" onClick={navigate("/")} />
-          <Items className="item1"></Items>
-          <Items className="login">
-            <span>로그인</span>
-          </Items>
+          <Items className="login"></Items>
           <Items className="item2">
             <Input
               placeholder="아이디"
