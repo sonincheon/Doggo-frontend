@@ -11,6 +11,7 @@ const ChartSize = styled.div`
 `;
 
 const Adminmain2 = () => {
+  
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Adminmain2 = () => {
         const data = res.data;
 
         // regDate를 년도와 월로 자르고 년월별 회원 수를 계산
-        const yearlyMonthlyStats = data.reduce((acc, { regDate }) => {
+        const yearlyMonthly = data.reduce((acc, { regDate }) => {
           const date = new Date(regDate);
           const year = date.getFullYear();
           const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
@@ -31,7 +32,7 @@ const Adminmain2 = () => {
         }, {});
 
         // 차트에 표시할 형식으로 변환
-        const chartData = Object.entries(yearlyMonthlyStats).map(([yearMonth, count]) => ({
+        const chartData = Object.entries(yearlyMonthly).map(([yearMonth, count]) => ({
           yearMonth,
           count,
         }));

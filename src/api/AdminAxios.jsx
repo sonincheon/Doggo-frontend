@@ -1,4 +1,5 @@
 import axios from "axios";
+import Common from "../utill/Common";
 
 const MUNG_HOST = "http://localhost:8111";
 
@@ -35,8 +36,15 @@ const AdminAxiosApi = {
 
   // ----------------------------- Admin Sale
   SaleAllList: async () => {
-    return await axios.get(MUNG_HOST + `/sale/list/all`);
+    const accessToken = Common.getAccessToken();
+    return await axios.get(MUNG_HOST + `/sale/list/all`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
   },
+
   InvoiceInput: async (id, orderStatus, invoice) => {
     console.log("id : " + id, "판매상태 : " + orderStatus);
     const InvoiceData = {
