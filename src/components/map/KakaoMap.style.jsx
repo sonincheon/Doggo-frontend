@@ -13,7 +13,7 @@ export const MapContainer = styled.div`
   align-items: center;
 `;
 export const Overlay = styled.div`
-  border: 1px solid #333333;
+  border: 1px solid #f95001;
   border-radius: 8px;
   position: relative;
   display: flex;
@@ -257,6 +257,9 @@ export const GoBackButton = styled.button`
   border-radius: 10px;
   border: none;
 
+  &:active {
+    background: no-repeat #f95001 url(&{frame}) center/contain;
+  }
   @media (max-width: 768px) {
     width: 50px;
     height: 50px;
