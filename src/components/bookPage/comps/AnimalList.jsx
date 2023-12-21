@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
-import { getAnimals, getDetails } from "../../../api/AnimalsApi";
+import _ from "lodash";
+import { getAnimals, getDetails, getSearchedAnimals } from "../../../api/AnimalsApi";
 import AnimalModal, {
   AnimalAttributeBar,
   BreedNameSection,
-  BreedInfoSection
+  BreedInfoSection,
 } from "./AnimalModal";
 import styled from "styled-components";
 
@@ -51,7 +52,6 @@ const BreedItem = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.5s ease;
 
   &:hover {
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
@@ -80,35 +80,55 @@ const BreedItem = styled.div`
   }
 `;
 
-const AnimalList = ({ animalType }) => {
+const AnimalList = ({ animalType, searchQuery }) => {
   const [animals, setAnimals] = useState([]);
   const [page, setPage] = useState(0);
   const loader = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
+  // animalType이 변경될 때 첫 페이지 데이터 로딩
   useEffect(() => {
     const fetchAnimalsData = async () => {
-      const size = 30;
-      const newAnimals = await getAnimals(animalType, page, size);
-      console.log(page);
-      console.log(newAnimals);
-      // 초기 로딩시 0 이면 최초 1회 요청하고 시작
-      if (page === 0) {
-        setAnimals(newAnimals);
-      } else {
-        setAnimals((prevAnimals) => [...prevAnimals, ...newAnimals]);
-      }
+      const newAnimals = await getAnimals(animalType, 0, 20);
+      setAnimals(newAnimals);
     };
 
-    fetchAnimalsData();
-  }, [animalType, page]);
+    if (searchQuery.trim() === "") {
+      setPage(0);
+      fetchAnimalsData();
+    }
+  }, [animalType, searchQuery]);
 
+  // page가 변경될 때 추가 데이터 로딩 (무한 스크롤)
+  useEffect(() => {
+    if (page !== 0 && searchQuery.trim() === "") {
+      const fetchMoreAnimals = async () => {
+        const moreAnimals = await getAnimals(animalType, page, 20);
+        setAnimals((prevAnimals) => [...prevAnimals, ...moreAnimals]);
+      };
+
+      fetchMoreAnimals();
+    }
+  }, [page, animalType]);
+
+  // 검색 쿼리가 변경될 때 검색 결과 로딩
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      const fetchSearchedAnimals = async () => {
+        const searchedAnimals = await getSearchedAnimals(animalType, searchQuery);
+        setAnimals(searchedAnimals);
+      };
+
+      fetchSearchedAnimals();
+    }
+  }, [searchQuery, animalType]);
+
+  // 스크롤 이벤트 핸들러 및 Intersection Observer 설정
   const handleObserver = (objects) => {
     const target = objects[0];
-    if (target.isIntersecting) {
+    if (target.isIntersecting && searchQuery.trim() === "") {
       setPage((prevPage) => prevPage + 1);
-      // console.log(page);
     }
   };
 
@@ -118,11 +138,16 @@ const AnimalList = ({ animalType }) => {
       rootMargin: "5%",
       threshold: 1.0,
     });
+
     if (loader.current) {
       observer.observe(loader.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (loader.current) {
+        observer.unobserve(loader.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -133,8 +158,17 @@ const AnimalList = ({ animalType }) => {
   // 토글버튼 클릭시 값 초기화
   useEffect(() => {
     setPage(0);
-    setAnimals([]);
+    
   }, [animalType]);
+
+
+
+  // 검색 결과에 반응하는 이펙트훅
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      // 여기에 초기 데이터 로드 로직 구현
+    }
+  }, [searchQuery]);
 
   // 모달 열기
   const openModal = async (animalType, korean_name) => {
@@ -166,7 +200,11 @@ const AnimalList = ({ animalType }) => {
         ref={ref}
         style={{ opacity: inView ? 1 : 0 }}
         onClick={() => openModal(animalType, animal.korean_name)}>
-        <img src={animal.image_link} alt={`${animal.korean_name} 이미지`} loading="lazy"/>
+        <img
+          src={animal.image_link}
+          alt={`${animal.korean_name} 이미지`}
+          loading="lazy"
+        />
         <h3>{animal.korean_name}</h3>
         <p>{animal.name}</p>
       </BreedItem>

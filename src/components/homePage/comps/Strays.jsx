@@ -81,7 +81,7 @@ const Strays = () => {
         const region = addressParts[0];
 
         const data = await StrayAxiosApi.getStrays(region);
-        console.log(data);
+        // console.log(data);
         setStrays(data);
       } catch (error) {
         console.error("Error fetching strays:", error);

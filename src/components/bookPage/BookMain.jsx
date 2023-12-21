@@ -31,14 +31,29 @@ const ItemContainer = styled.div.attrs({
 const BookMain = () => {
   const [animalType, setAnimalType] = useState("dogs");
   const [page, setPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  // const [animals, setAnimals] = useState([]);
   return (
     <>
       <SectionContainer>
         <ItemContainer $height="100px">
-          <TopItems animalType={animalType} setAnimalType={setAnimalType} setPage={setPage} />
+          <TopItems
+            animalType={animalType}
+            setAnimalType={setAnimalType}
+            setPage={setPage}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            // setAnimals={setAnimals}
+          />
         </ItemContainer>
         <ItemContainer $height="80%" $minHeight="80%">
-          <AnimalList animalType={animalType} page={page}/>
+          <AnimalList
+            animalType={animalType}
+            page={page}
+            // setAnimals={setAnimals}
+            // animals={animals}
+            searchQuery={searchQuery}
+          />
         </ItemContainer>
       </SectionContainer>
     </>

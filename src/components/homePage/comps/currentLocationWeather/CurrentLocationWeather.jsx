@@ -110,7 +110,7 @@ const CurrentLocationWeather = () => {
       (position) => onSuccess(position, setLocation),
       (error) => onError(error, setError)
     );
-    console.log(location);
+    // console.log(location);
   }, []);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const CurrentLocationWeather = () => {
           const response = await axios.get(
             `http://127.0.0.1:5000/api/weather?x=${coords.x}&y=${coords.y}`
           );
-          console.log(response.data);
+          // console.log(response.data);
           setWeather(response.data);
 
         } catch (error) {

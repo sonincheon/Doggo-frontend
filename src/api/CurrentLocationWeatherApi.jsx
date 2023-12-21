@@ -12,6 +12,6 @@ export const getGeocodeKakao = async (lat, lng) => {
       Authorization: KAKAO_API_KEY ,
     },
   });
-  console.log(response.data.documents[0].address.address_name);
+  // console.log(response.data.documents[0].address.address_name);
   return response.data.documents[0].address.address_name;
 };
