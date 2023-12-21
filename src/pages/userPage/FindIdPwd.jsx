@@ -33,10 +33,10 @@ const Container = styled.div`
 
   .Title {
     font-size: 20px;
-    margin-bottom: 0.5rem;
     width: 30vw;
     text-align: start;
     font-weight: bold;
+    padding: 20px 0px 10px 32px;
   }
 `;
 
@@ -77,17 +77,34 @@ const Item2 = styled.input`
 
 const Button1 = styled.button`
   width: 100%;
+  height: 30px;
   border-radius: 10px;
-  background-color: #776b5d;
+  background-color: #333333;
   color: white;
+  cursor: pointer;
+
+  &:active {
+    //확인 클릭하면 설정
+    border: #999;
+    font-weight: 700;
+    background-color: #5c5b5b;
+  }
 `;
 
 const Button2 = styled.button`
   width: 5vw;
   height: 4.5vh;
   border-radius: 10px;
-  background-color: #776b5d;
+  background-color: #333333;
   color: white;
+  cursor: pointer;
+
+  &:active {
+    //확인 클릭하면 설정
+    border: #999;
+    font-weight: 700;
+    background-color: #5c5b5b;
+  }
 `;
 
 const FindIdPwd = () => {
@@ -149,15 +166,24 @@ const FindIdPwd = () => {
           <Item1 style={{ justifyContent: "center" }}>
             <Button1 onClick={findMemberId}>입력완료</Button1>
           </Item1>
-          {showFoundId && ( // 아이디 보이게 처리
-            <Item1>
-              {inputName}님의 아이디(이메일)는{" "}
-              <div style={{ color: "red", fontWeight: "bold" }}>
-                {hideEmail(foundId)}
-              </div>{" "}
-              입니다.
-            </Item1>
-          )}
+          <div
+            style={{
+              height: "15px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {showFoundId && ( // 아이디 보이게 처리
+              <Item1>
+                {inputName}님의 아이디(이메일)는{" "}
+                <div style={{ color: "red", fontWeight: "bold" }}>
+                  {hideEmail(foundId)}
+                </div>{" "}
+                입니다.
+              </Item1>
+            )}
+          </div>
           <div>
             <div className="Title">비밀번호 찾기</div>
           </div>
@@ -173,9 +199,19 @@ const FindIdPwd = () => {
             </Item1>
             <Button2 style={{ marginLeft: "4px" }}>인증</Button2>
           </div>
-          <Item1>
-            회원님의 비밀번호는 <div></div> 입니다.
-          </Item1>
+          <div
+            style={{
+              height: "15px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "1rem",
+            }}
+          >
+            <Item1>
+              회원님의 비밀번호는 <div></div> 입니다.
+            </Item1>
+          </div>
         </Container>
       </Box>
     </CenteredContainer>
