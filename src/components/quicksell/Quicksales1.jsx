@@ -86,7 +86,7 @@ const SellTable = styled.table`
 `;
 
 const SellTable1 = styled.table`
-  width: 98%;
+  width: 102%;
   tr {
     display: flex;
     flex-direction: row;
@@ -117,7 +117,7 @@ const ScroolBox = styled.div`
   border: 1px solid #000000;
   overflow-x: hidden;
   .innerStyle {
-    width: 1000px;
+    width: 100%;
     height: 650px;
   }
 `;
@@ -144,9 +144,14 @@ const CancleButton = styled.button`
   height: 25px;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
   & + & {
     margin: 10px;
   }
+        @media (max-width: 768px) {
+      font-size: 0.9em;
+        height: 20px;
+    }
 `;
 
 const Quicksale1 = () => {
@@ -192,7 +197,6 @@ const Quicksale1 = () => {
   };
   useEffect(() => {
     const SalesList = async () => {
-      const token = Common.getAccessToken();
       try {
         const resp = await AxiosApi.SaleUserList(); //전체 조회
         if (resp.status === 200) {
@@ -200,16 +204,16 @@ const Quicksale1 = () => {
           console.log(resp.data);
         }
       } catch (e) {
-        // if (e.response.status === 401) {
-        //   await Common.handleUnauthorized();
-        //   const newToken = Common.getAccessToken();
-        //   if (newToken !== token) {
-        //     const resp = await AxiosApi.SaleUserList();
-        //     setSaleList(resp.data);
-        console.log(e)
+        const token = Common.getAccessToken();
+        if (e.response.status === 401) {
+          await Common.handleUnauthorized();
+          const newToken = Common.getAccessToken();
+          if (newToken !== token) {
+            const resp = await AxiosApi.SaleUserList();
+            setSaleList(resp.data);
           }
-        
-      
+        }
+      }
     };
     SalesList();
   }, [modalOpen]);
@@ -262,10 +266,12 @@ const Quicksale1 = () => {
                     >
                       {data.salesAddr}
                     </th>
-                    <th>????????</th>
-                    <th style={{ width: "20%" }}>
+                    <th      style={{
+                        width: "12%",
+                      }}>{data.invoice}</th>
+                    <th style={{ width: "15%", display:"flex", justifyContent:"end"}}>
                       <CancleButton style={{ backgroundColor: "#665847" }}>
-                        변경 사항
+                        변경
                       </CancleButton>
                       <CancleButton onClick={() => CancleClick(data.saleId)}>
                         취소

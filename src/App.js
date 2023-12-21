@@ -57,7 +57,7 @@ function App() {
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>
 
-              {/* 로그인 제한 구간  */}
+              {/* 로그인 접속 제한 구간  */}
               <Route element={<PrivateLayout />}>
                 <Route
                   path="/quick/sell/:feedId/:title"

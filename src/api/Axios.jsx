@@ -1,6 +1,6 @@
 import axios from "axios";
 import Common from "../utill/Common";
-
+import AxiosInstance from "../utill/AxiosInstance";
 const MUNG_HOST = "http://localhost:8111";
 
 const AxiosApi = {
@@ -210,7 +210,6 @@ const AxiosApi = {
     salesPrice,
     salesName
   ) => {
-    const accessToken = Common.getAccessToken();
     const res = await Common.TakenToken();
     const email = res.data;
     const saleData = {
@@ -223,52 +222,27 @@ const AxiosApi = {
       salesType: "AUTO",
       salesName: salesName,
     };
-    return await axios.post(MUNG_HOST + "/sale/new", saleData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.post(Common.MUNG_HOST+"/sale/new", saleData);
   },
 
   //성공페이지 구매내역 디테일 출력
   SaleInfo: async (id) => {
     const accessToken = Common.getAccessToken();
     console.log(accessToken);
-    return await axios.put(
-      MUNG_HOST + `/sale/detail/${id}`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      }
-    );
+    return await AxiosInstance.put(
+      MUNG_HOST + `/sale/detail/${id}`,{});
   },
 
   //회원 구매 내역 조회
   SaleUserList: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.get(MUNG_HOST + `/sale/list/email?email=${email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.get(MUNG_HOST + `/sale/list/email?email=${email}`,);
   },
 
   // 구매내역 삭제
   SaleDelete: async (id) => {
-    const accessToken = Common.getAccessToken();
-    return await axios.delete(MUNG_HOST + `/sale/delete/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.delete(MUNG_HOST + `/sale/delete/${id}`);
   },
 
   //배송 수정
@@ -278,31 +252,24 @@ const AxiosApi = {
       salesAutoDelivery: salesAutoDelivery,
       salesDelivery: salesDelivery,
     };
-    return await axios.put(MUNG_HOST + `/sale/modify/${id}`, SaleModifyData);
+    return await AxiosInstance.put(MUNG_HOST + `/sale/modify/${id}`, SaleModifyData);
   },
 
   //일기 추가
   DiaryReg: async (diaryDetail, diaryTitle, diaryWriteDate) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     const DiaryData = {
       diaryDetail: diaryDetail,
       diaryTitle: diaryTitle,
       diaryWriteDate: diaryWriteDate,
       memberId: email,
     };
-    return await axios.post(MUNG_HOST + "/diary/new", DiaryData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.post(MUNG_HOST + "/diary/new", DiaryData);
   },
 
   //수행 추가
   QuestReg: async (petId, quest1, quest2, quest3, quest4, quest5, day) => {
-    const accessToken = Common.getAccessToken();
     const QuestData = {
       petId: petId,
       quest1: quest1,
@@ -312,102 +279,56 @@ const AxiosApi = {
       quest5: quest5,
       questPerformance: day,
     };
-    return await axios.post(MUNG_HOST + "/quest/new", QuestData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.post(MUNG_HOST + "/quest/new", QuestData);
   },
 
   //수행 출력
   QuestDetail: async (petId, day) => {
-    const accessToken = Common.getAccessToken();
     const QuestDay = {
       questPerformance: day,
     };
-    return await axios.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.put(MUNG_HOST + `/quest/detail/${petId}`, QuestDay);
   },
 
   QuestPetList: async (day) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     const QuestDay = {
       questPerformance: day,
     };
-    return await axios.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.put(MUNG_HOST + `/quest/percent/${email}`, QuestDay);
   },
   //일기 작성
   DiaryReg: async (day, write) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
     const DiaryData = {
       diaryDetail: write,
       diaryTitle: "",
       diaryWriteDate: day,
       memberId: email,
     };
-    return await axios.post(MUNG_HOST + "/diary/new", DiaryData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.post(MUNG_HOST + "/diary/new", DiaryData);
   },
   //일기 출력
   DiaryDetail: async (day) => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.get(
-      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      }
-    );
+    return await AxiosInstance.get(
+      MUNG_HOST + `/diary/detail/${email}/{date}?date=${day}`);
   },
 
   CalenderQuest: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.get(MUNG_HOST + `/diary/Calender/${email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    return await AxiosInstance.get(MUNG_HOST + `/diary/Calender/${email}`);
   },
 
   CalenderDiary: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
-    const accessToken = Common.getAccessToken();
-    return await axios.put(
-      MUNG_HOST + `/quest/member/percnet/${email}`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      }
-    );
+    return await AxiosInstance.put(
+      MUNG_HOST + `/quest/member/percnet/${email}`,{});
   },
 };
 

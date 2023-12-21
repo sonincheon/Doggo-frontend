@@ -15,7 +15,37 @@ const SellBox =styled.div`
       justify-content: start;
     }
     `;
-
+const TitleBox =styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: auroraAnimation 5s ease-in-out infinite; /* 애니메이션 적용 */
+    background-image: linear-gradient(to bottom, #ffffff,  #ffae00ec, #ffffff,); /* 그라데이션 적용 */
+    background-size: 100% 300%; /* 그라데이션 크기 설정 */
+    height: 100%;
+    color:#333333;
+    h1{
+      font-size: 4em;
+      line-height:1.5;
+      font-weight: bold;
+      }
+      p{
+        font-size: 1.6em;
+        padding:2%;
+      }
+      @keyframes auroraAnimation {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 300%;
+    }
+}
+`;
 
 const Quickmain = () =>{
     const [type,setType] =useState("DOG");
@@ -41,9 +71,13 @@ const Quickmain = () =>{
       };
 
     return(
-        <>
-        <HouseBtn/>
+        <div>
         <Center>
+        <TitleBox>
+          <h1>PETMEMOIR와 함께 하는 귀여운 내 애완동물 관리하기! </h1>
+          <h1> 맴버쉽을 통하여 이제 사료, 간식 걱정없이 키우세요! </h1>
+          <p>🔻🔻 나만의 구독 서비스를 원한다면 선택해주세요 🔻🔻 </p>
+        </TitleBox>
             <SellBox>
                 <QuickMenu title={"ONE MONTH FREE"} list1={"멍냥 일기 작성 무제한"} list2={"반려동물 등록 최대 1마리"}
                 list3={"체험판 간식 무료 배송"}list4={"그밖의 다양한 기능"} dataList={feedList} title2={"첫달 무료 체험"} onSelected={onselect}/>
@@ -53,7 +87,7 @@ const Quickmain = () =>{
                 list3={"PREMIUM 정기배송"}list4={"그밖의 다양한 기능"} dataList={feedList} title2={"129,000원/월"} onSelected={onselect}/>
             </SellBox>
         </Center>
-        </>
+        </div>
     )
 }
 

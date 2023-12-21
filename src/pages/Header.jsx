@@ -13,7 +13,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import AgreementModal from "../utill/Agreement/AgreementModal";
 
 const Container=styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
 `;
 
@@ -26,7 +26,7 @@ const Headers =styled.div`
     justify-content: center;
     align-items: center;
     color: black;
-    width: 100vw;
+    width: 100%;
     background-color: ${({ $isHovered }) => ($isHovered ? 'white' : 'transparent')};
     backdrop-filter: ${({ $isHovered }) => ($isHovered ? 'none' : 'blur(5px)')};
     transition: background-color 0.1s ease;

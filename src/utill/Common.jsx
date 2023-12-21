@@ -46,11 +46,12 @@ const Common = {
     };
     try {
       const res = await axios.post(
-        `${Common.KH_DOMAIN}/auth/refresh`,
+        `${Common.MUNG_HOST}/auth/refresh`,
         refreshToken,
         config
       );
       console.log(res.data);
+      console.log("토큰 재발급 완료!!")
       Common.setAccessToken(res.data);
       return true;
     } catch (err) {
@@ -62,17 +63,35 @@ const Common = {
   //토큰에서 이메일 뽑기 (String)
 TakenToken : async()=>{
   const accessToken = Common.getAccessToken();
-  return await axios.get(Common.MUNG_HOST + `/auth/takenEmail`,{
+  try{ return await axios.get(Common.MUNG_HOST + `/sale/takenEmail`,{
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + accessToken,
-  },
-});},
+  }, }
+  )}catch(e){
+    if (e.response.status === 401) {
+      await Common.handleUnauthorized();
+      const newToken = Common.getAccessToken();
+      if (newToken !== accessToken) {
+        return await axios.get(Common.MUNG_HOST + `/sale/takenEmail`,{
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + newToken,
+          }, 
+      })}
+  }
+};
+},
 
   //토큰으로 로그인여부 확인 (Buloan)
   IsLogin : async()=>{
     const accessToken = Common.getAccessToken();
-    return await axios.get(Common.MUNG_HOST + `auth/isLogin/${accessToken}`)
+    return await axios.get(Common.MUNG_HOST + `/sale/isLogin/${accessToken}`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    })
   }
 };
 
