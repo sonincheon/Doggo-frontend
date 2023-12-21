@@ -15,35 +15,30 @@ const SellBox =styled.div`
       justify-content: start;
     }
     `;
-const TitleBox =styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: auroraAnimation 5s ease-in-out infinite; /* 애니메이션 적용 */
-    background-image: linear-gradient(to bottom, #ffffff,  #ffae00ec, #ffffff,); /* 그라데이션 적용 */
-    background-size: 100% 300%; /* 그라데이션 크기 설정 */
-    height: 100%;
-    color:#333333;
-    h1{
-      font-size: 4em;
-      line-height:1.5;
-      font-weight: bold;
-      }
-      p{
-        font-size: 1.6em;
-        padding:2%;
-      }
-      @keyframes auroraAnimation {
-    0% {
-      background-position: 0% 0%;
-    }
-    50% {
-      background-position: 0% 100%;
-    }
-    100% {
-      background-position: 0% 300%;
-    }
+const TitleBox = styled.div`
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+color: #333333;
+h1 {
+  font-size: calc(2em + 1vw);
+  line-height: 1.5;
+  font-weight: bold;
+}
+p {
+  font-size:  calc(1em + 1vw);;
+  padding: 2%;
+}
+
+/* 화면 크기가 작을 때(presumably mobile) 설정 */
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.3em;
+  }
+  p {
+    font-size: 0.8em; /* 텍스트 크기 조정 */
+  }
 }
 `;
 

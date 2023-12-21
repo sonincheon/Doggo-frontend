@@ -10,6 +10,7 @@ const Box =styled.div`
   height:  50%;
   background-color: white;
   border-radius: 5px;
+  
 
   .textbox{
     width: 100%;
@@ -66,7 +67,6 @@ const Diary = (props) => {
         console.error(e);
       }
     }
-
     diaryDetail();
   }, [day,isTrue]);
 
