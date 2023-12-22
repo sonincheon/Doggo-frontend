@@ -56,7 +56,6 @@ function App() {
             <Route path="/FindIdPwd" element={<FindIdPwd />} />
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>
-
               {/* 로그인 접속 제한 구간  */}
               <Route element={<PrivateLayout />}>
                 <Route
@@ -64,15 +63,15 @@ function App() {
                   element={<Quicksell />}
                 />
                 <Route
-                path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title"
-                element={<Quicktoss />}
+                  path="/quick/tosspay/:feedName/:salesAddr/:salesAutoDelivery/:salesDelivery/:salesPrice/:title"
+                  element={<Quicktoss />}
                 />
                 <Route path="/quick/sales" element={<Quicksale />} />
                 <Route path="/quick/sucess/:num" element={<Quicksucess />} />
                 <Route path="/quick/toss" element={<TossPage />} />
                 <Route path="/mypage/" element={<MyPage />} />
               </Route>
-              
+
               <Route path="/" element={<HomePage />} />
               <Route path="/book" element={<BookPage />} />
               <Route path="/diy" element={<Diymain />} />
@@ -91,8 +90,6 @@ function App() {
               <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
               <Route path="/admin/feed" element={<Adminfeedpage />} />
             </Route>
-
-            
           </Routes>
         </Router>
       </PayStore>

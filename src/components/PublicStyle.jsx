@@ -5,6 +5,10 @@ export const Center = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    
+    .scroll::-webkit-scrollbar {
+    display: none;
+}
 `;
 
 export const SideBar =styled.div`

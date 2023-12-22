@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from 'react-slick';
 import styled from "styled-components";
-// import introImage from "../../../img/doggy_kitten.webp";
-import backgroundImg from "../../../img/backgroundImg.webp"
+
+function importAll(r) {
+  return r.keys().map(r);
+}
+
+const images = importAll(
+  require.context("../../../img/homePageImages", false, /\.(png|jpe?g|svg)$/)
+);
+
 const ItemBox = styled.div.attrs({
   className: "item-container",
 })`
@@ -9,45 +20,94 @@ const ItemBox = styled.div.attrs({
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* border: 1px solid black; */
+  height: 100%;
 `;
 
 const Item = styled.div.attrs({
   className: "item-introduction",
 })`
-  position: relative;
+  
   width: 100%;
   height: 100%;
-  /* border: 1px solid black; */
-  border-radius: 10px;
+  overflow: hidden; // 이미지가 Item 밖으로 나가지 않도록 설정
 `;
 
 const Image = styled.img`
   
-  width: 100%;
-  height: 100%;
+  
+  width: 100vw;
+  height: 50vw;
+  object-fit: cover;
 `;
 
-const Text = styled.p`
-  position: absolute; /* 절대 위치 설정 */
-  bottom: 0; /* 아래쪽에 위치 */
-  left: 0; /* 왼쪽에서 시작 */
-  width: 100%; /* 부모의 전체 너비 */
-  padding: 10px 0; /* 상하 여백 */
-  /* background-color: rgba(255, 255, 255, 0.5);  */
-  color: #333;
-  text-align: center;
-  margin: 0; /* 기본 마진 제거 */
-  font-size: 3.5vw;
+
+const StyledSlider = styled(Slider)`
+  .slick-slide div {
+    /* outline: none; // Removes the outline border that appears on click */
+    object-fit: cover;
+  }
 `;
 
-const Introduction = (props) => {
+const Arrow = styled.div`
+  display: block;
+  background: #ddd;
+  padding: 10px; // 크기 조절
+  border-radius: 50%; // 원형으로 만들기
+  z-index: 99999999;
+  &:hover {
+    background: #ccc; // 마우스 오버 시 색상 변경
+  }
+`;
+
+const Introduction = () => {
+  
+  const PrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <Arrow
+        className={className}
+        style={{ ...style, display: "block", background: "red" }}
+        onClick={onClick}
+      />
+    );
+  };
+  
+  const NextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <Arrow
+        className={className}
+        style={{ ...style, display: "block", background: "green" }}
+        onClick={onClick}
+      />
+    );
+  };
+  
+  
+  const settings = {
+    
+    
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
+  };
+  
+
+  
+
   return (
     <>
       <ItemBox>
         <Item>
-          <Image src={backgroundImg} alt="Introduction Image"></Image>
-          <Text>함께하는 일기, 멍냥멍냥</Text>
+          <StyledSlider {...settings}>
+            {images.map((src, index) => (
+              <div key={index}>
+                <Image src={src} alt={`Slide ${index}`} />
+              </div>
+            ))}
+          </StyledSlider>
         </Item>
       </ItemBox>
     </>

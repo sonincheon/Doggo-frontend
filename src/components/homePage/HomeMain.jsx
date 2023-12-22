@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useInView } from "react-intersection-observer";
+
 import Introduction from "./comps/Introduction";
 import UserStatus from "./comps/UserStatus";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
@@ -18,7 +18,7 @@ const SectionContainer = styled.section.withConfig({
   align-items: center;
   width: 100vw;
   height: 100vw;
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  
   /* border: 1px solid black; */
 `;
 
@@ -52,6 +52,8 @@ const ChatbotIcon = styled.img`
   top: 150px;
 `;
 
+
+
 const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
   const [showChatbot, setShowChatbot] = useState(false);
@@ -68,17 +70,11 @@ const HomeMain = () => {
     <>
       <CurrentAddressContext.Provider
         value={{ currentAddress, setCurrentAddress }}>
-        <SectionContainer style={{ marginTop: '-1%' }}>
-          <ItemContainer $height="45%">
-            <Introduction />
-          </ItemContainer>
-        </SectionContainer>
         <SectionContainer>
-          <ItemContainer>
-            {/* <Introduction /> */}
-            {/* <UserStatus /> */}
+          <ItemContainer $height="73%">
+          <Introduction />
           </ItemContainer>
-          <ItemContainer $height="40%">
+          <ItemContainer $height="27%">
             <CurrentLocationWeather />
             <RegionWeather />
           </ItemContainer>

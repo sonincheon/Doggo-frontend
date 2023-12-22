@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import styled,{ keyframes } from "styled-components";
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
@@ -19,7 +19,8 @@ const Container=styled.div`
 
 
 const Headers =styled.div`
-    position: sticky;
+    
+    position: ${({ $isHomePage }) => ($isHomePage ? 'fixed' : 'sticky')};
     top:0;
     z-index: 200;
     display: flex;
@@ -281,6 +282,9 @@ const List=styled.div`
 `;
 
 const Header = () => {
+
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
   const navigate = useNavigate();
   const [openList,setOpenList] =useState(false);
   const [isHeaderHovered, setIsHeaderHovered] = useState(false);
@@ -326,7 +330,7 @@ const Header = () => {
 
   return (
     <Container>
-        <Headers onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} $isHovered={isHeaderHovered} >
+        <Headers onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)} $isHovered={isHeaderHovered} $isHomePage={isHomePage}>
           <NavBox>
             <div className="none" onClick={()=>navigate("/admin")}>관리자</div>
               <Logo className="logo" onClick={()=>navigate("/")}/>
