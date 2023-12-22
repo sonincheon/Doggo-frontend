@@ -105,12 +105,17 @@ const AnimalList = ({ animalType, searchQuery }) => {
   // page가 변경될 때 추가 데이터 로딩 (무한 스크롤)
   useLayoutEffect(() => {
     if (page !== 0 && searchQuery.trim() === "") {
+      
       const fetchMoreAnimals = async () => {
+        try {
         const size = 20;
         const moreAnimals = await getAnimals(animalType, page, size);
         setAnimals((prevAnimals) => [...prevAnimals, ...moreAnimals]);
-      };
-
+      
+      } catch (error) {
+        console.error("Error fetching animals: ", error);
+      }
+    };
       fetchMoreAnimals();
     }
   }, [page, animalType]);

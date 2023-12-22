@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
 import TopItems from "./comps/TopItems";
 import AnimalList from "./comps/AnimalList";
 

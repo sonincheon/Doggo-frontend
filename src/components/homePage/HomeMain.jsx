@@ -10,16 +10,6 @@ import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../img/ChatBot.png";
 
-const fadeIn = `
-  opacity: 1;
-  transform: translateY(0px);
-`;
-
-const fadeOut = `
-  opacity: 0;
-  transform: translateY(30px);
-`;
-
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
 })`
@@ -29,7 +19,7 @@ const SectionContainer = styled.section.withConfig({
   width: 100vw;
   height: 100vw;
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const ItemContainer = styled.div.attrs({
@@ -37,7 +27,7 @@ const ItemContainer = styled.div.attrs({
 })`
   display: flex;
   justify-content: center;
-  width: 80%;
+  width: 100%;
   height: ${(props) => props.$height || "30%"};
 `;
 
@@ -77,12 +67,16 @@ const HomeMain = () => {
   return (
     <>
       <CurrentAddressContext.Provider
-        value={{ currentAddress, setCurrentAddress }}
-      >
+        value={{ currentAddress, setCurrentAddress }}>
+        <SectionContainer style={{ marginTop: '-1%' }}>
+          <ItemContainer $height="45%">
+            <Introduction />
+          </ItemContainer>
+        </SectionContainer>
         <SectionContainer>
           <ItemContainer>
-            <Introduction />
-            <UserStatus />
+            {/* <Introduction /> */}
+            {/* <UserStatus /> */}
           </ItemContainer>
           <ItemContainer $height="40%">
             <CurrentLocationWeather />

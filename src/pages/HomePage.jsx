@@ -41,7 +41,7 @@ const HomePage = () =>{
 
     return(
         <Center>
-        <SubscribeButton/>
+        {/* <SubscribeButton/> */}
         <HomeMain></HomeMain>
         </Center>
     )

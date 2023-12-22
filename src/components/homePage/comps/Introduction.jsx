@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import introImage from "../../../img/doggy_kitten.webp";
-
+// import introImage from "../../../img/doggy_kitten.webp";
+import backgroundImg from "../../../img/backgroundImg.webp"
 const ItemBox = styled.div.attrs({
   className: "item-container",
 })`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 65%;
+  width: 100%;
   /* border: 1px solid black; */
 `;
 
@@ -16,14 +16,14 @@ const Item = styled.div.attrs({
   className: "item-introduction",
 })`
   position: relative;
-  width: 98%;
-  height: 98%;
+  width: 100%;
+  height: 100%;
   /* border: 1px solid black; */
   border-radius: 10px;
 `;
 
 const Image = styled.img`
-  border-radius: 10px;
+  
   width: 100%;
   height: 100%;
 `;
@@ -46,7 +46,7 @@ const Introduction = (props) => {
     <>
       <ItemBox>
         <Item>
-          <Image src={introImage} alt="Introduction Image"></Image>
+          <Image src={backgroundImg} alt="Introduction Image"></Image>
           <Text>함께하는 일기, 멍냥멍냥</Text>
         </Item>
       </ItemBox>
