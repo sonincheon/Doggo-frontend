@@ -6,6 +6,7 @@ import { ReactComponent as Logo } from "../../icon/petmemori.svg";
 
 const Container = styled.div`
   width: 30vw;
+  min-width: 410px;
   height: auto;
   display: flex;
   flex-wrap: nowrap;
@@ -16,10 +17,10 @@ const Container = styled.div`
   border-radius: 10px;
   margin-bottom: 3vh;
   padding: 8px;
+  border: 1px solid black;
 
   & .login {
     margin: 0 auto;
-
     letter-spacing: 0px;
     color: black;
     opacity: 1;
@@ -33,10 +34,8 @@ const Container = styled.div`
 
   .Title {
     font-size: 20px;
-    width: 30vw;
-    text-align: start;
     font-weight: bold;
-    padding: 20px 0px 10px 32px;
+    padding: 1rem;
   }
 `;
 
@@ -47,6 +46,7 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border: 1px solid black;
 
   .Logo {
     width: 200px;
@@ -67,6 +67,7 @@ const Item1 = styled.div`
   align-items: center;
   margin: 5px;
   font-size: 13px;
+  border: 1px solid black;
 `;
 
 const Item2 = styled.input`
@@ -93,7 +94,7 @@ const Button1 = styled.button`
 
 const Button2 = styled.button`
   width: 5vw;
-  height: 4.5vh;
+  height: 4vh;
   border-radius: 10px;
   background-color: #333333;
   color: white;
@@ -138,9 +139,9 @@ const FindIdPwd = () => {
 
   const hideEmail = (email) => {
     const [username, domain] = email.split("@");
-    const hiddenPart = "*".repeat(Math.max(0, username.length - 2));
+    const hiddenPart = "*".repeat(Math.max(0, username.length - 3));
 
-    return username.slice(0, 2) + hiddenPart + "@" + domain;
+    return username.slice(0, 4) + hiddenPart + "@" + domain;
   };
 
   return (
@@ -187,18 +188,21 @@ const FindIdPwd = () => {
           <div>
             <div className="Title">비밀번호 찾기</div>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Item1>
-              아이디(이메일) : <Item2></Item2>
-            </Item1>
-            <Button2>전송</Button2>
-          </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Item1>
-              인증번호 입력 : <Item2></Item2>
-            </Item1>
-            <Button2 style={{ marginLeft: "4px" }}>인증</Button2>
-          </div>
+          <Item1>
+            <div>아이디:</div>
+            <div style={{ display: "flex" }}>
+              <Item2></Item2>
+              <Button2>전송</Button2>
+            </div>
+          </Item1>
+          <Item1>
+            <div>인증번호 입력 : </div>
+            <div style={{ display: "flex" }}>
+              <Item2></Item2>
+              <Button2>인증</Button2>
+            </div>
+          </Item1>
+
           <div
             style={{
               height: "15px",

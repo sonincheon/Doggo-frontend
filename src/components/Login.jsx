@@ -5,6 +5,7 @@ import Modal from "../utill/Modal";
 import AxiosApi from "../../src/api/Axios";
 import Common from "../utill/Common";
 import { ReactComponent as Logo } from "../icon/petmemori.svg";
+import SocialKakao from "./kakaologin";
 
 const Container = styled.div`
   width: 400px;
@@ -301,7 +302,7 @@ const Login = () => {
           </Hint>
 
           <Button1 onClick={onClickLogin}>로그인</Button1>
-          <Button2>카카오톡 로그인</Button2>
+          <SocialKakao />
 
           <Modal open={modalOpen} close={closeModal} header="오류">
             아이디 및 패스워드를 확인해 주세요.
