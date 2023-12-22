@@ -8,6 +8,7 @@ import QuistModal from "../../utill/Quistmodal";
 import AxiosApi from "../../api/Axios";
 import Diary from "./Diary";
 import { PayContext } from "../../context/Paystore";
+import { useNavigate} from "react-router-dom";
 
 const Block =styled.div`
     display: flex;
@@ -21,7 +22,10 @@ const Block =styled.div`
     padding-bottom: 2%;
     box-shadow: 0 0 4px black;
     @media (max-width: 768px) {
-    width: 100%;
+    width: 90%;
+    position: fixed;
+    display: ${(props) => (props.changeModal ? "flex" : "none")};
+    padding-bottom: 5%;
   }
     h1{
         padding: 3%;
@@ -52,6 +56,11 @@ const Block =styled.div`
     align-items: center;
     width: 90%;
     height: 10%;
+    @media (max-width: 768px) {
+      justify-content: center;
+      font-size: 1.5em;
+      height: 6%;
+    }
   }
   .subbox{
     width: 100%;
@@ -88,10 +97,35 @@ const Block =styled.div`
     width: 250px;
     height: 100px;
   }
+  .xbox{
+    display: none;
+    font-size: 40px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: white;
+    &:hover{
+      color: #ff6f2c;
+    }
+    @media (max-width: 768px) {
+    display: flex;
+    }
+  }
+`;
+
+const CirclePlus =styled.div`
+  width: 100px;
+  height: 100px;
+  padding-left: 30px;
+  flex-direction: row;
+  font-size: 100px;
+  color: grey;
 `;
 
 const Eventbox =(props)=>{
-  const {day}=props;
+  const {day,openModal}=props;
+  const navigate = useNavigate();
   const [quest,setQuest] =useState([]);
   const [gender,setGender]=useState("");
   const [petList,setPetList]=useState([]);
@@ -102,12 +136,20 @@ const Eventbox =(props)=>{
   const [petId,setPetId]=useState();
   const [petimg,setPetimg]=useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [changeModal,setChangeModal] =useState(false);
   const context = useContext(PayContext);
   const {setIsTrue}=context;
   const closeModal = () => {
     setModalOpen(false);
     setIsTrue((prev)=>!prev);
   };
+  const closeChange = ()=>{
+    setChangeModal(false);
+  };
+
+  const plusClick =()=>{
+    navigate('/mypage');
+  }
   const circleClick=(name,petimg,gender,age,sign,id)=>{
     setGender(gender);
     setAge(age);
@@ -121,6 +163,7 @@ const Eventbox =(props)=>{
   }
 
   useEffect(() => {
+    setChangeModal(true);
     const petGet = async () => {
       setQuestList([]);
       try {
@@ -214,7 +257,8 @@ const Eventbox =(props)=>{
 
     return(
         <>
-        <Block>
+        <Block changeModal={changeModal}>
+            <div className="xbox" onClick={closeChange}>&times;</div>
             <div className="daybox"><h2>{day} DIARY</h2></div>
         <div className="box1">
         <h1>💡금일 미션💡</h1>
@@ -226,6 +270,9 @@ const Eventbox =(props)=>{
                 <CircleProgressBar   progress={calculateQuestPercent(pet.id)} dogimg={pet.imageLink}/>
               </div>
             ))}
+            <CirclePlus onClick={plusClick}>
+              <div>+</div> 
+            </CirclePlus>
             </Slider>
           </div>
         </div>

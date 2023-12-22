@@ -7,21 +7,24 @@ import AxiosApi from '../../api/Axios';
 import { PayContext } from '../../context/Paystore';
 const Container =styled.div`
   width: 60%;
-  box-shadow: 0 0 4px black;
+  height: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
   @media (max-width: 768px) {
     width: 100%;
   }
-  
 `;
 
 const StyledCalendar = styled(Calendar)`
   /* 전체 스타일 */
   border-radius: 5px;
   width: 100%;
-  height: 700px;
   background-color: #ffffff;
   box-shadow: 1px 1px 2px #333333;
   align-items: center;
+  padding-bottom: 30px ;
     /* 글자 스타일 */
   .react-calendar__month-view__days__day-names,
   .react-calendar__month-view__days__day {
@@ -36,7 +39,6 @@ const StyledCalendar = styled(Calendar)`
     background-color: #cce5ff; /* 선택된 날짜 호버 시 배경색 변경 */
     cursor: pointer;
   }
-
 
   .react-calendar__tile:hover {
     background-color: #f3eeea; /* 호버 시 배경색 변경 */
@@ -74,14 +76,23 @@ const StyledCalendar = styled(Calendar)`
     color: #eeeeee;
     margin: 0 10px;
     font-weight: bold;
+    pointer-events: none;
   }
 
-  .react-calendar__navigation__arrow {
-    font-size: 24px;
+  .react-calendar__navigation__arrow.react-calendar__navigation__prev-button,
+  .react-calendar__navigation__arrow.react-calendar__navigation__prev2-button,
+  .react-calendar__navigation__arrow.react-calendar__navigation__next-button,
+  .react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
+    font-size: 25px;
     color: #eeeeee;
     cursor: pointer;
     &:hover{
-      background-color: black;
+      background-color: #333333;
+      color:#F95001;
+    }
+    &:focus{
+      background-color: #333333;
+      color:#F95001;
     }
   }
 
@@ -100,12 +111,13 @@ const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__tile--active {
     border-bottom:5px solid #264fe5;
-    background-color:#f3eeea; /* 선택된 날짜 배경색 */
+    background-color:#f89f7679; /* 선택된 날짜 배경색 */
   }
   
 .react-calendar__tile--active:active,
+.react-calendar__tile:focus,
   .react-calendar__tile:hover {
-    background-color: #f94f017a;
+    background-color: #f89f7679;
   }
   .react-calendar__tile--now:active,
 .react-calendar__tile--now:hover {
@@ -118,6 +130,14 @@ const StyledCalendar = styled(Calendar)`
   border-bottom: 5px solid #F95001;
   /* 오늘 날짜에 대한 스타일 */
 }
+.react-calendar__tile.saturday {
+  color:blue;
+}
+
+.react-calendar__tile.sunday {
+  color:red;
+}
+
 `;
 
 const Story =styled.div`
@@ -131,6 +151,7 @@ width: 100%;
     font-size: 0.9em;
     background-color: #ffb0b0;
     border-radius: 3px;
+    color:black;
   }
   .story2{
     display: flex;
@@ -147,6 +168,7 @@ width: 100%;
     @media (max-width: 768px) {
     font-size: 0.7em;
   }
+  
 `;
 
 
@@ -169,6 +191,24 @@ const MyCalender = (props) =>{
     setDate(seldate);
   };
 
+  const tileDisabled=({ date })=>{
+    const currentDate = new Date();
+    // 일주일 후의 날짜를 구합니다.
+    const oneWeekLater = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 7);
+    // 일주일 후부터의 날짜를 비활성화 처리합니다.
+    return date >= oneWeekLater;
+  }
+  
+  const tileClassName=({ date, view })=>{
+    // 일요일(0) 또는 토요일(6)인지 확인하여 클래스를 지정합니다.
+    if (date.getDay() === 0 /* 일요일 */) {
+      return 'sunday'; // 일요일에 해당하는 클래스
+    }
+    if (date.getDay() === 6 /* 토요일 */) {
+      return 'saturday'; // 토요일에 해당하는 클래스
+    }
+    return ''; // 다른 날짜는 추가 클래스가 없습니다.
+  }
 
     // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
     useEffect(() => {
@@ -215,9 +255,13 @@ const MyCalender = (props) =>{
     );
   };
 
+  const ClickDate =()=>{
+    props.setClick(true);
+  }
+
   return (
     <Container>
-        <StyledCalendar  onChange={onChange} value={date} tileContent={tileContent} formatDay={(locale, date) => dayjs(date).format('DD')}/> 
+        <StyledCalendar tileClassName={tileClassName} tileDisabled={tileDisabled} onClickDay={ClickDate} onChange={onChange} value={date} tileContent={tileContent} formatDay={(locale, date) => dayjs(date).format('DD')}/> 
     </Container>
   );
   };

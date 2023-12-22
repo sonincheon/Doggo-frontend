@@ -4,6 +4,13 @@ import AxiosApi from "../api/Axios";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ModalStyle = styled.div`
+  button{
+    font-weight: bold;
+    background-color: #F95001;
+    &:hover{
+      color:#F95001;
+    }
+  }
   .modal {
     display: none; // 숨겨진 상태로 시작
     position: fixed; // 스크롤해도 동일한 위치
@@ -67,9 +74,12 @@ const ModalStyle = styled.div`
   section > footer button {
     padding: 6px 12px;
     color: #fff;
-    background-color: #45474b;
+    background-color: #333333;
     border-radius: 5px;
     font-size: 13px;
+    &:hover{
+      
+    }
   }
   main {
     display: flex;
@@ -78,7 +88,8 @@ const ModalStyle = styled.div`
     .dogFootImage {
       width: 150px;
       height: 150px;
-      border-radius: 50%;
+      border-radius: 5px;
+      border: 1px solid #333333;
     }
   }
 
@@ -137,8 +148,8 @@ const Card = styled.div`
   display: flex;
   width: 95%;
   height: 85px;
-  box-shadow: 0px 0px 2px black;
-  border-radius: 10px;
+  box-shadow: 0px 0px 3px black;
+  border-radius: 5px;
   margin: 10px auto;
   justify-content: space-between;
   align-items: center;
@@ -161,7 +172,7 @@ const Card = styled.div`
     line-height: 60px;
     font-size: 1.2em;
     font-weight: bold;
-    color: ${(props) => (props.isClick ? "#5f5f5f" : "#3636f3")};
+    color: ${(props) => (props.isClick ? "#5f5f5f" : "#F95001")};
   }
   img {
     width: 20%;
@@ -301,8 +312,8 @@ const QuistModal = (props) => {
               </div>
             </main>
             <footer>
-              <button onClick={()=>RegClick()}>SAVE</button>
-              <button onClick={close}>CANCLE</button>
+              <button onClick={()=>RegClick()}>수행완료!</button>
+              <button onClick={close}>취소하기</button>
             </footer>
           </section>
         )}
