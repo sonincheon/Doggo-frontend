@@ -7,30 +7,39 @@ import { RightBox } from "./Adminmember";
 import AdminAxiosApi from "../../api/AdminAxios";
 
 const QnaBoard = styled.div`
-    border: 1px solid #776B5D;
+    width: 100%;
+    border: 1px solid #2d2d2d;
     border-radius: 10px;
     padding: 0px 20px 20px;
  
     .textbox {
+        overflow : hidden;
+        text-overflow: ellipsis;
+  
+        
         p {
             margin-bottom: 10px;
+            white-space : nowrap;
+            overflow : hidden;
+            text-overflow: ellipsis;
         }
         .bottomTxt {
-            color: #776B5D;
+            color: #999999;
 
             .bar {
                 display: inline-block;
                 width: 1px;
                 height: 14px;
-                background-color: #776B5D;
-                border: 1px solid #776B5D;
+                background-color: #999999;
+                border: 1px solid #999999;
                 margin: 0 10px;
             }
         }
     }
     .QuestionDetail {
         padding: 20px 10px;
-        border-bottom: 1px solid #cdc5b8;
+        overflow-wrap: anywhere;
+        border-bottom: 1px solid #999999;
     }
     .answerBox {
         position: relative;
@@ -38,6 +47,7 @@ const QnaBoard = styled.div`
 
         .uploadedAnswer {
             white-space: normal;
+            overflow-wrap: anywhere;
             padding: 20px 10px;
             p:nth-child(1) {
                 margin-bottom: 10px;
@@ -50,7 +60,7 @@ const QnaBoard = styled.div`
             border: none;
             outline: none;
             resize: none;
-            border: 1px solid #cdc5b8;
+            border: 1px solid #999999;
             border-radius: 5px;
         }
         button {
@@ -58,7 +68,7 @@ const QnaBoard = styled.div`
             -moz-appearance: none;
             appearance: none;
 
-            background-color: #776B5D;
+            background-color: #2d2d2d;
             color: #fff;
             padding: 8px 12px;
             border-radius: 5px;
@@ -85,6 +95,11 @@ const Qnadetail = () => {
     const Click = () => { 
         setIsTrue((prev) => !prev);
     }
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        const formattedDate = new Date(dateString).toLocaleDateString('ko-KR', options);
+        return formattedDate;
+    };
 
     // QnaDetail data가져오기
     useEffect(() => {
@@ -131,14 +146,14 @@ const Qnadetail = () => {
                 <h1>1:1 문의</h1>
             <QnaBoard>                    
                 <div className="flexbox">
-                    <span>{detailQna.boardId}</span>
+                    {/* <span>{detailQna.boardId}</span> */}
                     {/* <img src={selectedQna.Img} alt="프로필 이미지" /> */}
                     <div className="textbox">
                         <p>{detailQna.boardType}  <span className="bar"></span>  {detailQna.comment}</p>
                         <div className="bottomTxt">
                             <span>{detailQna.memberEmail}</span>
                             <span className="bar"></span>
-                            <span>{detailQna.regDate}</span>
+                            <span>{formatDate(detailQna.regDate)}</span>
                         </div>
                         
                     </div>                
@@ -149,9 +164,7 @@ const Qnadetail = () => {
                 <div className="answerBox">
                     <div className="uploadedAnswer">
                         <p>관리자의 답변 : </p>
-                        <p>{detailQna.answer}</p>
-                        
-                   
+                        <pre>{detailQna.answer}</pre>
                     </div>
                     <textarea 
                     placeholder="답변을 입력하세요."
@@ -159,7 +172,7 @@ const Qnadetail = () => {
                     cols="100" rows="5"
                     onChange={(e) => setAnswer(e.target.value)}
                     ></textarea>
-                    <button onClick={uploadAnswer}>답변 작성</button>
+                    <button onClick={uploadAnswer}>{detailQna.answer ? "답변 수정" : "답변 작성"}</button>
                 </div>
                     
 

@@ -44,7 +44,7 @@ const ModalStyle = styled.div`
     position: relative;
     padding: 16px 64px 16px 16px;
     background-color: #fff;
-    color: #776b5d;
+    color: #2d2d2d;
     font-weight: 900;
     font-size: 20px;
 
@@ -64,7 +64,7 @@ const ModalStyle = styled.div`
         & > div {
             width: 100%;
             height: 2px;
-            background-color: #776b5d;
+            background-color: #999999;
             position: absolute;
             top: 50%;
             left: 0;
@@ -113,8 +113,12 @@ const ModalStyle = styled.div`
                 font-size: 30px;
                 font-weight: 200;
                 color: #fff;
-                background-color: #aea191;
+                background-color: #F95001;
                 margin: 30px auto;
+
+                & {
+                    line-height: 30px;
+                }
 
                 & > input {
                     display: none;
@@ -152,8 +156,8 @@ const ModalStyle = styled.div`
 
                 // 체크될 시에, 변화되는 스타일 설정
                 input[type='radio']:checked {
-                background-color: #776B5D; // 체크 시 내부 원으로 표시될 색상
-                border: 3px solid #776B5D; // 테두리와 원 사이의 색상
+                background-color: #2d2d2d; // 체크 시 내부 원으로 표시될 색상
+                border: 3px solid #2d2d2d; // 테두리와 원 사이의 색상
                 //* box-shadow: 0 0 0 1.6px #fff; // 테두리 - 그림자로 테두리를 직접 만들어야 함 (퍼지는 정도를 0으로 주면 테두리처럼 보임)
                 }
             }
@@ -166,7 +170,7 @@ const ModalStyle = styled.div`
                 margin-bottom: 20px;
                 /* border-radius: 5px; */
                 border-style: none;
-                border-bottom: solid 1px #776b5d;
+                border-bottom: solid 1px #2d2d2d;
             }
         }
     }
@@ -181,7 +185,7 @@ const ModalStyle = styled.div`
   footer > button {
     padding: 6px 12px;
     color: #fff;
-    background-color: #45474b;
+    background-color: #2d2d2d;
     border-radius: 5px;
     font-size: 13px;
     // 테두리 추가
@@ -275,11 +279,7 @@ const Feedmodal = (props) => {
 
     const feedUpload = async () => {
         console.log("feedUpload : ",
-        url,
-        inputFeedType,
-        inputFeedName,
-        inputFeedPrice,
-        inputFeedInfo)
+        url,inputFeedType,inputFeedName,inputFeedPrice,inputFeedInfo)
         try {
             const res = await AxiosApi.FeedReg(
                 url,
@@ -305,7 +305,7 @@ const Feedmodal = (props) => {
 
     // 수정
     const feedUpdate = async () => {
-        console.log(url, inputFeedType, inputFeedName, inputFeedPrice, inputFeedInfo);
+        console.log(id, url, inputFeedType, inputFeedName, inputFeedPrice, inputFeedInfo);
         try {
             const res = await AdminAxiosApi.FeedModify(
                 id,
@@ -319,6 +319,7 @@ const Feedmodal = (props) => {
                 alert("등록 성공");
                 navigate("/admin/feed");
                 setUrl("");
+                reRender();
                 close();
             } else {
                 alert("등록에 실패했습니다.");
@@ -353,11 +354,11 @@ const Feedmodal = (props) => {
                             <div className="closeBtn" onClick={Close}>
                                 <div className="bar1"></div>
                                 <div className="bar2"></div>
-                            </div>
-                            
+                            </div>    
                         </header>
                         <main>
                             <div className="imgBox">
+                                { type && type === 1 ? null : <img src={feedImg} alt="수정 전 사료 이미지" />}
                                 <img src={url} alt="사료 이미지를 추가해주세요" /> 
                                
                                 <label for="file" className="fileLebel">

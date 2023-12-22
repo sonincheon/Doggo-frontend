@@ -1,5 +1,6 @@
 import axios from "axios";
 import Common from "../utill/Common";
+import AxiosInstance from "../utill/AxiosInstance";
 
 const MUNG_HOST = "http://localhost:8111";
 
@@ -119,7 +120,7 @@ const AdminAxiosApi = {
   },
   // 사료 삭제
   FeedDelete: async (id) => {
-    return await axios.delete(MUNG_HOST + `/feed/delete/${id}`);
+    return await AxiosInstance.delete(MUNG_HOST + `/feed/delete/${id}`);
   },
   // 페이지 수 조회
   FeedPage: async (page, size) => {

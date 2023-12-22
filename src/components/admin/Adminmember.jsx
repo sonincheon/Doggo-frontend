@@ -9,7 +9,7 @@ export const RightBox = styled.div`
     h1 {
         font-size: 30px;
         font-weight: 900;
-        color: #776B5D;
+        color: #2d2d2d;
         margin-bottom: 16px;
     }
     .boxFlex {
@@ -29,7 +29,7 @@ export const RightBox = styled.div`
         width: 100%;
         padding: 2% 1%;
         margin-bottom: 2%;
-        border: 1px solid #776B5D;
+        border: 1px solid #999999;
         border-radius: 10px;
 
         label {
@@ -44,6 +44,7 @@ export const RightBox = styled.div`
         appearance: none; // 기본 브라우저에서 기본 스타일 제거
         width: 16px;
         height: 16px;
+        margin: 0 5px;
         border: 2px solid #ccc; // 체크되지 않았을 때의 테두리 색상
         border-radius: 50%;
         outline: none; // focus 시에 나타나는 기본 스타일 제거
@@ -52,8 +53,8 @@ export const RightBox = styled.div`
 
         // 체크될 시에, 변화되는 스타일 설정
         input[type='radio']:checked {
-        background-color: #776B5D; // 체크 시 내부 원으로 표시될 색상
-        border: 3px solid #776B5D; // 테두리와 원 사이의 색상
+        background-color: #2d2d2d; // 체크 시 내부 원으로 표시될 색상
+        border: 3px solid #2d2d2d; // 테두리와 원 사이의 색상
         //* box-shadow: 0 0 0 1.6px #fff; // 테두리 - 그림자로 테두리를 직접 만들어야 함 (퍼지는 정도를 0으로 주면 테두리처럼 보임)
         }
 
@@ -64,10 +65,10 @@ export const RightBox = styled.div`
             appearance: none;
 
             background-color: #fff;
-            color: #776B5D;
+            color: #2d2d2d;
             padding: 8px 12px;
             border-radius: 5px;
-            border: 2px solid #776B5D;
+            border: 2px solid #999999;
             box-shadow: 3px 2px 4px 1px #d9d9d9;
             cursor: pointer;
         }  
@@ -77,7 +78,7 @@ export const RightBox = styled.div`
         display: flex;
         align-items: center;
         gap: 3%;
-        border-bottom: 1px solid #776B5D;
+        border-bottom: 1px solid #999999;
         padding: 20px 10px;
 
         img {
@@ -98,7 +99,7 @@ export const RightBox = styled.div`
 
         &::-webkit-scrollbar-thumb {
             height: 8px;
-            background: #776B5D; /* 스크롤바의 색상 */
+            background: #2d2d2d; /* 스크롤바의 색상 */
             border-radius: 10px;
         }
 
@@ -113,7 +114,7 @@ export const RightBox = styled.div`
 
             thead tr {
                 color: #fff;
-                background-color: #776B5D;
+                background-color: #2d2d2d;
                 font-size: 18px;
                 font-weight: 900;
                 text-align: center;
@@ -125,7 +126,7 @@ export const RightBox = styled.div`
             }
             // 테이블 헤드 2번째 ~ 8번째 까지 border-top 부여
             th:nth-child(n+2):nth-child(-n+7) {
-                border-bottom: 1px solid #776B5D;
+                border-bottom: 1px solid #999999;
             }
             th:last-child {
                 border-top-right-radius: 10px;
@@ -139,11 +140,12 @@ export const RightBox = styled.div`
                 border-radius: 10px;
             }
             tbody tr {
-                border: 1px solid #776B5D;
+                border: 1px solid #999999;
             }
             td {
-                width: 100%;
+                /* width: 100%; */
                 padding: 10px 20px;
+                vertical-align: middle;
             }              
             input {
             display: inline-block;
@@ -151,7 +153,7 @@ export const RightBox = styled.div`
             padding: 10px 15px;
             margin-left: 10px;
             margin-right: 10px;
-            border: 1px solid #776B5D;
+            border: 1px solid #999999;
             border-radius: 6px;
             }
             button {
@@ -159,7 +161,7 @@ export const RightBox = styled.div`
             -moz-appearance: none;
             appearance: none;
 
-            background-color: #776B5D;
+            background-color: #2d2d2d;
             color: #fff;
             padding: 8px 12px;
             border-radius: 5px;
@@ -181,24 +183,24 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PageButton = styled.button`
-  border: 1px solid #ddd;
+  border: 1px solid #2d2d2d;
   padding: 5px;
   width: 28px;
   margin: 0 5px;
-  background-color: #f0f0f0;
+  background-color: #fff;
   cursor: pointer;
   border-radius: 50%;
   transition: 0.3s;
 `;
 
 
-const Adminmember = () =>{
+const Adminmember = () => {
 
     const [memberList,setMemberList] = useState([]);
     // const [memberGrade, setMemberGrade] = useState('free');
     const [currentPage, setCurrentPage] = useState(0);  // 현재 페이지
     const [totalPage, setTotalPage] = useState(0);      // 총 페이지 수
-    const [isTrue,setIsTrue]=useState(false);
+    const [isTrue,setIsTrue] = useState(false);
 
     const [selectedCategory, setSelectedCategory] = useState('all');
     
@@ -209,6 +211,12 @@ const Adminmember = () =>{
 
     const HandleCategoryChange = (category) => {
         setSelectedCategory(category);
+    };
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        const formattedDate = new Date(dateString).toLocaleDateString('ko-KR', options);
+        return formattedDate;
     };
 
     useEffect(() => {
@@ -306,7 +314,8 @@ const Adminmember = () =>{
                             checked={selectedCategory === 'all'}
                             onChange={() => HandleCategoryChange('all')} 
                             />
-                            전체
+                            <span>전체</span>
+                            {/* 전체 */}
                         </label>
                         <label>
                             <input 
@@ -346,14 +355,13 @@ const Adminmember = () =>{
                             <tbody>
                                 {selectedData().map((member,index) => (
                                     <tr key={index}>
-                                        <td>{member.id}</td>
+                                        <td>{index + 1}</td>
                                         <td>{member.memberName}</td>
                                         {/* <td>{member.Nick}</td> */}
                                         <td>{member.memberEmail}</td>
-                                        
                                         <td>{member.memberAddress}</td>
                                         <td>{member.memberTel}</td>
-                                        <td>{member.regDate}</td>
+                                        <td>{formatDate(member.regDate)}</td>
                                         <td>{member.memberGrade === 'paid' ? '구독중' : '미구독'}</td>
                                         <td>
                                             <button onClick={() => HandleDeleteMember(member.memberEmail)}>삭제</button>

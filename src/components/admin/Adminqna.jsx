@@ -9,10 +9,15 @@ const QnaBoard = styled.div`
     padding: 10px 20px;
     
     .textbox {
-        
+        overflow : hidden;
+        text-overflow: ellipsis;
+
         p {
             cursor: pointer;
             margin-bottom: 10px;
+            white-space : nowrap;
+            overflow : hidden;
+            text-overflow: ellipsis;
             transition: 0.3s;
             
             &:hover {
@@ -62,22 +67,12 @@ const Adminqna = () =>{
     const handleQnaDetail = (id) => {
         navigate(`/admin/qna/${id}`);
     };
-
-    // useEffect(() => {
-    //     const getQnaAllList = async () => {
-    //         try {
-    //             const res = await AdminAxiosApi.QnaAllList();
-    //             console.log(res);
-    //             console.log(res.data);
-    //             console.log("boardId : " + res.data[0].boardId);
-    //             setQnaAllList(res.data);
-    //         } catch(error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     getQnaAllList();
-    // }, []);
-
+    
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        const formattedDate = new Date(dateString).toLocaleDateString('ko-KR', options);
+        return formattedDate;
+      };
     
     useEffect(() => {
         const totalPage = async() => {
@@ -171,14 +166,16 @@ const Adminqna = () =>{
                     <QnaBoard>
                         {selectedData().map((item,index) => (
                             <div key={index} className="flexbox" >
-                                <span>{item.boardId}</span>
+                                <span>{index + 1}</span>
                                 {/* <img src={item.Img} alt="프로필 이미지" /> */}
                                 <div className="textbox">
                                     <p onClick={() => handleQnaDetail(item.boardId)}>{item.boardType} <span className="bar"></span>{item.comment}</p>
                                     <div className="bottomTxt">
                                         <span>{item.memberEmail}</span>
                                         <span className="bar"></span>
-                                        <span>{item.regDate}</span>
+                                        <span>{formatDate(item.regDate)}</span>
+                                        <span className="bar"></span>
+                                        <span>{item.answer? "답변완료" : "답변대기"}</span>
                                     </div>
                                     
                                 </div>

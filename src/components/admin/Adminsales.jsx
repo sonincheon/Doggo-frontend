@@ -23,6 +23,12 @@ const Adminsales = () =>{
         setSelectedCategory(value);
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        const formattedDate = new Date(dateString).toLocaleDateString('ko-KR', options);
+        return formattedDate;
+    };
+
     // 총 페이지 수 계산
     useEffect(() => {
         const totalPage = async () => {
@@ -156,8 +162,8 @@ const Adminsales = () =>{
                             <tbody>
                                 {filteredOrders.map((order, index) => (
                                     <tr key={index}>
-                                        <td>{order.saleId}</td>
-                                        <td>{order.salesRegDate}</td>
+                                        <td>{index + 1}</td>
+                                        <td>{formatDate(order.salesRegDate)}</td>
                                         <td>{order.memberId}</td>
                                         <td>{order.salesAddr}</td>
                                         {/* <td>{order.Tel}</td> */}

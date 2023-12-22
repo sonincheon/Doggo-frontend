@@ -6,32 +6,32 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import AdminAxiosApi from "../../api/AdminAxios";
 
 
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-      },
-      {
-        name: 'Page B',
-        uv: 3000,
-      },
-      {
-        name: 'Page C',
-        uv: 2000,
-      },
-      {
-        name: 'Page D',
-        uv: 2780,
-      },
-      {
-        name: 'Page E',
-        uv: 1890,
-      },
-      {
-        name: 'Page F',
-        uv: 2390,
-      },
-];
+// const data = [
+//     {
+//         name: 'Page A',
+//         uv: 4000,
+//       },
+//       {
+//         name: 'Page B',
+//         uv: 3000,
+//       },
+//       {
+//         name: 'Page C',
+//         uv: 2000,
+//       },
+//       {
+//         name: 'Page D',
+//         uv: 2780,
+//       },
+//       {
+//         name: 'Page E',
+//         uv: 1890,
+//       },
+//       {
+//         name: 'Page F',
+//         uv: 2390,
+//       },
+// ];
 // 차트를 담고있는 컴포넌트, 여기서 크기지정 안하면 차트가 안뜸
 export const ChartSize = styled.div`
     width: 100%;
@@ -51,10 +51,10 @@ const Adminmain = () => {
             try {
                 const res = await AdminAxiosApi.SaleAllList();
                 const data = res.data;
-                console.log(data);
+                console.log(data); // → 로그인 하고 관리자 들어가면 데이터 불러와 짐. 로그인 안하면 401 Error
     
                 // 필요한 데이터 가져와서 요리조리.. 
-
+                
                 // 차트에 표시할 형식으로 변환
 
     
@@ -79,7 +79,7 @@ const Adminmain = () => {
                     <ChartSize>
                         <h1>사료별 판매 현황</h1>
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart width={150} height={40} data={data}>
+                            <BarChart width={150} height={40} data={chartData}>
                                 <Bar dataKey="uv" fill="#8884d8" />
                             </BarChart>
                         </ResponsiveContainer>

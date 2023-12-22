@@ -132,8 +132,9 @@ const Adminfeed = () =>{
                     <h1>사료 관리</h1>
                     <div className="selectBox boxFlex">
                         <div className="labelBox">
-                            <label>
+                            <label htmlFor="all">
                                 <input 
+                                id="all"
                                 type="radio"
                                 value="all"
                                 checked={selectedCategory === 'all'}
@@ -141,8 +142,9 @@ const Adminfeed = () =>{
                                 />
                                 전체
                             </label>
-                            <label>
+                            <label htmlFor="CAT">
                                 <input 
+                                id="CAT"
                                 type="radio"
                                 value="CAT"
                                 checked={selectedCategory === 'CAT'}
@@ -150,8 +152,9 @@ const Adminfeed = () =>{
                                 />
                                 고양이
                             </label>
-                            <label>
+                            <label htmlFor="DOG">
                                 <input 
+                                id="DOG"
                                 type="radio"
                                 value="DOG"
                                 checked={selectedCategory === 'DOG'}
@@ -185,16 +188,16 @@ const Adminfeed = () =>{
                             <tbody>
                                 {selectedData().map((feed,index) => (
                                     <tr key={index}>
-                                        <td>{feed.feedId}</td>
-                                        <td>{feed.feedImg}</td>  
+                                        <td>{index + 1}</td>
+                                        <td><img src={feed.feedImg} width={100} alt="사료 이미지" /></td>  
                                         <td>{feed.feedType}</td>
                                         <td>{feed.feedName}</td>    
                                         <td>{feed.feedPrice}</td>
-                                        <th>{feed.feedSubscribe}</th>
+                                        <td>{feed.feedSubscribe}</td>
                                         <td>{feed.feedInfo}</td>
                                         <td>
                                             <button 
-                                            onClick={() => openClick(
+                                            onClick={() => openClick (
                                                 2,
                                                 feed.feedId,
                                                 feed.feedImg,
