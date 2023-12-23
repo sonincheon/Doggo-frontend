@@ -220,7 +220,7 @@ const KakaoMap = () => {
           center={state.center}
           style={{
             width: "100vw",
-            height: "85vh",
+            height: "70vh",
           }}
           level={3}
           onCreate={setMap} // 지도가 생성될 때 setMap 함수를 호출해 지도 객체 업데이트 추가
@@ -237,7 +237,9 @@ const KakaoMap = () => {
             }}
           />
           {/* 현재 내 위치로 돌아가는 버튼 */}
-          {isMouseOver && <S.GoBackTxt isModalOpen={isModalOpen}></S.GoBackTxt>}
+          {isMouseOver && (
+            <S.GoBackTxt isModalOpen={isModalOpen}>점속위치</S.GoBackTxt>
+          )}
           <S.GoBackButton
             onClick={goBack}
             onMouseEnter={handleMouseEnter}
@@ -319,7 +321,7 @@ const KakaoMap = () => {
               setCurrentPage={setCurrentPage}
             />
             {/* 사이드바 열고 다는 버튼 */}
-            <S.SideBarOpenBtn
+            {/* <S.SideBarOpenBtn
               isClosed={!isSidebarOpen}
               onClick={() => setIsSidebarOpen((prev) => !prev)}
             >
@@ -327,7 +329,7 @@ const KakaoMap = () => {
                 src={isSidebarOpen ? leftAngle : rightAngle}
                 alt={isSidebarOpen ? "왼쪽 화살표" : "오른쪽 화살표"}
               />
-            </S.SideBarOpenBtn>
+            </S.SideBarOpenBtn> */}
           </S.ListContainer>
         )}
 

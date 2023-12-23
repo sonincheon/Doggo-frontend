@@ -164,10 +164,14 @@ const ServiceView = () => {
     console.log(buttonText, boardTypeValue);
   };
   // textarea 내용 변경 시 처리
-  const handleTextareaChange = (e) => {
-    const textareaContent = e.target.value;
-    setComment(textareaContent); // textarea 내용 저장
-    console.log(textareaContent);
+  const maxLength = 100; // 최대 글자 수
+
+  const handleTextareaChange = (event) => {
+    const { value } = event.target;
+
+    if (value.length <= maxLength) {
+      setComment(value);
+    }
   };
   const handleFileInputChange = (e) => {
     setFile(e.target.files[0]);
@@ -250,7 +254,12 @@ const ServiceView = () => {
                 rows="10"
                 cols="40"
                 placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
+                value={comment}
+                maxLength={maxLength}
               ></textarea>
+              <p>
+                {comment.length}/{maxLength}
+              </p>
             </Box2>
           </Box>
           <Box>

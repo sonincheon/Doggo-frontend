@@ -6,32 +6,37 @@ import Servicemodal from "../../utill/Servicemodal";
 
 const Base = styled.div`
   display: flex;
-  column-gap: 40px;
+  justify-content: space-between; /* 이전에 column-gap을 사용하는 대신 space-between을 활용해 각 컨테이너를 양 옆으로 배치 */
+  flex-wrap: wrap; /* 화면 크기가 작아지면 아래로 내려가도록 설정 */
+  row-gap: 40px;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    justify-content: center; /* 모바일 화면에서 가운데 정렬 */
     align-items: center;
-    row-gap: 40px;
   }
 `;
+
 const Container = styled.div`
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 500px;
-  min-height: 500px;
+  flex: 0 0 calc(50% - 40px); /* 컨테이너의 반응형 크기 설정 */
+  max-width: calc(50% - 40px); /* 최대 너비 설정 */
+  margin-bottom: 20px; /* 컨테이너 사이 여백 설정 */
+  padding: 0 20px;
+  box-sizing: border-box;
+
   .title {
     font-size: 2rem;
     hr {
       border-bottom: solid 1px #333333;
     }
   }
+
   @media (max-width: 768px) {
-    min-height: unset;
-    margin-bottom: 0;
-    transition: 0.3s;
+    flex: 0 0 calc(100% - 40px); /* 화면 작아졌을 때 컨테이너의 크기를 100%로 조정 */
+    max-width: calc(100% - 40px);
+    margin-bottom: 20px;
   }
 `;
+
 const Box = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,6 +51,9 @@ const Box = styled.div`
     font-size: 1.2rem;
     word-spacing: 1px;
     font-weight: bold;
+    p {
+      font-size: 1rem;
+    }
   }
 
   .answer {
@@ -56,20 +64,21 @@ const Box = styled.div`
     line-height: 25px;
     padding: 10px;
   }
-
   .item {
     border-bottom: solid 2px #333333;
   }
 
   @media (max-width: 768px) {
     order: 2; /* 화면 작아졌을 때 오른쪽으로 이동 */
-    width: 100%;
   }
 `;
 const Box2 = styled.div`
+  flex: 1;
   display: flex;
   justify-content: center;
-
+  width: 100%; /* 수정된 부분 */
+  max-width: 500px; /* 최대 너비 설정 */
+  margin: 0 auto;
   @media (max-width: 768px) {
     order: 1; /* 화면 작아졌을 때 왼쪽으로 이동 */
     width: 100%;
@@ -80,6 +89,8 @@ const Box3 = styled.div`
   position: relative;
   width: 100%;
   padding: 10px;
+  justify-content: flex-start; /* 위에서 정렬 */
+
   .title {
     font-size: 1.5rem;
     p {
@@ -206,12 +217,16 @@ const Service = () => {
   };
 
   // 여기는 id로 하는거 확실
-  const FaqItem = ({ id, question, answer, image }) => {
+  const FaqItem = ({ id, question, answer, image, regDate }) => {
     const [showAnswer, setShowAnswer] = useState(false);
 
     const toggleAnswer = () => {
       setShowAnswer(!showAnswer);
     };
+
+    // 시간 지워날려
+    const formattedDate = regDate.split("T")[0];
+
     return (
       <div onClick={toggleAnswer}>
         <div className="question">
@@ -226,6 +241,7 @@ const Service = () => {
               }}
             />
           )}
+          <p>{formattedDate}</p>
         </div>
         {showAnswer && answer ? (
           <div className="answer">{answer}</div>
@@ -291,6 +307,7 @@ const Service = () => {
                       }`}
                       answer={list.answer}
                       image={list.boardImg}
+                      regDate={list.regDate}
                     />
                   </div>
                 ))}
