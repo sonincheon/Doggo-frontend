@@ -6,10 +6,12 @@ import { useState } from "react";
 const Btween = styled.div`
   display: flex;
   flex-direction: row;
+  min-width: 900px;
   justify-content: space-between;
   align-items: center;
   @media (max-width: 768px) {
     flex-direction: column;
+    min-width: 0;
   }
 `;
 

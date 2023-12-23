@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import AxiosApi from '../../api/Axios';
 import { PayContext } from '../../context/Paystore';
 const Container =styled.div`
-  width: 60%;
+  width: 55%;
   height: 700px;
   display: flex;
   flex-direction: row;
@@ -131,11 +131,11 @@ const StyledCalendar = styled(Calendar)`
   /* 오늘 날짜에 대한 스타일 */
 }
 .react-calendar__tile.saturday {
-  color:blue;
+  color:#6560ff;
 }
 
 .react-calendar__tile.sunday {
-  color:red;
+  color:#ff8349;
 }
 
 `;

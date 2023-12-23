@@ -15,7 +15,7 @@ const Block =styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 35%;
+    width: 40%;
     height: 700px;
     border-radius: 5px;
     background-color: #333333;
@@ -115,16 +115,18 @@ const Block =styled.div`
 `;
 
 const CirclePlus =styled.div`
+  position: relative;
   width: 100px;
   height: 100px;
-  padding-left: 30px;
-  flex-direction: row;
   font-size: 100px;
   color: grey;
+  cursor: pointer;
+  background-color: red;
+  border: 1px solid black;
 `;
 
 const Eventbox =(props)=>{
-  const {day,openModal}=props;
+  const {day}=props;
   const navigate = useNavigate();
   const [quest,setQuest] =useState([]);
   const [gender,setGender]=useState("");
@@ -146,10 +148,8 @@ const Eventbox =(props)=>{
   const closeChange = ()=>{
     setChangeModal(false);
   };
+  
 
-  const plusClick =()=>{
-    navigate('/mypage');
-  }
   const circleClick=(name,petimg,gender,age,sign,id)=>{
     setGender(gender);
     setAge(age);
@@ -270,9 +270,11 @@ const Eventbox =(props)=>{
                 <CircleProgressBar   progress={calculateQuestPercent(pet.id)} dogimg={pet.imageLink}/>
               </div>
             ))}
-            <CirclePlus onClick={plusClick}>
-              <div>+</div> 
+            <div className="circlebox" onClick={()=>navigate("/mypage")}>
+            <CirclePlus >
+                +
             </CirclePlus>
+            </div>
             </Slider>
           </div>
         </div>
