@@ -71,20 +71,22 @@ const HomeMain = () => {
       <CurrentAddressContext.Provider
         value={{ currentAddress, setCurrentAddress }}>
         <SectionContainer>
-          <ItemContainer $height="73%">
+          <ItemContainer $height="100%">
           <Introduction />
           </ItemContainer>
-          <ItemContainer $height="27%">
+        </SectionContainer>
+        <SectionContainer>
+        <ItemContainer $height="100%">
             <CurrentLocationWeather />
             <RegionWeather />
           </ItemContainer>
           <ItemContainer>
             <Strays></Strays>
           </ItemContainer>
-        </SectionContainer>
+          </SectionContainer>
       </CurrentAddressContext.Provider>
 
-      <ChatbotIcon
+      {/* <ChatbotIcon
         src={ChatBotImg}
         onClick={showChatbot ? closeChatbot : toggleChatbot}
       />
@@ -92,7 +94,7 @@ const HomeMain = () => {
         <ChatbotBox>
           <Chatbot />
         </ChatbotBox>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
