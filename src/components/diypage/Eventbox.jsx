@@ -71,6 +71,10 @@ const Block =styled.div`
     justify-content: center;
 
   }
+  .slideox{
+    width: 250px;
+    height: 100px;
+  }
   .slidebox{
     width: 90%;
     height: 70%;
