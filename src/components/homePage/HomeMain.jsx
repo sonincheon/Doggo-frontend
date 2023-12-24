@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Introduction from "./comps/Introduction";
-import UserStatus from "./comps/UserStatus";
+import AboutUs from "./comps/aboutUs.jsx/AboutUs";
+import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
@@ -17,8 +18,8 @@ const SectionContainer = styled.section.withConfig({
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 100vw;
-  
+  height: 50vw;
+
   /* border: 1px solid black; */
 `;
 
@@ -52,8 +53,6 @@ const ChatbotIcon = styled.img`
   top: 150px;
 `;
 
-
-
 const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
   const [showChatbot, setShowChatbot] = useState(false);
@@ -72,18 +71,35 @@ const HomeMain = () => {
         value={{ currentAddress, setCurrentAddress }}>
         <SectionContainer>
           <ItemContainer $height="100%">
-          <Introduction />
+            <Introduction />
           </ItemContainer>
         </SectionContainer>
+
         <SectionContainer>
-        <ItemContainer $height="100%">
+          <ItemContainer $height="100%">
+            <AboutUs/>
+          </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
+          <ItemContainer $height="100%">
+            <CurrentLocationIntro />
             <CurrentLocationWeather />
+          </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
+          <ItemContainer>
             <RegionWeather />
           </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
           <ItemContainer>
-            <Strays></Strays>
+            <Strays />
           </ItemContainer>
-          </SectionContainer>
+        </SectionContainer>
+
       </CurrentAddressContext.Provider>
 
       {/* <ChatbotIcon

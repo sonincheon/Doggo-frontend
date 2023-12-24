@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -137,8 +137,8 @@ const IntroServiceSummary = styled.p`
 
 const SubscribeButton = styled.button`
   
-  height: 2vw;
-  width: 6vw;
+  height: 2.5vw;
+  width: 7vw;
   background-color: #ed6436;
   border: none;
   border-radius: 4px; // 테두리 반경을 vw 단위로 변경
@@ -165,12 +165,14 @@ const slideContent = [
     summary: "영양가 높은 최상의 사료로 반려동물의 건강을 지켜주세요.",
     buttonText: "더보기"
   },
+
   {
     title: "최고의 반려동물 서비스",
     service: "날씨정보 활용한 산책지수",
     summary: "현재위치와 각 주요도시별 날씨에 따른 산책지수.",
     buttonText: "더보기"
   },
+  
 ];
 
 const Introduction = () => {
