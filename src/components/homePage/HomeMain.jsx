@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import { createGlobalStyle } from 'styled-components';
 import Introduction from "./comps/Introduction";
 import AboutUs from "./comps/aboutUs.jsx/AboutUs";
 import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
@@ -11,6 +11,10 @@ import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../img/ChatBot.png";
 
+
+
+
+
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
 })`
@@ -18,8 +22,8 @@ const SectionContainer = styled.section.withConfig({
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 50vw;
-
+  height: ${(props) => props.$height || "50vw"};
+  background-color: ${(props) => props.$backGround || "white"};
   /* border: 1px solid black; */
 `;
 
@@ -67,6 +71,7 @@ const HomeMain = () => {
 
   return (
     <>
+      
       <CurrentAddressContext.Provider
         value={{ currentAddress, setCurrentAddress }}>
         <SectionContainer>
@@ -75,7 +80,7 @@ const HomeMain = () => {
           </ItemContainer>
         </SectionContainer>
 
-        <SectionContainer>
+        <SectionContainer $height="35vw" $backGround="#f2f2f4d1"> 
           <ItemContainer $height="100%">
             <AboutUs/>
           </ItemContainer>
@@ -111,6 +116,7 @@ const HomeMain = () => {
           <Chatbot />
         </ChatbotBox>
       ) : null} */}
+      
     </>
   );
 };

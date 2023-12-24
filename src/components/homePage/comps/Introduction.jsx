@@ -141,7 +141,7 @@ const SubscribeButton = styled.button`
   width: 7vw;
   background-color: #ed6436;
   border: none;
-  border-radius: 4px; // 테두리 반경을 vw 단위로 변경
+  border-radius: .3rem; // 테두리 반경을 vw 단위로 변경
   cursor: pointer;
   color: white;
   font-size: 1.25vw; // 글꼴 크기를 vw 단위로 변경

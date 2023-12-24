@@ -1,126 +1,227 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import goldenRetriver from "../../../../img/homePageImages/aboutUs/goldenRetriver.png";
+import twoDoggo from "../../../../img/homePageImages/aboutUs/twoDoggo.png";
+import Kittens from "../../../../img/homePageImages/aboutUs/Kittens.png";
 
 const ItemBox = styled.div.attrs({
-    className: "item-container",
-  })`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 65%;
-  `;
+  className: "item-container",
+})`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: 100%;
+`;
+
+const Items = styled.div.attrs({
+  className: "item-about-us",
+})`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  align-items: ${(props) => props.$align || "center"};
+  width: ${(props) => props.$width || "50%"};
+  height: 90%;
+  padding-left: ${(props) => props.$padding || "none"};
+  padding-top: ${(props) => props.$padding_top || "none"};
+`;
+
+const TextContainer = styled.div.attrs({
+  className: "text-container",
+})`
+  display: flex;
+  flex-direction: ${(props) => props.$direction || "row"};
+  justify-content: ${(props) => props.$justify || "none"};
+  height: ${(props) => props.$height || "10%"};
+  width: 100%;
   
-  const Items = styled.div.attrs({
-    className: "item-currentWeather",
-  })`
-    width: 98%;
-    height: 98%;
-    border: 1px solid black;
-    border-radius: 10px;
-    border: 1px solid black;
-  `;
-
-const Container = styled.div`
-  padding: 2vw; // 패딩을 vw로 변경
-`;
-
-const TitleSmall = styled.h4`
-  color: #65c178;
-  margin-bottom: 1vw; // 마진을 vw로 변경
-`;
-
-const TitleLarge = styled.h1`
-  font-size: 3vw; // 폰트 크기를 vw로 변경
-  margin-bottom: 1.5vw; // 마진을 vw로 변경
-  span.text-primary {
-    color: #ed6436;
-  }
-  span.text-secondary {
+  h2 {
+    font-size: 1.5vw;
     color: #65c178;
   }
+  h1 {
+    font-size: 3.2vw;
+  }
+  .text-primary {
+    color: #ed6436;
+
+  }
+  .text-secondary {
+    color: #65c178;
+
+  }
+
+  h3 {
+    font-size: 1.3vw;
+    color: #6c757d;
+  }
+  p {
+    font-size: 1vw;
+    color:#777;
+  }
+
 `;
 
-const Subtitle = styled.h5`
-  color: #6c757d;
-  margin-bottom: 1vw; // 마진을 vw로 변경
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
+  font-size: 1.3vw; 
+  color: #65c178;
+  -webkit-font-smoothing: antialiased;
 `;
 
-const Paragraph = styled.p`
-  margin-bottom: 1.5vw; // 마진을 vw로 변경
-`;
-
-const CheckList = styled.ul`
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 2vw; // 마진을 vw로 변경
-
-  li {
-    h5 {
-      display: flex;
-      align-items: center;
-      color: #6c757d;
-      font-weight: normal;
-      font-size: 1.25vw; // 폰트 크기를 vw로 변경
-
-      i {
-        margin-right: 1vw; // 마진을 vw로 변경
-      }
-    }
+const TextLine = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  p {
+    font-size: 1.3vw;
+    font-weight: bold;
+    margin-left: 1vw;
+    color: #181818;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   }
 `;
 
 const LearnMoreButton = styled.a`
-  display: inline-block;
-  padding: 1vw 2vw; 
+  display: flex; // Flex 컨테이너로 설정
+  align-items: center; // 자식 요소들을 수직 중앙으로 정렬
+  justify-content: center; // 자식 요소들을 수평 중앙으로 정렬
+  height: 2.5vw;
+  width: 7vw;
   background-color: #ed6436;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
   color: white;
-  border-radius: 0.5vw; 
-  text-decoration: none;
-  font-size: 1.25vw; 
-  margin-top: 1vw; 
-  transition: background-color 0.15s ease-in-out;
-
+  font-size: 1.25vw;
+  /* margin-top: 3.1vw; */
   &:hover {
-    background-color: #e84a15; 
-    transition: .15s ease-in-out;
+    background-color: #e84a15;
+    transition: all 0.15s ease-in-out;
   }
+`;
+
+const ImageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  height: ${(props) => props.$height || "100%"};
+  margin: 0; // 이미지 사이의 마진 제거
+  padding: 0; // 이미지 사이의 패딩 제거
+  margin-left: 5vw;
+`;
+
+const Imagefirst = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+
+  height: ${(props) => props.$height || "60%"};
+  margin: 0; // 상단 이미지의 마진 제거
+  padding: 0; // 상단 이미지의 패딩 제거
+`;
+
+const ImageBoxHalf = styled.div`
+  display: flex;
+  width: 100%;
+
+  height: ${(props) => props.$height || "40%"};
+  margin: 0; // 상단 이미지의 마진 제거
+  padding: 0; // 상단 이미지의 패딩 제거
+`;
+
+const SmallImageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 50%;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  object-fit: contain;
+  margin: 0; // 상단 이미지의 마진 제거
+  padding: 0; // 상단 이미지의 패딩 제거
+`;
+
+const StyledImageHalf = styled.img`
+  width: 100%;
+  object-fit: contain;
+  margin: 0; // 상단 이미지의 마진 제거
+  padding: 0; // 상단 이미지의 패딩 제거
 `;
 
 const AboutUs = () => {
   return (
     <ItemBox>
-        <Items>
-    <Container>
-      <TitleSmall>About Us</TitleSmall>
-      <TitleLarge>
-        <span className="text-primary">워딩 워딩</span> &amp; <span className="text-secondary">워딩 워딩</span>
-      </TitleLarge>
-      <Subtitle>
-        워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩
-      </Subtitle>
-      <Paragraph>
-      워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩 워딩
-      </Paragraph>
-      <CheckList>
-      <li>
-        <h5><FontAwesomeIcon icon={faCheckDouble} className="icon" />워딩 워딩 워딩 워딩</h5>
-      </li>
-      <li>
-        <h5><FontAwesomeIcon icon={faCheckDouble} className="icon" />워딩 워딩 워딩 워딩</h5>
-      </li>
-      <li>
-        <h5><FontAwesomeIcon icon={faCheckDouble} className="icon" />워딩 워딩 워딩 워딩</h5>
-      </li>
-      </CheckList>
-      <LearnMoreButton href="https://www.free-css.com/free-css-templates">더보기</LearnMoreButton>
-    </Container>
-    </Items>
+      <Items $align="none" $padding="none" $width="50%" $padding_top="2.9vw">
+        <TextContainer $height="10%">
+          <h2>About Us</h2>
+        </TextContainer>
+        <TextContainer $height="20%">
+          <h1>
+            <span className="text-primary">Boarding</span> &amp;{" "}
+            <span className="text-secondary">Daycare</span>
+          </h1>
+        </TextContainer>
+        <TextContainer $height="15%">
+          <h3>
+          Amet stet amet ut. Sit no vero vero no dolor. Sed erat ut sea. Just
+          clita ut stet kasd at diam sit erat vero sit.
+          </h3>
+        </TextContainer>
+        <TextContainer $height="15%">
+          <p>
+          Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed
+          et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed
+          sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo
+          </p>
+        </TextContainer>
+        <TextContainer $height="19.5%" $direction="column" $justify="center">
+          <TextLine>
+          <StyledFontAwesomeIcon icon={faCheckDouble} />
+            <p>Best In Industry</p>
+            
+          </TextLine>
+          <TextLine>
+          <StyledFontAwesomeIcon icon={faCheckDouble} />
+            <p>Emergency Services</p>
+          </TextLine>
+          <TextLine>
+          <StyledFontAwesomeIcon icon={faCheckDouble} />
+            <p>24/7 Customer Support</p>
+          </TextLine>
+        </TextContainer>
+        <TextContainer $height="10%">
+          <LearnMoreButton>더보기</LearnMoreButton>
+        </TextContainer>
+      </Items>
+
+      <Items $width="40%">
+        <ImageBox>
+          <Imagefirst>
+            <StyledImage src={goldenRetriver} alt="Golden Retriever" />
+          </Imagefirst>
+
+          <ImageBoxHalf>
+            <SmallImageBox>
+              <StyledImageHalf src={twoDoggo} alt="Shiba" />
+            </SmallImageBox>
+            <SmallImageBox>
+              <StyledImageHalf src={Kittens} alt="Kittens" />
+            </SmallImageBox>
+          </ImageBoxHalf>
+        </ImageBox>
+      </Items>
     </ItemBox>
   );
-}
+};
 
 export default AboutUs;
