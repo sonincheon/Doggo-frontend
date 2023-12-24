@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import AxiosApi from "../../api/Axios";
-import { type } from "@testing-library/user-event/dist/type";
+import { useState } from "react";
 
 const SellBox = styled.div`
   display: flex;
@@ -20,12 +18,13 @@ const SellBox = styled.div`
     flex-direction: column;
     box-shadow: 0 0 8px black;
     @media (max-width: 1280px) {
-      height: 350px;
+      height: 400px;
       width: 280px;
     }
     @media (max-width: 768px) {
-      height: 600px;
-      width: 470px;
+      height: 70vh;
+      width: 400px;
+      min-height: 430px;
       margin-top: 20px;
     }
   }
@@ -38,13 +37,13 @@ const SellBox = styled.div`
     align-items: center;
     flex-direction: column;
     h1 {
-      font-size: 1.3em;
+      font-size: 1.8em;
       font-weight: bold;
       color: #000000;
       padding: 20px;
     }
     ol {
-      font-size: 16px;
+      font-size: 1.3em;
       list-style: circle;
       line-height: 40px;
       color: #000000;
@@ -63,11 +62,11 @@ const SellBox = styled.div`
     }
     @media (max-width: 1280px) {
       h1 {
-        font-size: 1em;
+        font-size: 1.3em;
       }
       ol {
-        line-height: 24px;
-        font-size: 0.7em;
+        line-height: 28px;
+        font-size: 1em;
       }
     }
     @media (max-width: 768px) {
@@ -75,7 +74,7 @@ const SellBox = styled.div`
         font-size: 2em;
       }
       ol {
-        line-height: 50px;
+        line-height: 35px;
         font-size: 1.4em;
       }
     }
@@ -95,7 +94,7 @@ const SellBox = styled.div`
       padding: 10px;
     }
     p {
-      font-size: 1em;
+      font-size: 1.5em;
       color: white;
     }
 
@@ -104,7 +103,7 @@ const SellBox = styled.div`
         font-size: 1.6em;
       }
       p {
-        font-size: 0.7em;
+        font-size: 1.2em;
       }
       @media (max-width: 768px) {
         h1 {

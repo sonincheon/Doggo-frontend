@@ -37,9 +37,11 @@ const BtnSt =styled.button`
   margin-top: 5px;
   border-radius: 5px;
   background-color: #F95001;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
   &:hover{
-    background-color: #d74704;
+    background-color: #ff5100;
   }
 `;
 
@@ -92,7 +94,7 @@ const Diary = (props) => {
     <h1>멍냥일기</h1>
         <div className="textbox">
             <textarea placeholder="오늘 하루를 작성해주세요" value={text} onChange={textChange}/>
-            <BtnSt onClick={diaryReg}>저장</BtnSt>
+            <BtnSt onClick={diaryReg}>작성</BtnSt>
         </div>
     </Box>
 

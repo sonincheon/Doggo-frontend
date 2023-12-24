@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import { createGlobalStyle } from 'styled-components';
 import Introduction from "./comps/Introduction";
-import UserStatus from "./comps/UserStatus";
+import AboutUs from "./comps/aboutUs.jsx/AboutUs";
+import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../img/ChatBot.png";
+
+
+
+
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -17,8 +22,8 @@ const SectionContainer = styled.section.withConfig({
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 100vw;
-  
+  height: ${(props) => props.$height || "50vw"};
+  background-color: ${(props) => props.$backGround || "white"};
   /* border: 1px solid black; */
 `;
 
@@ -52,8 +57,6 @@ const ChatbotIcon = styled.img`
   top: 150px;
 `;
 
-
-
 const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
   const [showChatbot, setShowChatbot] = useState(false);
@@ -68,23 +71,43 @@ const HomeMain = () => {
 
   return (
     <>
+      
       <CurrentAddressContext.Provider
         value={{ currentAddress, setCurrentAddress }}>
         <SectionContainer>
-          <ItemContainer $height="73%">
-          <Introduction />
-          </ItemContainer>
-          <ItemContainer $height="27%">
-            <CurrentLocationWeather />
-            <RegionWeather />
-          </ItemContainer>
-          <ItemContainer>
-            <Strays></Strays>
+          <ItemContainer $height="100%">
+            <Introduction />
           </ItemContainer>
         </SectionContainer>
+
+        <SectionContainer $height="35vw" $backGround="#f2f2f4d1"> 
+          <ItemContainer $height="100%">
+            <AboutUs/>
+          </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
+          <ItemContainer $height="100%">
+            <CurrentLocationIntro />
+            <CurrentLocationWeather />
+          </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
+          <ItemContainer>
+            <RegionWeather />
+          </ItemContainer>
+        </SectionContainer>
+
+        <SectionContainer>
+          <ItemContainer>
+            <Strays />
+          </ItemContainer>
+        </SectionContainer>
+
       </CurrentAddressContext.Provider>
 
-      <ChatbotIcon
+      {/* <ChatbotIcon
         src={ChatBotImg}
         onClick={showChatbot ? closeChatbot : toggleChatbot}
       />
@@ -92,7 +115,8 @@ const HomeMain = () => {
         <ChatbotBox>
           <Chatbot />
         </ChatbotBox>
-      ) : null}
+      ) : null} */}
+      
     </>
   );
 };

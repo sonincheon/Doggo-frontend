@@ -21,7 +21,7 @@ const ItemBox = styled.div.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 65%;
+  width: 35%;
 `;
 
 const Items = styled.div.attrs({

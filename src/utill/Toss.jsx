@@ -49,7 +49,6 @@ const TossPage = (props) => {
 
   useEffect(() => {
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
-
     if (paymentMethodsWidget == null) {
       return;
     }
