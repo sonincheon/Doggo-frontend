@@ -39,6 +39,8 @@ const TextContainer = styled.div.attrs({
   justify-content: ${(props) => props.$justify || "none"};
   height: ${(props) => props.$height || "10%"};
   width: 100%;
+  text-overflow: ellipsis;
+  
   
   h2 {
     font-size: 1.5vw;
@@ -167,14 +169,14 @@ const AboutUs = () => {
         </TextContainer>
         <TextContainer $height="20%">
           <h1>
-            <span className="text-primary">Boarding</span> &amp;{" "}
-            <span className="text-secondary">Daycare</span>
+            <span className="text-primary">소개글</span> &amp;{" "}
+            <span className="text-secondary">소개글</span>
           </h1>
         </TextContainer>
         <TextContainer $height="15%">
           <h3>
-          Amet stet amet ut. Sit no vero vero no dolor. Sed erat ut sea. Just
-          clita ut stet kasd at diam sit erat vero sit.
+          강아지 고양이 강아지 고양이 강아지 고양이 강아지 고양이 강아지 고양이 강아지 고양이 강아지 고양이 강아지 고양이 
+          강아지 고양이 강아지 고양이 강아지 고양이 강아지 
           </h3>
         </TextContainer>
         <TextContainer $height="15%">
@@ -187,16 +189,15 @@ const AboutUs = () => {
         <TextContainer $height="19.5%" $direction="column" $justify="center">
           <TextLine>
           <StyledFontAwesomeIcon icon={faCheckDouble} />
-            <p>Best In Industry</p>
-            
+            <p>주말에 깃업데이트좀 하세요</p>
           </TextLine>
           <TextLine>
           <StyledFontAwesomeIcon icon={faCheckDouble} />
-            <p>Emergency Services</p>
+            <p>어떠한 기능들을 </p>
           </TextLine>
           <TextLine>
           <StyledFontAwesomeIcon icon={faCheckDouble} />
-            <p>24/7 Customer Support</p>
+            <p>24/7 자고싶군요</p>
           </TextLine>
         </TextContainer>
         <TextContainer $height="10%">

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
 import Introduction from "./comps/Introduction";
 import AboutUs from "./comps/aboutUs.jsx/AboutUs";
-import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
-import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
+import AboutCalander from "./comps/aboutCalander/AboutFunctions";
+// import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
+// import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../icon/ChatBot.png";
+
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -90,16 +91,17 @@ const HomeMain = () => {
           </ItemContainer>
         </SectionContainer>
 
-        <SectionContainer $height="35vw" $backGround="#f2f2f4d1">
+        <SectionContainer $height="35vw" $backGround="#fff">
           <ItemContainer $height="100%">
             <AboutUs />
           </ItemContainer>
         </SectionContainer>
 
-        <SectionContainer>
+        <SectionContainer  $backGround="#f2f2f4">
           <ItemContainer $height="100%">
-            <CurrentLocationIntro />
-            <CurrentLocationWeather />
+            <AboutCalander/>
+            {/* <CurrentLocationIntro />
+            <CurrentLocationWeather /> */}
           </ItemContainer>
         </SectionContainer>
 
