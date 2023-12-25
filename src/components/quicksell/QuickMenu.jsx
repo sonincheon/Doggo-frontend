@@ -121,7 +121,7 @@ const PatDogBtn = styled.button`
   width: 80px;
   height: 30px;
   margin: 4px;
-  background-color: ${(props) => (props.clicks ? "#878787" : "#3e3e3e")};
+  background-color: ${(props) => (props.clicks ? "#878787" : "#ff5f0e")};
   color: ${(props) => (!props.clicks ? "white" : "black")};
   border-radius: 5px;
   border: none;
@@ -152,18 +152,31 @@ const QuickMenu = (props) => {
 
   const dogClick = () => {
     props.onSelected("DOG");
+    setSelected();
+    setFeedId();
     setDogBtn(true);
     setCatBtn(false);
   };
 
   const catClick = () => {
     props.onSelected("CAT");
+    setSelected();
+    setFeedId();
     setDogBtn(false);
     setCatBtn(true);
   };
 
   const payClick = () => {
-    navigate(`/quick/sell/${feedId}/${title}`);
+    if (feedId !== undefined && feedId !== "") {
+      if (title === "ONE MONTH FREE") {
+        alert("무료구독 서비스 시작되었습니다.");
+        navigate("/");
+      } else {
+        navigate(`/quick/sell/${feedId}/${title}`);
+      }
+    } else {
+      alert("옵션을 선택해주세요!");
+    }
   };
 
   return (

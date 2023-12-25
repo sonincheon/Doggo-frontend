@@ -171,10 +171,6 @@ const Quicksale1 = () => {
     setModalOpen(true);
   };
 
-  const openSaleModal = (a) => {
-    setSaleNum(a);
-    setSModalOpen(true);
-  };
 
   const SalesDelete = async () => {
     const resp = await AxiosApi.SaleDelete(saleNum);
@@ -241,7 +237,7 @@ const Quicksale1 = () => {
             <th>배송 예정일</th>
             <th style={{ width: "30%" }}>배송지</th>
             <th>배송상태</th>
-            <th style={{ width: "20%" }}> </th>
+            <th style={{ width: "20%" }}></th>
           </tr>
         </SellTable>
         <ScroolBox>
@@ -266,7 +262,7 @@ const Quicksale1 = () => {
                     >
                       {data.salesAddr}
                     </th>
-                    <th      style={{
+                    <th style={{
                         width: "12%",
                       }}>{data.invoice}</th>
                     <th style={{ width: "15%", display:"flex", justifyContent:"end"}}>
