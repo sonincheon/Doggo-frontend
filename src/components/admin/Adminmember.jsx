@@ -143,13 +143,14 @@ export const RightBox = styled.div`
                 border: 1px solid #999999;
             }
             td {
-                /* width: 100%; */
+                height: 40px;
                 padding: 10px 20px;
                 vertical-align: middle;
             }              
             input {
             display: inline-block;
             width: 100px;
+            height: 40px;
             padding: 10px 15px;
             margin-left: 10px;
             margin-right: 10px;
