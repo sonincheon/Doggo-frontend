@@ -36,7 +36,8 @@ const ServiceApi = {
     };
     return await AxiosInstance.put(
       Common.MUNG_HOST + `/post/modify/${id}`,
-      boardUpData);
+      boardUpData
+    );
   },
   // 문의 삭제
   boardDel: async (id) => {

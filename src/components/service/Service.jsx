@@ -8,7 +8,6 @@ const Base = styled.div`
   display: flex;
   justify-content: space-between; /* 이전에 column-gap을 사용하는 대신 space-between을 활용해 각 컨테이너를 양 옆으로 배치 */
   flex-wrap: wrap; /* 화면 크기가 작아지면 아래로 내려가도록 설정 */
-  row-gap: 40px;
 
   @media (max-width: 768px) {
     justify-content: center; /* 모바일 화면에서 가운데 정렬 */
@@ -18,11 +17,7 @@ const Base = styled.div`
 
 const Container = styled.div`
   flex: 0 0 calc(50% - 40px); /* 컨테이너의 반응형 크기 설정 */
-  max-width: calc(50% - 40px); /* 최대 너비 설정 */
-  margin-bottom: 20px; /* 컨테이너 사이 여백 설정 */
-  padding: 0 20px;
-  box-sizing: border-box;
-
+  max-width: calc(50% - 40px);
   .title {
     font-size: 2rem;
     hr {
@@ -42,15 +37,23 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  padding: 10px;
+  height: 50vh;
+  overflow-y: scroll;
 
+  .item {
+    border-bottom: 1px solid #333333;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+  }
   .question {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    margin-bottom: 5px;
     font-size: 1.2rem;
     word-spacing: 1px;
     font-weight: bold;
+
     p {
       font-size: 1rem;
     }
@@ -58,14 +61,8 @@ const Box = styled.div`
 
   .answer {
     display: flex;
-    justify-content: space-between;
     font-size: 1rem;
     word-spacing: 1px;
-    line-height: 25px;
-    padding: 10px;
-  }
-  .item {
-    border-bottom: solid 2px #333333;
   }
 
   @media (max-width: 768px) {
@@ -73,12 +70,11 @@ const Box = styled.div`
   }
 `;
 const Box2 = styled.div`
-  flex: 1;
   display: flex;
   justify-content: center;
-  width: 100%; /* 수정된 부분 */
-  max-width: 500px; /* 최대 너비 설정 */
-  margin: 0 auto;
+  width: 100%;
+
+  margin-top: 5px;
   @media (max-width: 768px) {
     order: 1; /* 화면 작아졌을 때 왼쪽으로 이동 */
     width: 100%;
@@ -101,23 +97,24 @@ const Box3 = styled.div`
 `;
 const Box4 = styled.div`
   display: flex;
-  justify-content: flex-end;
   column-gap: 5px;
 `;
-const Box5 = styled.div``;
+const Box5 = styled.div`
+  width: 100%;
+`;
 const Button = styled.button`
   color: white;
   background-color: #333333;
   border-radius: 10px;
-  border: none;
   font-size: 1rem;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
   width: 100px;
 
   &:hover {
     background-color: white;
     color: #f95001;
+    border: 1px solid #f95001;
   }
 
   @media (max-width: 768px) {
@@ -228,8 +225,8 @@ const Service = () => {
     const formattedDate = regDate.split("T")[0];
 
     return (
-      <div onClick={toggleAnswer}>
-        <div className="question">
+      <div className="item">
+        <div className="question" onClick={toggleAnswer}>
           {question}
           {image && (
             <img
@@ -265,7 +262,7 @@ const Service = () => {
   const FaqItem1 = ({ question, answer }) => {
     const [showAnswer, setShowAnswer] = useState(false);
     return (
-      <div className="" onClick={() => setShowAnswer(!showAnswer)}>
+      <div className="item" onClick={() => setShowAnswer(!showAnswer)}>
         <div className="question">{question}</div>
         {showAnswer && <div className="answer">{answer}</div>}
       </div>
@@ -298,23 +295,21 @@ const Service = () => {
             <Box>
               {list &&
                 list.map((list, index) => (
-                  <div className="item" key={index}>
-                    <FaqItem
-                      key={index}
-                      id={list.boardId}
-                      question={`Q [${enumToKorean[list.boardType]}] ${
-                        list.comment
-                      }`}
-                      answer={list.answer}
-                      image={list.boardImg}
-                      regDate={list.regDate}
-                    />
-                  </div>
+                  <FaqItem
+                    key={index}
+                    id={list.boardId}
+                    question={`Q [${enumToKorean[list.boardType]}] ${
+                      list.comment
+                    }`}
+                    answer={list.answer}
+                    image={list.boardImg}
+                    regDate={list.regDate}
+                  />
                 ))}
+              <Box2>
+                <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
+              </Box2>
             </Box>
-            <Box2>
-              <Button onClick={() => navigate("/serviceVeiw")}>작성</Button>
-            </Box2>
           </Container>
           <Container>
             <div className="title">
@@ -323,13 +318,11 @@ const Service = () => {
             </div>
             <Box>
               {faqData.map((data, index) => (
-                <div className="item" key={index}>
-                  <FaqItem1
-                    key={index}
-                    question={data.question1}
-                    answer={data.answer1}
-                  />
-                </div>
+                <FaqItem1
+                  key={index}
+                  question={data.question1}
+                  answer={data.answer1}
+                />
               ))}
             </Box>
           </Container>

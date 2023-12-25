@@ -41,9 +41,7 @@ export const PlaceName = styled.p`
 `;
 export const DetailLink = styled.a`
   text-align: center;
-  padding: 10px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+
   // 오버레이 링크 이미지
   img {
     width: 20px;

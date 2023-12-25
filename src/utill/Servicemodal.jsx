@@ -144,9 +144,10 @@ const StyledInput = styled.input`
 `;
 
 const UploadButton = styled.button`
-  border: none;
+  border: 1px solid #f95001;
   width: 100px;
-  border-radius: 10px;
+  padding: 5px;
+  border-radius: 5px;
   color: #333333;
   background: white;
   &:hover {
@@ -160,12 +161,12 @@ const UserImage = styled.img`
 const Servicemodal = (props) => {
   const { open, close, id } = props;
   const [buttonText, setButtonText] = useState("");
-  const [BoardImg, setBoardImg] = useState("");
+  const [boardImg, setBoardImg] = useState("");
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);
   const [boardType, setBoardType] = useState(""); // 문의 유형 선택값 저장
   const [comment, setComment] = useState(""); // textarea 내용 저장
-
+  const maxLength = 100;
   const handleButtonClick = (e) => {
     let boardTypeValue = "";
     const buttonText = e.target.innerText;
@@ -238,8 +239,8 @@ const Servicemodal = (props) => {
   // 수정버튼 boolean
   const boardUp = async () => {
     try {
-      console.log(id, boardType, comment, BoardImg);
-      const rsp = await ServiceApi.boardUp(id, boardType, comment, BoardImg);
+      console.log(id, boardType, comment, boardImg);
+      const rsp = await ServiceApi.boardUp(id, boardType, comment, boardImg);
       if (rsp.data === true) {
         alert("수정성공");
         navigate("/service");
@@ -285,11 +286,17 @@ const Servicemodal = (props) => {
               <Box2>
                 <div className="mini">{buttonText}</div>
                 <textarea
+                  style={{ resize: "none" }}
                   onChange={handleTextareaChange}
-                  rows="10"
+                  rows="5"
                   cols="40"
                   placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
+                  value={comment}
+                  maxLength={maxLength}
                 ></textarea>
+                <p>
+                  {comment.length}/{maxLength}
+                </p>
               </Box2>
             </Box>
             <Box>
@@ -301,7 +308,7 @@ const Servicemodal = (props) => {
                   <StyledInput type="file" onChange={handleFileInputChange} />
                   <UploadButton onClick={handleUploadClick}>선택</UploadButton>
                 </FileUploadContainer>
-                {BoardImg && <UserImage src={url} alt="uploaded" />}
+                {boardImg && <UserImage src={url} alt="uploaded" />}
               </Box2>
             </Box>
             <Box3>

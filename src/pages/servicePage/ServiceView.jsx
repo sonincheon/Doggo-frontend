@@ -118,6 +118,7 @@ const UploadButton = styled.button`
 
   &:hover {
     color: #f95001;
+    border: 1px solid #f95001;
   }
 `;
 const UserImage = styled.img`
@@ -168,7 +169,7 @@ const ServiceView = () => {
 
   const handleTextareaChange = (event) => {
     const { value } = event.target;
-
+    console.log(value);
     if (value.length <= maxLength) {
       setComment(value);
     }
@@ -250,13 +251,15 @@ const ServiceView = () => {
             <Box2>
               <div className="mini">{buttonText}</div>
               <textarea
+                style={{ resize: "none" }}
                 onChange={handleTextareaChange}
-                rows="10"
+                rows="5"
                 cols="40"
                 placeholder="FAQ로 찾을 수 없는 문제가 있을땐, 1:1 문의를 올려주시면, 최대한 빠르고 정확하게 고객님께 답변드리도록 최선을 다하겠습니다."
                 value={comment}
                 maxLength={maxLength}
               ></textarea>
+
               <p>
                 {comment.length}/{maxLength}
               </p>
