@@ -6,6 +6,9 @@ import AxiosApi from "../../api/Axios";
 import PopupDom from "../../components/member/PopupDom";
 import PopupPostCode from "../../components/member/PopupPostCode";
 import { ReactComponent as Logo } from "../../icon/petmemori.svg";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/locale";
 
 const Container = styled.div`
   width: 500px;
@@ -54,6 +57,17 @@ const Hint = styled.div`
 
 const Items = styled.div`
   margin-bottom: 30px;
+
+  .Calender {
+    width: 270px;
+    height: auto; /* 높이값 초기화 */
+    line-height: normal; /* line-height 초기화 */
+    padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+    font-family: inherit; /* 폰트 상속 */
+    border: 1px solid #999;
+    border-radius: 12px; /* iSO 둥근모서리 제거 */
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
+  }
 
   &.item1 {
     width: 400px;
@@ -244,7 +258,7 @@ const SignUp = () => {
   const [inputCert, setInputCert] = useState("");
 
   // 인증 후 활성화
-  const [able, setAble] = useState(true);
+  const [able, setAble] = useState(false);
 
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
@@ -295,6 +309,17 @@ const SignUp = () => {
     }
   };
 
+  const formatDate = (date) => {
+    // 년, 월, 일 구성 요소 추출
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth()가 0부터 시작하므로 1을 더해줍니다.
+    const day = date.getDate().toString().padStart(2, "0");
+    setIsBirth(date !== "" && date !== undefined);
+
+    // "yyyy-mm-dd" 형식으로 조합
+    return `${year}-${month}-${day}`;
+  };
+
   const onChangePwConfirm = (e) => {
     const confirmPassword = e.target.value;
     setPwConfirm(confirmPassword);
@@ -316,8 +341,9 @@ const SignUp = () => {
 
   const onChangeTel = (e) => {
     const Tel = e.target.value;
-    setInputTel(Tel);
-    setIsTel(Tel !== "" && Tel !== undefined);
+    const telWithoutHyphen = Tel.replace(/-/g, "");
+    setInputTel(telWithoutHyphen);
+    setIsTel(telWithoutHyphen !== "" && telWithoutHyphen !== undefined);
   };
 
   const onChangeBirth = (e) => {
@@ -358,11 +384,12 @@ const SignUp = () => {
       // 인증번호가 일치하지 않을 때
       setModelText("인증에 실패하였습니다.");
       setModalOpen(true);
+      console.log(inputTel);
     }
   };
 
   const onClickSignUp = async () => {
-    if (!allCheck) {
+    if (!ageCheck || !useCheck) {
       setModalOpen(true);
       setModelText("필수 약관을 동의해주세요.");
       return;
@@ -373,7 +400,6 @@ const SignUp = () => {
       isPwConfirm &&
       isName &&
       isTel &&
-      isBirth &&
       isPost &&
       isPostNum &&
       isGender
@@ -385,11 +411,12 @@ const SignUp = () => {
           inputTel,
           inputName,
           post + postDetail + postNum,
-          inputBirth,
+          formatDate(inputBirth),
           inputGender
         );
         setModalOpen(true);
         console.log("회원가입 성공 ", isLogin);
+        alert("회원가입에 성공하였습니다.");
         navigate("/login");
       } catch (e) {
         console.log("회원가입 실패", e);
@@ -542,7 +569,7 @@ const SignUp = () => {
             <Input
               type="input"
               disabled={able}
-              placeholder="전화번호"
+              placeholder="전화번호 (하이픈(-)을 제외하고 입력해주세요)"
               value={inputTel}
               onChange={onChangeTel}
             />
@@ -550,12 +577,16 @@ const SignUp = () => {
           <div style={{ height: "2%" }}></div>
 
           <Items className="item2">
-            <Input
-              type="input"
-              disabled={able}
-              placeholder="생년월일 (예 : 2000-02-02)"
-              value={inputBirth}
-              onChange={onChangeBirth}
+            <DatePicker
+              placeholderText="생년월일"
+              className="Calender"
+              locale={ko}
+              dateFormat="yyyy-MM-dd"
+              shouldCloseOnSelect
+              selected={inputBirth}
+              onChange={(date) => setInputBirth(date)}
+              showYearDropdown
+              showMonthDropdown
             />
           </Items>
           <div style={{ height: "2%" }}></div>

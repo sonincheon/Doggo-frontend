@@ -38,7 +38,7 @@ const ModalStyle = styled.div`
   section > header {
     position: relative;
     padding: 16px 64px 16px 16px;
-    background-color: #776b5d;
+    background-color: #333333;
     color: white;
     font-weight: 700;
   }
@@ -66,9 +66,13 @@ const ModalStyle = styled.div`
   section > footer button {
     padding: 6px 12px;
     color: #fff;
-    background-color: #45474b;
+    background-color: #333333;
     border-radius: 5px;
     font-size: 13px;
+  }
+  section > footer button:active {
+    background-color: #686868;
+    // 다른 스타일도 필요하다면 추가
   }
   @keyframes modal-show {
     from {

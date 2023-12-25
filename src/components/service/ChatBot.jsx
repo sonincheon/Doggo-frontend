@@ -10,13 +10,13 @@ const Container = styled.div`
   ::before {
     content: "";
     position: absolute;
-    top: 5%; /* 중앙 정렬을 위해 추가 */
-    right: -4%; /* 말풍선 꼬리가 컨테이너 바깥으로 나가지 않도록 설정 */
+    bottom: 6px; /* 말풍선 꼬리를 아래로 위치시킴 */
+    left: -4%; /* 말풍선 꼬리 위치 조절 */
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 15px 0 10px 18px; /* 말풍선 꼬리의 크기 조절 */
-    border-color: transparent transparent transparent #f3eeea; /* 말풍선 꼬리의 색상 설정 */
+    border-width: 10px 18px 15px 0; /* 말풍선 꼬리의 크기 조절 */
+    border-color: transparent #f3eeea transparent transparent; /* 말풍선 꼬리의 색상 설정 */
   }
   .chat {
     background-color: #f0f0f0;
@@ -28,12 +28,12 @@ const Container = styled.div`
 // 채팅 메시지와 스크롤바가 있는 컨테이너에 대한 스타일드 컴포넌트
 const ChatboxContainer = styled.div`
   width: 100%;
-  height: 400px;
+  height: 350px;
   overflow-y: auto;
   padding: 8px;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: #87c4ff #f1f1f1;
+  scrollbar-color: #f95001 #f1f1f1;
 
   /* 스크롤바에 대한 일반적인 스타일을 설정합니다. */
   &::-webkit-scrollbar {
@@ -41,7 +41,7 @@ const ChatboxContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #87c4ff;
+    background-color: #f95001;
     border-radius: 5px;
   }
 
@@ -74,7 +74,7 @@ const SendButton = styled.button`
   width: 60px;
   height: 40px;
   border: none;
-  background-color: #87c4ff;
+  background-color: #f95001;
   color: white;
   font-weight: bold;
   border-radius: 0px 7px 7px 0px;
@@ -96,7 +96,7 @@ const Boxleft = styled.div`
 `;
 
 const UserMessage = styled.div`
-  background-color: #87c4ff;
+  background-color: #f95001;
   color: white;
   border-radius: 8px;
   padding: 8px;
@@ -117,16 +117,20 @@ const Image = styled.img`
 `;
 
 const WelcomeContainer = styled.div`
-  background-color: #87c4ff;
+  background-color: #f95001;
   color: white;
   border-radius: 8px;
   padding: 8px;
   margin: 4px;
   text-align: center;
 
+  .Welcome {
+    font-size: 13px;
+  }
+
   @media (max-width: 1280px) {
     .Welcome {
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 `;
@@ -140,11 +144,12 @@ const WelcomeButtons = styled.div`
 const WelcomeButton = styled.button`
   margin: 0 8px;
   padding: 5px;
-  width: 100px;
+  width: 120px;
   background-color: #f0f0f0;
-  color: #87c4ff;
-  border: 1px solid #87c4ff;
+  color: #f95001;
+  border: 1px solid #f95001;
   border-radius: 4px;
+  font-size: 9px;
   cursor: pointer;
 
   @media (max-width: 1280px) {

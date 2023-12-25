@@ -4,6 +4,7 @@ import styled from "styled-components";
 import dogfoot from "../img/dogfoot.png";
 import { storage } from "./FireBase";
 import AxiosApi from "../api/Axios";
+import petprofile from "../img/petprofile2.png";
 
 const ModalStyle = styled.div`
   /* 모달 기본 스타일 */
@@ -52,7 +53,7 @@ const ModalStyle = styled.div`
   section > header {
     position: relative;
     padding: 16px 64px 16px 16px;
-    background-color: #776b5d;
+    background-color: #333333;
     color: white;
     font-weight: 700;
     // 테두리 추가
@@ -92,10 +93,14 @@ const ModalStyle = styled.div`
   section > footer button {
     padding: 6px 12px;
     color: #fff;
-    background-color: #45474b;
+    background-color: #333333;
     border-radius: 5px;
     font-size: 13px;
     // 테두리 추가
+
+    &:active {
+      background-color: #575656;
+    }
   }
 
   /* 모달 열릴 때의 애니메이션 효과 */
@@ -151,9 +156,10 @@ const PetProfile = styled.img`
   height: 200px;
   margin-right: 10px;
   border-radius: 100%;
-  background-color: #ffeed9;
   margin-left: 10px;
   margin-bottom: 10px;
+  background-image: url(${petprofile});
+  background-position: center;
 `;
 
 const PetInfo2 = styled.div`
@@ -221,14 +227,14 @@ const UploadButton = styled.button`
   font-size: 12px;
   font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #333333;
   box-sizing: border-box;
   vertical-align: bottom;
   margin-left: 5px;
   margin-top: 10px;
 
-  &:hover {
-    background-color: #b33f3f;
+  &:active {
+    background-color: #575656;
   }
 `;
 
@@ -236,8 +242,9 @@ const ImgBox = styled.div`
   width: 200px;
   height: 200px;
   border-radius: 100%;
-  background-color: #ffeed9;
   margin-bottom: 10px;
+  background-image: url(${petprofile});
+  background-position: center;
 `;
 
 const Petmodal = (props) => {
@@ -425,7 +432,6 @@ const Petmodal = (props) => {
                 </FileUploadContainer>
               </div>
               <PetInfo1>
-                <img src={dogfoot} alt="Dog Foot" className="DogFootImage" />
                 <PetInfo2>
                   <PetInfo3>
                     이름 : <PetSign value={inputName} onChange={onChangeName} />

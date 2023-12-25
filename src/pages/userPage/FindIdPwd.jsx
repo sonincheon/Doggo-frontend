@@ -74,6 +74,14 @@ const Item2 = styled.input`
   border-radius: 10px;
   width: 15vw;
   height: 4vh;
+  min-width: 240px;
+`;
+
+const Item3 = styled.input`
+  border-radius: 10px;
+  width: 15vw;
+  height: 4vh;
+  min-width: 200px;
 `;
 
 const Button1 = styled.button`
@@ -99,6 +107,7 @@ const Button2 = styled.button`
   background-color: #333333;
   color: white;
   cursor: pointer;
+  min-width: 70px;
 
   &:active {
     //확인 클릭하면 설정
@@ -189,16 +198,16 @@ const FindIdPwd = () => {
             <div className="Title">비밀번호 찾기</div>
           </div>
           <Item1>
-            <div>아이디:</div>
+            <div style={{ whiteSpace: "nowrap" }}>아이디:</div>
             <div style={{ display: "flex" }}>
-              <Item2></Item2>
+              <Item3></Item3>
               <Button2>전송</Button2>
             </div>
           </Item1>
           <Item1>
-            <div>인증번호 입력 : </div>
+            <div style={{ whiteSpace: "nowrap" }}>인증번호 입력 : </div>
             <div style={{ display: "flex" }}>
-              <Item2></Item2>
+              <Item3></Item3>
               <Button2>인증</Button2>
             </div>
           </Item1>

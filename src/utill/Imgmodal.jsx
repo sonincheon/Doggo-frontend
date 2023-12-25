@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { storage } from "./FireBase";
 import AxiosApi from "../api/Axios";
+import profile from "../img/profile2.png";
 
 const ModalStyle = styled.div`
   .modal {
@@ -39,7 +40,7 @@ const ModalStyle = styled.div`
   section > header {
     position: relative;
     padding: 16px 64px 16px 16px;
-    background-color: #776b5d;
+    background-color: #333333;
     color: white;
     font-weight: 700;
   }
@@ -68,9 +69,13 @@ const ModalStyle = styled.div`
   section > footer button {
     padding: 6px 12px;
     color: #fff;
-    background-color: #45474b;
+    background-color: #333333;
     border-radius: 5px;
     font-size: 13px;
+
+    &:active {
+      background-color: #575656;
+    }
   }
   @keyframes modal-show {
     from {
@@ -113,6 +118,8 @@ const Exist2 = styled.img`
   text-justify: center;
   border-radius: 100%;
   margin-bottom: 10px;
+  background-image: url(${profile});
+  background-position: center;
 `;
 
 const FileUploadContainer = styled.div`
@@ -140,14 +147,14 @@ const UploadButton = styled.button`
   font-size: 12px;
   font-weight: bold;
   color: white;
-  background-color: #776b5d;
+  background-color: #333333;
   box-sizing: border-box;
   vertical-align: bottom;
   margin-left: 5px;
   margin-top: 10px;
 
-  &:hover {
-    background-color: #b33f3f;
+  &:active {
+    background-color: #575656;
   }
 `;
 
@@ -155,7 +162,8 @@ const ImgBox = styled.div`
   width: 220px;
   height: 220px;
   border-radius: 100%;
-  background-color: #ffeed9;
+  background-image: url(${profile});
+  background-position: center;
   margin-bottom: 10px;
 `;
 

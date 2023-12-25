@@ -9,6 +9,7 @@ import profile from "../../img/profile2.png";
 
 const BoxContent = styled.div`
   border-radius: 10px;
+  min-height: 850px;
 `;
 
 const BoxTitle = styled.div`
@@ -38,15 +39,20 @@ const Btn = styled.button`
   border-radius: 10px;
   font-size: 15px;
   color: white;
-  background-color: #f95001;
+  background-color: #333333;
   box-sizing: border-box;
   vertical-align: bottom;
   border: none;
   white-space: nowrap;
+  cursor: pointer;
+
+  &:active {
+    background-color: #575656;
+  }
 
   @media (max-width: 1280px) {
     width: 40px;
-    font-size: 9px;
+    font-size: 11px;
   }
 `;
 
@@ -63,6 +69,7 @@ const InputBox = styled.div`
 
   .item1 {
     width: 30%;
+    white-space: nowrap;
   }
   .item2 {
     width: 80%;
@@ -74,7 +81,7 @@ const InputBox = styled.div`
 
   @media (max-width: 1280px) {
     .item1 {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 `;
@@ -89,6 +96,33 @@ const Input = styled.div`
   justify-content: center;
   font-size: 15px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 1280px) {
+    font-size: 14px;
+  }
+`;
+
+const InputContainer = styled.div`
+  width: 72%;
+  height: 5vh;
+  border-radius: 10px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .Input {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
+  }
 
   @media (max-width: 1280px) {
     font-size: 12px;
@@ -106,15 +140,21 @@ const Btn1 = styled.div`
 const Btn2 = styled.button`
   width: 80%;
   height: 5vh;
+  min-height: 40px;
   border-radius: 10px;
   font-size: 17px;
   font-weight: bold;
   color: white;
-  background-color: #f95001;
+  background-color: #333333;
   box-sizing: border-box;
   vertical-align: bottom;
   margin-top: 8px;
   border: none;
+  cursor: pointer;
+
+  &:active {
+    background-color: #575656;
+  }
 `;
 
 const Profile = styled.div`
@@ -161,7 +201,6 @@ const OverlayText = styled.div`
   pointer-events: none; /* 텍스트 위에 마우스 이벤트를 허용하지 않음 */
   opacity: 0; /* 초기에는 보이지 않도록 설정 */
   transition: opacity 0.3s ease; /* 투명도에 대한 부드러운 효과를 위한 트랜지션 속성 추가 */
-  border: 1px solid black;
 
   ${Profile}:hover & {
     opacity: 1; /* 마우스 호버 시 텍스트가 나타남 */
@@ -312,7 +351,9 @@ const Myprofile = () => {
           <InputBox>
             <div className="item1">주소</div>
             <div className="item2">
-              <Input>{detail.memberAddress}</Input>
+              <InputContainer>
+                <div className="Input">{detail.memberAddress}</div>
+              </InputContainer>
               <Btn
                 onClick={() =>
                   openClick("주소 변경", "주소", detail.memberAddress, 2)
@@ -339,8 +380,8 @@ const Myprofile = () => {
             <Btn2 onClick={() => openClick1(member[0].Password)}>
               비밀번호 변경
             </Btn2>
-            <Btn2>1대1 문의하기</Btn2>
-            <Btn2>구매 내역 조회</Btn2>
+            <Btn2 onClick={() => navigate("/service")}>1대1 문의하기</Btn2>
+            <Btn2 onClick={() => navigate("/quick/sales")}>구매 내역 조회</Btn2>
             <Btn2 onClick={memberDelete}>회원 탈퇴</Btn2>
           </Btn1>
         </BoxContent2>

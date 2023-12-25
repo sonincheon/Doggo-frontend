@@ -10,19 +10,21 @@ const BoxContent = styled.div`
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 1000px;
+  height: 87vh;
+  min-height: 850px;
+  min-width: 650px;
 
   &::-webkit-scrollbar {
     width: 13px; // 스크롤바의 너비
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #f95001; // 스크롤바 색상
+    background-color: #333333; // 스크롤바 색상
     border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #ffaa82; // 스크롤바 색상
+    background-color: #858585; // 스크롤바 색상
     border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
     // F3EEEA, EBE3D5, FFEED9, B0A695
   }
@@ -32,10 +34,11 @@ const BoxTitle = styled.div`
   font-size: 32px;
   font-weight: 900;
   margin-bottom: 1rem;
+  border: 1px solid black;
 `;
 
 const BoxContent1 = styled.div`
-  width: 100%;
+  width: 99%;
   background-color: #ebebeb;
   display: flex;
   justify-content: space-around;
@@ -43,6 +46,10 @@ const BoxContent1 = styled.div`
   margin-bottom: 1rem;
   border-radius: 10px;
   padding: 10px;
+  border: 1px solid black;
+  min-width: 630px;
+  padding: 1rem;
+  border: 1px solid black;
 `;
 
 const PetProfile = styled.img`
@@ -50,7 +57,7 @@ const PetProfile = styled.img`
   height: 200px;
   border-radius: 100%;
   margin-left: 1rem;
-  margin-right: 1rem;
+  border: 1px solid black;
 `;
 
 const PetInfo1 = styled.div`
@@ -99,17 +106,22 @@ const Btn = styled.button`
   border-radius: 10px;
   font-size: 15px;
   color: white;
-  background-color: #f95001;
+  background-color: #333333;
   box-sizing: border-box;
   border: none;
   white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid black;
+
+  &:active {
+    background-color: #575656;
+  }
 `;
 
 const Btn2 = styled.button`
   padding: 4px 20px;
   border-radius: 10px;
   font-size: 14px;
-
   color: #f95001;
   font-weight: 900;
   background-color: #fff;
@@ -117,7 +129,8 @@ const Btn2 = styled.button`
   vertical-align: bottom;
   margin-left: 5px;
   border: none;
-  border: 1px solid #f95001;
+  cursor: pointer;
+  border: 1px solid black;
 `;
 
 // 나이 계산 함수
