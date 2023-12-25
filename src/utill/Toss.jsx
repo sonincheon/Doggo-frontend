@@ -65,6 +65,9 @@ const TossPage = (props) => {
       <div id="payment-widget" />
       <BtnStyle
         onClick={async () => {
+
+
+          
           setPrice(payPrice);
           const paymentWidget = paymentWidgetRef.current;
           try {
