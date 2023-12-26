@@ -149,7 +149,7 @@ const Qnadetail = () => {
                     {/* <span>{detailQna.boardId}</span> */}
                     {/* <img src={selectedQna.Img} alt="프로필 이미지" /> */}
                     <div className="textbox">
-                        <p>{detailQna.boardType}  <span className="bar"></span>  {detailQna.comment}</p>
+                        <p>[{detailQna.boardType}]  <span className="bar"></span>  {detailQna.comment}</p>
                         <div className="bottomTxt">
                             <span>{detailQna.memberEmail}</span>
                             <span className="bar"></span>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { SideBar } from "../PublicStyle";
 import { RightBox, PaginationContainer, PageButton } from "../admin/Adminmember"
 import AdminAxiosApi from "../../api/AdminAxios";
+import { display } from "@mui/system";
 
 
 
@@ -13,6 +14,8 @@ const Adminsales = () =>{
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [isTrue, setIsTrue] = useState(false);
     const [invoiceInput, setInvoiceInput] = useState('');
+    const [orderStatusList, setOrderStatusList] = useState([]);
+const [invoiceInputList, setInvoiceInputList] = useState([]);
 
     // 리렌더링 용
     const reRender = () => {
@@ -53,7 +56,7 @@ const Adminsales = () =>{
             }
         };
         saleList();
-    }, [currentPage]);
+    }, [currentPage,isTrue]);
 
     // 페이지네이션 - 페이지 이동 기능
     const handlePageChange = (number) => {
@@ -77,13 +80,14 @@ const Adminsales = () =>{
     // 송장번호 입력 .. orderStatus 빼면 송장번호 값이 안들어감.
      const HandleInvoiceUpload = async (id, orderStatus, invoiceInput) => {
         try {
+            console.log(invoiceInput);
             const onlyNum = /^[0-9]+$/.test(invoiceInput);
             if (!onlyNum) {
                 alert("송장번호는 숫자로만 입력 가능합니다.");
                 return;
             }
 
-            const res = await AdminAxiosApi.InvoiceInput(id, "출고완료", invoiceInput);
+            const res = await AdminAxiosApi.InvoiceInput(id,orderStatus, invoiceInput);
 
             if (res.data === true) {
                 const res = await AdminAxiosApi.SaleAllList(id);
@@ -108,6 +112,17 @@ const Adminsales = () =>{
         
     };
 
+const handleStatusChange = (index, value) => {
+  const updatedStatusList = [...orderStatusList];
+  updatedStatusList[index] = value;
+  setOrderStatusList(updatedStatusList);
+};
+
+const handleInvoiceInputChange = (index, value) => {
+  const updatedInvoiceInputList = [...invoiceInputList];
+  updatedInvoiceInputList[index] = value;
+  setInvoiceInputList(updatedInvoiceInputList);
+};
 
 
     // 필터별로 조회
@@ -161,10 +176,10 @@ const Adminsales = () =>{
                                     <th>Addr</th>
                                     {/* <th>Tel</th> */}
                                     <th>Order</th>
-                                    <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Status</th>
                                     <th>Invoice</th>
+                                    <th>Input</th>
                                     {/* <th className="btnArea"></th> */}
                                 </tr>
                             </thead>
@@ -177,11 +192,19 @@ const Adminsales = () =>{
                                         <td>{order.salesAddr}</td>
                                         {/* <td>{order.Tel}</td> */}
                                         <td>{order.feedName}</td>
-                                        <td>{order.feedSubscribe}</td>
                                         <td>{order.salesPrice}</td>
                                         <td onChange={(e) => setOrderstatus(e.target.value)}>{order.orderStatus}</td>
+                                        <td>{order.invoice}</td>
                                         <td>
-                                            <span>{order.invoice}</span>
+                                            <label>
+                                                <select size={1}         value={orderStatusList[index] || ''}
+                                                    onChange={(e) => handleStatusChange(index, e.target.value)}>
+                                                    <option value="준비중">준비중</option>
+                                                    <option value="출고지연">출고지연</option>
+                                                    <option value="출고완료">출고완료</option>
+                                                    <option value="배송완료">배송완료</option>
+                                                </select>
+                                            </label>
                                             
                                             <input
                                             type="text"
@@ -190,7 +213,7 @@ const Adminsales = () =>{
                                             onChange={(e) => setInvoiceInput(e.target.value)}
                                             />
                                         
-                                            <button onClick={() => HandleInvoiceUpload(order.saleId, order.orderStatus, invoiceInput)}>입력</button>
+                                            <button onClick={() => HandleInvoiceUpload(order.saleId,orderStatusList[index],invoiceInput)}>입력</button>
                                                                           
                                         </td>
                                     </tr>

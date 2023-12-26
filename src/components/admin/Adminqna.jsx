@@ -169,7 +169,7 @@ const Adminqna = () =>{
                                 <span>{index + 1}</span>
                                 {/* <img src={item.Img} alt="프로필 이미지" /> */}
                                 <div className="textbox">
-                                    <p onClick={() => handleQnaDetail(item.boardId)}>{item.boardType} <span className="bar"></span>{item.comment}</p>
+                                    <p onClick={() => handleQnaDetail(item.boardId)}>[{item.boardType}] <span className="bar"></span>{item.comment}</p>
                                     <div className="bottomTxt">
                                         <span>{item.memberEmail}</span>
                                         <span className="bar"></span>

@@ -9,10 +9,10 @@ const AdminAxiosApi = {
 
   // ----------------------------- Admin Member
   memberAllList: async () => {
-    return await axios.get(MUNG_HOST + `/admin/member/members`);
+    return await AxiosInstance.get(MUNG_HOST + `/admin/member/members`);
   },
   memberDelete: async (email) => {
-    return await axios.delete(MUNG_HOST + `/admin/member/members/${email}`, {
+    return await AxiosInstance.delete(MUNG_HOST + `/admin/member/members/${email}`, {
         headers: {
             "Content-Type": "application/json",
         },
@@ -20,7 +20,7 @@ const AdminAxiosApi = {
   },
     // 판매 페이지 수 조회
     MemberPage: async (page, size) => {
-      return await axios.get(
+      return await AxiosInstance.get(
         MUNG_HOST + `/admin/member/count?page=${page}&size=${size}`
       );
     },
@@ -29,7 +29,7 @@ const AdminAxiosApi = {
       const grade ={
         memberGrade
       }
-      return await axios.get(
+      return await AxiosInstance.get(
         MUNG_HOST + `/admin/member/list/page?page=${page}&size=${size}`,grade
       );
     },
@@ -38,11 +38,11 @@ const AdminAxiosApi = {
   // ----------------------------- Admin Sale
   SaleAllList: async () => {
     const accessToken = Common.getAccessToken();
-    return await axios.get(MUNG_HOST + `/sale/list/all`,{
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
+    return await AxiosInstance.get(MUNG_HOST + `/sale/list/all`,{
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   Authorization: "Bearer " + accessToken,
+      // },
     });
   },
 
@@ -53,56 +53,56 @@ const AdminAxiosApi = {
       orderStatus: orderStatus, 
       invoice: invoice,
     };
-    return await axios.put(MUNG_HOST + `/admin/sales/order/${id}`, InvoiceData)
+    return await AxiosInstance.put(MUNG_HOST + `/admin/sales/order/${id}`, InvoiceData)
   },
 
   // 판매 페이지 수 조회
   SalePage: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/sales/list/count?page=${page}&size=${size}`
     );
   },
   // 판매 페이지네이션 조회
   SalePageList: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/sales/list/page?page=${page}&size=${size}`
     );
   },
   
   // ------------------------------ Admin Board
   QnaAllList: async () => {
-    return await axios.get(MUNG_HOST + `/post/list`);
+    return await AxiosInstance.get(MUNG_HOST + `/post/list`);
   },
   // 판매 페이지 수 조회
   QnaPage: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/qna/count?page=${page}&size=${size}`
     );
   },
   // 판매 페이지네이션 조회
   QnaPageList: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/qna/list/page?page=${page}&size=${size}`
     );
   },
   QnaDetail: async (id) => {
-    return await axios.get(MUNG_HOST + `/admin/qna/detail/${id}`);
+    return await AxiosInstance.get(MUNG_HOST + `/admin/qna/detail/${id}`);
   },
   AnswerChange: async (id,answer) => {
     const AnswerData = {
         answer: answer,
     };
-    return await axios.put(MUNG_HOST +`/admin/qna/answer/${id}`,AnswerData);
+    return await AxiosInstance.put(MUNG_HOST +`/admin/qna/answer/${id}`,AnswerData);
   },
 
   // -------------------------------- Admin Feed
   // 전체조회
   FeedAllList: async () => {
-    return await axios.get(MUNG_HOST + `/admin/feed/feeds`);
+    return await AxiosInstance.get(MUNG_HOST + `/admin/feed/feeds`);
   },
   // 상세조회
   FeedDetail: async (id) => {
-    return await axios.get(MUNG_HOST + `/admin/feed/detail/${id}`);
+    return await AxiosInstance.get(MUNG_HOST + `/admin/feed/detail/${id}`);
   },
   // 사료 추가 → 만들어둔거 쓰기 FeedReg
   // 사료 수정
@@ -116,7 +116,7 @@ const AdminAxiosApi = {
       feedPrice: feedPrice,
       feedInfo: feedInfo,
     };
-    return await axios.put(MUNG_HOST + `/admin/feed/modify/${id}`, FeedData);
+    return await AxiosInstance.put(MUNG_HOST + `/admin/feed/modify/${id}`, FeedData);
   },
   // 사료 삭제
   FeedDelete: async (id) => {
@@ -124,13 +124,13 @@ const AdminAxiosApi = {
   },
   // 페이지 수 조회
   FeedPage: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/feed/list/count?page=${page}&size=${size}`
     );
   },
   // 페이지네이션
   FeedPageList: async (page, size) => {
-    return await axios.get(
+    return await AxiosInstance.get(
       MUNG_HOST + `/admin/feed/list/page?page=${page}&size=${size}`
     );
   },

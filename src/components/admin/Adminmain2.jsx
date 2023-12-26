@@ -78,7 +78,7 @@ const Adminmain2 = () => {
               {/* Legend: 범례 설정 */}
               <Legend />
               {/* Line: 라인 설정 */}
-              <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="count" stroke="#F95001" activeDot={{ r: 8 }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartSize>
