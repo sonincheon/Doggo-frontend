@@ -9,6 +9,7 @@ import { ReactComponent as Logo } from "../../icon/petmemori.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
+import { subDays, subYears } from "date-fns";
 
 const Container = styled.div`
   width: 500px;
@@ -59,7 +60,7 @@ const Items = styled.div`
   margin-bottom: 30px;
 
   .Calender {
-    width: 270px;
+    width: 300px;
     height: auto; /* 높이값 초기화 */
     line-height: normal; /* line-height 초기화 */
     padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
@@ -67,6 +68,14 @@ const Items = styled.div`
     border: 1px solid #999;
     border-radius: 12px; /* iSO 둥근모서리 제거 */
     outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
+
+    .react-datepicker__triangle {
+      border-bottom-color: black; /* 화살표 색상 지정 */
+    }
+
+    @media (max-width: 1280px) {
+      width: 270px;
+    }
   }
 
   &.item1 {
@@ -235,6 +244,7 @@ const SignUp = () => {
   const [postNum, setPostNum] = useState("");
   const [post, setPost] = useState("");
   const [postDetail, setPostDetail] = useState("");
+  const [inputDate, setInputDate] = useState();
 
   // 오류 메시지
   const [idMessage, setIdMessage] = useState("");
@@ -309,17 +319,6 @@ const SignUp = () => {
     }
   };
 
-  const formatDate = (date) => {
-    // 년, 월, 일 구성 요소 추출
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth()가 0부터 시작하므로 1을 더해줍니다.
-    const day = date.getDate().toString().padStart(2, "0");
-    setIsBirth(date !== "" && date !== undefined);
-
-    // "yyyy-mm-dd" 형식으로 조합
-    return `${year}-${month}-${day}`;
-  };
-
   const onChangePwConfirm = (e) => {
     const confirmPassword = e.target.value;
     setPwConfirm(confirmPassword);
@@ -346,12 +345,6 @@ const SignUp = () => {
     setIsTel(telWithoutHyphen !== "" && telWithoutHyphen !== undefined);
   };
 
-  const onChangeBirth = (e) => {
-    const Birth = e.target.value;
-    setInputBirth(Birth);
-    setIsBirth(Birth !== "" && Birth !== undefined);
-  };
-
   const SingupIdCheck = async (email) => {
     try {
       const resp = await AxiosApi.SingupIdCheck(email);
@@ -369,6 +362,7 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
       setModelText("오류가 발생했습니다.");
+      console.log("ㅅㅂ" + inputBirth);
       console.log(email);
       setModalOpen(true);
     }
@@ -402,6 +396,7 @@ const SignUp = () => {
       isTel &&
       isPost &&
       isPostNum &&
+      isBirth &&
       isGender
     ) {
       try {
@@ -487,6 +482,25 @@ const SignUp = () => {
       setAllCheck(false);
     }
   }, [ageCheck, useCheck, marketingCheck]);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const onChangeBirth = (date) => {
+    if (date) {
+      const formattedDate = formatDate(date);
+      setInputDate(date);
+      setInputBirth(formattedDate);
+    } else {
+      setInputBirth("");
+    }
+  };
+
+  const maxSelectableDate = subDays(new Date(), 1);
 
   return (
     <CenteredContainer>
@@ -580,13 +594,14 @@ const SignUp = () => {
             <DatePicker
               placeholderText="생년월일"
               className="Calender"
+              selected={inputDate}
               locale={ko}
-              dateFormat="yyyy-MM-dd"
               shouldCloseOnSelect
-              selected={inputBirth}
-              onChange={(date) => setInputBirth(date)}
+              onChange={(date) => onChangeBirth(date)}
               showYearDropdown
               showMonthDropdown
+              dateFormat="yyyy년 MM월 dd일"
+              maxDate={maxSelectableDate}
             />
           </Items>
           <div style={{ height: "2%" }}></div>
