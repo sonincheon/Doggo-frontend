@@ -11,6 +11,7 @@ export const MapContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 `;
 export const Overlay = styled.div`
   border-radius: 5px;
@@ -25,7 +26,6 @@ export const Overlay = styled.div`
 export const Arrow = styled.div`
   width: 20px;
   height: 10px;
-  overflow: hidden;
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -60,9 +60,10 @@ export const SearchBtns = styled.div`
 `;
 
 export const KeywordBtn = styled.button`
-  width: 110px;
-  color: #333333;
-  background-color: rgba(255, 255, 255, 0.5);
+  width: 120px;
+  color: #f95001;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 5px;
   font-size: 0.875rem;
   padding: 10px;
@@ -83,36 +84,29 @@ export const ListContainer = styled.div`
   top: 0;
   bottom: 0;
   z-index: 10;
-  width: 400px;
+  width: 300px;
   overflow-y: auto;
   transition: 0.2s;
   ${({ isClosed }) =>
     isClosed &&
     css`
-      left: -400px;
+      left: -300px;
     `};
 `;
 
-// export const SideBarOpenBtn = styled.button`
-//   position: fixed;
-//   z-index: 1;
-//   top: 50%;
-//   left: 400px;
-//   transform: translateY(-50%);
-//   width: 40px;
-//   height: 100px;
-//   border-top-right-radius: 8px;
-//   border-bottom-right-radius: 8px;
-//   border: none;
-//   background: #333333;
-//   transition: 0.3s;
-//   ${({ isClosed }) =>
-//     isClosed &&
-//     css`
-//       left: 0px;
-//       background-color: white;
-//     `}
-// `;
+export const SideBarOpenBtn = styled.button`
+  position: fixed;
+  z-index: 1;
+  top: 170px;
+  left: 30px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background: #333333;
+  transition: 0.3s;
+`;
 
 export const ModalContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
@@ -145,26 +139,26 @@ export const Name = styled.p`
 `;
 
 export const Category = styled.p`
-  color: #f95001;
+  color: #898989;
   margin-bottom: 13px;
 `;
 
 export const Address = styled.p`
   font-size: 14px;
   margin-bottom: 5px;
-  color: #f95001;
+  color: #898989;
 `;
 
 export const Distance = styled.p`
   margin-right: 10px;
-  color: #f95001;
+  color: #898989;
 `;
 
 export const RoadAddress = styled.div`
   font-size: 14px;
   display: flex;
   align-items: center;
-  color: #f95001;
+  color: #898989;
 
   img {
     width: 35px;
@@ -183,7 +177,7 @@ export const Division = styled.p`
 `;
 
 export const PhoneNumber = styled.p`
-  color: #f95001;
+  color: #898989;
 `;
 
 export const NoList = styled.p`
@@ -235,11 +229,11 @@ export const ModalBtn = styled.button`
   border-radius: 5px;
   background-color: #f95001;
 
-  /* ${({ isClosed }) =>
+  ${({ isClosed }) =>
     isClosed &&
     css`
       left: 0px;
-    `} */
+    `}
 `;
 
 // 현재 내 위치로 돌아가는 버튼
@@ -321,12 +315,12 @@ export const ReSearch = styled.button`
   line-height: 40px;
   border-radius: 30px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 1);
 
-  /* &:active {
-    color: #333333;
-    background-color: white;
-  } */
+  &:active {
+    color: white;
+    background-color: #333333;
+  }
 
   @media (max-width: 768px) {
     font-size: 12px;

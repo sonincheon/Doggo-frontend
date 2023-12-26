@@ -109,12 +109,12 @@ const StyledInput = styled.input`
 `;
 
 const UploadButton = styled.button`
-  border: none;
   padding: 10px;
   width: 100px;
   border-radius: 10px;
   color: #333333;
   background: white;
+  border: 1px solid #f95001;
 
   &:hover {
     color: #f95001;

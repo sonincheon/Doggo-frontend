@@ -20,8 +20,9 @@ const Container = styled.div`
   max-width: calc(50% - 40px);
   .title {
     font-size: 2rem;
+    color: #f95001;
     hr {
-      border-bottom: solid 1px #333333;
+      border-bottom: solid 2px #f95001;
     }
   }
 
@@ -39,22 +40,23 @@ const Box = styled.div`
   width: 100%;
   height: 50vh;
   overflow-y: scroll;
-
   .item {
-    border-bottom: 1px solid #333333;
+    border-bottom: 1.2px solid #f95001;
     display: flex;
-    padding: 10px;
     flex-direction: column;
+    padding: 10px;
   }
   .question {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
     font-size: 1.2rem;
-    word-spacing: 1px;
+    word-spacing: 0.5rem;
     font-weight: bold;
-
-    p {
+    .question_item {
+      display: flex;
+      word-break: break-all;
+      flex-direction: column;
+    }
+    .question_date {
+      display: flex;
       font-size: 1rem;
     }
   }
@@ -62,7 +64,8 @@ const Box = styled.div`
   .answer {
     display: flex;
     font-size: 1rem;
-    word-spacing: 1px;
+    word-spacing: 0.2rem;
+    margin-top: 10px;
   }
 
   @media (max-width: 768px) {
@@ -82,13 +85,13 @@ const Box2 = styled.div`
 `;
 const Box3 = styled.div`
   display: flex;
-  position: relative;
   width: 100%;
   padding: 10px;
   justify-content: flex-start; /* 위에서 정렬 */
-
-  .title {
-    font-size: 1.5rem;
+  .top {
+    h1 {
+      font-size: 1.5rem;
+    }
     p {
       font-size: 1rem;
       margin: 10px;
@@ -227,7 +230,7 @@ const Service = () => {
     return (
       <div className="item">
         <div className="question" onClick={toggleAnswer}>
-          {question}
+          <div className="question_item">{question}</div>
           {image && (
             <img
               src={image}
@@ -238,7 +241,7 @@ const Service = () => {
               }}
             />
           )}
-          <p>{formattedDate}</p>
+          <div className="question_date">{formattedDate}</div>
         </div>
         {showAnswer && answer ? (
           <div className="answer">{answer}</div>
@@ -280,7 +283,7 @@ const Service = () => {
     <>
       <Box5>
         <Box3>
-          <div className="title">
+          <div className="top">
             <h1>고객센터</h1>
             <p>• 작성하기 버튼 누르시면 1:1 상담이 가능합니다.</p>
             <p>• 그 밖에 궁금한 질문은 챗봇으로 확인 가능 합니다.</p>
