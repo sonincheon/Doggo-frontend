@@ -220,7 +220,6 @@ const Servicemodal = (props) => {
 
       // 상태를 업데이트합니다.
       setUrl(url);
-      setBoardImg(url);
     } catch (error) {
       // 에러를 처리합니다.
       console.error(error);
@@ -228,6 +227,7 @@ const Servicemodal = (props) => {
   };
   const Close = () => {
     setFile("");
+    setUrl("");
     setBoardType("");
     setComment("");
     setBoardImg("");
@@ -239,11 +239,13 @@ const Servicemodal = (props) => {
   // 수정버튼 boolean
   const boardUp = async () => {
     try {
-      console.log(id, boardType, comment, boardImg);
-      const rsp = await ServiceApi.boardUp(id, boardType, comment, boardImg);
+      console.log(id, boardType, comment, url);
+      const rsp = await ServiceApi.boardUp(id, boardType, comment, url);
       if (rsp.data === true) {
         alert("수정성공");
+        setUrl("");
         navigate("/service");
+
         close();
       } else {
         alert("수정실패");

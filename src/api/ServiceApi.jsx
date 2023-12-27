@@ -4,7 +4,7 @@ const MUNG_HOST = "http://localhost:8111";
 
 const ServiceApi = {
   //문의 요청하는 부분 추가를 하기 위해 제출하는거랑 짝
-  boardPlus: async (boardType, comment, boardImg, regData) => {
+  boardPlus: async (boardType, comment, boardImg) => {
     const res = await Common.TakenToken();
     const email = res.data;
     const serviceData = {
@@ -12,7 +12,6 @@ const ServiceApi = {
       boardType: boardType,
       comment: comment,
       boardImg: boardImg,
-      regData: regData,
     };
     console.log(serviceData);
     return await AxiosInstance.post(MUNG_HOST + "/post/new", serviceData);

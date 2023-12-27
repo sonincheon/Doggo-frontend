@@ -21,6 +21,7 @@ const Container = styled.div`
   align-items: center;
   min-height: 600px;
   width: 100%;
+
   .title {
     font-size: 2rem;
     hr {
@@ -32,7 +33,7 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   .mini {
-    font-size: 20px;
+    font-size: 1rem;
     h2 {
       width: 150px;
       font-size: 1.5rem;
@@ -208,6 +209,7 @@ const ServiceView = () => {
       if (rsp.data === true) {
         console.log(rsp.data);
         alert("문의 성공");
+        setUrl("");
         navigate(-1);
       } else {
         alert("글쓰기 실패");

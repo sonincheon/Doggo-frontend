@@ -18,11 +18,13 @@ const Base = styled.div`
 const Container = styled.div`
   flex: 0 0 calc(50% - 40px); /* 컨테이너의 반응형 크기 설정 */
   max-width: calc(50% - 40px);
+
   .title {
     font-size: 2rem;
     color: #f95001;
+    padding: 0;
     hr {
-      border-bottom: solid 2px #f95001;
+      border: solid 1.5px #f95001;
     }
   }
 
@@ -58,11 +60,14 @@ const Box = styled.div`
     .question_date {
       display: flex;
       font-size: 1rem;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 
   .answer {
     display: flex;
+    word-break: break-all;
     font-size: 1rem;
     word-spacing: 0.2rem;
     margin-top: 10px;
@@ -100,7 +105,10 @@ const Box3 = styled.div`
 `;
 const Box4 = styled.div`
   display: flex;
-  column-gap: 5px;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
 `;
 const Box5 = styled.div`
   width: 100%;
@@ -178,6 +186,7 @@ const Service = () => {
     setId1(id);
   };
   const [list, setList] = useState([]);
+  // 최신순 정렬한 리스트
 
   const SList = async () => {
     try {
@@ -185,7 +194,8 @@ const Service = () => {
         window.localStorage.getItem("email")
       );
       if (resp.status === 200) {
-        setList(resp.data);
+        const reversedData = resp.data.reverse();
+        setList(reversedData);
         console.log(resp.data);
       }
     } catch (e) {
@@ -249,6 +259,7 @@ const Service = () => {
           <div className="answer">
             {!answer && (
               <Box4>
+                답변 대기 중...
                 <Button
                   onClick={() => openClick(boardType, comment, boardImg, id)}
                 >
@@ -292,7 +303,7 @@ const Service = () => {
         <Base>
           <Container>
             <div className="title">
-              <h1>문의 답변</h1>
+              <h1>1:1 문의</h1>
               <hr />
             </div>
             <Box>
