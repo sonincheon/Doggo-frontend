@@ -17,7 +17,8 @@ const ItemBox = styled.div.attrs({
   justify-content: center;
   align-items: center;
   width: 35%;
-  /* border: 1px solid black; */
+  
+   
 `;
 
 const Items = styled.div.attrs({
@@ -25,9 +26,10 @@ const Items = styled.div.attrs({
 })`
   display: flex;
   flex-direction: column;
-  width: 98%;
-  height: 98%;
+  width: 97%;
+  height: 90%;
   border-radius: 10px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 `;
 const Banner = styled.div`
   display: flex;
@@ -36,6 +38,7 @@ const Banner = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 10px 10px 0 0;
+  
 `;
 
 const BannerTitle = styled.div`
@@ -46,8 +49,9 @@ const BannerTitle = styled.div`
   font-size: 2vw;
   color: #000;
   background-color: white;
-
+  color: #9399a2ff;
   border-radius: 10px 10px 0 0;
+  padding-left: 1vw;
   /* z-index: ; */
 `;
 
@@ -56,6 +60,7 @@ const DayOfWeekBar = styled.div`
   align-items: center;
   height: 65%;
   overflow: hidden;
+  
 `;
 
 // 건들면 으르렁
@@ -67,9 +72,10 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   background-color: #85c6f8;
   overflow: hidden;
+  
 
   img {
     position: absolute;
@@ -88,6 +94,7 @@ const ButtonContainer = styled.div`
   top: 3%;
   left: 3%;
   z-index: 99; /* 예시로 낮은 값 */
+  
 `;
 
 const Button = styled.button`
@@ -111,7 +118,7 @@ const Button = styled.button`
   display: inline-block;
   font-size: 1vw;
   cursor: pointer;
-
+    
   z-index: 10; // 다른 요소들 위에 오도록 z-index 설정
 `;
 
@@ -120,6 +127,7 @@ const MorningButton = styled(Button)`
   white-space: nowrap;
   cursor: pointer;
   z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
+  
 `;
 
 const AfternoonButton = styled(Button)`
@@ -127,6 +135,7 @@ const AfternoonButton = styled(Button)`
   white-space: nowrap;
   cursor: pointer;
   z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
+  
 `;
 
 const DayButton = styled.button`
@@ -135,7 +144,7 @@ const DayButton = styled.button`
   align-items: center;
   flex-direction: column;
   flex-grow: 1;
-
+  color: #202b3bff;  
   height: 100%;
   background-color: white;
   font-size: 1vw;
@@ -143,6 +152,7 @@ const DayButton = styled.button`
   color: #808080;
   white-space: nowrap;
   cursor: pointer;
+ 
 
   &.isActive {
     color: #29a0fe; // 활성화 상태에서의 글자색

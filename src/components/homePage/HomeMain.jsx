@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Introduction from "./comps/Introduction";
 import AboutUs from "./comps/aboutUs.jsx/AboutUs";
-import AboutCalander from "./comps/aboutCalander/AboutFunctions";
-// import CurrentLocationIntro from "./comps/currentLocationWeather/CurrentLocationIntro";
-// import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
+import AboutFunctions from "./comps/aboutCalander/AboutFunctions";
+
+import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../icon/ChatBot.png";
-
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -83,39 +82,37 @@ const HomeMain = () => {
   return (
     <>
       <CurrentAddressContext.Provider
-        value={{ currentAddress, setCurrentAddress }}
-      >
+        value={{ currentAddress, setCurrentAddress }}>
         <SectionContainer>
           <ItemContainer $height="100%">
             <Introduction />
           </ItemContainer>
         </SectionContainer>
-
+{/* 
         <SectionContainer $height="35vw" $backGround="#fff">
           <ItemContainer $height="100%">
             <AboutUs />
           </ItemContainer>
         </SectionContainer>
 
-        <SectionContainer  $backGround="#f2f2f4">
+        <SectionContainer $backGround="#f2f2f4">
           <ItemContainer $height="100%">
-            <AboutCalander/>
-            {/* <CurrentLocationIntro />
-            <CurrentLocationWeather /> */}
+            <AboutFunctions />
           </ItemContainer>
-        </SectionContainer>
+        </SectionContainer> */}
 
-        <SectionContainer>
-          <ItemContainer>
+        <SectionContainer $height = "55vw">
+          <ItemContainer $height ="100%">
+            <CurrentLocationWeather />
             <RegionWeather />
           </ItemContainer>
         </SectionContainer>
 
-        <SectionContainer>
+        {/* <SectionContainer>
           <ItemContainer>
             <Strays />
           </ItemContainer>
-        </SectionContainer>
+        </SectionContainer> */}
       </CurrentAddressContext.Provider>
 
       {/* <ChatbotIcon

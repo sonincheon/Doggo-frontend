@@ -76,7 +76,7 @@ const CustomArrow = styled.div`
   border-radius: 10%; 
   cursor: pointer;
   transform: translateY(-50%);
-  z-index: 999;
+  z-index: 9;
   
 
   &:hover {

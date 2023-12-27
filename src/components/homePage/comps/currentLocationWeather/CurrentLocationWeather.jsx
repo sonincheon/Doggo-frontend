@@ -21,72 +21,146 @@ const ItemBox = styled.div.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 35%;
+  width: 50%;
 `;
 
 const Items = styled.div.attrs({
   className: "item-currentWeather",
 })`
-  width: 98%;
-  height: 98%;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 97%;
+  height: 90%;
+
   border-radius: 10px;
+  /* box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2); */
 `;
 
-const Banner = styled.div`
-  height: 20%;
+const TopBox = styled.div`
+  display: flex;
+
+  justify-content: center;
+  height: 40%;
   width: 100%;
-  border: 1px solid black;
+
   border-radius: 10px 10px 0 0;
 `;
 
-const GoodOrBad = styled.div`
+const TextArea = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 60%;
-  width: 100%;
-  border: 1px solid black;
-  background-image: url(${weather_background});
-  background-size: cover;
-  background-position: center;
-`;
-
-const WeatherStatus = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 60%;
-  width: 30%;
-`;
-
-const DoggyIcon = styled.img`
-  height: 70%;
-  width: 70%;
-  object-fit: contain;
-`;
-
-const WeatherItemBox = styled.div`
-  display: flex;
-  height: 20%;
-  width: 100%;
-`;
-
-const WeatherItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  border: 1px solid black;
   height: 100%;
+  width: 60%;
+`;
+
+const TextContainer = styled.div.attrs({
+  className: "text-container",
+})`
+  display: flex;
+  flex-direction: ${(props) => props.$direction || "row"};
+  /* justify-content: ${(props) => props.$justify || "center"}; */
+  align-items: center;
+  padding-left: 1vw;
+  height: ${(props) => props.$height || "30%"};
+  width: ${(props) => props.$width || "100%"};
+  text-overflow: ellipsis;
+
+  h2 {
+    font-size: 2.8vw;
+  }
+  h1 {
+    font-size: 5vw;
+  }
+  .text-primary {
+    color: #ed6436;
+  }
+  .text-secondary {
+    color: #65c178;
+  }
+
+  h3 {
+    font-size: 1.3vw;
+    color: #9399a2ff;
+  }
+  p {
+    font-size: 1vw;
+    color: #9399a2ff;
+  }
+`;
+
+const WeatherIconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 40%;
+  /* border: 1px solid black; */
+`;
+
+const HourlyWeatherInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 27%;
+  background-color: rgb(234, 236, 239);
+  border-radius: 24px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+  overflow-x: auto;
+`;
+
+const HourlyWeatherCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  min-width: 5vw;
+  border: 0.3px solid #ddd;
+  /* border-radius: 10px; */
+
+
+  h3 {
+    font-size: 2vw;
+    font-weight: bold;
+  }
+  p {
+    font-size: 1vw;
+    color: #9399a2ff;
+  }
+
+
+`;
+
+const WeatherDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 30%;
+  width: 100%;
+  background-color: rgb(234, 236, 239);
+  border-radius: 24px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+`;
+
+const WeatherDetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: ${(props) => props.$align || "center"};
+
+  height: ${(props) => props.$height || "50%"};
   width: 100%;
 `;
 
-
+const WeatherDetailBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 50%;
+  
+  align-items: center;
+`;
 
 const CurrentLocationWeather = () => {
   // 리액트 라이브러리로 위도경도를 구하는 훅
@@ -98,9 +172,11 @@ const CurrentLocationWeather = () => {
   // 기상청에 전달할 지리정보를 구하는 스테이트 훅
   const [coords, setCoords] = useState("");
   // 파이썬에서 넘어온 실시간 기상정보 스테이트훅
-  const [weather, setWeather] = useState("");
+  const [currentWeather, setCurrentWeather] = useState("");
+  // 파이썬에서 넘어온 현재시간 이후 24시간 날씨정보 스테이트훅
+  const [hourlyWeather, setHourlyWeather] = useState([]);
   // 좋음/나쁨 표현을 위한 스테이트훅
-  const [weatherCondition, setWeatherCondition] = useState(null);
+  // const [weatherCondition, setWeatherCondition] = useState(null);
   // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
   const { setCurrentAddress } = useContext(CurrentAddressContext);
 
@@ -138,66 +214,146 @@ const CurrentLocationWeather = () => {
 
   // 플라스크서버로 xy값과 함께 api 요청을 하는 이펙트훅
   useEffect(() => {
-    const getWeather = async () => {
+    const updateWeather = async () => {
       if (coords.x && coords.y) {
         try {
-          const response = await axios.get(
+          // 두 API 요청을 동시에 호출
+          const currentWeatherResponse = axios.get(
             `http://127.0.0.1:5000/api/weather?x=${coords.x}&y=${coords.y}`
           );
-          // console.log(response.data);
-          setWeather(response.data);
+          const hourlyWeatherResponse = axios.get(
+            `http://127.0.0.1:5000/api/hourly_weather?x=${coords.x}&y=${coords.y}`
+          );
 
+          // 모든 요청이 완료될 때까지 기다림
+          const [currentWeather, hourlyWeatherData] = await Promise.all([
+            currentWeatherResponse,
+            hourlyWeatherResponse,
+          ]);
+
+          // 상태 업데이트
+          setCurrentWeather(currentWeather.data);
+          setHourlyWeather(hourlyWeatherData.data);
+          console.log(currentWeather.data);
+          console.log(hourlyWeatherData.data);
         } catch (error) {
-          console.error("Weather error:", error);
+          console.error("Error fetching data:", error);
         }
       }
     };
 
-    if (coords) getWeather();
+    updateWeather();
   }, [coords]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
-  useEffect(() => {
-    if (parseInt(weather.condition) === 0) {
-      setWeatherCondition(true);
-    } else {
-      setWeatherCondition(false);
-    }
-  }, [weather]);
+  // useEffect(() => {
+  //   if (parseInt(weather.condition) === 0) {
+  //     setWeatherCondition(true);
+  //   } else {
+  //     setWeatherCondition(false);
+  //   }
+  // }, [weather]);
 
-  // 타이밍 이슈 해결해야됨 TT
+  // api로 넘어온 객체배열중 첫번째는 무조건 현재시간 날씨이기 때문에 0번 인덱스 따로 분류
+  const firstKey =
+    Object.keys(hourlyWeather).length > 0
+      ? Object.keys(hourlyWeather)[0]
+      : null;
 
+  // 날짜 정보를 12시간 단위의 오전오후로 만들기
+  const formatTime = (key) => {
+    let timeString = key.slice(8, 10) + ":" + key.slice(10, 12); 
+    const hour = parseInt(timeString.slice(0, 2), 10); 
+    const amPm = hour >= 12 ? "오후" : "오전";
+    const formattedHour = hour % 12 || 12; 
+    return formattedHour + timeString.slice(2) + " " + amPm; 
   
+  
+  };
 
   return (
     <>
       <ItemBox>
         <Items>
-          <Banner>현재위치 산책지수</Banner>
-          <GoodOrBad>
-            {weatherCondition ? (
-              <WeatherStatus>
-                <DoggyIcon src={good_weather} alt="so good to go outside lol" />
-                좋음
-              </WeatherStatus>
-            ) : (
-              <WeatherStatus>
-                <DoggyIcon src={bad_weather} alt="so bad to go outside TT" />
-                나쁨
-              </WeatherStatus>
-            )}
-          </GoodOrBad>
-          <WeatherItemBox>
-            <WeatherItem>
-              <p>온도 : {weather.tmp}</p>
-            </WeatherItem>
-            <WeatherItem>
-              <p>습도 : {weather.hum}</p>
-            </WeatherItem>
-            <WeatherItem>
-              <p>강수량 : {weather.rain}</p>
-            </WeatherItem>
-          </WeatherItemBox>
+          <TopBox>
+            <TextArea>
+              <TextContainer>
+                <h2>{address}</h2>
+              </TextContainer>
+              <TextContainer $height="10%">
+                {firstKey && (
+                  <p>강수확률: {hourlyWeather[firstKey].rain_chance}</p>
+                )}
+              </TextContainer>
+              <TextContainer $height="60%">
+                <h1>{currentWeather.temperature}</h1>
+              </TextContainer>
+            </TextArea>
+            <WeatherIconContainer></WeatherIconContainer>
+          </TopBox>
+
+          <HourlyWeatherInfo>
+            {Object.keys(hourlyWeather).map((key, index) => {
+              const data = hourlyWeather[key];
+              const displayTime = index === 0 ? "현재" : formatTime(key); 
+
+              return (
+                <HourlyWeatherCard key={key}>
+                  <p>{displayTime}</p> 
+                  
+                  <div>{data.condition}</div>
+                  <div>{data.sky}</div>
+                  <h3>{data.tmperature}</h3>
+                </HourlyWeatherCard>
+              );
+            })}
+          </HourlyWeatherInfo>
+
+          <WeatherDetail>
+            <WeatherDetailContainer $height="20%">
+              <TextContainer>
+                <p>세부정보</p>
+              </TextContainer>
+            </WeatherDetailContainer>
+
+            <WeatherDetailContainer $height="40%" $align="none">
+              <WeatherDetailBox>
+                <TextContainer>
+                  <h3>습도</h3>
+                </TextContainer>
+                <TextContainer>
+                  <h3>풍속</h3>
+                </TextContainer>
+              </WeatherDetailBox>
+              <WeatherDetailBox>
+                <TextContainer>
+                  <h2>{currentWeather.humidity}</h2>
+                </TextContainer>
+                <TextContainer>
+                  <h2>{currentWeather.wind}</h2>
+                </TextContainer>
+              </WeatherDetailBox>
+            </WeatherDetailContainer>
+
+            <WeatherDetailContainer $height="40%" $align="none">
+              <WeatherDetailBox>
+                <TextContainer>
+                  <h3>강수형태</h3>
+                </TextContainer>
+                <TextContainer>
+                  <h3>시간당 강수량</h3>
+                </TextContainer>
+              </WeatherDetailBox>
+              <WeatherDetailBox>
+                <TextContainer>
+                  <h2>{currentWeather.condition}</h2>
+                </TextContainer>
+                <TextContainer>
+                  <h2>{currentWeather.rain}</h2>
+                </TextContainer>
+              </WeatherDetailBox>
+            </WeatherDetailContainer>
+          </WeatherDetail>
         </Items>
       </ItemBox>
     </>
@@ -205,3 +361,32 @@ const CurrentLocationWeather = () => {
 };
 
 export default CurrentLocationWeather;
+
+const GoodOrBad = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  width: 100%;
+
+  background-image: url(${weather_background});
+  background-size: cover;
+  background-position: center;
+`;
+
+const WeatherStatus = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 60%;
+  width: 30%;
+`;
+
+const DoggyIcon = styled.img`
+  height: 70%;
+  width: 70%;
+  object-fit: contain;
+`;
