@@ -97,6 +97,7 @@ export const CityComponent = ({ city, weather, isMorning }) => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        fontSize: "1vw",
       }}>
       <div>
         <div

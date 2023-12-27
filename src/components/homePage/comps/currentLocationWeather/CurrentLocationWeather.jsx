@@ -59,15 +59,15 @@ const TextContainer = styled.div.attrs({
 })`
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
-  /* justify-content: ${(props) => props.$justify || "center"}; */
-  align-items: center;
+  justify-content: ${(props) => props.$justify || "none"};
+  align-items:  ${(props) => props.$justify || "center"};
   padding-left: 1vw;
   height: ${(props) => props.$height || "30%"};
   width: ${(props) => props.$width || "100%"};
   text-overflow: ellipsis;
 
   h2 {
-    font-size: 2.8vw;
+    font-size: 2.7vw;
   }
   h1 {
     font-size: 5vw;
@@ -234,7 +234,6 @@ const CurrentLocationWeather = () => {
           // 상태 업데이트
           setCurrentWeather(currentWeather.data);
           setHourlyWeather(hourlyWeatherData.data);
-          console.log(currentWeather.data);
           console.log(hourlyWeatherData.data);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -243,6 +242,7 @@ const CurrentLocationWeather = () => {
     };
 
     updateWeather();
+    
   }, [coords]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
@@ -326,7 +326,7 @@ const CurrentLocationWeather = () => {
                 </TextContainer>
               </WeatherDetailBox>
               <WeatherDetailBox>
-                <TextContainer>
+                <TextContainer >
                   <h2>{currentWeather.humidity}</h2>
                 </TextContainer>
                 <TextContainer>
