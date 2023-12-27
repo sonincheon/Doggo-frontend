@@ -285,10 +285,8 @@ const Myprofile = () => {
         const response = await AxiosApi.memberGet();
         console.log("detail.email:", response.data);
         setDetail(response.data);
-        console.log("성공");
       } catch (error) {
         console.log(error);
-        alert("실패");
         console.log(detail);
       }
     };

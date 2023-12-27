@@ -5,7 +5,6 @@ import Modal from "../utill/Modal";
 import AxiosApi from "../../src/api/Axios";
 import Common from "../utill/Common";
 import { ReactComponent as Logo } from "../icon/petmemori.svg";
-import SocialKakao from "./kakaologin";
 
 const Container = styled.div`
   width: 400px;
@@ -282,6 +281,15 @@ const Login = () => {
     onClickLogin();
   };
 
+  const Rest_api_key = "afb202ab4753ffdab4ab8549b0395416"; //REST API KEY
+  const redirect_uri = "http://localhost:3000/auth"; //Redirect URI
+  // oauth 요청 URL
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+
+  const handleLogin = () => {
+    window.location.href = kakaoURL;
+  };
+
   return (
     <CenteredContainer>
       <Box>
@@ -322,7 +330,7 @@ const Login = () => {
           </Hint> */}
             <Button1 onClick={onClickLogin}>로그인</Button1>
           </form>
-          <SocialKakao />
+          <Button2 onClick={handleLogin}>카카오톡 로그인</Button2>
 
           <Modal open={modalOpen} close={closeModal} header="오류">
             아이디 및 패스워드를 확인해 주세요.

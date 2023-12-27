@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import AxiosApi from "../api/Axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/locale";
+import { subDays, subYears } from "date-fns";
+import upArrowImage from "../img/up-arrow.png";
+import downArrowImage from "../img/down-arrow.png";
+import PopupDom from "../components/member/PopupDom";
+import PopupPostCode from "../components/member/PopupPostCode";
 
 const ModalStyle = styled.div`
   .modal {
@@ -97,6 +105,26 @@ const ModalStyle = styled.div`
 const Change1 = styled.div`
   display: flex;
   justify-content: space-between;
+
+  .react-datepicker__navigation--years-upcoming {
+    top: 0%;
+    background-image: url(${upArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    background-size: 70%;
+    cursor: pointer;
+  }
+
+  .react-datepicker__navigation--years-previous {
+    top: 0%;
+    background-image: url(${downArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    cursor: pointer;
+    background-size: 70%;
+  }
 `;
 
 const Change2 = styled.input`
@@ -121,29 +149,104 @@ const Exist2 = styled.div`
 const Usermodal = (props) => {
   const { open, close, type, header, name, detail } = props;
   const [info, setInfo] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const onChangeInfo = (e) => {
-    setInfo(e.target.value);
+  const [isPostNum, setIsPostNum] = useState("");
+  const [isPost, setIsPost] = useState("");
+
+  const [postNum, setPostNum] = useState("");
+  const [post, setPost] = useState("");
+  const [postDetail, setPostDetail] = useState("");
+  const [datePlus, setDatePlus] = useState("");
+
+  const onChangeInfo = (date) => {
+    if (type === 1) {
+      // 생년월일 변경의 경우
+      const updatedDate = new Date(date);
+      setDatePlus(updatedDate);
+      // updatedDate.setDate(updatedDate.getDate() + 1);
+      console.log(type);
+      setInfo(updatedDate);
+    } else if (type === 2) {
+      // 주소 변경의 경우
+      const address = `${post} ${postDetail} ${postNum}`;
+      console.log("제발 쳐 나와라" + type + address);
+      setInfo(address); // 전체 주소를 info에 업데이트
+    } else {
+      // 기본적으로는 일반 input 사용
+      setInfo(date);
+    }
   };
 
   const Close = () => {
     setInfo("");
     close();
+    setDatePlus("");
+    setPost("");
+    setPostNum("");
+    setPostDetail("");
+  };
+
+  const openPostCode = () => {
+    setIsPopupOpen(true);
+  };
+
+  // 팝업창 닫기
+  const closePostCode = () => {
+    setIsPopupOpen(false);
   };
 
   const handleUpdate = async () => {
     try {
-      await AxiosApi.memberUpdate(info, type);
+      let updatedInfo = null;
+      if (type === 1) {
+        // 생년월일 변경의 경우
+        const updatedDate = new Date(datePlus);
+        updatedDate.setDate(updatedDate.getDate() + 1);
+        updatedInfo = updatedDate;
+      } else if (type === 2) {
+        // 주소 변경의 경우
+        const address = `${post} ${postDetail} ${postNum}`;
+        console.log("주소 변경" + type + address);
+        updatedInfo = address;
+      } else {
+        // 기본적으로는 일반 input 사용
+        updatedInfo = info;
+      }
+
+      await AxiosApi.memberUpdate(updatedInfo, type);
       alert("회원 정보가 성공적으로 수정되었습니다.");
       close();
       setInfo("");
+      setDatePlus("");
+      setPost("");
+      setPostNum("");
+      setPostDetail("");
+      console.log("시발아" + updatedInfo);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("회원 정보 수정에 실패했습니다.");
       close();
       setInfo("");
+      setDatePlus("");
+      setPost("");
+      setPostNum("");
+      setPostDetail("");
     }
   };
+
+  const onPostNum = (num) => {
+    setPostNum(num);
+    setIsPostNum(num !== "" && num !== undefined);
+  };
+
+  const onPost = (post) => {
+    setPost(post);
+    setInfo(post);
+    setIsPost(post !== "" && post !== undefined);
+  };
+
+  const maxSelectableDate = subDays(new Date(), 1);
 
   // &times; 는 X표 문자를 의미
   return (
@@ -165,11 +268,56 @@ const Usermodal = (props) => {
               </Exist1>
               <Change1>
                 <div>수정 {name} : </div>
-                <Change2 value={info} onChange={onChangeInfo}></Change2>
+                {type === 1 ? (
+                  // 생년월일 변경의 경우 달력 등의 입력 방식
+                  <DatePicker
+                    placeholderText="생년월일"
+                    className="Calender"
+                    selected={datePlus}
+                    locale={ko}
+                    shouldCloseOnSelect
+                    onChange={(date) => onChangeInfo(date)}
+                    showYearDropdown
+                    showMonthDropdown
+                    dateFormat="yyyy년 MM월 dd일"
+                    maxDate={maxSelectableDate}
+                  />
+                ) : type === 2 ? (
+                  // 주소 변경의 경우 주소 검색 모달 등의 입력 방식
+                  <div id="popupDom">
+                    {isPopupOpen && (
+                      <PopupDom>
+                        <PopupPostCode
+                          onPostNum={onPostNum}
+                          onPost={onPost}
+                          onClose={closePostCode}
+                        />
+                      </PopupDom>
+                    )}
+                    <input
+                      value={post}
+                      readOnly
+                      onClick={() => {
+                        openPostCode();
+                      }}
+                    />
+                    <input value={postNum} readOnly />
+                    <input
+                      value={postDetail}
+                      onChange={(e) => {
+                        setPostDetail(e.target.value);
+                        // 주소 정보가 변경될 때 onChangeInfo 호출
+                      }}
+                    />
+                  </div>
+                ) : (
+                  // 기본적으로는 일반 input 사용
+                  <Change2 value={info} onChange={(e) => setInfo(e)} />
+                )}
               </Change1>
             </main>
             <footer>
-              {type && <button onClick={handleUpdate}>수정</button>}
+              {type && <button onClick={() => handleUpdate(info)}>수정</button>}
               <button onClick={Close}>취소</button>
             </footer>
           </section>

@@ -30,6 +30,7 @@ import PayStore from "./context/Paystore";
 import ServiceView from "./pages/servicePage/ServiceView";
 import FindIdPwd from "./pages/userPage/FindIdPwd";
 import PrivateLayout from "./pages/PrivateLayout";
+import Auth from "./pages/userPage/Auth";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -53,6 +54,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/FindIdPwd" element={<FindIdPwd />} />
             {/* 여긴 헤더 풋터 구간  */}
             <Route element={<Header />}>

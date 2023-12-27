@@ -17,7 +17,6 @@ const Container = styled.div`
   border-radius: 10px;
   margin-bottom: 3vh;
   padding: 8px;
-  border: 1px solid black;
 
   & .login {
     margin: 0 auto;
@@ -37,6 +36,10 @@ const Container = styled.div`
     font-weight: bold;
     padding: 1rem;
   }
+
+  .Logo {
+    cursor: pointer;
+  }
 `;
 
 const Box = styled.div`
@@ -46,7 +49,6 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 1px solid black;
 
   .Logo {
     width: 200px;
@@ -67,7 +69,6 @@ const Item1 = styled.div`
   align-items: center;
   margin: 5px;
   font-size: 13px;
-  border: 1px solid black;
 `;
 
 const Item2 = styled.input`
@@ -123,6 +124,8 @@ const FindIdPwd = () => {
   const [foundId, setFoundId] = useState("");
   const [showFoundId, setShowFoundId] = useState(false);
 
+  const navigate = useNavigate();
+
   const onChangeName = (e) => {
     setInputName(e.target.value);
   };
@@ -157,7 +160,7 @@ const FindIdPwd = () => {
     <CenteredContainer>
       <Box>
         <Container>
-          <Logo className="Logo" />
+          <Logo className="Logo" onClick={() => navigate("/")} />
           <div className="Title">아이디 찾기</div>
           <Item1>
             이름 :{" "}

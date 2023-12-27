@@ -10,6 +10,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import { subDays, subYears } from "date-fns";
+import upArrowImage from "../../img/up-arrow.png";
+import downArrowImage from "../../img/down-arrow.png";
 
 const Container = styled.div`
   width: 500px;
@@ -18,7 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #ebebeb;
-  border-radius: 10px;
+  border-radius: 5px;
   justify-content: space-between;
 
   @media (max-width: 1280px) {
@@ -48,7 +50,7 @@ const Container = styled.div`
 `;
 const Hint = styled.div`
   width: 60%;
-  height: 2%;
+  height: 5px;
   text-align: right;
   font-size: 11px;
   display: flex;
@@ -57,7 +59,25 @@ const Hint = styled.div`
 `;
 
 const Items = styled.div`
-  margin-bottom: 30px;
+  .react-datepicker__navigation--years-upcoming {
+    top: 0%;
+    background-image: url(${upArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    background-size: 70%;
+    cursor: pointer;
+  }
+
+  .react-datepicker__navigation--years-previous {
+    top: 0%;
+    background-image: url(${downArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    cursor: pointer;
+    background-size: 70%;
+  }
 
   .Calender {
     width: 300px;
@@ -66,12 +86,8 @@ const Items = styled.div`
     padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
     font-family: inherit; /* 폰트 상속 */
     border: 1px solid #999;
-    border-radius: 12px; /* iSO 둥근모서리 제거 */
+    border-radius: 5px; /* iSO 둥근모서리 제거 */
     outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
-
-    .react-datepicker__triangle {
-      border-bottom-color: black; /* 화살표 색상 지정 */
-    }
 
     @media (max-width: 1280px) {
       width: 270px;
@@ -130,8 +146,7 @@ const Input = styled.input`
   padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   font-family: inherit; /* 폰트 상속 */
   border: 1px solid #999;
-  border-radius: 12px 0px 0px 12px;
-  border-radius: 12px; /* iSO 둥근모서리 제거 */
+  border-radius: 5px; /* iSO 둥근모서리 제거 */
   outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 `;
 
@@ -142,7 +157,7 @@ const Input2 = styled.input`
   padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   font-family: inherit; /* 폰트 상속 */
   border: 1px solid #999;
-  border-radius: 12px 0px 0px 12px; /* iSO 둥근모서리 제거 */
+  border-radius: 5px 0px 0px 5px; /* iSO 둥근모서리 제거 */
   outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 `;
 
@@ -159,11 +174,13 @@ const Button1 = styled.button`
   background-color: #333333;
   font-size: 15px;
   font-weight: 400;
-  border-radius: 12px;
+  border-radius: 5px;
   font-weight: 700;
   border: none;
   white-space: nowrap;
   cursor: pointer;
+  opacity: ${(props) =>
+    props.disabled ? "0.7" : "1"}; // 비활성화 상태일 때 투명도 설정
 
   &:active {
     //확인 클릭하면 설정
@@ -186,10 +203,31 @@ const Button2 = styled.button`
   font-size: 10px;
   width: 20%;
   font-weight: 400;
-  border-radius: 0px 12px 12px 0px;
+  border-radius: 0px 5px 5px 0px;
   font-weight: 700;
   border: none;
   cursor: pointer;
+  opacity: ${(props) =>
+    props.disabled ? "0.7" : "1"}; // 비활성화 상태일 때 투명도 설정
+
+  &:active {
+    background-color: #5c5b5b;
+  }
+`;
+
+const Button3 = styled.button`
+  width: 100%;
+  height: auto; /* 높이값 초기화 */
+  line-height: normal; /* line-height 초기화 */
+  padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+  font-family: inherit; /* 폰트 상속 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #333333;
+  color: white;
+  opacity: ${(props) =>
+    props.disabled ? "0.7" : "1"}; // 비활성화 상태일 때 투명도 설정
 
   &:active {
     background-color: #5c5b5b;
@@ -216,9 +254,8 @@ const RadioContainer = styled.div`
   width: 100%; /* 원하는 너비 설정 */
   line-height: normal; /* line-height 초기화 */
   padding: 0.7em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
-  border-radius: 12px 0px 0px 12px;
   background-color: white;
-  border-radius: 12px; /* iSO 둥근모서리 제거 */
+  border-radius: 5px; /* iSO 둥근모서리 제거 */
 `;
 
 const Radio = styled.div`
@@ -268,7 +305,8 @@ const SignUp = () => {
   const [inputCert, setInputCert] = useState("");
 
   // 인증 후 활성화
-  const [able, setAble] = useState(false);
+  const [able, setAble] = useState(true);
+  const [btnAble, setBtnAble] = useState(true);
 
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
@@ -339,32 +377,33 @@ const SignUp = () => {
   };
 
   const onChangeTel = (e) => {
-    const Tel = e.target.value;
-    const telWithoutHyphen = Tel.replace(/-/g, "");
+    const input = e.target.value;
+    const telWithoutHyphen = input.replace(/[^0-9]/g, ""); // 숫자만 남기고 나머지 문자 제거
     setInputTel(telWithoutHyphen);
     setIsTel(telWithoutHyphen !== "" && telWithoutHyphen !== undefined);
   };
 
   const SingupIdCheck = async (email) => {
-    try {
-      const resp = await AxiosApi.SingupIdCheck(email);
-      console.log("가입 가능 여부 확인 : ", resp.data);
-      if (resp.data === true) {
-        setModelText("사용 가능한 이메일 입니다. 이메일을 확인해주세요");
-        setModalOpen(true);
-        const response = await AxiosApi.EmailCert(email);
-        setSendEmail(response.data);
-        console.log(sendEmail);
-      } else {
-        setModelText("중복된 이메일 입니다.");
-        setModalOpen(true);
-      }
-    } catch (error) {
-      console.log(error);
-      setModelText("오류가 발생했습니다.");
-      console.log("ㅅㅂ" + inputBirth);
-      console.log(email);
+    const resp = await AxiosApi.SingupIdCheck(email);
+    console.log("가입 가능 여부 확인 : ", resp.data);
+    if (resp.data === true) {
+      setModelText("사용 가능한 이메일 입니다.");
       setModalOpen(true);
+      setBtnAble(false);
+    } else {
+      setModelText("중복된 이메일 입니다.");
+      setModalOpen(true);
+    }
+  };
+
+  const SendEmail = async (email) => {
+    const response = await AxiosApi.EmailCert(email);
+    if (response.status === 200) {
+      setModelText("인증번호가 발송되었습니다. 이메일을 확인해주세요");
+      setModalOpen(true);
+      setSendEmail(response.data);
+    } else {
+      setModelText("이메일 전송에 실패했습니다.");
     }
   };
 
@@ -400,13 +439,14 @@ const SignUp = () => {
       isGender
     ) {
       try {
+        const fullAddress = `${post} ${postDetail} ${postNum}`;
         const isLogin = await AxiosApi.Signup(
           inputId,
           inputPw,
           inputTel,
           inputName,
-          post + postDetail + postNum,
-          formatDate(inputBirth),
+          fullAddress,
+          inputBirth,
           inputGender
         );
         setModalOpen(true);
@@ -495,6 +535,7 @@ const SignUp = () => {
       const formattedDate = formatDate(date);
       setInputDate(date);
       setInputBirth(formattedDate);
+      setIsBirth(date !== "" && date !== undefined);
     } else {
       setInputBirth("");
     }
@@ -525,14 +566,20 @@ const SignUp = () => {
               </span>
             )}
           </Hint>
-
+          <Items className="item2" style={{ display: "flex" }}>
+            <Button3 onClick={() => SendEmail(inputId)} disabled={btnAble}>
+              인증번호 발송
+            </Button3>
+          </Items>
           <Items className="item2" style={{ display: "flex" }}>
             <Input2
               placeholder="인증번호를 입력해주세요"
               value={inputCert}
               onChange={(e) => setInputCert(e.target.value)}
             />
-            <Button2 onClick={handleCertification}>인증</Button2>
+            <Button2 onClick={handleCertification} disabled={btnAble}>
+              인증
+            </Button2>
           </Items>
           <div style={{ height: "2%" }}></div>
           <Items className="item2">
@@ -583,7 +630,7 @@ const SignUp = () => {
             <Input
               type="input"
               disabled={able}
-              placeholder="전화번호 (하이픈(-)을 제외하고 입력해주세요)"
+              placeholder="전화번호 (하이픈(-) 제외, 숫자만 입력)"
               value={inputTel}
               onChange={onChangeTel}
             />
@@ -602,6 +649,7 @@ const SignUp = () => {
               showMonthDropdown
               dateFormat="yyyy년 MM월 dd일"
               maxDate={maxSelectableDate}
+              disabled={able}
             />
           </Items>
           <div style={{ height: "2%" }}></div>
@@ -740,7 +788,11 @@ const SignUp = () => {
               </Radio>
             </RadioContainer>
           </Items>
-          <Button1 onClick={onClickSignUp} style={{ marginBottom: "20px" }}>
+          <Button1
+            onClick={onClickSignUp}
+            style={{ marginBottom: "20px" }}
+            disabled={able}
+          >
             회원가입
           </Button1>
         </Container>
