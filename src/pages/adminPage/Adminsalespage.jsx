@@ -1,10 +1,11 @@
 import Adminsales from "../../components/admin/Adminsales";
 
 const Adminsalespage = () => {
-    return(
-        <Adminsales />
-    )
-}
-
+  return (
+    <>
+      <Adminsales />
+    </>
+  );
+};
 
 export default Adminsalespage;

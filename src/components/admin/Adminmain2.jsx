@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import styled from 'styled-components';
-import { SideBar } from '../PublicStyle';
-import { RightBox } from './Adminmember';
-import AdminAxiosApi from '../../api/AdminAxios';
+import React, { useEffect, useState } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import styled from "styled-components";
+import { SideBar } from "../PublicStyle";
+import { RightBox } from "./Adminmember";
+import AdminAxiosApi from "../../api/AdminAxios";
 
 const ChartSize = styled.div`
   width: 100%;
@@ -11,7 +20,6 @@ const ChartSize = styled.div`
 `;
 
 const Adminmain2 = () => {
-  
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -32,10 +40,12 @@ const Adminmain2 = () => {
         }, {});
 
         // 차트에 표시할 형식으로 변환
-        const chartData = Object.entries(yearlyMonthly).map(([yearMonth, count]) => ({
-          yearMonth,
-          count,
-        }));
+        const chartData = Object.entries(yearlyMonthly).map(
+          ([yearMonth, count]) => ({
+            yearMonth,
+            count,
+          })
+        );
 
         // 변환된 데이터를 state에 설정하여 차트를 다시 렌더링
         setChartData(chartData);
@@ -53,9 +63,7 @@ const Adminmain2 = () => {
       <RightBox>
         <ChartSize>
           <h1>년 월 별 가입자 수</h1>
-          {/* 차트를 반응형으로 만들기 위한 ResponsiveContainer */}
           <ResponsiveContainer width="100%" height="100%">
-            {/* LineChart: 라인 차트를 생성하는 컴포넌트 */}
             <LineChart
               width={500}
               height={300}
@@ -71,14 +79,15 @@ const Adminmain2 = () => {
               <CartesianGrid strokeDasharray="3 3" />
               {/* XAxis: X축 설정 */}
               <XAxis dataKey="yearMonth" />
-              {/* YAxis: Y축 설정 */}
               <YAxis />
-              {/* Tooltip: 데이터에 대한 툴팁 표시 */}
               <Tooltip />
-              {/* Legend: 범례 설정 */}
               <Legend />
-              {/* Line: 라인 설정 */}
-              <Line type="monotone" dataKey="count" stroke="#F95001" activeDot={{ r: 8 }} />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#F95001"
+                activeDot={{ r: 8 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ChartSize>

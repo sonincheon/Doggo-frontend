@@ -1,10 +1,11 @@
 import Adminmember from "../../components/admin/Adminmember";
 
 const Adminmemberpage = () => {
-    return(
-        <Adminmember />
-    )
-}
-
+  return (
+    <>
+      <Adminmember />
+    </>
+  );
+};
 
 export default Adminmemberpage;

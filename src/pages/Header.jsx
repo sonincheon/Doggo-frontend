@@ -11,6 +11,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import AgreementModal from "../utill/Agreement/AgreementModal";
+import { UserContext } from "../context/Paystore";
 
 const Container=styled.div`
   width: 100%;
@@ -317,6 +318,10 @@ const Header = () => {
         setOpenList(false);
       }
     };
+
+    // if(loginStatus){ 
+    // 회원정보 가져오는 api()
+    // }
   
 
     window.addEventListener('scroll', handleScroll);
@@ -335,9 +340,23 @@ const Header = () => {
             <div className="none" onClick={()=>navigate("/admin")}>관리자</div>
               <Logo className="logo" onClick={()=>navigate("/")}/>
             <div className="icons">
+              {/* {loginStatus === "" ? (  // 로그인 안된 상태  (로그인 상태 context로 넣어주기)
+              <>
+                <div className="icon" onClick={() => navigate("/login")}><LoginIcon/><p>LOGIN</p></div>
+                <div className="icon" onClick={() => navigate("/signup")}><PersonAddAltOutlinedIcon/><p>SIGN UP</p></div>
+              </>
+              ) : (     // 로그인 된 상태
+              <>
+                <div><p>김현빈님 환영합니다! useEffect로 로그인 상태가 true로 바뀔 때, 회원정보에서 빼서 넣어줘야함.. </p></div>
+                <div className="icon" onClick={() => navigate("/mypage")}><PermIdentityOutlinedIcon/><p>MYPAGE</p></div>
+                <div className="icon" onClick={() => navigate("/quick/sales")}><PermIdentityOutlinedIcon/><p>CART</p></div>
+              </>
+              )} */}
+
               <div className="icon" onClick={() => navigate("/login")}><LoginIcon/><p>LOGIN</p></div>
               <div className="icon" onClick={() => navigate("/signup")}><PersonAddAltOutlinedIcon/><p>SIGN UP</p></div>
               <div className="icon" onClick={() => navigate("/mypage")}><PermIdentityOutlinedIcon/><p>MYPAGE</p></div>
+
               <div className="listIcon" onClick={()=>clickList()}><MenuOutlinedIcon sx={{ fontSize: 35 }}/></div>
             </div>
           </NavBox>
