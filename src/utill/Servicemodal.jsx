@@ -110,7 +110,7 @@ const Box3 = styled.div`
   button {
     color: white;
     background-color: #333333;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     font-size: 1rem;
     width: 100px;
@@ -120,17 +120,18 @@ const Button = styled.button`
   color: white;
   background-color: #333333;
   border-radius: 5px;
-  border: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 10px;
   cursor: pointer;
+
   &:hover {
     background-color: white;
     color: #f95001;
+    border: 1px solid #f95001;
   }
+
   @media (max-width: 768px) {
     padding: 8px;
-    font-size: 0.9rem;
   }
 `;
 const FileUploadContainer = styled.div`

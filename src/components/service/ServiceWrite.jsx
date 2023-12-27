@@ -23,8 +23,8 @@ const Box = styled.div`
   .container-button {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    row-gap: 10px;
-    column-gap: 10px;
+    row-gap: 5px;
+    column-gap: 5px;
     justify-content: center;
   }
 `;
@@ -77,10 +77,9 @@ const Button = styled.button`
   color: white;
   background-color: #333333;
   border-radius: 5px;
-  font-size: 1rem;
-  padding: 5px;
+  font-size: 0.9rem;
+  padding: 10px;
   cursor: pointer;
-  width: 100px;
 
   &:hover {
     background-color: white;
@@ -90,8 +89,6 @@ const Button = styled.button`
 
   @media (max-width: 768px) {
     padding: 8px;
-    font-size: 0.8rem;
-    border-radius: 5px;
   }
 `;
 const FileUploadContainer = styled.div`
