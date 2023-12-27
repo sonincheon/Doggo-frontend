@@ -78,6 +78,7 @@ const ModalStyle = styled.div`
 `;
 const Box = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 10px;
   .mini {

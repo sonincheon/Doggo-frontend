@@ -116,7 +116,7 @@ const Box5 = styled.div`
 const Button = styled.button`
   color: white;
   background-color: #333333;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 1rem;
   padding: 5px;
   cursor: pointer;
@@ -131,7 +131,7 @@ const Button = styled.button`
   @media (max-width: 768px) {
     padding: 8px;
     font-size: 0.8rem;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 `;
 const faqData = [
@@ -186,7 +186,6 @@ const Service = () => {
     setId1(id);
   };
   const [list, setList] = useState([]);
-  // 최신순 정렬한 리스트
 
   const SList = async () => {
     try {
@@ -194,7 +193,7 @@ const Service = () => {
         window.localStorage.getItem("email")
       );
       if (resp.status === 200) {
-        const reversedData = resp.data.reverse();
+        const reversedData = resp.data.reverse(); // 최신순
         setList(reversedData);
         console.log(resp.data);
       }
@@ -225,7 +224,19 @@ const Service = () => {
       console.log(list);
     }
   };
+  // 한글로 포맷 변환
+  const formatDate = (dateString) => {
+    const date = new Date(dateString); // 문자열을 Date 객체로 변환
 
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
+
+    const formattedDate = `${year}-${month}-${day} (${dayOfWeek})`; // 원하는 형식으로 수동으로 조합
+
+    return formattedDate;
+  };
   // 여기는 id로 하는거 확실
   const FaqItem = ({ id, question, answer, image, regDate }) => {
     const [showAnswer, setShowAnswer] = useState(false);
@@ -233,10 +244,7 @@ const Service = () => {
     const toggleAnswer = () => {
       setShowAnswer(!showAnswer);
     };
-
-    // 시간 지워날려
-    const formattedDate = regDate.split("T")[0];
-
+    const formattedDate = formatDate(regDate); // 날짜 형식 변환
     return (
       <div className="item">
         <div className="question" onClick={toggleAnswer}>
