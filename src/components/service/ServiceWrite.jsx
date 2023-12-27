@@ -197,17 +197,15 @@ const ServiceWrite = () => {
   };
   const handleSubmit = async () => {
     if (!boardType || !comment) {
-      alert("문의 유형과 내용을 모두 작성 해주세요.");
+      console.log("문의 유형과 내용을 모두 작성 해주세요.");
     }
     try {
       const rsp = await ServiceApi.boardPlus(boardType, comment, boardImg);
       if (rsp.data === true) {
         console.log(rsp.data);
-        alert("문의 성공");
         setUrl("");
         navigate(-1);
       } else {
-        alert("글쓰기 실패");
       }
     } catch (error) {
       console.log("error");

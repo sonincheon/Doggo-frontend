@@ -119,7 +119,7 @@ const Box3 = styled.div`
 const Button = styled.button`
   color: white;
   background-color: #333333;
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
   font-size: 1rem;
   padding: 10px;
@@ -131,7 +131,6 @@ const Button = styled.button`
   @media (max-width: 768px) {
     padding: 8px;
     font-size: 0.9rem;
-    border-radius: 8px;
   }
 `;
 const FileUploadContainer = styled.div`
@@ -243,13 +242,11 @@ const Servicemodal = (props) => {
       console.log(id, boardType, comment, url);
       const rsp = await ServiceApi.boardUp(id, boardType, comment, url);
       if (rsp.data === true) {
-        alert("수정성공");
         setUrl("");
         navigate("/service");
 
         close();
       } else {
-        alert("수정실패");
         console.log(rsp);
       }
     } catch (error) {
