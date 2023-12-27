@@ -6,6 +6,7 @@ import Modal from "../../utill/Modal";
 import PopupDom from "../member/PopupDom";
 import PopupPostCode from "../member/PopupPostCode";
 import { PayContext } from "../../context/Paystore";
+import AxiosApi from "../../api/Axios";
 
 const TitleBox = styled.div`
   display: flex;
@@ -15,32 +16,32 @@ const TitleBox = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 50px;
-  border-bottom: 2px solid #4e4e4e;
   h1 {
-    font-size: 20px;
+    font-size: 1.6em;
     font-weight: bold;
   }
   h2 {
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    font-size: 15px;
+    padding: 20px 0;
+    font-size: 1.4em;
     font-weight: bold;
   }
   h3 {
-    font-size: 12px;
+    font-size: 1em;
     font-weight: 500;
     padding-left: 20px;
   }
   .title1box1 {
     width: 100%;
-    height: 90px;
-    font-size: 10px;
+    height: 100px;
+    font-size: 0.8em;
+    padding-left: 1%;
+    line-height: 1.5em;
     align-items: center;
     font-weight: bold;
-    padding: 2% 2%;
     li {
-      padding: 5px 0;
+      line-height: 2em;
       list-style: square;
     }
   }
@@ -48,8 +49,6 @@ const TitleBox = styled.div`
 
 const SellTable = styled.table`
   width: 100%;
-  border: 1px solid #4e4e4e;
-
   tr {
     display: flex;
     flex-direction: row;
@@ -63,7 +62,7 @@ const SellTable = styled.table`
     justify-content: start;
     padding-left: 2%;
     height: 50px;
-    border: 1px solid #4e4e4e;
+    border-bottom: 1px solid #dfdfdf;
     font-size: 14px;
     font-weight: bold;
   }
@@ -75,17 +74,19 @@ const SellTable = styled.table`
     justify-content: start;
     padding-left: 2%;
     height: 50px;
-    border: 1px solid #4e4e4e;
+    border-bottom: 1px solid #dfdfdf;
     font-size: 12px;
     font-weight: bold;
   }
   .selected {
     height: 80%;
-    width: 40%;
+    width: 30%;
   }
   @media (max-width: 768px) {
-    th {font-size: 12px;}
+    th {
+      font-size: 12px;
     }
+  }
 `;
 
 const PostBox = styled.div`
@@ -104,27 +105,54 @@ const PostBox = styled.div`
 `;
 
 const Quicksell3 = (props) => {
-  const {feedName, title } = props;
+  const { feedName, title } = props;
   const [postDetail, setPostDetail] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [postNum, setPostNum] = useState("");
+  const [userInfo, setUserInfo] = useState([]);
   const [post, setPost] = useState("");
   const [dayNum, setDayNum] = useState();
-  const [price, setPrice] =useState();
+  const [price, setPrice] = useState();
   const context = useContext(PayContext);
-  const {setFeedName,setSalesAddr,setSalesAutoDelivery,setSalesDelivery,setSalesPrice,setTitle}=context;
+  const {
+    setFeedName,
+    setSalesAddr,
+    setSalesAutoDelivery,
+    setSalesDelivery,
+    setSalesPrice,
+    setTitle,
+  } = context;
 
-
-  useEffect(()=>{
-    if(title==="ONE MONTH FREE"){setPrice("/")};
-    if(title==="STANDARD"){setPrice(99000); props.onPrice(99000);setSalesPrice(99000)};
-    if(title==="PREMIUM"){setPrice(129000); props.onPrice(129000);setSalesPrice(129000)};
-    setFeedName(feedName); 
+  useEffect(() => {
+    if (title === "ONE MONTH FREE") {
+      setPrice("/");
+    }
+    if (title === "STANDARD") {
+      setPrice(99000);
+      props.onPrice(99000);
+      setSalesPrice(99000);
+    }
+    if (title === "PREMIUM") {
+      setPrice(129000);
+      props.onPrice(129000);
+      setSalesPrice(129000);
+    }
+    setFeedName(feedName);
     setTitle(title);
-    setSalesAddr(post+postDetail+postNum);
+    setSalesAddr(post + postDetail + postNum);
     setSalesAutoDelivery(dayNum);
     setSalesDelivery(deliveryDate1);
-  },[postNum,post,dayNum,postDetail])
+    const getMember = async () => {
+      try {
+        const response = await AxiosApi.memberGet();
+        console.log("detail.email:", response.data);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMember();
+  }, [postNum, post, dayNum, postDetail]);
 
   const openPostCode = () => {
     setIsPopupOpen(true);
@@ -147,25 +175,33 @@ const Quicksell3 = (props) => {
       date11.getDate() +
       "일";
 
-      const deliveryDate =new Date();
-      let year = deliveryDate.getFullYear();
-      let month = deliveryDate.getMonth() + 2;
-      if (month > 12) {
-        year += Math.floor(month / 12); // 연도 계산
-        month = month % 12; // 12로 나눈 나머지가 새로운 월
-      }
-      const deliveryDate1 =  year + "-"+String(month).padStart(2, '0')+ '-' + String(dayNum).padStart(2, '0');
-
-  const ChangePay = (price)=>{
-    return Intl.NumberFormat('en-US').format(price);
+  const deliveryDate = new Date();
+  let year = deliveryDate.getFullYear();
+  let month = deliveryDate.getMonth() + 2;
+  if (month > 12) {
+    year += Math.floor(month / 12); // 연도 계산
+    month = month % 12; // 12로 나눈 나머지가 새로운 월
   }
+  const deliveryDate1 =
+    year +
+    "-" +
+    String(month).padStart(2, "0") +
+    "-" +
+    String(dayNum).padStart(2, "0");
+
+  const ChangePay = (price) => {
+    return Intl.NumberFormat("en-US").format(price);
+  };
 
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
     setModalOpen(false);
   };
-  
-  const dateArray = Array.from({ length: 30 }, (_, index) => index + 1);
+
+  const dateArray = Array.from(
+    { length: 5 },
+    (_, index) => (index + 1) * 5
+  ).filter((number) => number % 5 === 0);
 
   return (
     <>
@@ -177,7 +213,6 @@ const Quicksell3 = (props) => {
           <th>상품명 </th>
           <td> {title} 구독 서비스</td>
         </tr>
-
         <tr>
           <th>사료 이름</th>
           <td> {feedName} </td>
@@ -190,7 +225,10 @@ const Quicksell3 = (props) => {
 
         <tr>
           <th>이름 / 연락처</th>
-          <td> 이름 / 연락처</td>
+          <td>
+            {" "}
+            {userInfo.memberName} / {userInfo.memberTel}
+          </td>
         </tr>
 
         <tr>
@@ -223,16 +261,16 @@ const Quicksell3 = (props) => {
               </div>
             </PostBox>
             <div id="popupDom">
-                {isPopupOpen && (
-                  <PopupDom>
-                    <PopupPostCode
-                      onPostNum={onPostNum}
-                      onPost={onPost}
-                      onClose={closePostCode}
-                    />
-                  </PopupDom>
-                )}
-              </div>
+              {isPopupOpen && (
+                <PopupDom>
+                  <PopupPostCode
+                    onPostNum={onPostNum}
+                    onPost={onPost}
+                    onClose={closePostCode}
+                  />
+                </PopupDom>
+              )}
+            </div>
           </td>
         </tr>
         <tr>
@@ -244,7 +282,7 @@ const Quicksell3 = (props) => {
               value={dayNum}
               name="선택상자"
             >
-              <option value="">정기 배송 일자 입력</option>
+              <option value="">정기 배송 일자</option>
               {dateArray.map((day) => (
                 <option key={day} value={day}>
                   {day}일
@@ -259,10 +297,10 @@ const Quicksell3 = (props) => {
         </tr>
         <tr>
           <th>최종결제 금액</th>
-          <td>  {ChangePay(price)}원 (기본상품가: 원,제세공과금 0원)</td>
+          <td> {ChangePay(price)}원 (기본상품가: 원,제세공과금 0원)</td>
         </tr>
       </SellTable>
-      <TitleBox style={{ height: "220px", marginTop:"0" }}>
+      <TitleBox style={{ height: "220px", marginTop: "0" }}>
         <h2>취소위약금 및 동의사항</h2>
         <ul className="title1box1">
           <li>
@@ -284,7 +322,7 @@ const Quicksell3 = (props) => {
         </ul>
       </TitleBox>
 
-      <Modal open={modalOpen} close={closeModal} header="약관동의 확인">
+      <Modal open={modalOpen} close={closeModal} header="정보">
         약관 동의후 결제 바랍니다.
       </Modal>
     </>

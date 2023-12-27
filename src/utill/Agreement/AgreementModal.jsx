@@ -99,7 +99,7 @@ const Button = styled.button`
 `;
 
 const AgreementModal = (props) => {
-  const { open, close, type } = props;
+  const { open, close, type, header } = props;
 
   return (
     <ModalStyle>
@@ -107,7 +107,7 @@ const AgreementModal = (props) => {
         {open && (
           <section>
             <header>
-              {type && type === "use" ? "이용약관" : "개인정보 취급방침"}
+              {header}
             </header>
             <div className="agreeBox">
               {type && type === "use" ? <UseTerm /> : <PrivacyTerm />}

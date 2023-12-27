@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from "styled-components";
 
 const ModalStyle = styled.div`
@@ -10,7 +10,6 @@ const ModalStyle = styled.div`
     bottom: 0;
     left: 0;
     z-index: 99; // 다른 모달 보다 위에 위치하도록 함
-    background-color: rgba(0, 0, 0, 0.6); // 배경색을 검정으로 하고 투명도 조절
   }
   .openModal {
     display: flex; // 모달이 보이도록 함
@@ -29,7 +28,7 @@ const ModalStyle = styled.div`
     max-width: 450px;
     margin: 0 auto;
     border-radius: 0.3rem;
-    background-color: #fff;
+    background-color: #e9e9e9;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-show 0.3s;
     overflow: hidden;
@@ -55,11 +54,26 @@ const ModalStyle = styled.div`
   }
   section > main {
     padding: 16px;
+    display: flex;
     border-bottom: 1px solid #dee2e6;
     border-top: 1px solid #dee2e6;
+    .infoBox{
+      display: flex;
+      justify-content: start;
+      flex-direction: column;
+      padding-left: 5%;
+    }
+    h1{
+      font-size: 2em;
+      line-height: 1.5em;
+    }
+    p{
+      font-size: 1.1em;
+      line-height: 1.5em;
+      color: #707070;
+    }
   }
   section > footer {
-    padding: 12px 16px;
     text-align: right;
   }
   section > footer button {
@@ -89,9 +103,18 @@ const ModalStyle = styled.div`
   }
 `;
 
-const Modal = (props) => {
-  const { open, confirm, close, type, header, children, type1 } = props;
+const ItemImg = styled.img`
+  width: 200px;
+  height: 180px;
+  border-radius: 5px;
+  border: 1px solid black;
+  object-fit: cover;
+`;
+
+const Feedinfomodal = (props) => {
+  const { open, close,  header, feedDetail } = props;
   // &times; 는 X표 문자를 의미
+
   return (
     <ModalStyle>
       <div className={open ? "openModal modal" : "modal"}>
@@ -101,10 +124,18 @@ const Modal = (props) => {
               {header}
               <button onClick={close}>&times;</button>
             </header>
-            <main>{children}</main>
+            <main>
+            <ItemImg src= {feedDetail.feedImg}
+          alt="먹이 사진"/>
+          <div className="infoBox">
+            <h1>{feedDetail.feedName}</h1>
+            <p>가격 : {feedDetail.feedPrice}</p>
+            <p>정보 : {feedDetail.feedInfo}</p>
+          </div>
+
+            </main>
             <footer>
-              {type && <button onClick={confirm}>확인</button>}
-              {type1 !== "0" ? <button onClick={close}>취소</button> : <></>}
+              <button onClick={close}>확인</button>
             </footer>
           </section>
         )}
@@ -113,4 +144,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default Feedinfomodal;

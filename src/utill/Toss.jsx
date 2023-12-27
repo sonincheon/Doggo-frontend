@@ -9,14 +9,17 @@ const BtnStyle = styled.button`
   max-width: 300px;
   height: 50px;
   border: none;
-  background-color: #F95001;
+  background-color: #f95001;
   border-radius: 10px;
   color: white;
   font-size: 1.2em;
   margin: 0 auto;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: #ff661f;
+  }
+  @media (max-width: 768px) {
+    width: 50%;
   }
 `;
 
@@ -27,11 +30,18 @@ const customerKey = "test_sk_PBal2vxj81vQ6xeZRBye35RQgOAN";
 const TossPage = (props) => {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
-  const{payPrice}=props;
+  const { payPrice } = props;
   const [price, setPrice] = useState();
   const context = useContext(PayContext);
-  const {feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title}=context;
-
+  const {
+    feedName,
+    salesAddr,
+    salesAutoDelivery,
+    salesDelivery,
+    salesPrice,
+    title,
+    checking,
+  } = context;
 
   useEffect(() => {
     (async () => {
@@ -43,7 +53,6 @@ const TossPage = (props) => {
       );
       paymentWidgetRef.current = paymentWidget;
       paymentMethodsWidgetRef.current = paymentMethodsWidget;
-      
     })();
   }, []);
 
@@ -55,38 +64,42 @@ const TossPage = (props) => {
 
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
+  const ChangePay = (price) => {
+    return Intl.NumberFormat("en-US").format(price);
+  };
 
+  const TossClick = async () => {
+    console.log(salesAddr, checking, salesAutoDelivery);
+    if (!checking) {
+      alert("필수 약관에 동의하세요!");
+    } else if (salesAddr === "") {
+      alert("주소를입력해주세요!");
+    } else if (salesAutoDelivery === "" || salesAutoDelivery === undefined) {
+      alert("배송일자를 입력해주세요!");
+    } else {
+      setPrice(payPrice);
+      const paymentWidget = paymentWidgetRef.current;
+      try {
+        await paymentWidget?.requestPayment({
+          orderId: nanoid(),
+          orderName: "테스트 결제용입니다.",
+          customerName: "이름",
+          customerEmail: window.localStorage.getItem("email"),
+          successUrl: `${window.location.origin}/quick/tosspay/${feedName}/${salesAddr}/${salesAutoDelivery}/${salesDelivery}/${salesPrice}/${title}`,
+          failUrl: `${window.location.origin}/quick/sucess`,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  const ChangePay = (price)=>{
-    return Intl.NumberFormat('en-US').format(price);
-  }
+  
+
   return (
-    <div style={{margin:"0 auto"}}>
+    <div style={{ margin: "0 auto" }}>
       <div id="payment-widget" />
-      <BtnStyle
-        onClick={async () => {
-
-
-          
-          setPrice(payPrice);
-          const paymentWidget = paymentWidgetRef.current;
-          try {
-            await paymentWidget?.requestPayment({
-              orderId: nanoid(),
-              orderName: "테스트 결제용입니다.",
-              customerName: "이름",
-              customerEmail:window.localStorage.getItem("email"),
-              successUrl: `${window.location.origin}/quick/tosspay/${feedName}/${salesAddr}/${salesAutoDelivery}/${salesDelivery}/${salesPrice}/${title}`,
-              failUrl: `${window.location.origin}/quick/sucess`,
-            });
-            
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      >
-        {ChangePay(payPrice)}원결제하기
-      </BtnStyle>
+      <BtnStyle onClick={TossClick}>{ChangePay(payPrice)}원결제하기</BtnStyle>
     </div>
   );
 };

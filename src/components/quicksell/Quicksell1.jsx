@@ -12,13 +12,13 @@ const TitleBox = styled.div`
   width: 100%;
   height: 200px;
   h1 {
-    font-size: 30px;
+    font-size: 2.5em;
     font-weight: bold;
     padding: 20px;
   }
   h3 {
     padding: 15px;
-    font-size: 12px;
+    font-size: 1em;
     font-weight: bold;
     color: #776B5D;
   }
@@ -31,21 +31,21 @@ const ItemBox = styled.div`
   align-items: center;
   width: 70%;
   height: 200px;
-  border: 2px solid #4e4e4e;
+  border: 2px solid #dfdfdf;
   border-radius: 10px;
   cursor: pointer;
   .itemInfo {
-    width: 500px;
+    width: 100%;
     height: 150px;
-    margin-left: 20px;
-  }
-  h3 {
-    font-size: 14px;
-    padding-bottom: 5px;
+    margin-left: 5%;
   }
   h1 {
-    font-size: 18px;
+    font-size: 2em;
     font-weight: bold;
+    display: flex; 
+    width: 80%;
+    justify-content: center; 
+    align-items: center;
   }
   h2 {
     display: flex;
@@ -53,6 +53,11 @@ const ItemBox = styled.div`
     height: 80px;
     font-size: 24px;
     font-weight: bold;
+  }
+    h3{
+    font-size: 1em;
+    color: grey;
+    line-height: 1.3em;
   }
   @media (max-width: 768px) {
     width: 90%;
@@ -105,9 +110,7 @@ const Quicksell1 = (props) => {
           alt="먹이 사진"
         />
         <div className="itemInfo">
-          <h1>사료 정보  </h1>
-          <br />
-          <h1>이름 : {feedDetail.feedName}</h1>
+          <h1>{feedDetail.feedName}</h1>
           <br />
           <h3>금액대 : {ChangePay(feedDetail.feedPrice)} </h3>
           <h3>정보 : {feedDetail.feedInfo}</h3>

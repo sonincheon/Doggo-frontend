@@ -4,6 +4,7 @@ import QuickMenu from "../../components/quicksell/QuickMenu";
 import styled from "styled-components";
 import AxiosApi from "../../api/Axios";
 import Slider from "react-slick";
+import Feedinfomodal from "../../utill/Feedinfomodal";
 
 const SellBox = styled.div`
   min-width: 1000px;
@@ -82,7 +83,6 @@ const Quickmain = () => {
   const [type, setType] = useState("DOG");
   const [feedList, setFeedList] = useState();
   const [shawdowInfo,setshadowInfo] =useState(true);
-
   useEffect(() => {
     const FeedsList = async () => {
       try {
@@ -155,6 +155,8 @@ const Quickmain = () => {
               dataList={feedList}
               title2={"첫달 무료 체험"}
               onSelected={onselect}
+              minPrice={0}
+              maxPrice={10000}
             />
             </div>
             <div className="slideBox">
@@ -167,6 +169,8 @@ const Quickmain = () => {
               dataList={feedList}
               title2={"99,000원/월"}
               onSelected={onselect}
+              minPrice={10000}
+              maxPrice={70000}
             />
             </div>
             <div className="slideBox">
@@ -179,6 +183,8 @@ const Quickmain = () => {
               dataList={feedList}
               title2={"129,000원/월"}
               onSelected={onselect}
+              minPrice={70000}
+              maxPrice={100000}
             />
             </div>
           </Slider>
@@ -192,6 +198,7 @@ const Quickmain = () => {
         <div style={{fontSize:"0.5em"}}>화면 클릭시, 설명 종료</div>
       </ShadowInfo>
     </div>
+    
   );
 };
 

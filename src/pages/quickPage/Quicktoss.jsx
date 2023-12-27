@@ -12,11 +12,19 @@ const Quicktoss = () =>{
     const SaleReg = async () => {
       console.log(feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title);
       try {
+        const res = await AxiosApi.memberGet();
+        console.log(res.data.memberGrade);
+        if (res.data.memberGrade === null) {
         const resp = await AxiosApi.SaleReg(feedName,salesAddr,salesAutoDelivery,salesDelivery,salesPrice,title); //결제
         if (resp.status === 200 ){
+          await AxiosApi.memberUpdate(title, 5);
           navigate(`/quick/sucess/${resp.data}`);
+          }else{
+            console.log("결제가 실패했습니다.")
+            navigate("/quick")
+          }
         }else {
-          console.log("결제가 실패했습니다.")
+          console.log("이미 가입하신 서비스가 있습니다.")
           navigate("/quick")
       }
       } catch (e) {

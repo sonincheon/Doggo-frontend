@@ -12,16 +12,24 @@ const TitleBox = styled.div`
   width: 100%;
   height: 200px;
   h1 {
-    font-size: 30px;
+    font-size: 2.5em;
     font-weight: bold;
     padding: 20px;
   }
   h3 {
     padding: 15px;
-    font-size: 12px;
+    font-size: 0.9em;
     font-weight: bold;
-    color: gray;
+    color:#F95001;
   }
+   @media (max-width: 768px) {
+     h1 {
+      font-size: 2em;
+     }
+     h3 {
+       font-size: 0.8em;
+     }
+   }
 `;
 const TitleBox1 = styled.div`
   display: flex;
@@ -33,24 +41,31 @@ const TitleBox1 = styled.div`
   .box {
     display: flex;
     align-items: center;
-    padding: 3% 3%;
+    line-height: 4em;
+    padding-left: 5%;
   }
   h2 {
     display: flex;
     align-items: center;
-    font-size: 15px;
+    font-size: 1.2em;
     font-weight: 800;
     width: 30%;
   }
   h3 {
-    font-size: 12px;
+    font-size: 0.8em;
     font-weight: bold;
     padding-left: 20px;
   }
     @media (max-width: 768px) {
         height: 200px;
+        .box{
+          line-height: 3em;
+        }
         h2{
-          font-size: 12px;
+          font-size: 0.8em;
+        }
+        h3{
+          font-size: 0.7em;
         }
     }
 `;
@@ -66,6 +81,12 @@ const SellButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   border-radius: 10px;
+  &:hover{
+    background-color: #f98149;
+  }
+  &:active{
+    background-color: #F95001;
+  }
 `;
 
 const Quicksucess1 = () => {

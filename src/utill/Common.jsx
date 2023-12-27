@@ -2,14 +2,12 @@ import moment from "moment";
 import axios from "axios";
 import "moment/locale/ko"; // 한글 로컬라이제이션
 moment.locale("ko"); // 한글 설정 적용
-
 const Common = {
   MUNG_HOST: "http://localhost:8111",
-
-
   timeFromNow: (timestamp) => {
     return moment(timestamp).fromNow();
   },
+  
   //시간 포맷팅 
   formatDate: (timestamp) => {
     const date = new Date(timestamp);

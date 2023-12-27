@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AxiosApi from '../../api/Axios';
 import { PayContext } from '../../context/Paystore';
+import { useNavigate } from 'react-router-dom';
 
 const Box =styled.div`
   display: flex;
@@ -50,7 +51,7 @@ const Diary = (props) => {
   const [text,setText]=useState('');
   const context = useContext(PayContext);
   const {isTrue,setIsTrue}=context;
-  
+  const navigate =useNavigate();
   const textChange =(e)=>{
     setText(e.target.value);
   }
@@ -84,7 +85,8 @@ const Diary = (props) => {
         }
       } catch (e) {
         console.log(e);
-        alert("실패");
+        alert("로그인을 해주세요");
+        navigate("/login")
       }
   };
 

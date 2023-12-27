@@ -21,10 +21,13 @@ const PrivateLayout = () => {
           console.log(e.response.status);
           try {
             console.log("재발급시작!!!");
-            await Common.handleUnauthorized();
+            const res = await Common.handleUnauthorized();
+            if (res === false) {
+              alert("로그인을해주세요");
+              navigate("/login");
+            }
             const newToken = Common.getAccessToken();
             console.log(newToken);
-            console.log("재발급완료!!");
             if (newToken !== accessToken) {
               const token = await Common.IsLogin();
               if (token.data === true) {

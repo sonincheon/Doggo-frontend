@@ -115,7 +115,7 @@ const Exist2 = styled.div`
 `;
 
 const Salesmodal = (props) => {
-  const { open, close, type, header, name, addr,salesAutoDelivery,SalesDelivery } = props;
+  const { open, close, type, header} = props;
   const [info, setInfo] = useState("");
 
   const onChangeInfo = (e) => {

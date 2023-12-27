@@ -282,9 +282,7 @@ const Myprofile = () => {
   useEffect(() => {
     const getMember = async () => {
       try {
-        const response = await AxiosApi.memberGet(
-          window.localStorage.getItem("email")
-        );
+        const response = await AxiosApi.memberGet();
         console.log("detail.email:", response.data);
         setDetail(response.data);
         console.log("성공");

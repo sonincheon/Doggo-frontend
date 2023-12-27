@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AxiosApi from "../../api/Axios";
+import Feedinfomodal from "../../utill/Feedinfomodal";
 
 const SellBox = styled.div`
   display: flex;
@@ -115,6 +117,14 @@ const SellBox = styled.div`
       }
     }
   }
+  .feedinfoBox {
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      color: #f95001;
+      font-weight: bold;
+    }
+  }
 `;
 
 const PatDogBtn = styled.button`
@@ -143,7 +153,23 @@ const QuickMenu = (props) => {
   const [dogBtn, setDogBtn] = useState(false);
   const [catBtn, setCatBtn] = useState(false);
   const [feedId, setFeedId] = useState();
-  const { title, list1, list2, list3, list4, title2, dataList } = props;
+  const [isTrue, setIsTrue] = useState(true);
+  const [feedDetail, setFeedDetail] = useState([]);
+  const {
+    title,
+    list1,
+    list2,
+    list3,
+    list4,
+    title2,
+    dataList,
+    minPrice,
+    maxPrice,
+  } = props;
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleSelect = (e) => {
     setSelected(e.target.value);
@@ -156,6 +182,7 @@ const QuickMenu = (props) => {
     setFeedId();
     setDogBtn(true);
     setCatBtn(false);
+    setIsTrue(false);
   };
 
   const catClick = () => {
@@ -164,16 +191,50 @@ const QuickMenu = (props) => {
     setFeedId();
     setDogBtn(false);
     setCatBtn(true);
+    setIsTrue(false);
   };
 
   const payClick = () => {
     if (feedId !== undefined && feedId !== "") {
       if (title === "ONE MONTH FREE") {
-        alert("무료구독 서비스 시작되었습니다.");
-        navigate("/");
+        changeService();
       } else {
         navigate(`/quick/sell/${feedId}/${title}`);
       }
+    } else {
+      alert("옵션을 선택해주세요!");
+    }
+  };
+
+  const changeService = async () => {
+    try {
+      const res = await AxiosApi.memberGet();
+      console.log(res.data);
+      if (res.data.memberGrade === null) {
+        await AxiosApi.memberUpdate("ONE MONTH FREE", 5);
+        alert("무료구독 서비스 시작되었습니다.");
+        navigate("/");
+      } else {
+        alert("이미 가입하신 서비스가 있습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openModalClick = async () => {
+    if (feedId !== "" && feedId !== undefined) {
+      try {
+        console.log(feedId);
+        const resp = await AxiosApi.FeedInfo(feedId); //전체 조회
+        if (resp.status === 200) {
+          setFeedDetail(resp.data);
+          console.log(resp.data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      setModalOpen(true);
     } else {
       alert("옵션을 선택해주세요!");
     }
@@ -204,17 +265,28 @@ const QuickMenu = (props) => {
               value={selected}
               className="selectBox"
               name="선택상자"
+              disabled={isTrue}
             >
               <option className="selected" value="">
                 옵션 선택
               </option>
               {dataList &&
-                dataList.map((data, index) => (
-                  <option key={index} value={data.feedId}>
-                    {data.feedName} {data.feedInfo} {data.feedPrice}{" "}
-                  </option>
-                ))}
+                dataList.map((data, index) => {
+                  if (
+                    data.feedPrice >= minPrice &&
+                    data.feedPrice <= maxPrice
+                  ) {
+                    return (
+                      <option key={index} value={data.feedId}>
+                        {data.feedName}
+                      </option>
+                    );
+                  }
+                })}
             </select>
+            <div className="feedinfoBox" onClick={openModalClick}>
+              자세히보기
+            </div>
           </div>
           <div className="box3" onClick={payClick}>
             <h1>{title2}</h1>
@@ -222,6 +294,12 @@ const QuickMenu = (props) => {
           </div>
         </div>
       </SellBox>
+      <Feedinfomodal
+        open={modalOpen}
+        close={closeModal}
+        feedDetail={feedDetail}
+        header="사료 정보"
+      />
     </>
   );
 };

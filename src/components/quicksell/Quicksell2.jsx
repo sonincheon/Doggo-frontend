@@ -1,5 +1,7 @@
-import styled, { css } from "styled-components";
-import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useState, useEffect, useContext } from "react";
+import { PayContext } from "../../context/Paystore";
+import AgreementModal from "../../utill/Agreement/AgreementModal";
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -7,7 +9,7 @@ const TitleBox = styled.div`
   width: 100%;
   height: 100px;
   margin-top: 50px;
-  border-bottom: 2px solid grey;
+  border-bottom: 2px solid #dfdfdf;
   h1 {
     font-size: 20px;
     font-weight: bold;
@@ -16,11 +18,11 @@ const TitleBox = styled.div`
     display: flex;
     align-items: center;
     padding-top: 20px;
-    font-size: 15px;
+    font-size: ;
     font-weight: bold;
   }
   h3 {
-    font-size: 12px;
+    font-size: 0.9em;
     font-weight: 500;
     padding-left: 20px;
   }
@@ -33,7 +35,7 @@ const SurveBox = styled.div`
   width: 100%;
   height: 170px;
   padding: 20px 0;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #dfdfdf;
   h1 {
   }
   h2 {
@@ -45,6 +47,10 @@ const SurveBox = styled.div`
   h3 {
     padding-left: 10px;
     font-size: 14px;
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -60,7 +66,7 @@ const CheckBox = styled.input`
     background-size: 100% 100%;
     background-position: 50%;
     background-repeat: no-repeat;
-    background-color: ${(props) => (!props.checked1 ? "#b82b2b" : "#776B5D")};
+    background-color: ${(props) => (!props.checked1 ? "#ff8800" : "#ffc547")};
   }
 `;
 
@@ -71,6 +77,17 @@ const Quicksell2 = () => {
   const [Check3, setCheck3] = useState(false);
   const [Check4, setCheck4] = useState(false);
   const [Check5, setCheck5] = useState(false);
+  const [modalOpen,setModalOpen]=useState(false);
+  const [modalInfo,setModalInfo]=useState("");
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const openModal = (a) => {
+    setModalInfo(a);
+    setModalOpen(true);
+  };
+  const context = useContext(PayContext);
+  const {setChecking}=context;
 
   const allBtnEvent = () => {
     if (allCheck === false) {
@@ -129,6 +146,8 @@ const Quicksell2 = () => {
   };
 
   useEffect(() => {
+
+    //약관동의체크
     if (
       Check1 === true &&
       Check2 === true &&
@@ -137,11 +156,22 @@ const Quicksell2 = () => {
       Check5 === true
     ) {
       setAllCheck(true);
-      window.localStorage.setItem("allCheck", true);
     } else {
       setAllCheck(false);
-      window.localStorage.setItem("allCheck", false);
-    }
+    };
+
+    //체크확인
+    if (
+      Check1 === true &&
+      Check2 === true &&
+      Check3 === true &&
+      Check4 === true 
+    ) {
+      setChecking(true);
+    } else {
+      setChecking(false);
+    };
+
   }, [Check1, Check2, Check3, Check4, Check5]);
 
   return (
@@ -169,7 +199,7 @@ const Quicksell2 = () => {
             checked={Check1}
             onChange={BtnEvent1}
           />
-          <h3>
+          <h3 onClick={()=>openModal("특별약관 설명 및 확인")}>
             특별약관 설명 및 확인 <span style={{ color: "red" }}>(필수)</span>
           </h3>
         </h2>
@@ -181,7 +211,7 @@ const Quicksell2 = () => {
             checked={Check2}
             onChange={BtnEvent2}
           />
-          <h3>
+          <h3 onClick={()=>openModal("약관동의")}>
             약관동의 <span style={{ color: "red" }}>(필수)</span>
           </h3>
         </h2>
@@ -193,7 +223,7 @@ const Quicksell2 = () => {
             checked={Check3}
             onChange={BtnEvent3}
           />
-          <h3>
+          <h3 onClick={()=>openModal("개인정보")}>
             개인정보 <span style={{ color: "red" }}>(필수)</span>
           </h3>
         </h2>
@@ -205,8 +235,8 @@ const Quicksell2 = () => {
             checked={Check4}
             onChange={BtnEvent4}
           />
-          <h3>
-            개인정보 3자제공 <span style={{ color: "red" }}>(필수)</span>
+          <h3 onClick={()=>openModal("고유식별정보 수집안내")}>
+          고유식별정보 수집안내 <span style={{ color: "red" }}>(필수)</span>
           </h3>
         </h2>
         <h2>
@@ -217,11 +247,15 @@ const Quicksell2 = () => {
             checked={Check5}
             onChange={BtnEvent5}
           />
-          <h3>
-            고유식별정보 수집안내 <span style={{ color: "red" }}>(필수)</span>
+          <h3 onClick={()=>openModal("개인정보 3자제공")}>
+            개인정보 3자제공<span style={{ color: "red" }}>(선택)</span>
           </h3>
         </h2>
       </SurveBox>
+      <AgreementModal        
+        open={modalOpen}
+        close={closeModal}
+        header={modalInfo}/>
     </>
   );
 };

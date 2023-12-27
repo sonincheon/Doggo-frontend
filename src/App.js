@@ -70,15 +70,14 @@ function App() {
                 <Route path="/quick/sucess/:num" element={<Quicksucess />} />
                 <Route path="/quick/toss" element={<TossPage />} />
                 <Route path="/mypage/" element={<MyPage />} />
+                <Route path="/serviceVeiw" element={<ServiceView />} />
               </Route>
-
               <Route path="/" element={<HomePage />} />
               <Route path="/book" element={<BookPage />} />
               <Route path="/diy" element={<Diymain />} />
               <Route path="/map" element={<Mapmain />} />
               <Route path="/quick" element={<Quickmain />} />
               <Route path="/service" element={<ServiceMain />} />
-              <Route path="/serviceVeiw" element={<ServiceView />} />
             </Route>
 
             {/* 여긴 어드민 구간  */}

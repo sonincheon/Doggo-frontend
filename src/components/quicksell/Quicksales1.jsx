@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../../api/Axios";
 import Salesmodal from "../../utill/Salesmodal";
 import Common from "../../utill/Common";
+import Usermodal from "../../utill/Usermodal";
 
 const Container = styled.div`
   width: 80%;
@@ -51,7 +52,7 @@ const Container = styled.div`
     width: 100%;
     height: 160px;
     background-color: #e2e2e2;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
   }
   @media (max-width: 768px) {
     width: 100%;
@@ -90,7 +91,7 @@ const SellTable1 = styled.table`
   tr {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #c8c8c8;;
     border-radius: 5px;
   }
 
@@ -114,11 +115,15 @@ const ScroolBox = styled.div`
   overflow: auto;
   position: relative;
   overflow-y: scroll;
-  border: 1px solid #000000;
+  border: 1px solid #c8c8c8;
+  border-radius: 0 0 5px 5px;
   overflow-x: hidden;
   .innerStyle {
     width: 100%;
     height: 650px;
+  }
+  @media (max-width: 768px) {
+    overflow-: hidden;
   }
 `;
 
@@ -126,13 +131,16 @@ const SellButton = styled.button`
   margin: 20px;
   width: 150px;
   height: 40px;
-  background-color: #F95001;
+  background-color: #333333;
   color: white;
   border: none;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
+  &:active{
+    background-color:#F95001;
+  }
 `;
 const CancleButton = styled.button`
   display: flex;
@@ -146,18 +154,18 @@ const CancleButton = styled.button`
   cursor: pointer;
   white-space: nowrap;
   & + & {
-    margin: 10px;
+    margin: 5px;
   }
-        @media (max-width: 768px) {
-      font-size: 0.9em;
-        height: 20px;
-    }
+  @media (max-width: 768px) {
+    font-size: 0.9em;
+    height: 20px;
+  }
 `;
 
 const Quicksale1 = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [sModalOpen, setSModalOpen] = useState(false);
+  const [sModalOpen, setSModalOpen] = useState(true);
   const [saleList, setSaleList] = useState([]);
   const [saleNum, setSaleNum] = useState();
 
@@ -182,6 +190,7 @@ const Quicksale1 = () => {
     }
   };
 
+
   const SalesModify = async () => {
     const resp = await AxiosApi.SaleModify(saleNum);
     if (resp.data === true) {
@@ -200,15 +209,7 @@ const Quicksale1 = () => {
           console.log(resp.data);
         }
       } catch (e) {
-        const token = Common.getAccessToken();
-        if (e.response.status === 401) {
-          await Common.handleUnauthorized();
-          const newToken = Common.getAccessToken();
-          if (newToken !== token) {
-            const resp = await AxiosApi.SaleUserList();
-            setSaleList(resp.data);
-          }
-        }
+        console.log(e);
       }
     };
     SalesList();
@@ -222,7 +223,7 @@ const Quicksale1 = () => {
           <h2>※구독 취소시 주의사항※</h2>
           <ul className="canclelist">
             <li>※ 대상회원, 대상상품,대상 서비스의 내용 등은 회사의 사정에 따라 변경될 수 있으며, 그 변경으로 인하여 본 회원이 본 서비스를 중도에 이용하지 못하게 된 경우 환불한다. </li>
-            <li>※ 본 서비스는 무료체험 기간 동안 본 회원에게 무상으로 제공되며, 무료체험 기간 경과 후에는 이용료를 결제한 본 회원에 한하여 본 서비스를 제공한다.</li>
+            <li>※ 본 서비스는 무료체험 기간 동안 본 회원에 게 무상으로 제공되며, 무료체험 기간 경과 후에는 이용료를 결제한 본 회원에 한하여 본 서비스를 제공한다.</li>
             <li>※ 사는 본 서비스에 부수하는 개별 서비스에 대한 세부정책을 별도로 정하여 회원에게 통지할 수 있으며, 이 경우 개별 서비스에 대한 세부정책이 본 약관에 우선한다. </li>
             <li>본 서비스는 대상회원이 본 서비스를 위한 약관에 동의함으로써 가입 신청할 수 있다. </li>
           </ul>
@@ -263,10 +264,10 @@ const Quicksale1 = () => {
                       {data.salesAddr}
                     </th>
                     <th style={{
-                        width: "12%",
-                      }}>{data.invoice}</th>
-                    <th style={{ width: "15%", display:"flex", justifyContent:"end"}}>
-                      <CancleButton style={{ backgroundColor: "#665847" }}>
+                        width: "18%",
+                        display:"flex", justifyContent:"start"}}>송장번호:{data.invoice}</th>
+                    <th style={{ width: "15%", display:"flex", justifyContent:"start"}}>
+                      <CancleButton style={{ backgroundColor: "#F95001" }}>
                         변경
                       </CancleButton>
                       <CancleButton onClick={() => CancleClick(data.saleId)}>
@@ -300,13 +301,13 @@ const Quicksale1 = () => {
       >
         정말 취소 요청 하시겠습니까?
       </Modal>
-      <Salesmodal
+      <Usermodal     
         type={1}
         open={sModalOpen}
+        name="배송지"
         close={closeModal}
-        confirm={SalesModify}
-        header="변경 요청"
-      />
+        />
+
     </>
   );
 };

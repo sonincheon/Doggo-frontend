@@ -67,9 +67,15 @@ const AxiosApi = {
         break;
       case 4:
         member = {
-          memberEmail: window.localStorage.getItem("email"),
+          memberEmail: email,
           memberImage: changeInfo,
         };
+        break;
+        case 5:
+          member = {
+            memberEmail: email,
+            memberGrade: changeInfo,
+          };
         console.log(member);
         break;
       default:
