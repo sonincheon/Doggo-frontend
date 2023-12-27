@@ -60,7 +60,7 @@ const TextContainer = styled.div.attrs({
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
   justify-content: ${(props) => props.$justify || "none"};
-  align-items:  ${(props) => props.$justify || "center"};
+  align-items: ${(props) => props.$justify || "center"};
   padding-left: 1vw;
   height: ${(props) => props.$height || "30%"};
   width: ${(props) => props.$width || "100%"};
@@ -121,7 +121,6 @@ const HourlyWeatherCard = styled.div`
   border: 0.3px solid #ddd;
   /* border-radius: 10px; */
 
-
   h3 {
     font-size: 2vw;
     font-weight: bold;
@@ -130,8 +129,6 @@ const HourlyWeatherCard = styled.div`
     font-size: 1vw;
     color: #9399a2ff;
   }
-
-
 `;
 
 const WeatherDetail = styled.div`
@@ -158,7 +155,7 @@ const WeatherDetailBox = styled.div`
   display: flex;
   width: 100%;
   height: 50%;
-  
+
   align-items: center;
 `;
 
@@ -242,7 +239,6 @@ const CurrentLocationWeather = () => {
     };
 
     updateWeather();
-    
   }, [coords]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
@@ -255,20 +251,16 @@ const CurrentLocationWeather = () => {
   // }, [weather]);
 
   // api로 넘어온 객체배열중 첫번째는 무조건 현재시간 날씨이기 때문에 0번 인덱스 따로 분류
-  const firstKey =
-    Object.keys(hourlyWeather).length > 0
-      ? Object.keys(hourlyWeather)[0]
-      : null;
+
+
 
   // 날짜 정보를 12시간 단위의 오전오후로 만들기
   const formatTime = (key) => {
-    let timeString = key.slice(8, 10) + ":" + key.slice(10, 12); 
-    const hour = parseInt(timeString.slice(0, 2), 10); 
+    let timeString = key.slice(8, 10) + ":" + key.slice(10, 12);
+    const hour = parseInt(timeString.slice(0, 2), 10);
     const amPm = hour >= 12 ? "오후" : "오전";
-    const formattedHour = hour % 12 || 12; 
-    return formattedHour + timeString.slice(2) + " " + amPm; 
-  
-  
+    const formattedHour = hour % 12 || 12;
+    return formattedHour + timeString.slice(2) + " " + amPm;
   };
 
   return (
@@ -281,9 +273,7 @@ const CurrentLocationWeather = () => {
                 <h2>{address}</h2>
               </TextContainer>
               <TextContainer $height="10%">
-                {firstKey && (
-                  <p>강수확률: {hourlyWeather[firstKey].rain_chance}</p>
-                )}
+                <p>현재 온도</p>
               </TextContainer>
               <TextContainer $height="60%">
                 <h1>{currentWeather.temperature}</h1>
@@ -293,16 +283,16 @@ const CurrentLocationWeather = () => {
           </TopBox>
 
           <HourlyWeatherInfo>
-            {Object.keys(hourlyWeather).map((key, index) => {
+            {Object.keys(hourlyWeather).map((key) => {
               const data = hourlyWeather[key];
-              const displayTime = index === 0 ? "현재" : formatTime(key); 
+              const displayTime = formatTime(key);
 
               return (
                 <HourlyWeatherCard key={key}>
-                  <p>{displayTime}</p> 
-                  
-                  <div>{data.condition}</div>
-                  <div>{data.sky}</div>
+                  <p>{displayTime}</p>
+
+                  <p>{data.condition}</p>
+                  <p>{data.sky}</p>
                   <h3>{data.tmperature}</h3>
                 </HourlyWeatherCard>
               );
@@ -326,7 +316,7 @@ const CurrentLocationWeather = () => {
                 </TextContainer>
               </WeatherDetailBox>
               <WeatherDetailBox>
-                <TextContainer >
+                <TextContainer>
                   <h2>{currentWeather.humidity}</h2>
                 </TextContainer>
                 <TextContainer>
