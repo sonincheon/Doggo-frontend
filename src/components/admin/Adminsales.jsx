@@ -6,7 +6,6 @@ import {
   PageButton,
 } from "../admin/Adminmember";
 import AdminAxiosApi from "../../api/AdminAxios";
-import { display } from "@mui/system";
 
 const Adminsales = () => {
   const [orders, setOrders] = useState([]);
@@ -15,6 +14,7 @@ const Adminsales = () => {
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isTrue, setIsTrue] = useState(false);
+  const [filter, setFilter] = useState("all");
   const [invoiceInput, setInvoiceInput] = useState("");
   const [orderStatusList, setOrderStatusList] = useState([]);
   const [invoiceInputList, setInvoiceInputList] = useState([]);
@@ -24,10 +24,10 @@ const Adminsales = () => {
     setIsTrue((prev) => !prev);
   };
   // 분류 버튼
-  const HandleCategoryChange = (value) => {
-    setSelectedCategory(value);
-  };
-
+  // const HandleCategoryChange = (value) => {
+  //   setSelectedCategory(value);
+  // };
+  // 날짜 포멧
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -45,21 +45,23 @@ const Adminsales = () => {
 
   // 총 페이지 수 계산
   useEffect(() => {
+    console.log(filter);
     const totalPage = async () => {
       try {
-        const res = await AdminAxiosApi.SalePage(0, 10);
+        const res = await AdminAxiosApi.SalePage(0, 10, filter);
+        console.log(res)
         setTotalPage(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     totalPage();
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     const saleList = async () => {
       try {
-        const res = await AdminAxiosApi.SalePageList(currentPage, 10);
+        const res = await AdminAxiosApi.SalePageList(currentPage, 10, filter);
         console.log(res.data);
         setOrders(res.data);
       } catch (error) {
@@ -67,7 +69,7 @@ const Adminsales = () => {
       }
     };
     saleList();
-  }, [currentPage, isTrue]);
+  }, [currentPage, isTrue, filter]);
 
   // 페이지네이션 - 페이지 이동 기능
   const handlePageChange = (number) => {
@@ -136,16 +138,10 @@ const Adminsales = () => {
     setInvoiceInputList(updatedInvoiceInputList);
   };
 
-  // 필터별로 조회
-  const filteredOrders =
-    selectedCategory === "all"
-      ? orders
-      : orders.filter((order) =>
-          selectedCategory === "pending"
-            ? order.orderStatus === "준비중"
-            : order.orderStatus === "출고완료"
-        );
-
+  const filterChange = (e) => {
+    setFilter(e)
+    setCurrentPage(0);
+  }
   return (
     <>
       <SideBar>
@@ -156,8 +152,8 @@ const Adminsales = () => {
               <input
                 type="radio"
                 value="all"
-                checked={selectedCategory === "all"}
-                onChange={() => HandleCategoryChange("all")}
+                checked={filter === "all"}
+                onChange={()=>filterChange("all")}
               />
               전체
             </label>
@@ -165,8 +161,8 @@ const Adminsales = () => {
               <input
                 type="radio"
                 value="pending"
-                checked={selectedCategory === "pending"}
-                onChange={() => HandleCategoryChange("pending")}
+                checked={filter === "준비중"}
+                onChange={()=>filterChange("준비중")}
               />
               준비중
             </label>
@@ -174,8 +170,8 @@ const Adminsales = () => {
               <input
                 type="radio"
                 value="shipped"
-                checked={selectedCategory === "shipped"}
-                onChange={() => HandleCategoryChange("shipped")}
+                checked={filter === "출고완료"}
+                onChange={()=>filterChange("출고완료")}
               />
               출고완료
             </label>
@@ -198,7 +194,7 @@ const Adminsales = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredOrders.map((order, index) => (
+                {orders.map((order, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{formatDate(order.salesRegDate)}</td>

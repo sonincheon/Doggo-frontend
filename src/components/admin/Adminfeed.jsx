@@ -12,6 +12,7 @@ const Adminfeed = () => {
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [isTrue, setIsTrue] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all"); // 분류
+  const [filter, setFilter] = useState("all");
   // 모달관련
   const [modalOpen, setModalOpen] = useState(false);
   const [type, setType] = useState();
@@ -53,9 +54,10 @@ const Adminfeed = () => {
 
   // 페이지 - DATA불러오기
   useEffect(() => {
+    console.log(filter);
     const totalPage = async () => {
       try {
-        const res = await AdminAxiosApi.FeedPage(0, 10);
+        const res = await AdminAxiosApi.FeedPage(0, 10, filter);
         setTotalPage(res.data);
         console.log(res);
         console.log(res.data);
@@ -64,12 +66,12 @@ const Adminfeed = () => {
       }
     };
     totalPage();
-  }, [modalOpen]);
+  }, [modalOpen, filter]);
 
   useEffect(() => {
     const feedList = async () => {
       try {
-        const res = await AdminAxiosApi.FeedPageList(currentPage, 10);
+        const res = await AdminAxiosApi.FeedPageList(currentPage, 10, filter);
         console.log(res.data);
         setFeedList(res.data);
       } catch (error) {
@@ -77,7 +79,7 @@ const Adminfeed = () => {
       }
     };
     feedList();
-  }, [currentPage, isTrue]);
+  }, [currentPage, isTrue, filter]);
 
   // 페이지네이션 - 페이지 이동 기능
   const handlePageChange = (number) => {
@@ -129,6 +131,11 @@ const Adminfeed = () => {
     }
   };
 
+  const filterChange = (e) => {
+    setFilter(e)
+    setCurrentPage(0);
+  }
+
   return (
     <>
       <SideBar>
@@ -141,8 +148,8 @@ const Adminfeed = () => {
                   id="all"
                   type="radio"
                   value="all"
-                  checked={selectedCategory === "all"}
-                  onChange={() => HandleCategoryChange("all")}
+                  checked={filter === "all"}
+                  onChange={() => filterChange("all")}
                 />
                 전체
               </label>
@@ -151,8 +158,8 @@ const Adminfeed = () => {
                   id="CAT"
                   type="radio"
                   value="CAT"
-                  checked={selectedCategory === "CAT"}
-                  onChange={() => HandleCategoryChange("CAT")}
+                  checked={filter === "고양이"}
+                  onChange={() => filterChange("고양이")}
                 />
                 고양이
               </label>
@@ -161,8 +168,8 @@ const Adminfeed = () => {
                   id="DOG"
                   type="radio"
                   value="DOG"
-                  checked={selectedCategory === "DOG"}
-                  onChange={() => HandleCategoryChange("DOG")}
+                  checked={filter === "강아지"}
+                  onChange={() => filterChange("강아지")}
                 />
                 강아지
               </label>
@@ -188,7 +195,7 @@ const Adminfeed = () => {
                 </tr>
               </thead>
               <tbody>
-                {selectedData().map((feed, index) => (
+                {feedList.map((feed, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>

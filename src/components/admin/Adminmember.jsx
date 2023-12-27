@@ -193,16 +193,17 @@ const Adminmember = () => {
   const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
   const [isTrue, setIsTrue] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [filter, setFilter] = useState("all");
 
   // 리렌더링 용
   const reRender = () => {
     setIsTrue((prev) => !prev);
   };
-
+  // 분류 버튼
   const HandleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
-
+  // 날짜 포멧
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -217,23 +218,24 @@ const Adminmember = () => {
     );
     return formattedDate;
   };
-
+  // 총 페이지 수 계산
   useEffect(() => {
+    console.log(filter);
     const totalPage = async () => {
       try {
-        const res = await AdminAxiosApi.MemberPage(0, 10);
+        const res = await AdminAxiosApi.MemberPage(0, 10, filter);
         setTotalPage(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     totalPage();
-  }, [isTrue]);
+  }, [filter]);
 
   useEffect(() => {
     const memberList = async () => {
       try {
-        const res = await AdminAxiosApi.MemberPageList("", currentPage, 10);
+        const res = await AdminAxiosApi.MemberPageList(currentPage, 10, filter);
         console.log(res.data);
         setMemberList(res.data);
       } catch (error) {
@@ -241,7 +243,7 @@ const Adminmember = () => {
       }
     };
     memberList();
-  }, [currentPage]);
+  }, [currentPage, isTrue, filter]);
 
   // 페이지네이션 - 페이지 이동 기능
   const handlePageChange = (number) => {
@@ -263,18 +265,18 @@ const Adminmember = () => {
   };
 
   // 필터
-  const selectedData = () => {
-    switch (selectedCategory) {
-      case "all":
-        return memberList;
-      case "paid":
-        return memberList.filter((item) => item.memberGrade === "paid");
-      case "free":
-        return memberList.filter((item) => item.memberGrade === "free");
-      default:
-        return memberList;
-    }
-  };
+  // const selectedData = () => {
+  //   switch (selectedCategory) {
+  //     case "all":
+  //       return memberList;
+  //     case "paid":
+  //       return memberList.filter((item) => item.memberGrade === "paid");
+  //     case "free":
+  //       return memberList.filter((item) => item.memberGrade === "free");
+  //     default:
+  //       return memberList;
+  //   }
+  // };
 
   // 회원삭제
   const HandleDeleteMember = async (email) => {
@@ -293,6 +295,11 @@ const Adminmember = () => {
     memberDel();
   };
 
+  const filterChange = (e) => {
+    setFilter(e)
+    setCurrentPage(0);
+  }
+
   return (
     <>
       <SideBar>
@@ -304,7 +311,7 @@ const Adminmember = () => {
                 type="radio"
                 value="all"
                 checked={selectedCategory === "all"}
-                onChange={() => HandleCategoryChange("all")}
+                onChange={() => filterChange("all")}
               />
               전체
             </label>
@@ -312,8 +319,8 @@ const Adminmember = () => {
               <input
                 type="radio"
                 value="paid"
-                checked={selectedCategory === "paid"}
-                onChange={() => HandleCategoryChange("paid")}
+                checked={selectedCategory === "구독중"}
+                onChange={() => filterChange("구독중")}
               />
               구독 회원
             </label>
@@ -321,8 +328,8 @@ const Adminmember = () => {
               <input
                 type="radio"
                 value="free"
-                checked={selectedCategory === "free"}
-                onChange={() => HandleCategoryChange("free")}
+                checked={selectedCategory === "미구독"}
+                onChange={() => filterChange("미구독")}
               />
               미구독 회원
             </label>
@@ -343,7 +350,7 @@ const Adminmember = () => {
                 </tr>
               </thead>
               <tbody>
-                {selectedData().map((member, index) => (
+                {memberList.map((member, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{member.memberName}</td>
