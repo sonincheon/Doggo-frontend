@@ -199,7 +199,6 @@ const Service = () => {
       }
     } catch (e) {
       console.error(e);
-      alert("에러 발생");
     }
   };
   useEffect(() => {
@@ -213,10 +212,8 @@ const Service = () => {
       console.log(rsp);
       if (rsp.data === true) {
         console.log(rsp.data);
-        alert("삭제 성공");
         SList();
       } else {
-        alert("삭제 실패");
       }
     } catch (error) {
       console.log(error);
