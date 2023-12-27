@@ -9,7 +9,8 @@ const ModalStyle = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 99; // 다른 모달 보다 위에 위치하도록 함
+    z-index: 9999; // 다른 모달 보다 위에 위치하도록 함
+    background-color: rgba(0, 0, 0, 0.6); // 배경색을 검정으로 하고 투명도 조절
   }
   .openModal {
     display: flex; // 모달이 보이도록 함
@@ -28,7 +29,7 @@ const ModalStyle = styled.div`
     max-width: 450px;
     margin: 0 auto;
     border-radius: 0.3rem;
-    background-color: #e9e9e9;
+    background-color: #ffffff;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-show 0.3s;
     overflow: hidden;

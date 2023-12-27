@@ -7,11 +7,9 @@ import Slider from "react-slick";
 import Feedinfomodal from "../../utill/Feedinfomodal";
 
 const SellBox = styled.div`
-  min-width: 1000px;
   width: 100%;
   @media (max-width: 768px) {
     height: 75vh;
-    min-width: 500px;
     min-height: 450px;
   }
   .slideBox{
@@ -22,7 +20,6 @@ const SellBox = styled.div`
 
 const TitleBox = styled.div`
   width: 100%;
-  min-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,6 +80,15 @@ const Quickmain = () => {
   const [type, setType] = useState("DOG");
   const [feedList, setFeedList] = useState();
   const [shawdowInfo,setshadowInfo] =useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [feedDetail,setFeedDetail]=useState([]);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const openModal =(sel)=>{
+    setModalOpen(sel);
+  }
+
   useEffect(() => {
     const FeedsList = async () => {
       try {
@@ -134,6 +140,9 @@ const Quickmain = () => {
       },
     ],
   };
+  const feedSelect=(sel)=>{
+    setFeedDetail(sel);
+  }
 
   return (
     <div>
@@ -157,6 +166,8 @@ const Quickmain = () => {
               onSelected={onselect}
               minPrice={0}
               maxPrice={10000}
+              setFeedDetail={feedSelect}
+              setOpenModal={openModal}
             />
             </div>
             <div className="slideBox">
@@ -171,6 +182,8 @@ const Quickmain = () => {
               onSelected={onselect}
               minPrice={10000}
               maxPrice={70000}
+              setFeedDetail={feedSelect}
+              setOpenModal={openModal}
             />
             </div>
             <div className="slideBox">
@@ -185,6 +198,8 @@ const Quickmain = () => {
               onSelected={onselect}
               minPrice={70000}
               maxPrice={100000}
+              setFeedDetail={feedSelect}
+              setOpenModal={openModal}
             />
             </div>
           </Slider>
@@ -197,6 +212,12 @@ const Quickmain = () => {
         </div>
         <div style={{fontSize:"0.5em"}}>화면 클릭시, 설명 종료</div>
       </ShadowInfo>
+      <Feedinfomodal
+        open={modalOpen}
+        close={closeModal}
+        feedDetail={feedDetail}
+        header="사료 정보"
+      />
     </div>
     
   );

@@ -266,7 +266,6 @@ const Login = () => {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
         navigate("/");
-        window.localStorage.setItem("email", inputEmail);
       } else {
         setModalOpen(true);
         setModalContent("아이디 및 패스워드를 재확인해 주세요.^^");

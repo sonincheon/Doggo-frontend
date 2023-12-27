@@ -154,7 +154,6 @@ const QuickMenu = (props) => {
   const [catBtn, setCatBtn] = useState(false);
   const [feedId, setFeedId] = useState();
   const [isTrue, setIsTrue] = useState(true);
-  const [feedDetail, setFeedDetail] = useState([]);
   const {
     title,
     list1,
@@ -166,10 +165,6 @@ const QuickMenu = (props) => {
     minPrice,
     maxPrice,
   } = props;
-  const [modalOpen, setModalOpen] = useState(false);
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   const handleSelect = (e) => {
     setSelected(e.target.value);
@@ -228,13 +223,13 @@ const QuickMenu = (props) => {
         console.log(feedId);
         const resp = await AxiosApi.FeedInfo(feedId); //전체 조회
         if (resp.status === 200) {
-          setFeedDetail(resp.data);
+          props.setFeedDetail(resp.data);
           console.log(resp.data);
         }
       } catch (e) {
         console.log(e);
       }
-      setModalOpen(true);
+      props.setOpenModal(true);
     } else {
       alert("옵션을 선택해주세요!");
     }
@@ -294,12 +289,7 @@ const QuickMenu = (props) => {
           </div>
         </div>
       </SellBox>
-      <Feedinfomodal
-        open={modalOpen}
-        close={closeModal}
-        feedDetail={feedDetail}
-        header="사료 정보"
-      />
+
     </>
   );
 };
