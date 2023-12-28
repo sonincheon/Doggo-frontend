@@ -12,7 +12,7 @@ import {
   good_weather,
   bad_weather,
 } from "../../../../img/weather";
-
+import { awsomeWeather, badWeather } from "../../../../img/weather";
 import CurrentAddressContext from "../../CurrentAddressContext";
 
 const ItemBox = styled.div.attrs({
@@ -34,7 +34,7 @@ const Items = styled.div.attrs({
   height: 90%;
 
   border-radius: 10px;
-  /* box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2); */
+  box-shadow: 1px 4px 8px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const TopBox = styled.div`
@@ -51,7 +51,7 @@ const TextArea = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 60%;
+  width: 65%;
 `;
 
 const TextContainer = styled.div.attrs({
@@ -94,8 +94,14 @@ const WeatherIconContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  width: 40%;
+  width: 35%;
+  padding: 1vw;
   /* border: 1px solid black; */
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 const HourlyWeatherInfo = styled.div`
@@ -129,6 +135,10 @@ const HourlyWeatherCard = styled.div`
     font-size: 1vw;
     color: #9399a2ff;
   }
+  img {
+    width: 4vw;
+    height: 4vw;
+  }
 `;
 
 const WeatherDetail = styled.div`
@@ -159,7 +169,7 @@ const WeatherDetailBox = styled.div`
   align-items: center;
 `;
 
-const CurrentLocationWeather = () => {
+const CurrentLocationWeather = ({ children }) => {
   // 리액트 라이브러리로 위도경도를 구하는 훅
   const [location, setLocation] = useState({ lat: 0, long: 0 });
   // api 요청을 통해 정보획들 실패 에러 스테이트훅
@@ -173,7 +183,8 @@ const CurrentLocationWeather = () => {
   // 파이썬에서 넘어온 현재시간 이후 24시간 날씨정보 스테이트훅
   const [hourlyWeather, setHourlyWeather] = useState([]);
   // 좋음/나쁨 표현을 위한 스테이트훅
-  // const [weatherCondition, setWeatherCondition] = useState(null);
+  const [dailyWeatherCondition, setDailyWeatherCondition] = useState(null);
+  const [hourlyWeatherCondition, setHourlyWeatherCondition] = useState(null);
   // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
   const { setCurrentAddress } = useContext(CurrentAddressContext);
 
@@ -242,17 +253,17 @@ const CurrentLocationWeather = () => {
   }, [coords]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
-  // useEffect(() => {
-  //   if (parseInt(weather.condition) === 0) {
-  //     setWeatherCondition(true);
-  //   } else {
-  //     setWeatherCondition(false);
-  //   }
-  // }, [weather]);
-
-  // api로 넘어온 객체배열중 첫번째는 무조건 현재시간 날씨이기 때문에 0번 인덱스 따로 분류
-
-
+  useEffect(() => {
+    if (currentWeather.condition == "맑음") {
+      console.log(currentWeather.condition);
+      setDailyWeatherCondition(true);
+    } else {
+      console.log(currentWeather.condition);
+      setDailyWeatherCondition(false);
+    }
+  }, [currentWeather]);
+  // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
+  
 
   // 날짜 정보를 12시간 단위의 오전오후로 만들기
   const formatTime = (key) => {
@@ -273,13 +284,18 @@ const CurrentLocationWeather = () => {
                 <h2>{address}</h2>
               </TextContainer>
               <TextContainer $height="10%">
-                <p>현재 온도</p>
+                <h3>현재 온도</h3>
               </TextContainer>
               <TextContainer $height="60%">
                 <h1>{currentWeather.temperature}</h1>
               </TextContainer>
             </TextArea>
-            <WeatherIconContainer></WeatherIconContainer>
+            <WeatherIconContainer>
+              <img
+                src={dailyWeatherCondition ? awsomeWeather : badWeather}
+                alt="Weather Icon"
+              />
+            </WeatherIconContainer>
           </TopBox>
 
           <HourlyWeatherInfo>
@@ -290,7 +306,10 @@ const CurrentLocationWeather = () => {
               return (
                 <HourlyWeatherCard key={key}>
                   <p>{displayTime}</p>
-
+                  <img
+                    src={data.condition === "강수없음" ? awsomeWeather : badWeather}
+                    alt="Weather Icon"
+                  />
                   <p>{data.condition}</p>
                   <p>{data.sky}</p>
                   <h3>{data.tmperature}</h3>
@@ -351,32 +370,3 @@ const CurrentLocationWeather = () => {
 };
 
 export default CurrentLocationWeather;
-
-const GoodOrBad = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 60%;
-  width: 100%;
-
-  background-image: url(${weather_background});
-  background-size: cover;
-  background-position: center;
-`;
-
-const WeatherStatus = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 60%;
-  width: 30%;
-`;
-
-const DoggyIcon = styled.img`
-  height: 70%;
-  width: 70%;
-  object-fit: contain;
-`;

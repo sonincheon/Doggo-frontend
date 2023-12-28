@@ -10,6 +10,7 @@ import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../icon/ChatBot.png";
+import { goodWeather, badWeather } from "../../img/weather";
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -17,7 +18,7 @@ const SectionContainer = styled.section.withConfig({
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 99vw;
   height: ${(props) => props.$height || "50vw"};
   background-color: ${(props) => props.$backGround || "white"};
   /* border: 1px solid black; */
@@ -31,6 +32,12 @@ const ItemContainer = styled.div.attrs({
   width: 100%;
   height: ${(props) => props.$height || "30%"};
 `;
+
+export const DoggyIcon = ({ image, height }) => (
+  <div className="doggy-container" style={{ width: height, height: height }}>
+    <img src={image} alt="Doggy" className="img" />
+  </div>
+);
 
 const ChatbotBox = styled.div`
   position: fixed;
@@ -88,7 +95,7 @@ const HomeMain = () => {
             <Introduction />
           </ItemContainer>
         </SectionContainer>
-{/* 
+        {/* 
         <SectionContainer $height="35vw" $backGround="#fff">
           <ItemContainer $height="100%">
             <AboutUs />
@@ -101,10 +108,16 @@ const HomeMain = () => {
           </ItemContainer>
         </SectionContainer> */}
 
-        <SectionContainer $height = "55vw">
-          <ItemContainer $height ="100%">
-            <CurrentLocationWeather />
-            <RegionWeather />
+        <SectionContainer $height="55vw">
+          <ItemContainer $height="100%">
+            <CurrentLocationWeather>
+              <DoggyIcon image={goodWeather} height="20%" />
+              <DoggyIcon image={badWeather} height="20%" />
+            </CurrentLocationWeather>
+            <RegionWeather>
+              <DoggyIcon image={goodWeather} height="20%" />
+              <DoggyIcon image={badWeather} height="20%" />
+            </RegionWeather>
           </ItemContainer>
         </SectionContainer>
 

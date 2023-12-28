@@ -168,7 +168,7 @@ const DayButton = styled.button`
   }
 `;
 
-const RegionWeather = () => {
+const RegionWeather = ({children}) => {
   // 오늘 날짜를 구하는 함수
 
   const today = getCurrentDate();
