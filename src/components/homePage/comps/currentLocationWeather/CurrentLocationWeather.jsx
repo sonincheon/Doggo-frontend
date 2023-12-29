@@ -7,12 +7,12 @@ import {
   onError,
 } from "./CurrentLocationWeatherFunction";
 import { getGeocodeKakao } from "../../../../api/CurrentLocationWeatherApi";
+
 import {
-  weather_background,
-  good_weather,
-  bad_weather,
+  fantasticWeather,
+  normalWeather,
+  badWeather,
 } from "../../../../img/weather";
-import { awsomeWeather, badWeather } from "../../../../img/weather";
 import CurrentAddressContext from "../../CurrentAddressContext";
 
 const ItemBox = styled.div.attrs({
@@ -33,8 +33,8 @@ const Items = styled.div.attrs({
   width: 97%;
   height: 90%;
 
-  border-radius: 10px;
-  box-shadow: 1px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  
 `;
 
 const TopBox = styled.div`
@@ -44,7 +44,8 @@ const TopBox = styled.div`
   height: 40%;
   width: 100%;
 
-  border-radius: 10px 10px 0 0;
+  border-radius: 8px;
+  box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
 `;
 
 const TextArea = styled.div`
@@ -67,7 +68,7 @@ const TextContainer = styled.div.attrs({
   text-overflow: ellipsis;
 
   h2 {
-    font-size: 2.7vw;
+    font-size: 2.2vw;
   }
   h1 {
     font-size: 5vw;
@@ -83,6 +84,10 @@ const TextContainer = styled.div.attrs({
     font-size: 1.3vw;
     color: #9399a2ff;
   }
+  h4 {
+    font-size: 2vw;
+    color: #9399a2ff;
+  }
   p {
     font-size: 1vw;
     color: #9399a2ff;
@@ -93,14 +98,26 @@ const WeatherIconContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   height: 100%;
   width: 35%;
-  padding: 1vw;
-  /* border: 1px solid black; */
+
   img {
     width: 100%;
-    height: 100%;
+    height: 70%;
     object-fit: contain;
+  }
+  p {
+    font-size: 1.5vw;
+    color: #9399a2ff;
+  }
+
+  .weather-good {
+    color: limegreen;
+  }
+
+  .weather-bad {
+    color: red;
   }
 `;
 
@@ -112,8 +129,8 @@ const HourlyWeatherInfo = styled.div`
   width: 100%;
   height: 27%;
   background-color: rgb(234, 236, 239);
-  border-radius: 24px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+  border-radius: 8px;
+  box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
   overflow-x: auto;
 `;
 
@@ -130,6 +147,8 @@ const HourlyWeatherCard = styled.div`
   h3 {
     font-size: 2vw;
     font-weight: bold;
+    color: #9399a2ff;
+    padding-left: 0.5vw;
   }
   p {
     font-size: 1vw;
@@ -139,6 +158,14 @@ const HourlyWeatherCard = styled.div`
     width: 4vw;
     height: 4vw;
   }
+
+  .weather-good {
+    color: #65c178;
+  }
+
+  .weather-bad {
+    color: red;
+  }
 `;
 
 const WeatherDetail = styled.div`
@@ -147,8 +174,8 @@ const WeatherDetail = styled.div`
   height: 30%;
   width: 100%;
   background-color: rgb(234, 236, 239);
-  border-radius: 24px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+  border-radius: 8px;
+  box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
 `;
 
 const WeatherDetailContainer = styled.div`
@@ -184,7 +211,7 @@ const CurrentLocationWeather = ({ children }) => {
   const [hourlyWeather, setHourlyWeather] = useState([]);
   // 좋음/나쁨 표현을 위한 스테이트훅
   const [dailyWeatherCondition, setDailyWeatherCondition] = useState(null);
-  const [hourlyWeatherCondition, setHourlyWeatherCondition] = useState(null);
+
   // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
   const { setCurrentAddress } = useContext(CurrentAddressContext);
 
@@ -218,7 +245,7 @@ const CurrentLocationWeather = ({ children }) => {
       updateAddress();
       setCoords(dfs_xy_conv("toXY", location.lat, location.long));
     }
-  }, [location.lat, location.long]);
+  }, [location.lat, location.long, setCurrentAddress]);
 
   // 플라스크서버로 xy값과 함께 api 요청을 하는 이펙트훅
   useEffect(() => {
@@ -242,7 +269,8 @@ const CurrentLocationWeather = ({ children }) => {
           // 상태 업데이트
           setCurrentWeather(currentWeather.data);
           setHourlyWeather(hourlyWeatherData.data);
-          console.log(hourlyWeatherData.data);
+          // console.log(currentWeather.data);
+          // console.log(hourlyWeatherData.data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -254,16 +282,25 @@ const CurrentLocationWeather = ({ children }) => {
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
   useEffect(() => {
-    if (currentWeather.condition == "맑음") {
-      console.log(currentWeather.condition);
-      setDailyWeatherCondition(true);
-    } else {
-      console.log(currentWeather.condition);
-      setDailyWeatherCondition(false);
+    if (currentWeather && Object.keys(hourlyWeather).length > 0) {
+      const firstHourlyKey = Object.keys(hourlyWeather)[0];
+      const firstHourlyWeather = hourlyWeather[firstHourlyKey];
+
+      if (
+        currentWeather.condition.includes("비") ||
+        currentWeather.condition.includes("눈")
+      ) {
+        setDailyWeatherCondition("나쁨");
+      } else if (
+        firstHourlyWeather.sky === "흐림" ||
+        firstHourlyWeather.sky === "구름많음"
+      ) {
+        setDailyWeatherCondition("보통");
+      } else {
+        setDailyWeatherCondition("좋음");
+      }
     }
-  }, [currentWeather]);
-  // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
-  
+  }, [currentWeather, hourlyWeather]);
 
   // 날짜 정보를 12시간 단위의 오전오후로 만들기
   const formatTime = (key) => {
@@ -280,6 +317,9 @@ const CurrentLocationWeather = ({ children }) => {
         <Items>
           <TopBox>
             <TextArea>
+            <TextContainer>
+                <h4>일일 산책지수</h4>
+              </TextContainer>
               <TextContainer>
                 <h2>{address}</h2>
               </TextContainer>
@@ -292,9 +332,25 @@ const CurrentLocationWeather = ({ children }) => {
             </TextArea>
             <WeatherIconContainer>
               <img
-                src={dailyWeatherCondition ? awsomeWeather : badWeather}
-                alt="Weather Icon"
+                src={
+                  dailyWeatherCondition === "좋음"
+                    ? fantasticWeather
+                    : dailyWeatherCondition === "보통"
+                    ? normalWeather
+                    : badWeather
+                }
+                alt="확인요망"
               />
+              <p
+                className={
+                  dailyWeatherCondition === "좋음"
+                    ? "weather-good"
+                    : dailyWeatherCondition === "나쁨"
+                    ? "weather-bad"
+                    : ""
+                }>
+                {dailyWeatherCondition}
+              </p>
             </WeatherIconContainer>
           </TopBox>
 
@@ -303,16 +359,34 @@ const CurrentLocationWeather = ({ children }) => {
               const data = hourlyWeather[key];
               const displayTime = formatTime(key);
 
+              // 각 시간별 날씨 상태에 따른 변수 설정
+              const weatherCondition = data.condition !== "강수없음"
+                ? "나쁨"
+                : data.sky === "흐림" || data.sky === "구름많음"
+                ? "보통"
+                : "좋음";
+
               return (
                 <HourlyWeatherCard key={key}>
                   <p>{displayTime}</p>
                   <img
-                    src={data.condition === "강수없음" ? awsomeWeather : badWeather}
-                    alt="Weather Icon"
+                    src={
+                      data.condition !== "강수없음"
+                        ? badWeather
+                        : data.sky === "흐림" || data.sky === "구름많음"
+                        ? normalWeather
+                        : fantasticWeather
+                    }
+                    alt="확인요망"
                   />
-                  <p>{data.condition}</p>
-                  <p>{data.sky}</p>
-                  <h3>{data.tmperature}</h3>
+                  <p className={
+                    weatherCondition === "좋음" ? "weather-good" 
+                    : weatherCondition === "나쁨" ? "weather-bad" 
+                    : ""
+                  }>
+                    {weatherCondition}
+                  </p>
+                  <h3>{data.temperature}</h3>
                 </HourlyWeatherCard>
               );
             })}
