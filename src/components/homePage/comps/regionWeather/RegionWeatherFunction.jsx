@@ -1,10 +1,21 @@
+import {
+  sunny,
+  cloudy,
+  fullCloud,
+  rainy,
+  snowy,
+} from "../../../../img/weather";
+
+
+
+
 export const citiesData = [
   { name: "서울", gridRow: 6, gridColumn: 8 },
   { name: "춘천", gridRow: 5, gridColumn: 11 },
-  { name: "강릉", gridRow: 7, gridColumn: 14 },
+  { name: "강릉", gridRow: 7, gridColumn: 15 },
   { name: "수원", gridRow: 9, gridColumn: 9 },
   { name: "청주", gridRow: 10, gridColumn: 13 },
-  { name: "안동", gridRow: 14, gridColumn: 15 },
+  { name: "안동", gridRow: 13, gridColumn: 15 },
   { name: "전주", gridRow: 15, gridColumn: 9 },
   { name: "대전", gridRow: 13, gridColumn: 11 },
   { name: "대구", gridRow: 17, gridColumn: 12 },
@@ -12,8 +23,8 @@ export const citiesData = [
   { name: "목포", gridRow: 22, gridColumn: 6 },
   { name: "광주", gridRow: 20, gridColumn: 8 },
   { name: "여수", gridRow: 22, gridColumn: 10 },
-  { name: "부산", gridRow: 20, gridColumn: 15 },
-  { name: "제주", gridRow: 28, gridColumn: 7 },
+  { name: "부산", gridRow: 21, gridColumn: 15 },
+  { name: "제주", gridRow: 29, gridColumn: 7 },
 ];
 
 export const getCurrentDate = () => {
@@ -67,12 +78,13 @@ export const formatDateWithDay = (dateString) => {
   }
 };
 
+
 export const CityComponent = ({ city, weather, isMorning }) => {
   const gridRow = city.gridRow;
   const gridColumn = city.gridColumn;
 
   if (!weather) {
-    return <div>Loading...</div>; // 또는 다른 오류 처리 , 나중에 멋진걸로 대체하자
+    return <div></div>; // 또는 다른 오류 처리 , 나중에 멋진걸로 대체하자
   }
 
   const temperature = isMorning
@@ -81,6 +93,24 @@ export const CityComponent = ({ city, weather, isMorning }) => {
   const weatherCondition = isMorning
     ? weather.morningWeatherCondition
     : weather.afternoonWeatherCondition; // 아침 OR 오후
+
+    let weatherIconSrc;
+  if (weatherCondition === "맑음") {
+    weatherIconSrc = sunny;
+  } else if (weatherCondition.includes("비") ) {
+    weatherIconSrc = rainy;
+  } else if (weatherCondition.includes("눈") ) {
+    weatherIconSrc = snowy;
+  
+  } else if (weatherCondition.includes("흐림") ) {
+    weatherIconSrc = cloudy;
+  
+  } else if (weatherCondition.includes("구름많음") ) {
+    weatherIconSrc = fullCloud;
+  
+  } else {
+    weatherIconSrc = cloudy;
+  }
 
   return (
     <div
@@ -91,7 +121,6 @@ export const CityComponent = ({ city, weather, isMorning }) => {
         gridColumn: gridColumn,
         zIndex: 1,
         whiteSpace: "nowrap",
-        fontSize: "0.8vw",
         overflow: "visible",
         display: "flex",
         justifyContent: "center",
@@ -109,13 +138,20 @@ export const CityComponent = ({ city, weather, isMorning }) => {
             flexDirection: "column", // 세로 정렬
             height: "100%", // 그리드 셀의 전체 높이 사용
             width: "100%", // 그리드 셀의 전체 너비 사용
+            position: 'relative',
           }}>
-          {`${weatherCondition}`}
+          <img src={weatherIconSrc} alt="Weather Icon" style={{ 
+            width: '2.7vw', 
+            height: '2.7vw',
+            position: 'absolute', // 이미지를 절대 위치로 설정
+            top: "-3vw",
+            left: '50%', // 중앙에 배치
+            transform: 'translateX(-50%)', // 정확히 중앙으로 이동
+          }} />
           <div>
             {city.name}
             {`${temperature}°`}
           </div>
-          {/* <span>{weather ? `${weather.temperature}°C` : '온도'}</span> */}
         </div>
       </div>
     </div>

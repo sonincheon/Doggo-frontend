@@ -28,8 +28,8 @@ const Items = styled.div.attrs({
   flex-direction: column;
   width: 97%;
   height: 90%;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
 `;
 const Banner = styled.div`
   display: flex;
@@ -47,10 +47,9 @@ const BannerTitle = styled.div`
   height: 35%;
   width: 100%;
   font-size: 2vw;
-  color: #000;
   background-color: white;
   color: #9399a2ff;
-  border-radius: 10px 10px 0 0;
+  border-radius: 8px 8px 0 0;
   padding-left: 1vw;
   /* z-index: ; */
 `;
@@ -72,7 +71,7 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 8px 8px;
   background-color: #85c6f8;
   overflow: hidden;
   
@@ -168,7 +167,7 @@ const DayButton = styled.button`
   }
 `;
 
-const RegionWeather = ({children}) => {
+const RegionWeather = () => {
   // 오늘 날짜를 구하는 함수
 
   const today = getCurrentDate();
@@ -185,7 +184,7 @@ const RegionWeather = ({children}) => {
       try {
         const response = await WeatherAxiosApi.getWeathers();
         // API 응답 확인용 콘솔
-        // console.log("API response:", response);
+        console.log("API response:", response);
         setWeatherData(response);
       } catch (error) {
         console.error("API 응답 실패 :", error);
@@ -210,7 +209,7 @@ const RegionWeather = ({children}) => {
   // 요일 버튼
   const handleDayButtonClick = (date) => {
     // 요일 클릭시 date 값 전달 확인 콘솔
-    // console.log(date);
+    console.log(date);
     setSelectedDate(date);
   };
 
@@ -218,7 +217,7 @@ const RegionWeather = ({children}) => {
     <ItemBox>
       <Items>
         <Banner>
-          <BannerTitle>전국산책지수</BannerTitle>
+          <BannerTitle>전국 날씨</BannerTitle>
 
           <DayOfWeekBar>
             {weekDates.map((date) => (
