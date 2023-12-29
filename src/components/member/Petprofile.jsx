@@ -186,7 +186,6 @@ const Petprofile = () => {
       }
     } catch (e) {
       console.error(e);
-      alert("에러 발생");
     }
   };
 
