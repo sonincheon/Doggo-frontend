@@ -18,10 +18,15 @@ const SectionContainer = styled.section.withConfig({
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 99vw;
+  width: 98vw;
   height: ${(props) => props.$height || "50vw"};
   background-color: ${(props) => props.$backGround || "white"};
-  /* border: 1px solid black; */
+`;
+
+const IntroductionSection = styled(SectionContainer)`
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ItemContainer = styled.div.attrs({
@@ -31,6 +36,8 @@ const ItemContainer = styled.div.attrs({
   justify-content: center;
   width: 100%;
   height: ${(props) => props.$height || "30%"};
+
+ 
 `;
 
 export const DoggyIcon = ({ image, height }) => (
@@ -90,11 +97,11 @@ const HomeMain = () => {
     <>
       <CurrentAddressContext.Provider
         value={{ currentAddress, setCurrentAddress }}>
-        <SectionContainer>
+        <IntroductionSection $height="100%">
           <ItemContainer $height="100%">
             <Introduction />
           </ItemContainer>
-        </SectionContainer>
+        </IntroductionSection>
         {/* 
         <SectionContainer $height="35vw" $backGround="#fff">
           <ItemContainer $height="100%">

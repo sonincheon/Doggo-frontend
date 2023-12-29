@@ -10,7 +10,6 @@ import ServiceMain from "./pages/servicePage/Servicemain";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import * as React from "react";
-import { useState, useCallback } from "react";
 import Signup from "./pages/userPage/SignUp";
 import Quicksell from "./pages/quickPage/Quicksell";
 import Quicksucess from "./pages/quickPage/Quicksucess";

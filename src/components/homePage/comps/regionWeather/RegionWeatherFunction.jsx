@@ -141,16 +141,13 @@ export const CityComponent = ({ city, weather, isMorning }) => {
             position: 'relative',
           }}>
           <img src={weatherIconSrc} alt="Weather Icon" style={{ 
-            width: '3.1vw', 
-            height: '3.1vw',
+            width: '2.7vw', 
+            height: '2.7vw',
             position: 'absolute', // 이미지를 절대 위치로 설정
-            
-            top: "-3.2vw",
+            top: "-3vw",
             left: '50%', // 중앙에 배치
             transform: 'translateX(-50%)', // 정확히 중앙으로 이동
-            
           }} />
-          <div>{weatherCondition}</div>
           <div>
             {city.name}
             {`${temperature}°`}

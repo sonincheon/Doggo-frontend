@@ -19,7 +19,7 @@ const ItemBox = styled.div.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 101%;
   height: 100%;
 `;
 

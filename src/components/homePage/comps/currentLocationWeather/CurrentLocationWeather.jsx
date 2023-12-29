@@ -106,6 +106,7 @@ const WeatherIconContainer = styled.div`
     width: 100%;
     height: 70%;
     object-fit: contain;
+    
   }
   p {
     font-size: 1.5vw;
@@ -157,6 +158,7 @@ const HourlyWeatherCard = styled.div`
   img {
     width: 4vw;
     height: 4vw;
+    
   }
 
   .weather-good {
