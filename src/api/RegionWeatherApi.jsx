@@ -7,6 +7,7 @@ const BASE_URL = "http://localhost:8111/api/weather";
 
 export const WeatherAxiosApi = {
   getWeathers: async () => {
+    
     try {
       const response = await axios.get(`${BASE_URL}/get`);
       // console.log(response.data);

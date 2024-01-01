@@ -31,6 +31,9 @@ import ServiceView from "./pages/servicePage/ServiceView";
 import FindIdPwd from "./pages/userPage/FindIdPwd";
 import PrivateLayout from "./pages/PrivateLayout";
 import Auth from "./pages/userPage/Auth";
+import { LoadingProvider } from "./context/LoadingContext";
+import Loader from "./utill/Loader";
+
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -45,12 +48,17 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  // 로딩상태 관리
+
+
   return (
     <>
       {/* 결제용 context  */}
       <PayStore>
         <GlobalStyle />
+        <LoadingProvider>
         <Router>
+        {/* <Loader/> */}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -93,7 +101,9 @@ function App() {
               <Route path="/admin/feed" element={<Adminfeedpage />} />
             </Route>
           </Routes>
+          
         </Router>
+        </LoadingProvider>
       </PayStore>
     </>
   );

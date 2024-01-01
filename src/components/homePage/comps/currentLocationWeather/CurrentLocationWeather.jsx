@@ -14,6 +14,8 @@ import {
   badWeather,
 } from "../../../../img/weather";
 import CurrentAddressContext from "../../CurrentAddressContext";
+import { useLoading } from "../../../../context/LoadingContext";
+
 
 const ItemBox = styled.div.attrs({
   className: "item-container",
@@ -227,6 +229,8 @@ const CurrentLocationWeather = ({ children }) => {
 
   // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
   const { setCurrentAddress } = useContext(CurrentAddressContext);
+  // 비동기 작업 지연시 등장할 로더 관리 훅
+  const { setIsLoading } = useLoading();
 
   // 리액트 라이브러리를 통해 위도/경도를 얻어오는 이펙트훅
   useEffect(() => {
@@ -246,25 +250,29 @@ const CurrentLocationWeather = ({ children }) => {
   useEffect(() => {
     const updateAddress = async () => {
       try {
+        setIsLoading(true);
         const addr = await getGeocodeKakao(location.lat, location.long);
         setAddress(addr);
         setCurrentAddress(addr); // 메인페이지 한해서 전역적으로 쓰기 위해 할당
       } catch (error) {
         console.error("Kakao Geocoding error:", error);
-      }
+      } 
     };
     // 실시간 위도/경도 정보가 바뀔시, 재차 카카오 api 요청 및 x 값 y 값 요청
     if (location.lat && location.long) {
       updateAddress();
       setCoords(dfs_xy_conv("toXY", location.lat, location.long));
     }
-  }, [location.lat, location.long, setCurrentAddress]);
+  }, [location.lat, location.long, setCurrentAddress, setIsLoading]);
 
   // 플라스크서버로 xy값과 함께 api 요청을 하는 이펙트훅
   useEffect(() => {
     const updateWeather = async () => {
       if (coords.x && coords.y) {
         try {
+          // 로더 발동
+          const text = setIsLoading(true);
+          console.log(text);
           // 두 API 요청을 동시에 호출
           const currentWeatherResponse = axios.get(
             `http://127.0.0.1:5000/api/weather?x=${coords.x}&y=${coords.y}`
@@ -286,12 +294,14 @@ const CurrentLocationWeather = ({ children }) => {
           // console.log(hourlyWeatherData.data);
         } catch (error) {
           console.error("Error fetching data:", error);
+        } finally {
+          setIsLoading(false);
         }
       }
     };
 
     updateWeather();
-  }, [coords]);
+  }, [coords ,setIsLoading]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
   useEffect(() => {

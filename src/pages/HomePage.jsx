@@ -1,4 +1,4 @@
-import styled from "styled-components";
+
 
 import { Center } from "../components/PublicStyle";
 import HomeMain from "../components/homePage/HomeMain";
