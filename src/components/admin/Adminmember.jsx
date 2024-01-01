@@ -199,10 +199,7 @@ const Adminmember = () => {
   const reRender = () => {
     setIsTrue((prev) => !prev);
   };
-  // 분류 버튼
-  const HandleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
+
   // 날짜 포멧
   const formatDate = (dateString) => {
     const options = {
@@ -264,19 +261,6 @@ const Adminmember = () => {
     );
   };
 
-  // 필터
-  // const selectedData = () => {
-  //   switch (selectedCategory) {
-  //     case "all":
-  //       return memberList;
-  //     case "paid":
-  //       return memberList.filter((item) => item.memberGrade === "paid");
-  //     case "free":
-  //       return memberList.filter((item) => item.memberGrade === "free");
-  //     default:
-  //       return memberList;
-  //   }
-  // };
 
   // 회원삭제
   const HandleDeleteMember = async (email) => {
@@ -310,7 +294,7 @@ const Adminmember = () => {
               <input
                 type="radio"
                 value="all"
-                checked={selectedCategory === "all"}
+                checked={filter === "all"}
                 onChange={() => filterChange("all")}
               />
               전체
@@ -319,8 +303,8 @@ const Adminmember = () => {
               <input
                 type="radio"
                 value="paid"
-                checked={selectedCategory === "구독중"}
-                onChange={() => filterChange("구독중")}
+                checked={filter === "paid"}
+                onChange={() => filterChange("paid")}
               />
               구독 회원
             </label>
@@ -328,8 +312,8 @@ const Adminmember = () => {
               <input
                 type="radio"
                 value="free"
-                checked={selectedCategory === "미구독"}
-                onChange={() => filterChange("미구독")}
+                checked={filter === "free"}
+                onChange={() => filterChange("free")}
               />
               미구독 회원
             </label>
