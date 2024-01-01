@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled, { keyframes } from "styled-components";
-// import { useNavigate } from "react-router-dom";
 import { StrayAxiosApi } from "../../../api/StraysApi";
 import CurrentAddressContext from "../CurrentAddressContext";
 
@@ -22,13 +21,13 @@ const SliderContainer = styled.div`
   flex-direction: column;
   overflow: hidden;
   width: 99%;
-  padding-bottom: 1%;
-  border-radius: 10px;
+  
+  border-radius: 8px;
 `;
 
 const SliderTrack = styled.div`
   display: flex;
-  height: 40%;
+  height: 100%;
   width: calc(40vw * ${(props) => props.$extendedStraysLength});
   animation: ${slide} 5760s linear infinite;
 `;
@@ -36,9 +35,9 @@ const SliderTrack = styled.div`
 const Banner = styled.div`
   height: 10%;
   width: 100%;
-  border: 1px solid black;
-  border-radius: 10px 10px 0 0;
-  background-color: #b0a695;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: rgb(234, 236, 239);
 `;
 
 const Slide = styled.div`
@@ -51,7 +50,9 @@ const Slide = styled.div`
   img {
     width: 100%;
     height: 80%;
+    border-radius: 8px 8px 0 0;
     object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -62,9 +63,12 @@ const InfoArea = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1vw;
-  border: 1px solid black;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
-  background-color: #b0a695;
+  background-color: rgb(234, 236, 239);
+  p {
+    font-size: .8vw;
+  }
 `;
 
 const Strays = () => {
@@ -111,7 +115,7 @@ const Strays = () => {
               <img src={stray.imageLink} alt={`Stray ${stray.breed}`} />
               <InfoArea>
                 <p>보호소 위치: {stray.city}</p>
-                <p>품종: {stray.breed}</p>
+                <p>{stray.breed}</p>
               </InfoArea>
             </Slide>
           ))}

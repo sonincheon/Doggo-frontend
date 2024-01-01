@@ -1,17 +1,17 @@
 import styled from "styled-components";
-
+import AboutMain from "../components/aboutPage/AboutMain";
 import { Center } from "../components/PublicStyle";
-import HomeMain from "../components/homePage/HomeMain";
 
 
 
-const HomePage = () => {
+
+const AboutPage = () => {
   return (
     <Center>
-    <HomeMain />  
+        <AboutMain/>
     </Center>
     
   );
 };
 
-export default HomePage;
+export default AboutPage;

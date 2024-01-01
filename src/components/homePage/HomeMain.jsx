@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Introduction from "./comps/Introduction";
-import AboutUs from "./comps/aboutUs.jsx/AboutUs";
-import AboutFunctions from "./comps/aboutCalander/AboutFunctions";
+
 
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
@@ -10,7 +9,7 @@ import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../icon/ChatBot.png";
-import { goodWeather, badWeather } from "../../img/weather";
+
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -18,9 +17,15 @@ const SectionContainer = styled.section.withConfig({
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 98vw;
+  width: ${(props) => props.$width || "98vw"};
   height: ${(props) => props.$height || "50vw"};
   background-color: ${(props) => props.$backGround || "white"};
+`;
+
+const StraysSectionContainer = styled(SectionContainer)`
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const IntroductionSection = styled(SectionContainer)`
@@ -102,37 +107,24 @@ const HomeMain = () => {
             <Introduction />
           </ItemContainer>
         </IntroductionSection>
-        {/* 
-        <SectionContainer $height="35vw" $backGround="#fff">
-          <ItemContainer $height="100%">
-            <AboutUs />
-          </ItemContainer>
-        </SectionContainer>
-
-        <SectionContainer $backGround="#f2f2f4">
-          <ItemContainer $height="100%">
-            <AboutFunctions />
-          </ItemContainer>
-        </SectionContainer> */}
+       
 
         <SectionContainer $height="55vw">
           <ItemContainer $height="100%">
             <CurrentLocationWeather>
-              <DoggyIcon image={goodWeather} height="20%" />
-              <DoggyIcon image={badWeather} height="20%" />
+              
             </CurrentLocationWeather>
             <RegionWeather>
-              <DoggyIcon image={goodWeather} height="20%" />
-              <DoggyIcon image={badWeather} height="20%" />
+              
             </RegionWeather>
           </ItemContainer>
         </SectionContainer>
 
-        {/* <SectionContainer>
-          <ItemContainer>
+        <StraysSectionContainer $height= "10vw" $width="83vw">
+          <ItemContainer $height= "100%">
             <Strays />
           </ItemContainer>
-        </SectionContainer> */}
+        </StraysSectionContainer>
       </CurrentAddressContext.Provider>
 
       {/* <ChatbotIcon

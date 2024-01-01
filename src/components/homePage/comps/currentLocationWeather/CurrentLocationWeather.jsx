@@ -133,6 +133,9 @@ const HourlyWeatherInfo = styled.div`
   border-radius: 8px;
   box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
   overflow-x: auto;
+  @media (max-width: 768px) {
+    overflow-x: hidden;
+  }
 `;
 
 const HourlyWeatherCard = styled.div`
@@ -168,6 +171,14 @@ const HourlyWeatherCard = styled.div`
   .weather-bad {
     color: red;
   }
+
+  @media (max-width: 768px) {
+    h3 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: black;
+  }
+}
 `;
 
 const WeatherDetail = styled.div`

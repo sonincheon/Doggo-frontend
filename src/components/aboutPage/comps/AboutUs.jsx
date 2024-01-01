@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
-import goldenRetriver from "../../../../img/homePageImages/aboutUs/goldenRetriver.png";
-import twoDoggo from "../../../../img/homePageImages/aboutUs/twoDoggo.png";
-import Kittens from "../../../../img/homePageImages/aboutUs/Kittens.png";
+import goldenRetriver from "../../../img/homePageImages/aboutUs/goldenRetriver.png";
+import twoDoggo from "../../../img/homePageImages/aboutUs/twoDoggo.png";
+import Kittens from "../../../img/homePageImages/aboutUs/Kittens.png";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",

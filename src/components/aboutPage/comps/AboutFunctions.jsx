@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import feed from "../../../../img/homePageImages/aboutFunction/feed.png";
-import mapService from "../../../../img/homePageImages/aboutFunction/mapService.png";
-import schedule from "../../../../img/homePageImages/aboutFunction/schedule.png";
-import searchAnimal from "../../../../img/homePageImages/aboutFunction/searchAnimal.png";
-import stray from "../../../../img/homePageImages/aboutFunction/stray.png";
-import weatherService from "../../../../img/homePageImages/aboutFunction/weatherService.png";
+import feed from "../../../img/homePageImages/aboutFunction/feed.png";
+import mapService from "../../../img/homePageImages/aboutFunction/mapService.png";
+import schedule from "../../../img/homePageImages/aboutFunction/schedule.png";
+import searchAnimal from "../../../img/homePageImages/aboutFunction/searchAnimal.png";
+import stray from "../../../img/homePageImages/aboutFunction/stray.png";
+import weatherService from "../../../img/homePageImages/aboutFunction/weatherService.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",

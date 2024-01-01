@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Header from "./pages/Header";
+import AboutPage from "./pages/AboutPage";
 import BookPage from "./pages/BookPage";
 import Diymain from "./pages/diyPage/Diymain";
 import Mapmain from "./pages/mapPage/Mapmain";
@@ -74,6 +75,7 @@ function App() {
                 <Route path="/serviceVeiw" element={<ServiceView />} />
               </Route>
               <Route path="/" element={<HomePage />} />
+              <Route path="about" element={<AboutPage />} />
               <Route path="/book" element={<BookPage />} />
               <Route path="/diy" element={<Diymain />} />
               <Route path="/map" element={<Mapmain />} />
