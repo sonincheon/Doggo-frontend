@@ -300,7 +300,11 @@ const Header = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState("");
   const [email, setEmail] = useState("");
-
+  
+  // 홈페이지만 스크롤 10%에 해당하는 지점을 지나쳤을때 헤더가 등장하게 만드는 훅
+  
+  const [showHeader, setShowHeader] = useState(false);
+  
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -355,8 +359,34 @@ const Header = () => {
     alert("로그아웃 되셨습니다.");
   };
 
+  useEffect(() => {
+    const checkScroll = () => {
+      // 홈페이지에서만 10% 지나쳐야 헤더 표시
+      if (isHomePage) {
+        const threshold = window.innerHeight * 0.1;
+        setShowHeader(window.scrollY > threshold);
+      } else {
+        // 홈페이지가 아닐 때는 항상 헤더를 표시
+        setShowHeader(true);
+      }
+    };
+
+    // 홈페이지일 때만 스크롤 이벤트
+    if (isHomePage) {
+      window.addEventListener('scroll', checkScroll);
+    }
+    
+    return () => {
+      if (isHomePage) {
+        window.removeEventListener('scroll', checkScroll);
+      }
+    };
+  }, [isHomePage]);
+
   return (
-    <Container>
+    <Container >
+      {showHeader && (
+      <>
       <Headers
         onMouseEnter={() => setIsHeaderHovered(true)}
         onMouseLeave={() => setIsHeaderHovered(false)}
@@ -471,7 +501,8 @@ const Header = () => {
           Q&A
         </Menu>
       </Menus>
-
+            </>
+      )}
       <Contain>
         <Main>
           <Outlet />
