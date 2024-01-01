@@ -183,8 +183,8 @@ const ServiceWrite = () => {
       // 다운로드 URL을 가져오고 기다립니다.
       const url = await fileRef.getDownloadURL();
       console.log("저장경로 확인 : " + url);
-      setUrl(url);
       setBoardImg(url);
+      setUrl(url);
     } catch (error) {
       // 에러를 처리합니다.
       console.error("Upload failed", error);
@@ -195,11 +195,13 @@ const ServiceWrite = () => {
       console.log("문의 유형과 내용을 모두 작성 해주세요.");
     }
     try {
-      const rsp = await ServiceApi.boardPlus(boardType, comment, boardImg);
+      const rsp = await ServiceApi.boardPlus(boardType, comment, url);
       if (rsp.data === true) {
-        console.log(rsp.data);
+        alert("문의글 작성 완료.");
+        setUrl("");
         navigate(-1);
       } else {
+        alert("문의글 작성 실패.");
       }
     } catch (error) {
       console.log("error");

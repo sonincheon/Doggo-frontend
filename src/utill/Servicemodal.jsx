@@ -216,7 +216,7 @@ const Servicemodal = (props) => {
       // 다운로드 URL을 가져오고 기다립니다.
       const url = await fileRef.getDownloadURL();
       console.log("저장경로 확인 : " + url);
-
+      setBoardImg(url);
       // 상태를 업데이트합니다.
       setUrl(url);
     } catch (error) {
@@ -241,11 +241,12 @@ const Servicemodal = (props) => {
       console.log(id, boardType, comment, url);
       const rsp = await ServiceApi.boardUp(id, boardType, comment, url);
       if (rsp.data === true) {
+        alert("문의글 수정 완료.");
         setUrl("");
         navigate("/service");
         close();
       } else {
-        console.log(rsp);
+        alert("문의글 수정 실패.");
       }
     } catch (error) {
       console.log(error);

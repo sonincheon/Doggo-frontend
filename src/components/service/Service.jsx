@@ -214,7 +214,7 @@ const Service = () => {
       const rsp = await ServiceApi.boardDel(`${id}`);
       console.log(rsp);
       if (rsp.data === true) {
-        console.log(rsp.data);
+        alert("문의글 삭제 완료.");
         SList();
       } else {
       }
