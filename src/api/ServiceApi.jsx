@@ -5,6 +5,7 @@ const MUNG_HOST = "http://localhost:8111";
 const ServiceApi = {
   //문의 요청하는 부분 추가를 하기 위해 제출하는거랑 짝
   boardPlus: async (boardType, comment, boardImg) => {
+    console.log(boardType, comment, boardImg);
     const res = await Common.TakenToken();
     const email = res.data;
     const serviceData = {
@@ -20,6 +21,7 @@ const ServiceApi = {
   oneBoardByMemberEmail: async () => {
     const res = await Common.TakenToken();
     const email = res.data;
+    console.log(email);
     return await AxiosInstance.get(MUNG_HOST + `/post/list/${email}`);
   },
   // 문의 수정
@@ -33,6 +35,7 @@ const ServiceApi = {
       comment: comment,
       boardImg: boardImg,
     };
+    console.log(boardUpData);
     return await AxiosInstance.put(
       Common.MUNG_HOST + `/post/modify/${id}`,
       boardUpData
