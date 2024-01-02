@@ -1,10 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Common from "../utill/Common";
+import styled from "styled-components";
 
+
+const OutScreen =styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: white
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  display: ${props => props.onScreen ? "block" : "none"};
+`;
 // 접근 제한 컴포넌트
 const PrivateLayout = () => {
   const navigate = useNavigate();
+  const [onScreen, setOnScreen]=useState(true);
 
   useEffect(() => {
     const LoginStatus = async () => {
@@ -14,6 +27,7 @@ const PrivateLayout = () => {
         console.log(res);
         if (res.data === true) {
           console.log("환영합니다^^ 로그인중입니다!");
+          setOnScreen(false);
         }
       } catch (e) {
         console.log(e);
@@ -53,6 +67,7 @@ const PrivateLayout = () => {
 
   return (
     <>
+      <OutScreen onScreen={onScreen}/>
       <Outlet />
     </>
   );

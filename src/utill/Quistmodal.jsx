@@ -53,8 +53,8 @@ const ModalStyle = styled.div`
 
   section > header button {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 0;
     width: 30px;
     font-size: 21px;
     font-weight: 700;
@@ -309,7 +309,7 @@ const QuistModal = (props) => {
         {open && (
           <section>
             <header>
-              {petName} 의 {day} 일정
+              {petName}의 {day} 일정
               <button onClick={close}>&times;</button>
             </header>
             <main>
@@ -343,7 +343,7 @@ const QuistModal = (props) => {
               </div>
             </main>
             <footer>
-              <button onClick={() => RegClick()}>수행완료!</button>
+              <button onClick={() => RegClick()}>수행완료</button>
               <button onClick={close}>취소하기</button>
             </footer>
           </section>
