@@ -34,7 +34,6 @@ const BoxTitle = styled.div`
   font-size: 32px;
   font-weight: 900;
   margin-bottom: 1rem;
-  border: 1px solid black;
 `;
 
 const BoxContent1 = styled.div`
@@ -46,10 +45,8 @@ const BoxContent1 = styled.div`
   margin-bottom: 1rem;
   border-radius: 10px;
   padding: 10px;
-  border: 1px solid black;
   min-width: 630px;
   padding: 1rem;
-  border: 1px solid black;
 `;
 
 const PetProfile = styled.img`
@@ -57,7 +54,6 @@ const PetProfile = styled.img`
   height: 200px;
   border-radius: 100%;
   margin-left: 1rem;
-  border: 1px solid black;
 `;
 
 const PetInfo1 = styled.div`

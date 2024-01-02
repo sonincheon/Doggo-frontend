@@ -90,7 +90,7 @@ const Items = styled.div`
     width: 50%;
     margin-top: 20px;
     justify-content: center;
-    color: red;
+    color: black;
     font-size: 14px;
     display: flex;
     margin-bottom: 2rem;
@@ -125,7 +125,7 @@ const Items = styled.div`
 
     &:hover {
       span {
-        color: blue;
+        color: #f95001;
         text-decoration-line: underline;
       }
     }
@@ -138,7 +138,7 @@ const Input = styled.input`
   padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
   font-family: inherit; /* 폰트 상속 */
   border: 1px solid #999;
-  border-radius: 12px; /* iSO 둥근모서리 제거 */
+  border-radius: 8px; /* iSO 둥근모서리 제거 */
   outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 `;
 
@@ -147,18 +147,17 @@ const Button1 = styled.button`
   margin-left: 30px;
   margin-right: 30px;
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 26px;
   font-weight: bold;
   width: 60%; /* 원하는 너비 설정 */
-  height: 55px;
+  height: 45px;
   color: white;
   background-color: #333333;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 400;
-  border-radius: 12px;
-  font-weight: 700;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
+  font-family: inherit;
 
   &:active {
     //확인 클릭하면 설정
@@ -174,14 +173,15 @@ const Button2 = styled.button`
   margin-right: 30px;
   font-weight: bold;
   width: 60%; /* 원하는 너비 설정 */
-  height: 55px;
+  height: 45px;
   color: black;
   background-image: url(${kakaoLogin});
-  border-radius: 12px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   background-size: cover; /* 이미지를 버튼에 맞게 늘리거나 축소함 */
   background-repeat: no-repeat; /* 이미지 반복을 방지 */
+  background-position: center;
 
   &:active {
     //확인 클릭하면 설정
@@ -262,13 +262,7 @@ const Login = () => {
       if (res.data.grantType === "Bearer") {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
-        if(inputEmail==="admin"){
-          navigate("/admin")
-        } else {
-          navigate("/");
-        };
-        
-        
+        navigate("/");
       } else {
         setModalOpen(true);
         setModalContent("아이디 및 패스워드를 재확인해 주세요.^^");

@@ -304,6 +304,10 @@ const Petmodal = (props) => {
     }
   };
 
+  const handleGenderChange = (e) => {
+    setInputGender(e.target.value);
+  };
+
   const Close = () => {
     setFile("");
     setInputAge("");
@@ -438,7 +442,26 @@ const Petmodal = (props) => {
                   </PetInfo3>
                   <PetInfo3>
                     성별 :{" "}
-                    <PetSign value={inputGender} onChange={onChangeGender} />
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="남"
+                        checked={inputGender === "남"}
+                        onChange={handleGenderChange}
+                      />
+                      남
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="여"
+                        checked={inputGender === "여"}
+                        onChange={handleGenderChange}
+                      />
+                      여
+                    </label>
                   </PetInfo3>
                   <PetInfo3>
                     생년월일 :{" "}

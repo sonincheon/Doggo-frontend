@@ -242,9 +242,8 @@ const Myprofile = () => {
     setModalOpen(true);
   };
 
-  const openClick1 = (Password) => {
+  const openClick1 = () => {
     setModalOpen1(true);
-    setPassword(Password);
   };
 
   const openClick2 = (img, changeCase) => {
