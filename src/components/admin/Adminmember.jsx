@@ -37,6 +37,16 @@ export const RightBox = styled.div`
       margin-right: 3%;
     }
 
+    & > .loadingBtn {
+      margin-right: 10px;
+      transition: all 0.3s;
+    }
+    & > .loadingBtn:hover {
+      background-color: #F95001;
+      color: #fff;
+      border-color: #F95001;
+    }
+
     // 라디오 버튼 css
     input[type="radio"] {
       -webkit-appearance: none; // 웹킷 브라우저에서 기본 스타일 제거
