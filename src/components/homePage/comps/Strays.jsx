@@ -16,11 +16,28 @@ const slide = keyframes`
   }
 `;
 
+const TextContainer = styled.div`
+  display: flex;
+  width: 99%;
+  height: 20%;
+  justify-content: ${(props) => props.$justy || "none"};
+  margin-top: ${(props) => props.$topMargin || "0"};
+  h1 {
+    font-size: 1.5vw;
+    margin-bottom: 1vw;
+    color: #5f6061;
+  }
+  p {
+    font-size: 1vw;
+    color: #9399a2ff;
+  }
+`
+
 const SliderContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 99%;
+  width: 98.5%;
   
   border-radius: 8px;
 `;
@@ -42,14 +59,14 @@ const Banner = styled.div`
 
 const Slide = styled.div`
   width: 10vw;
-  height: 100%;
+  height: 60%;
   margin-right: 0.5vw;
   padding: 0;
   cursor: pointer;
 
   img {
     width: 100%;
-    height: 80%;
+    height: 40%;
     border-radius: 8px 8px 0 0;
     object-fit: cover;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -57,7 +74,7 @@ const Slide = styled.div`
 `;
 
 const InfoArea = styled.div`
-  height: 20%;
+  height: 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -104,6 +121,16 @@ const Strays = () => {
   return (
     <>
       <SliderContainer>
+     
+      <img src="https://www.animal.go.kr/front/images/sub/sub01_04_img.png" alt="resque strays"></img>
+      <TextContainer $justy="center" $topMargin="3vw"><h1>개나 고양이를 키우고 싶다면 유기동물 보호시설에서 보호하고 있는 유기동물을 입양하는게 어떨까요?</h1></TextContainer>
+      <TextContainer $justy="center"><h1>원하는 동물을 새 식구로 맞이하는 것은 물론 한 생명을 구했다는 자부심으로 가슴이 뿌듯해집니다.</h1></TextContainer>
+      <TextContainer>
+        <p>※ 해당 유기동물 정보들은 사용자의 현재위치를 바탕으로 합니다.</p>
+      </TextContainer>
+      <TextContainer>
+        <p>※ 해당 유기동물 이미지 클릭시 상세 페이지로 이동.</p>
+      </TextContainer>
         <Banner />
         <SliderTrack $extendedStraysLength={extendedStrays.length}>
           {extendedStrays.map((stray, index) => (

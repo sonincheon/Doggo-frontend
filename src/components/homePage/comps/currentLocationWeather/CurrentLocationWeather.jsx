@@ -14,8 +14,8 @@ import {
   badWeather,
 } from "../../../../img/weather";
 import CurrentAddressContext from "../../CurrentAddressContext";
-import { useLoading } from "../../../../context/LoadingContext";
-
+// import { useLoading } from "../../../../context/LoadingContext";
+import { Switch } from "../../HomeMain";
 
 const ItemBox = styled.div.attrs({
   className: "item-container",
@@ -24,6 +24,9 @@ const ItemBox = styled.div.attrs({
   justify-content: center;
   align-items: center;
   width: 50%;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const Items = styled.div.attrs({
@@ -34,18 +37,17 @@ const Items = styled.div.attrs({
   justify-content: space-between;
   width: 97%;
   height: 90%;
-
-  border-radius: 5px;
   
+  border-radius: 5px;
 `;
 
 const TopBox = styled.div`
   display: flex;
-
+  position: relative;
   justify-content: center;
   height: 40%;
   width: 100%;
-
+  position: relative;
   border-radius: 8px;
   box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
 `;
@@ -60,6 +62,7 @@ const TextArea = styled.div`
 const TextContainer = styled.div.attrs({
   className: "text-container",
 })`
+  position: relative;
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
   justify-content: ${(props) => props.$justify || "none"};
@@ -94,6 +97,27 @@ const TextContainer = styled.div.attrs({
     font-size: 1vw;
     color: #9399a2ff;
   }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 5vw;
+    }
+    h1 {
+      font-size: 9vw;
+    }
+    h3 {
+      font-size: 3vw;
+    }
+
+    p {
+      font-size: 3vw;
+    }
+  }
+  &.hide-on-mobile {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
 `;
 
 const WeatherIconContainer = styled.div`
@@ -103,12 +127,12 @@ const WeatherIconContainer = styled.div`
   align-items: center;
   height: 100%;
   width: 35%;
+  position: relative;
 
   img {
     width: 100%;
     height: 70%;
     object-fit: contain;
-    
   }
   p {
     font-size: 1.5vw;
@@ -121,6 +145,17 @@ const WeatherIconContainer = styled.div`
 
   .weather-bad {
     color: red;
+  }
+  @media (max-width: 768px) {
+    p {
+      font-size: 3vw;
+    }
+    img {
+      margin-top: 15px;
+      width: 100%;
+      height: 70%;
+      object-fit: contain;
+    }
   }
 `;
 
@@ -163,7 +198,6 @@ const HourlyWeatherCard = styled.div`
   img {
     width: 4vw;
     height: 4vw;
-    
   }
 
   .weather-good {
@@ -175,12 +209,21 @@ const HourlyWeatherCard = styled.div`
   }
 
   @media (max-width: 768px) {
+    min-width: 19vw;
+    img {
+      width: 8vw;
+      height: 8vw;
+    }
     h3 {
-    font-size: 2vw;
-    font-weight: bold;
-    color: black;
+      font-size: 3vw;
+      font-weight: bold;
+      color: black;
+    }
+
+    p {
+      font-size: 3vw;
+    }
   }
-}
 `;
 
 const WeatherDetail = styled.div`
@@ -211,7 +254,14 @@ const WeatherDetailBox = styled.div`
   align-items: center;
 `;
 
-const CurrentLocationWeather = ({ children }) => {
+const SwitchPosition = styled.div`
+  position: absolute;
+  top: 1rem; // 필요에 따라 조절하세요
+  right: 1rem; // 필요에 따라 조절하세요
+  z-index: 10; // 다른 내용물 위에 오도록 설정
+`;
+
+const CurrentLocationWeather = ({ isOn, toggleWeather, isMobileView }) => {
   // 리액트 라이브러리로 위도경도를 구하는 훅
   const [location, setLocation] = useState({ lat: 0, long: 0 });
   // api 요청을 통해 정보획들 실패 에러 스테이트훅
@@ -230,7 +280,7 @@ const CurrentLocationWeather = ({ children }) => {
   // 현재 위치값을 메인페이지에 한해서 공유하는 컨테스트훅
   const { setCurrentAddress } = useContext(CurrentAddressContext);
   // 비동기 작업 지연시 등장할 로더 관리 훅
-  const { setIsLoading } = useLoading();
+  // const { setIsLoading } = useLoading();
 
   // 리액트 라이브러리를 통해 위도/경도를 얻어오는 이펙트훅
   useEffect(() => {
@@ -250,20 +300,20 @@ const CurrentLocationWeather = ({ children }) => {
   useEffect(() => {
     const updateAddress = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const addr = await getGeocodeKakao(location.lat, location.long);
         setAddress(addr);
         setCurrentAddress(addr); // 메인페이지 한해서 전역적으로 쓰기 위해 할당
       } catch (error) {
         console.error("Kakao Geocoding error:", error);
-      } 
+      }
     };
     // 실시간 위도/경도 정보가 바뀔시, 재차 카카오 api 요청 및 x 값 y 값 요청
     if (location.lat && location.long) {
       updateAddress();
       setCoords(dfs_xy_conv("toXY", location.lat, location.long));
     }
-  }, [location.lat, location.long, setCurrentAddress, setIsLoading]);
+  }, [location.lat, location.long, setCurrentAddress]);
 
   // 플라스크서버로 xy값과 함께 api 요청을 하는 이펙트훅
   useEffect(() => {
@@ -271,8 +321,8 @@ const CurrentLocationWeather = ({ children }) => {
       if (coords.x && coords.y) {
         try {
           // 로더 발동
-          const text = setIsLoading(true);
-          console.log(text);
+          // const text = setIsLoading(true);
+          // console.log(text);
           // 두 API 요청을 동시에 호출
           const currentWeatherResponse = axios.get(
             `http://127.0.0.1:5000/api/weather?x=${coords.x}&y=${coords.y}`
@@ -295,13 +345,13 @@ const CurrentLocationWeather = ({ children }) => {
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
-          setIsLoading(false);
+          // setIsLoading(false);
         }
       }
     };
 
     updateWeather();
-  }, [coords ,setIsLoading]);
+  }, [coords]);
 
   // 날씨 상태값 0 ~ 7 을 바탕으로 맑은경우 산책 지수 좋음 , 아닌경우 나쁨
   useEffect(() => {
@@ -339,20 +389,26 @@ const CurrentLocationWeather = ({ children }) => {
       <ItemBox>
         <Items>
           <TopBox>
+            {isMobileView && (
+              <SwitchPosition>
+                <Switch isOn={isOn} onClick={toggleWeather} />
+              </SwitchPosition>
+            )}
             <TextArea>
-            <TextContainer>
+              <TextContainer className="hide-on-mobile">
                 <h4>일일 산책지수</h4>
               </TextContainer>
               <TextContainer>
                 <h2>{address}</h2>
               </TextContainer>
-              <TextContainer $height="10%">
+              <TextContainer $height="10%" className="hide-on-mobile">
                 <h3>현재 온도</h3>
               </TextContainer>
               <TextContainer $height="60%">
                 <h1>{currentWeather.temperature}</h1>
               </TextContainer>
             </TextArea>
+
             <WeatherIconContainer>
               <img
                 src={
@@ -383,11 +439,12 @@ const CurrentLocationWeather = ({ children }) => {
               const displayTime = formatTime(key);
 
               // 각 시간별 날씨 상태에 따른 변수 설정
-              const weatherCondition = data.condition !== "강수없음"
-                ? "나쁨"
-                : data.sky === "흐림" || data.sky === "구름많음"
-                ? "보통"
-                : "좋음";
+              const weatherCondition =
+                data.condition !== "강수없음"
+                  ? "나쁨"
+                  : data.sky === "흐림" || data.sky === "구름많음"
+                  ? "보통"
+                  : "좋음";
 
               return (
                 <HourlyWeatherCard key={key}>
@@ -402,11 +459,14 @@ const CurrentLocationWeather = ({ children }) => {
                     }
                     alt="확인요망"
                   />
-                  <p className={
-                    weatherCondition === "좋음" ? "weather-good" 
-                    : weatherCondition === "나쁨" ? "weather-bad" 
-                    : ""
-                  }>
+                  <p
+                    className={
+                      weatherCondition === "좋음"
+                        ? "weather-good"
+                        : weatherCondition === "나쁨"
+                        ? "weather-bad"
+                        : ""
+                    }>
                     {weatherCondition}
                   </p>
                   <h3>{data.temperature}</h3>

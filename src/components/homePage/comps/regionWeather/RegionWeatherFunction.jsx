@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 import {
   sunny,
   cloudy,
@@ -5,9 +7,6 @@ import {
   rainy,
   snowy,
 } from "../../../../img/weather";
-
-
-
 
 export const citiesData = [
   { name: "서울", gridRow: 6, gridColumn: 8 },
@@ -78,13 +77,55 @@ export const formatDateWithDay = (dateString) => {
   }
 };
 
+const CityContainer = styled.div`
+  margin: 0;
+  padding: 0;
+  grid-row: ${(props) => props.gridRow};
+  grid-column: ${(props) => props.gridColumn};
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1vw;
+  position: relative;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 3vw;
+  }
+`;
+
+const WeatherIcon = styled.img`
+  margin-top: -2.5vw;
+  width: 3vw !important;
+  height: 3vw !important;
+
+  @media (max-width: 768px) {
+    margin-top: -4vw;
+    width: 5vw !important;
+    height: 5vw !important;
+  }
+`;
+
+const CityName = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1vw; // 기본 폰트 크기
+  color: #000; // 기본 텍스트 색상
+
+  @media (max-width: 768px) {
+    font-size: 3vw; // 화면이 768px 이하일 때 폰트 크기
+  }
+`;
 
 export const CityComponent = ({ city, weather, isMorning }) => {
   const gridRow = city.gridRow;
   const gridColumn = city.gridColumn;
 
   if (!weather) {
-    return <div></div>; // 또는 다른 오류 처리 , 나중에 멋진걸로 대체하자
+    return <div></div>; // 또는 다른 오류 처리
   }
 
   const temperature = isMorning
@@ -94,66 +135,34 @@ export const CityComponent = ({ city, weather, isMorning }) => {
     ? weather.morningWeatherCondition
     : weather.afternoonWeatherCondition; // 아침 OR 오후
 
-    let weatherIconSrc;
-  if (weatherCondition === "맑음") {
-    weatherIconSrc = sunny;
-  } else if (weatherCondition.includes("비") ) {
-    weatherIconSrc = rainy;
-  } else if (weatherCondition.includes("눈") ) {
-    weatherIconSrc = snowy;
-  
-  } else if (weatherCondition.includes("흐림") ) {
-    weatherIconSrc = cloudy;
-  
-  } else if (weatherCondition.includes("구름많음") ) {
-    weatherIconSrc = fullCloud;
-  
-  } else {
-    weatherIconSrc = cloudy;
+  let weatherIconSrc;
+  switch (weatherCondition) {
+    case "맑음":
+      weatherIconSrc = sunny;
+      break;
+    case "흐림":
+      weatherIconSrc = cloudy;
+      break;
+    case "구름많음":
+      weatherIconSrc = fullCloud;
+      break;
+    case "비":
+      weatherIconSrc = rainy;
+      break;
+    case "눈":
+      weatherIconSrc = snowy;
+      break;
+    default:
+      weatherIconSrc = cloudy;
   }
 
   return (
-    <div
-      style={{
-        margin: 0,
-        padding: 0,
-        gridRow: gridRow,
-        gridColumn: gridColumn,
-        zIndex: 1,
-        whiteSpace: "nowrap",
-        overflow: "visible",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        fontSize: "1vw",
-      }}>
-      <div>
-        <div
-          // 추후 아이콘이 위치할거라 flex 적용 , 무조건 도시명+온도 표현식 정중앙에 위치
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column", // 세로 정렬
-            height: "100%", // 그리드 셀의 전체 높이 사용
-            width: "100%", // 그리드 셀의 전체 너비 사용
-            position: 'relative',
-          }}>
-          <img src={weatherIconSrc} alt="Weather Icon" style={{ 
-            width: '2.7vw', 
-            height: '2.7vw',
-            position: 'absolute', // 이미지를 절대 위치로 설정
-            top: "-3vw",
-            left: '50%', // 중앙에 배치
-            transform: 'translateX(-50%)', // 정확히 중앙으로 이동
-          }} />
-          <div>
-            {city.name}
-            {`${temperature}°`}
-          </div>
-        </div>
-      </div>
-    </div>
+    <CityContainer gridRow={gridRow} gridColumn={gridColumn}>
+      <WeatherIcon src={weatherIconSrc} alt="Weather Icon" />
+      <CityName>
+        {city.name}
+        {`${temperature}°`}
+      </CityName>
+    </CityContainer>
   );
 };

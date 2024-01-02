@@ -10,6 +10,8 @@ import {
 } from "./RegionWeatherFunction";
 import { WeatherAxiosApi } from "../../../../api/RegionWeatherApi";
 
+import { Switch } from "../../HomeMain";
+
 const ItemBox = styled.div.attrs({
   className: "item-container",
 })`
@@ -17,8 +19,9 @@ const ItemBox = styled.div.attrs({
   justify-content: center;
   align-items: center;
   width: 35%;
-  
-   
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const Items = styled.div.attrs({
@@ -30,6 +33,7 @@ const Items = styled.div.attrs({
   height: 90%;
   border-radius: 8px;
   box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
+  
 `;
 const Banner = styled.div`
   display: flex;
@@ -37,8 +41,7 @@ const Banner = styled.div`
   height: 25%;
   width: 100%;
   background-color: white;
-  border-radius: 10px 10px 0 0;
-  
+  border-radius: 8px 8px 0 0;
 `;
 
 const BannerTitle = styled.div`
@@ -52,6 +55,12 @@ const BannerTitle = styled.div`
   border-radius: 8px 8px 0 0;
   padding-left: 1vw;
   /* z-index: ; */
+
+  @media (max-width: 768px) {
+    p {
+      font-size: 5vw;
+    }
+  }
 `;
 
 const DayOfWeekBar = styled.div`
@@ -59,7 +68,9 @@ const DayOfWeekBar = styled.div`
   align-items: center;
   height: 65%;
   overflow: hidden;
-  
+  @media (max-width: 768px) {
+    font-size: 3vw;
+  }
 `;
 
 // 건들면 으르렁
@@ -74,7 +85,6 @@ const ImageContainer = styled.div`
   border-radius: 0 0 8px 8px;
   background-color: #85c6f8;
   overflow: hidden;
-  
 
   img {
     position: absolute;
@@ -83,6 +93,9 @@ const ImageContainer = styled.div`
     transform: translate(-50%, -50%); // 중앙 정렬
     width: 70%;
     height: 100%;
+  }
+
+  @media (max-width: 768px) {
   }
 `;
 
@@ -93,31 +106,21 @@ const ButtonContainer = styled.div`
   top: 3%;
   left: 3%;
   z-index: 99; /* 예시로 낮은 값 */
-  
 `;
 
 const Button = styled.button`
-  top: 2%; // 상단으로부터 적절한 거리를 주어 위치시킵니다.
-  background-color: ${(props) =>
-    props.$isActive
-      ? "#4a90e2"
-      : "#ffffff"}; // 활성화 상태에 따라 배경색을 설정합니다.
-  color: ${(props) =>
-    props.$isActive
-      ? "#ffffff"
-      : "#000000"}; // 활성화 상태에 따라 텍스트 색상을 설정합니다.
-  border: ${(props) =>
-    props.$isActive
-      ? "none"
-      : "1px solid #979797"}; // 비활성화 상태일 때 테두리를 설정합니다.
-  width: 15%; // 버튼의 너비를 설정합니다.
-  height: 6%; // 버튼의 높이를 설정합니다.
+  top: 2%;
+  background-color: ${(props) => (props.$isActive ? "#4a90e2" : "#ffffff")};
+  color: ${(props) => (props.$isActive ? "#ffffff" : "#000000")};
+  border: ${(props) => (props.$isActive ? "none" : "1px solid #979797")};
+  width: 15%;
+  height: 6%;
 
   text-align: center;
   display: inline-block;
   font-size: 1vw;
   cursor: pointer;
-    
+
   z-index: 10; // 다른 요소들 위에 오도록 z-index 설정
 `;
 
@@ -126,7 +129,9 @@ const MorningButton = styled(Button)`
   white-space: nowrap;
   cursor: pointer;
   z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
-  
+  @media (max-width: 768px) {
+    font-size: 2.5vw;
+  }
 `;
 
 const AfternoonButton = styled(Button)`
@@ -134,7 +139,9 @@ const AfternoonButton = styled(Button)`
   white-space: nowrap;
   cursor: pointer;
   z-index: 100; // 다른 요소들 위에 오도록 z-index 설정
-  
+  @media (max-width: 768px) {
+    font-size: 2.5vw;
+  }
 `;
 
 const DayButton = styled.button`
@@ -143,7 +150,7 @@ const DayButton = styled.button`
   align-items: center;
   flex-direction: column;
   flex-grow: 1;
-  color: #202b3bff;  
+  color: #202b3bff;
   height: 100%;
   background-color: white;
   font-size: 1vw;
@@ -151,7 +158,6 @@ const DayButton = styled.button`
   color: #808080;
   white-space: nowrap;
   cursor: pointer;
- 
 
   &.isActive {
     color: #29a0fe; // 활성화 상태에서의 글자색
@@ -165,9 +171,27 @@ const DayButton = styled.button`
     font-size: 0.8vw; // 날짜 글자 크기
     color: #4a90e2; // 활성화 되었을 때의 날짜 글자색
   }
+  @media (max-width: 768px) {
+    font-size: 3vw; // 화면이 768px 이하일 때 폰트 크기
+
+    .dayOfWeek {
+      font-size: 3vw; // 화면이 768px 이하일 때 요일 글자 크기
+    }
+
+    .date {
+      font-size: 2.5vw; // 화면이 768px 이하일 때 날짜 글자 크기
+    }
+  }
 `;
 
-const RegionWeather = () => {
+const SwitchPosition = styled.div`
+  position: absolute;
+  top: 3.4rem; // 필요에 따라 조절하세요
+  right: 5rem; // 필요에 따라 조절하세요
+  z-index: 10; // 다른 내용물 위에 오도록 설정
+`;
+
+const RegionWeather = ({ isOn, toggleWeather, isMobileView }) => {
   // 오늘 날짜를 구하는 함수
 
   const today = getCurrentDate();
@@ -217,7 +241,15 @@ const RegionWeather = () => {
     <ItemBox>
       <Items>
         <Banner>
-          <BannerTitle>전국 날씨</BannerTitle>
+          
+          <BannerTitle>
+            {isMobileView && (
+            <SwitchPosition>
+              <Switch isOn={isOn} onClick={toggleWeather} />
+            </SwitchPosition>
+          )}
+            <p>전국 날씨</p>
+          </BannerTitle>
 
           <DayOfWeekBar>
             {weekDates.map((date) => (
@@ -235,19 +267,19 @@ const RegionWeather = () => {
             <MorningButton
               onClick={showMorningData}
               $isActive={morningAfternoon}>
-              오전
+              <p>오전</p>
             </MorningButton>
             <AfternoonButton
               onClick={showAfternoonData}
               $isActive={!morningAfternoon}>
-              오후
+              <p>오후</p>
             </AfternoonButton>
           </ButtonContainer>
           <img src={mapOfKorea} alt="Korea Map" />
           {isDataLoaded &&
             citiesData.map((city) => {
               const cityWeatherData = weatherData[city.name];
-              // 현재 선택된 날짜에 해당하는 날씨 데이터를 찾습니다.
+              // 현재 선택된 날짜에 해당하는 날씨 데이터를 찾음
               const selectedWeather = cityWeatherData.find(
                 (weather) => weather.weatherDate === parseInt(selectedDate)
               );
