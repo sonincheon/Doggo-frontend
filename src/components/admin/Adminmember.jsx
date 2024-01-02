@@ -302,18 +302,36 @@ const Adminmember = () => {
             <label>
               <input
                 type="radio"
-                value="paid"
-                checked={filter === "paid"}
-                onChange={() => filterChange("paid")}
+                value="PREMIUM"
+                checked={filter === "PREMIUM"}
+                onChange={() => filterChange("PREMIUM")}
               />
-              구독 회원
+              PREMIUM
             </label>
             <label>
               <input
                 type="radio"
-                value="free"
-                checked={filter === "free"}
-                onChange={() => filterChange("free")}
+                value="STANDARD"
+                checked={filter === "STANDARD"}
+                onChange={() => filterChange("STANDARD")}
+              />
+              STANDARD
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="ONE MONTH FREE"
+                checked={filter === "ONE MONTH FREE"}
+                onChange={() => filterChange("ONE MONTH FREE")}
+              />
+              ONE MONTH FREE
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="FREE"
+                checked={filter === "FREE"}
+                onChange={() => filterChange("FREE")}
               />
               미구독 회원
             </label>
@@ -343,7 +361,8 @@ const Adminmember = () => {
                     <td>{member.memberTel}</td>
                     <td>{formatDate(member.regDate)}</td>
                     <td>
-                      {member.memberGrade === "paid" ? "구독중" : "미구독"}
+                      {/* {member.memberGrade === "paid" ? "구독중" : "미구독"} */}
+                      {member.memberGrade === null ? "미구독" : member.memberGrade}
                     </td>
                     <td>
                       <button

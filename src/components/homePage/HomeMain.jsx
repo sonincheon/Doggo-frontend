@@ -158,7 +158,8 @@ const HomeMain = () => {
   return (
     <>
       <CurrentAddressContext.Provider
-        value={{ currentAddress, setCurrentAddress }}>
+        value={{ currentAddress, setCurrentAddress }}
+      >
         <IntroductionSection $height="100%">
           <ItemContainer  $height="100%">
           <Introduction weatherSectionRef={weatherSectionRef} />
@@ -197,7 +198,7 @@ const HomeMain = () => {
         </StraysSectionContainer>
       </CurrentAddressContext.Provider>
 
-      {/* <ChatbotIcon
+      <ChatbotIcon
         src={ChatBotImg}
         onClick={showChatbot ? closeChatbot : toggleChatbot}
       />
@@ -205,7 +206,7 @@ const HomeMain = () => {
         <ChatbotBox>
           <Chatbot />
         </ChatbotBox>
-      ) : null} */}
+      ) : null}
     </>
   );
 };

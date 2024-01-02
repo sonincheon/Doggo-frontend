@@ -65,7 +65,7 @@ const Adminsales = () => {
       }
     };
     saleList();
-  }, [currentPage, isTrue, filter]);
+  }, [currentPage, isTrue, filter,orderStatusList]);
 
   // 페이지네이션 - 페이지 이동 기능
   const handlePageChange = (number) => {
@@ -90,11 +90,11 @@ const Adminsales = () => {
   const HandleInvoiceUpload = async (id, orderStatus, invoiceInput) => {
     try {
       console.log(invoiceInput);
-      const onlyNum = /^[0-9]+$/.test(invoiceInput);
-      if (!onlyNum) {
-        alert("송장번호는 숫자로만 입력 가능합니다.");
-        return;
-      }
+      const onlyNum = /^[0-9]+$/.test(invoiceInput) || "";
+      // if (!onlyNum) {
+      //   alert("송장번호는 숫자로만 입력 가능합니다.");
+      //   return;
+      // }
       const res = await AdminAxiosApi.InvoiceInput(
         id,
         orderStatus,
@@ -102,18 +102,18 @@ const Adminsales = () => {
       );
       if (res.data === true) {
         const res = await AdminAxiosApi.SaleAllList(id);
-        const updatedOrders = orders.map((order) =>
-          order.saleId === id
-            ? { ...order, invoice: invoiceInput, orderStatus: "출고완료" }
-            : order
-        );
+        // const updatedOrders = orders.map((order) =>
+        //   order.saleId === id
+        //     ? { ...order, invoice: invoiceInput, orderStatus: "출고완료" }
+        //     : order
+        // );
         console.log(res);
         console.log(res.data);
 
-        setOrders(updatedOrders);
+        // setOrders(updatedOrders);
         setInvoiceInput("");
         reRender();
-      }
+      }else{console.log("안됨")}
     } catch (e) {
       // 토큰 만료시, 이쪽으로 넘어감
       console.error(e);
@@ -165,11 +165,29 @@ const Adminsales = () => {
             <label>
               <input
                 type="radio"
+                value="delay"
+                checked={filter === "출고지연"}
+                onChange={()=>filterChange("출고지연")}
+              />
+              출고지연
+            </label>
+            <label>
+              <input
+                type="radio"
                 value="shipped"
                 checked={filter === "출고완료"}
                 onChange={()=>filterChange("출고완료")}
               />
               출고완료
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="completed"
+                checked={filter === "배송완료"}
+                onChange={()=>filterChange("배송완료")}
+              />
+              배송완료
             </label>
           </div>
 

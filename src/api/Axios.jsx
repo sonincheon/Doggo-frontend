@@ -93,6 +93,11 @@ const AxiosApi = {
   findMemberId: async (name, tel) => {
     return await axios.get(MUNG_HOST + `/auth/findId?name=${name}&tel=${tel}`);
   },
+  // 비밀번호 변경
+  changePwd: async (email, newPwd) => {
+    return await axios.post(MUNG_HOST + `/auth/change/${email}/${newPwd}`);
+  },
+
   // 회원 탈퇴
   memberDelete: async () => {
     const res = await Common.TakenToken();
@@ -148,6 +153,20 @@ const AxiosApi = {
   // 펫 삭제
   petDel: async (id) => {
     return await AxiosInstance.delete(MUNG_HOST + `/pet/delete/${id}`);
+  },
+
+  // 고양이 검색
+  catSearch: async (koreanName) => {
+    return await AxiosInstance.get(
+      MUNG_HOST + `/api/cats/detail/${koreanName}`
+    );
+  },
+
+  // 강아지 검색
+  dogSearch: async (koreanName) => {
+    return await AxiosInstance.get(
+      MUNG_HOST + `/api/dogs/detail/${koreanName}`
+    );
   },
 
   //이메일 샌더
@@ -284,6 +303,7 @@ const AxiosApi = {
       QuestDay
     );
   },
+
   //일기 작성
   DiaryReg: async (day, write) => {
     const res = await Common.TakenToken();
