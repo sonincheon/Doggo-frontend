@@ -33,6 +33,8 @@ import PrivateLayout from "./pages/PrivateLayout";
 import Auth from "./pages/userPage/Auth";
 import { LoadingProvider } from "./context/LoadingContext";
 import Loader from "./utill/Loader";
+import PrivateLayoutAdmin from "./pages/PrivateLayoutAdmin";
+import Adminanimal from "./components/admin/Adminanimal";
 
 
 const GlobalStyle = createGlobalStyle`
@@ -92,14 +94,18 @@ function App() {
             </Route>
 
             {/* 여긴 어드민 구간  */}
-            <Route element={<Admin />}>
-              <Route path="/admin" element={<Adminmainpage />} />
-              <Route path="/admin/member" element={<Adminmemberpage />} />
-              <Route path="/admin/sales" element={<Adminsalespage />} />
-              <Route path="/admin/qna" element={<Adminqnapage />} />
-              <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
-              <Route path="/admin/feed" element={<Adminfeedpage />} />
+            <Route element={<PrivateLayoutAdmin />}>
+              <Route element={<Admin />}>
+                <Route path="/admin" element={<Adminmainpage />} />
+                <Route path="/admin/member" element={<Adminmemberpage />} />
+                <Route path="/admin/sales" element={<Adminsalespage />} />
+                <Route path="/admin/qna" element={<Adminqnapage />} />
+                <Route path="/admin/qna/:id" element={<Qnadetailpage />} />
+                <Route path="/admin/feed" element={<Adminfeedpage />} />
+                <Route path="/admin/animal" element={<Adminanimal />} />
+              </Route>
             </Route>
+            
           </Routes>
           
         </Router>
