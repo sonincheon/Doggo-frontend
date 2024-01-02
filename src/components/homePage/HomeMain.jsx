@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Introduction from "./comps/Introduction";
 
-
 import CurrentLocationWeather from "./comps/currentLocationWeather/CurrentLocationWeather";
 import RegionWeather from "./comps/regionWeather/RegionWeather";
 import Strays from "./comps/Strays";
 import CurrentAddressContext from "./CurrentAddressContext";
 import Chatbot from "../service/ChatBot";
 import ChatBotImg from "../../icon/ChatBot.png";
-
 
 const SectionContainer = styled.section.withConfig({
   className: "section-container",
@@ -41,8 +39,6 @@ const ItemContainer = styled.div.attrs({
   justify-content: center;
   width: 100%;
   height: ${(props) => props.$height || "30%"};
-
- 
 `;
 
 export const DoggyIcon = ({ image, height }) => (
@@ -101,33 +97,29 @@ const HomeMain = () => {
   return (
     <>
       <CurrentAddressContext.Provider
-        value={{ currentAddress, setCurrentAddress }}>
+        value={{ currentAddress, setCurrentAddress }}
+      >
         <IntroductionSection $height="100%">
           <ItemContainer $height="100%">
             <Introduction />
           </ItemContainer>
         </IntroductionSection>
-       
 
         <SectionContainer $height="55vw">
           <ItemContainer $height="100%">
-            <CurrentLocationWeather>
-              
-            </CurrentLocationWeather>
-            <RegionWeather>
-              
-            </RegionWeather>
+            <CurrentLocationWeather></CurrentLocationWeather>
+            <RegionWeather></RegionWeather>
           </ItemContainer>
         </SectionContainer>
 
-        <StraysSectionContainer $height= "10vw" $width="83vw">
-          <ItemContainer $height= "100%">
+        <StraysSectionContainer $height="10vw" $width="83vw">
+          <ItemContainer $height="100%">
             <Strays />
           </ItemContainer>
         </StraysSectionContainer>
       </CurrentAddressContext.Provider>
 
-      {/* <ChatbotIcon
+      <ChatbotIcon
         src={ChatBotImg}
         onClick={showChatbot ? closeChatbot : toggleChatbot}
       />
@@ -135,7 +127,7 @@ const HomeMain = () => {
         <ChatbotBox>
           <Chatbot />
         </ChatbotBox>
-      ) : null} */}
+      ) : null}
     </>
   );
 };
