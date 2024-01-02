@@ -82,6 +82,12 @@ export const RightBox = styled.div`
       cursor: pointer;
     }
   }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   // QnA에서 사용
   .flexbox {
     display: flex;
@@ -153,6 +159,22 @@ export const RightBox = styled.div`
         height: 40px;
         padding: 10px 20px;
         vertical-align: middle;
+
+        select {
+          -moz-appearance: none;
+          -webkit-appearance: none;
+          appearance: none;
+
+          color: #444;
+          background-color: #fff;
+
+          padding: 10px 15px;
+          margin: 0;
+
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+        }
       }
       input {
         display: inline-block;

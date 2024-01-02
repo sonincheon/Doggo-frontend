@@ -16,7 +16,7 @@ const Adminsales = () => {
   const [filter, setFilter] = useState("all");
   const [invoiceInput, setInvoiceInput] = useState("");
   const [orderStatusList, setOrderStatusList] = useState([]);
-  const [invoiceInputList, setInvoiceInputList] = useState([]);
+
 
   // 리렌더링 용
   const reRender = () => {
@@ -102,15 +102,9 @@ const Adminsales = () => {
       );
       if (res.data === true) {
         const res = await AdminAxiosApi.SaleAllList(id);
-        // const updatedOrders = orders.map((order) =>
-        //   order.saleId === id
-        //     ? { ...order, invoice: invoiceInput, orderStatus: "출고완료" }
-        //     : order
-        // );
         console.log(res);
         console.log(res.data);
 
-        // setOrders(updatedOrders);
         setInvoiceInput("");
         reRender();
       }else{console.log("안됨")}
@@ -127,12 +121,6 @@ const Adminsales = () => {
     updatedStatusList[index] = value;
     setOrderStatusList(updatedStatusList);
   };
-
-  // const handleInvoiceInputChange = (index, value) => {
-  //   const updatedInvoiceInputList = [...invoiceInputList];
-  //   updatedInvoiceInputList[index] = value;
-  //   setInvoiceInputList(updatedInvoiceInputList);
-  // };
 
   const filterChange = (e) => {
     setFilter(e)
@@ -237,7 +225,7 @@ const Adminsales = () => {
                       </label>
 
                       <input
-                        type="text"
+                        type="number"
                         placeholder="송장 번호"
                         // value={order.invoiceInput}       // order. 빼면 전체 input에 적힘
                         onChange={(e) => setInvoiceInput(e.target.value)}
