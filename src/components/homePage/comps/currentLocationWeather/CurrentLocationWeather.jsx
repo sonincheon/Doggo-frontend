@@ -256,8 +256,8 @@ const WeatherDetailBox = styled.div`
 
 const SwitchPosition = styled.div`
   position: absolute;
-  top: 1rem; // 필요에 따라 조절하세요
-  right: 1rem; // 필요에 따라 조절하세요
+  top: .5vw; // 필요에 따라 조절하세요
+  right: .8vw; // 필요에 따라 조절하세요
   z-index: 10; // 다른 내용물 위에 오도록 설정
 `;
 

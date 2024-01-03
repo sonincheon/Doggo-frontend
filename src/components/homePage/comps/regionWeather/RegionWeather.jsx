@@ -59,6 +59,8 @@ const BannerTitle = styled.div`
   @media (max-width: 768px) {
     p {
       font-size: 5vw;
+      margin-top: 1vw;
+      margin-left: 1vw;
     }
   }
 `;
@@ -186,8 +188,8 @@ const DayButton = styled.button`
 
 const SwitchPosition = styled.div`
   position: absolute;
-  top: 3.4rem; // 필요에 따라 조절하세요
-  right: 5rem; // 필요에 따라 조절하세요
+  top: 6vw; // 필요에 따라 조절하세요
+  right: 11vw; // 필요에 따라 조절하세요
   z-index: 10; // 다른 내용물 위에 오도록 설정
 `;
 

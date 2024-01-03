@@ -371,6 +371,7 @@ const Header = () => {
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize();
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -470,9 +471,12 @@ const Header = () => {
                 <CloseIcon sx={{ fontSize: 35 }} />
               </div>
             </div>
+            {!isMobile && (
             <div className="list1" onClick={() => navigate("/about")}>
               ABOUT US
+              
             </div>
+            )}
             <div className="list1" onClick={() => navigate("/diy")}>
               PET'S DIARY
             </div>
