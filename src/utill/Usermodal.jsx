@@ -140,7 +140,7 @@ const Change2 = styled.input`
   width: 300px;
   height: 25px;
   text-justify: center;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-left: 20px;
 `;
 
@@ -308,15 +308,22 @@ const Usermodal = (props) => {
                       onClick={() => {
                         openPostCode();
                       }}
+                      placeholder="주소"
                       className="Post"
                     />
-                    <input value={postNum} readOnly className="Post" />
+                    <input
+                      value={postNum}
+                      readOnly
+                      placeholder="우편번호"
+                      className="Post"
+                    />
                     <input
                       value={postDetail}
                       onChange={(e) => {
                         setPostDetail(e.target.value);
                         // 주소 정보가 변경될 때 onChangeInfo 호출
                       }}
+                      placeholder="상세 주소"
                       className="Post"
                     />
                   </div>
