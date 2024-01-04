@@ -38,7 +38,6 @@ const Container = styled.div`
 
   & .login {
     margin: 0 auto;
-
     font: normal normal bold 24px/35px Poppins;
     letter-spacing: 0px;
     color: black;

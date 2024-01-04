@@ -15,7 +15,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #ebebeb;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 
   .Enter {
@@ -26,7 +26,6 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #ebebeb;
     border-radius: 10px;
 
     @media (max-width: 1280px) {
@@ -262,13 +261,11 @@ const Login = () => {
       if (res.data.grantType === "Bearer") {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
-        if(inputEmail==="admin"){
-          navigate("/ad")
+        if (inputEmail === "admin") {
+          navigate("/ad");
         } else {
           navigate("/");
-        };
-        
-        
+        }
       } else {
         setModalOpen(true);
         setModalContent("아이디 및 패스워드를 재확인해 주세요.^^");

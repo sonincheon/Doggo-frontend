@@ -153,25 +153,8 @@ const WelcomeButton = styled.button`
   cursor: pointer;
 
   @media (max-width: 1280px) {
-    font-size: 9px;
+    font-size: 8px;
   }
-`;
-
-const MoreButton = styled.button`
-  display: flex;
-  width: auto;
-  padding: 5px 10px;
-  background-color: #87c4ff; /* 녹색으로 변경 */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
-const ButtonBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
 `;
 
 const Chatbot = () => {
