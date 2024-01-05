@@ -5,8 +5,47 @@ import dogfoot from "../img/dogfoot.png";
 import { storage } from "./FireBase";
 import AxiosApi from "../api/Axios";
 import petprofile from "../img/petprofile2.png";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/locale";
+import { subDays, subYears } from "date-fns";
+import upArrowImage from "../img/up-arrow.png";
+import downArrowImage from "../img/down-arrow.png";
 
 const ModalStyle = styled.div`
+  .Box {
+    display: flex;
+
+    @media (max-width: 1280px) {
+      flex-direction: column;
+    }
+  }
+
+  .Upload {
+    display: flex;
+    justify-content: center;
+  }
+
+  .Main {
+    overflow-y: auto;
+    max-height: 380px;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: 13px; // 스크롤바의 너비
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #333333; // 스크롤바 색상
+      border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #858585; // 스크롤바 색상
+      border-radius: 7px; // 스크롤바 모양 (모서리 둥글게)
+      // F3EEEA, EBE3D5, FFEED9, B0A695
+    }
+  }
   /* 모달 기본 스타일 */
   .modal {
     display: none; // 초기에는 숨김
@@ -138,7 +177,6 @@ const PetInfo1 = styled.div`
   border-radius: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   margin-right: 10px;
   z-index: 1;
@@ -160,10 +198,18 @@ const PetProfile = styled.img`
   margin-bottom: 10px;
   background-image: url(${petprofile});
   background-position: center;
+
+  @media (max-width: 768px) {
+    width: 180px;
+    height: 180px;
+  }
 `;
 
 const PetInfo2 = styled.div`
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
 `;
 
 const PetInfo3 = styled.div`
@@ -172,6 +218,31 @@ const PetInfo3 = styled.div`
   width: 400px;
   align-items: center;
   padding: 7px 0px 5px 7px;
+
+  .Calender {
+    width: 300px;
+    height: 27px;
+  }
+
+  .react-datepicker__navigation--years-upcoming {
+    top: 0%;
+    background-image: url(${upArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    background-size: 70%;
+    cursor: pointer;
+  }
+
+  .react-datepicker__navigation--years-previous {
+    top: 0%;
+    background-image: url(${downArrowImage});
+    background-size: contain; /* 이미지 크기 설정 */
+    background-repeat: no-repeat; /* 이미지 반복 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    cursor: pointer;
+    background-size: 70%;
+  }
 `;
 
 const PetSign = styled.input`
@@ -191,7 +262,7 @@ const Exist1 = styled.div`
   justify-content: center;
   flex-direction: column;
   margin-bottom: 1rem;
-  margin-right: 4rem;
+  margin-right: 2rem;
 `;
 
 const Exist2 = styled.img`
@@ -208,7 +279,12 @@ const FileUploadContainer = styled.div`
   align-items: end;
   margin-bottom: 20px;
   height: 100px;
+  width: 100%;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 300px;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -245,6 +321,11 @@ const ImgBox = styled.div`
   margin-bottom: 10px;
   background-image: url(${petprofile});
   background-position: center;
+
+  @media (max-width: 768px) {
+    width: 180px;
+    height: 180px;
+  }
 `;
 
 const Petmodal = (props) => {
@@ -258,15 +339,10 @@ const Petmodal = (props) => {
   const [inputType, setInputType] = useState("");
   const [inputBreed, setInputBreed] = useState("");
   const [inputSign, setInputSign] = useState("");
+  const [inputBirth, setInputBirth] = useState("");
 
   const onChangeName = (e) => {
     setInputName(e.target.value);
-  };
-  const onChangeGender = (e) => {
-    setInputGender(e.target.value);
-  };
-  const onChangeAge = (e) => {
-    setInputAge(e.target.value);
   };
   const onChangeType = (value) => {
     setInputType(value);
@@ -330,7 +406,7 @@ const Petmodal = (props) => {
         inputGender,
         inputType,
         inputBreed,
-        inputAge,
+        inputBirth,
         url,
         inputSign
       );
@@ -340,7 +416,7 @@ const Petmodal = (props) => {
         setUrl("");
         close();
       } else {
-        alert("등록 실패2222");
+        alert("등록 실패");
         console.log(rsp);
       }
     } catch (error) {
@@ -354,7 +430,7 @@ const Petmodal = (props) => {
       inputGender,
       inputType,
       inputBreed,
-      inputAge,
+      inputBirth,
       url,
       inputSign
     );
@@ -365,21 +441,38 @@ const Petmodal = (props) => {
         inputGender,
         inputType,
         inputBreed,
-        inputAge,
+        inputBirth,
         url,
         inputSign
       );
       if (rsp.data === true) {
-        alert("등록 성공");
+        alert("수정 성공");
         navigate("/mypage");
         setUrl("");
         close();
       } else {
-        alert("등록 실패1111");
+        alert("수정 실패");
         console.log(rsp);
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const onChangeBirth = (date) => {
+    if (date) {
+      const formattedDate = formatDate(date);
+      setInputAge(date);
+      setInputBirth(formattedDate);
+    } else {
+      setInputAge("");
     }
   };
 
@@ -388,12 +481,14 @@ const Petmodal = (props) => {
     if (open) {
       setInputName(name || "");
       setInputGender(gender || "");
-      setInputAge(age || "");
+      setInputAge(age ? new Date(age) : "");
       setInputBreed(breed || "");
       setInputType(Type || "");
       setInputSign(sign || "");
     }
   }, [open, name, gender, age, breed, Type, sign, img]);
+
+  const maxSelectableDate = subDays(new Date(), 1);
 
   // &times; 는 X표 문자를 의미
   return (
@@ -405,99 +500,123 @@ const Petmodal = (props) => {
               반려동물 정보{" "}
               {type && type === 1 ? <div> 추가</div> : <div> 수정</div>}
             </header>
-            <main style={{ display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "390px",
-                  marginRight: "20px",
-                }}
-              >
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <Exist1>
-                    <PetProfile src={img}></PetProfile>
-                    <div style={{ textAlign: "center", fontSize: "18px" }}>
-                      현재 프로필
-                    </div>
-                  </Exist1>
-                  <Change1>
-                    <ImgBox>{url && <Exist2 src={url} />}</ImgBox>
-                    <div style={{ textAlign: "center", fontSize: "18px" }}>
-                      수정 프로필
-                    </div>
-                  </Change1>
+            <main
+              className="Main"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <div className="Box">
+                <div
+                  style={{
+                    display: "flex",
+                    marginRight: "20px",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Exist1>
+                      <PetProfile src={img}></PetProfile>
+                      <div style={{ textAlign: "center", fontSize: "18px" }}>
+                        현재 프로필
+                      </div>
+                    </Exist1>
+                    <Change1>
+                      <ImgBox>{url && <Exist2 src={url} />}</ImgBox>
+                      <div style={{ textAlign: "center", fontSize: "18px" }}>
+                        수정 프로필
+                      </div>
+                    </Change1>
+                  </div>
+                  <div className="Upload">
+                    <FileUploadContainer>
+                      <StyledInput
+                        type="file"
+                        onChange={handleFileInputChange}
+                      />
+                      <UploadButton onClick={handleUploadClick}>
+                        사진 업로드
+                      </UploadButton>
+                    </FileUploadContainer>
+                  </div>
                 </div>
-                <FileUploadContainer>
-                  <StyledInput type="file" onChange={handleFileInputChange} />
-                  <UploadButton onClick={handleUploadClick}>
-                    사진 업로드
-                  </UploadButton>
-                </FileUploadContainer>
+                <PetInfo1>
+                  <PetInfo2>
+                    <PetInfo3>
+                      이름 :{" "}
+                      <PetSign value={inputName} onChange={onChangeName} />
+                    </PetInfo3>
+                    <PetInfo3>
+                      성별 :{" "}
+                      <label>
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="남"
+                          checked={inputGender === "남"}
+                          onChange={handleGenderChange}
+                        />
+                        남
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="여"
+                          checked={inputGender === "여"}
+                          onChange={handleGenderChange}
+                        />
+                        여
+                      </label>
+                    </PetInfo3>
+                    <PetInfo3>
+                      생년월일 :{" "}
+                      <DatePicker
+                        className="Calender"
+                        selected={inputAge}
+                        locale={ko}
+                        shouldCloseOnSelect
+                        onChange={(date) => onChangeBirth(date)}
+                        showYearDropdown
+                        showMonthDropdown
+                        dateFormat="yyyy년 MM월 dd일"
+                        maxDate={maxSelectableDate}
+                      />
+                    </PetInfo3>
+                    <PetInfo3>
+                      종 :{" "}
+                      <PetSign value={inputBreed} onChange={onChangeBreed} />
+                    </PetInfo3>
+                    <PetInfo3>
+                      특이사항 :{" "}
+                      <PetSign value={inputSign} onChange={onChangeSign} />
+                    </PetInfo3>
+                    <PetInfo3>
+                      {" "}
+                      <div>종류: </div>
+                      <label>
+                        <input
+                          type="radio"
+                          value={1}
+                          checked={inputType === 1}
+                          onChange={() => onChangeType(1)}
+                        />
+                        개
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          value={2}
+                          checked={inputType === 2}
+                          onChange={() => onChangeType(2)}
+                        />
+                        고양이
+                      </label>
+                    </PetInfo3>
+                  </PetInfo2>
+                </PetInfo1>
               </div>
-              <PetInfo1>
-                <PetInfo2>
-                  <PetInfo3>
-                    이름 : <PetSign value={inputName} onChange={onChangeName} />
-                  </PetInfo3>
-                  <PetInfo3>
-                    성별 :{" "}
-                    <label>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="남"
-                        checked={inputGender === "남"}
-                        onChange={handleGenderChange}
-                      />
-                      남
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="여"
-                        checked={inputGender === "여"}
-                        onChange={handleGenderChange}
-                      />
-                      여
-                    </label>
-                  </PetInfo3>
-                  <PetInfo3>
-                    생년월일 :{" "}
-                    <PetSign value={inputAge} onChange={onChangeAge} />
-                  </PetInfo3>
-                  <PetInfo3>
-                    종 : <PetSign value={inputBreed} onChange={onChangeBreed} />
-                  </PetInfo3>
-                  <PetInfo3>
-                    특이사항 :{" "}
-                    <PetSign value={inputSign} onChange={onChangeSign} />
-                  </PetInfo3>
-                  <PetInfo3>
-                    {" "}
-                    <div>종류: </div>
-                    <label>
-                      <input
-                        type="radio"
-                        value={1}
-                        checked={inputType === 1}
-                        onChange={() => onChangeType(1)}
-                      />
-                      개
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        value={2}
-                        checked={inputType === 2}
-                        onChange={() => onChangeType(2)}
-                      />
-                      고양이
-                    </label>
-                  </PetInfo3>
-                </PetInfo2>
-              </PetInfo1>
             </main>
             <footer>
               {type && type === 1 ? (

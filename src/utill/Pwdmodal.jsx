@@ -130,9 +130,8 @@ const Button2 = styled.button`
 `;
 
 const Pwdmodal = (props) => {
-  const { open, close } = props;
+  const { open, close, detail } = props;
 
-  const [inputId, setInputId] = useState("");
   const [sendEmail, setSendEmail] = useState("");
   const [inputCert, setInputCert] = useState("");
   const [changePw, setChangePw] = useState("");
@@ -141,20 +140,15 @@ const Pwdmodal = (props) => {
 
   const Close = () => {
     close();
-    setInputId("");
     setInputCert("");
     setChangePw("");
   };
 
-  const onChangeId = (e) => {
-    setInputId(e.target.value);
-  };
-
-  const SingupIdCheck = async (email) => {
-    const resp = await AxiosApi.SingupIdCheck(email);
-    console.log("가입 가능 여부 확인 : ", resp.data);
+  const SingupIdCheck = async (detail) => {
+    const resp = await AxiosApi.SingupIdCheck(detail);
+    console.warn(resp.data);
     if (resp.data === false) {
-      const response = await AxiosApi.EmailCert(email);
+      const response = await AxiosApi.EmailCert(detail);
       if (response.status === 200) {
         alert("인증번호가 발송되었습니다. 이메일을 확인해주세요");
         setSendEmail(response.data);
@@ -177,10 +171,9 @@ const Pwdmodal = (props) => {
     }
   };
 
-  const changePwd = async (email, newPwd) => {
+  const changePwd = async (detail, newPwd) => {
     try {
-      const response = await AxiosApi.changePwd(email, newPwd);
-      console.log(email);
+      const response = await AxiosApi.changePwd(detail, newPwd);
       console.log(newPwd);
       console.log(response);
       if (response.data === true) {
@@ -215,10 +208,10 @@ const Pwdmodal = (props) => {
                 <div style={{ display: "flex" }}>
                   <Item3
                     placeholder="아이디(이메일)"
-                    value={inputId}
-                    onChange={onChangeId}
+                    value={detail}
+                    readOnly
                   ></Item3>
-                  <Button2 onClick={() => SingupIdCheck(inputId)}>확인</Button2>
+                  <Button2 onClick={() => SingupIdCheck(detail)}>확인</Button2>
                 </div>
               </Item1>
               <Item1>
@@ -242,7 +235,7 @@ const Pwdmodal = (props) => {
                   ></Item3>
                   <Button2
                     disabled={able}
-                    onClick={() => changePwd(inputId, changePw)}
+                    onClick={() => changePwd(detail, changePw)}
                   >
                     변경
                   </Button2>

@@ -15,8 +15,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #ebebeb;
-  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
 
   .Enter {
     width: 400px;
@@ -26,8 +26,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #ebebeb;
-    border-radius: 10px;
+    border-radius: 8px;
 
     @media (max-width: 1280px) {
       width: 350px;
@@ -57,18 +56,6 @@ const Container = styled.div`
     margin-top: 2rem;
     cursor: pointer;
   }
-`;
-const Hint = styled.div`
-  width: 60%;
-  height: 10px;
-  text-align: right;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  white-space: nowrap;
-
-  padding: 2px;
 `;
 
 const Items = styled.div`
@@ -262,7 +249,11 @@ const Login = () => {
       if (res.data.grantType === "Bearer") {
         Common.setAccessToken(res.data.accessToken);
         Common.setRefreshToken(res.data.refreshToken);
-        navigate("/");
+        if (inputEmail === "admin") {
+          navigate("/ad");
+        } else {
+          navigate("/");
+        }
       } else {
         setModalOpen(true);
         setModalContent("아이디 및 패스워드를 재확인해 주세요.^^");
@@ -302,15 +293,6 @@ const Login = () => {
                 onChange={onChangeEmail}
               />
             </Items>
-            {/* 
-          <Hint>
-            {inputEmail.length > 0 && (
-              <span className={`${isId ? "success" : "error"}`}>
-                {idMessage}
-              </span>
-            )}
-          </Hint> */}
-
             <Items className="item2">
               <Input
                 type="password"
@@ -319,13 +301,6 @@ const Login = () => {
                 onChange={onChangePw}
               />
             </Items>
-            {/* <Hint>
-            {inputPw.length > 0 && (
-              <span className={`${isPw ? "success" : "error"}`}>
-                {pwMessage}
-              </span>
-            )}
-          </Hint> */}
             <Button1 onClick={onClickLogin}>로그인</Button1>
           </form>
           <Button2 onClick={handleLogin}></Button2>

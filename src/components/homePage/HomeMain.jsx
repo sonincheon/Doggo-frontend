@@ -31,7 +31,7 @@ const SectionContainer = styled.section.withConfig({
   width: ${(props) => props.$width || "98vw"};
   height: ${(props) => props.$height || "50vw"};
   background-color: ${(props) => props.$backGround || "white"};
-  
+
   @media (max-width: 768px) {
     height: 110vw;
     /* margin-top: -30px; */
@@ -67,7 +67,7 @@ export const DoggyIcon = ({ image, height }) => (
 
 const ChatbotBox = styled.div`
   position: fixed;
-  z-index: 1000;
+  z-index: 11;
   height: auto;
   bottom: 6%;
   left: 10%;
@@ -79,7 +79,8 @@ const ChatbotBox = styled.div`
     left: 14%; /* 뷰포트 크기가 768px 이하일 때의 값 */
   }
   @media (max-width: 768px) {
-    left: 23%; /* 뷰포트 크기가 768px 이하일 때의 값 */
+    left: 18%; /* 뷰포트 크기가 768px 이하일 때의 값 */
+    bottom: 4%;
   }
 `;
 
@@ -89,17 +90,19 @@ const ChatbotIcon = styled.img`
   min-width: 66px;
   right: 92%;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 11;
   top: 87%;
+  opacity: 0.8;
 
   @media (max-width: 1280px) {
     right: 89%; /* 뷰포트 크기가 768px 이하일 때의 값 */
   }
   @media (max-width: 768px) {
-    right: 81%; /* 뷰포트 크기가 768px 이하일 때의 값 */
+    right: 87%; /* 뷰포트 크기가 768px 이하일 때의 값 */
+    top: 89%;
+    min-width: 53px;
   }
 `;
-
 
 const SwitchWrapper = styled.div`
   position: relative; // 절대 위치로 설정
@@ -112,7 +115,6 @@ const SwitchWrapper = styled.div`
   cursor: pointer;
 `;
 
-
 const ToggleButton = styled.div`
   width: 20px;
   height: 20px;
@@ -120,8 +122,8 @@ const ToggleButton = styled.div`
   border-radius: 50%;
   position: absolute;
   box-shadow: 2px 4px 15px 3px rgba(0, 0, 0, 0.2);
-  
-  transition: all 0.4s ease-in-out !important; 
+
+  transition: all 0.4s ease-in-out !important;
   left: ${(props) => (props.isOn ? "30px" : "0")};
 `;
 
@@ -131,8 +133,6 @@ export const Switch = ({ isOn, onClick }) => (
     <ToggleButton isOn={isOn} />
   </SwitchWrapper>
 );
-
-
 
 const HomeMain = () => {
   const [currentAddress, setCurrentAddress] = useState(""); // 상태 정의
@@ -173,8 +173,8 @@ const HomeMain = () => {
         value={{ currentAddress, setCurrentAddress }}
       >
         <IntroductionSection $height="100%">
-          <ItemContainer  $height="100%">
-          <Introduction weatherSectionRef={weatherSectionRef} />
+          <ItemContainer $height="100%">
+            <Introduction weatherSectionRef={weatherSectionRef} />
           </ItemContainer>
         </IntroductionSection>
 
@@ -203,7 +203,7 @@ const HomeMain = () => {
           </ItemContainer>
         </SectionContainer>
 
-        <StraysSectionContainer $height="50vw" >
+        <StraysSectionContainer $height="50vw">
           <ItemContainer $height="100%" $width="80%">
             <Strays />
           </ItemContainer>
