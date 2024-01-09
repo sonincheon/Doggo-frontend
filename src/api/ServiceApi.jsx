@@ -24,6 +24,12 @@ const ServiceApi = {
     console.log(email);
     return await AxiosInstance.get(MUNG_HOST + `/post/list/${email}`);
   },
+
+  // 게시글별 조회
+  boardDetail: async (id) => {
+    console.log(id);
+    return await AxiosInstance.get(MUNG_HOST + `/post/list/${id}`);
+  },
   // 문의 수정
   boardUp: async (id, boardType, comment, boardImg) => {
     console.log(id, boardType, comment, boardImg);

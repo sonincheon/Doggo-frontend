@@ -108,6 +108,7 @@ const UploadButton = styled.button`
   color: #333333;
   background: white;
   border: 1px solid #f95001;
+  cursor: pointer;
 
   &:hover {
     color: #f95001;
@@ -162,7 +163,6 @@ const ServiceWrite = () => {
 
   const handleTextareaChange = (event) => {
     const { value } = event.target;
-    console.log(value);
     if (value.length <= maxLength) {
       setComment(value);
     }
@@ -183,8 +183,8 @@ const ServiceWrite = () => {
       // 다운로드 URL을 가져오고 기다립니다.
       const url = await fileRef.getDownloadURL();
       console.log("저장경로 확인 : " + url);
-      setBoardImg(url);
       setUrl(url);
+      setBoardImg(url);
     } catch (error) {
       // 에러를 처리합니다.
       console.error("Upload failed", error);
